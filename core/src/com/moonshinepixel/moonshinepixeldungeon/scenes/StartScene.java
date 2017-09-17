@@ -172,9 +172,9 @@ public class StartScene extends PixelScene {
 			}
 
 			ChallengeButton challenge = new ChallengeButton();
-			title.x-=challenge.width();
+			title.x+=challenge.width()*0.5f;
 			challenge.setPos(
-					/*w/2 - challenge.width()/2f*/title.x+title.width+challenge.width()*0,
+					/*w/2 - challenge.width()/2f*/title.x-challenge.width()*1.5f,
 					/*top + shieldH/2 - challenge.height()/2*/title.y );
 			add( challenge );
 
@@ -194,9 +194,9 @@ public class StartScene extends PixelScene {
 			}
 
 			ChallengeButton challenge = new ChallengeButton();
-            title.x-=challenge.width()*0.5;
+            title.x+=challenge.width()*0.5;
 			challenge.setPos(
-					title.x+title.width+challenge.width()*0,
+					title.x-challenge.width()*1,
 					title.y );
 			align(challenge);
 			add( challenge );
