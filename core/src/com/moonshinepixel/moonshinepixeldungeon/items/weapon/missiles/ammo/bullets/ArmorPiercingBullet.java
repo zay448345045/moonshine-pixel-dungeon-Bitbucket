@@ -34,7 +34,7 @@ import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
-public class ArmorPiercingBullet extends BulletAmmo {
+public class ArmorPiercingBullet extends Bullet {
 
 	{
 		image = ItemSpriteSheet.BULLET;

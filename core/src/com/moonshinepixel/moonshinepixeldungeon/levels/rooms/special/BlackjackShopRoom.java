@@ -88,6 +88,7 @@ public class BlackjackShopRoom extends SpecialRoom {
 			int cell = door.x + door.y* Dungeon.level.width();
 			Dungeon.level.map[cell]=Terrain.WALL;
 			GameScene.updateMap(cell);
+			Level.setPassable(cell,false);
 		}
 	}
 
@@ -103,6 +104,7 @@ public class BlackjackShopRoom extends SpecialRoom {
 			int cell = door.x + door.y*Dungeon.level.width();
 			Dungeon.level.map[cell]=Terrain.DOOR;
 			GameScene.updateMap(cell);
+			Level.setPassable(cell,true);
 		}
 		GameScene.updateMap();
 	}
@@ -152,7 +154,7 @@ public class BlackjackShopRoom extends SpecialRoom {
 					cell = level.pointToCell(random());
 				} while (level.heaps.get( cell ) != null || level.findMob( cell ) != null);
 			}
-
+			item.random();
 			Heap heap = level.drop( item, cell );
 			heap.type = Heap.Type.FOR_SALE;
 			heap.sprite.drop();

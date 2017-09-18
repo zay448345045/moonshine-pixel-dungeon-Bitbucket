@@ -53,17 +53,18 @@ public abstract class BulletGun extends Gun {
     }
     @Override
     public int min(int lvl){
-        return  tier() +//base
+        return  tier()*2 +//base
                 lvl;    //level scaling
     }
     @Override
     public int max(){
         return max(level());
     }
+
     @Override
-    public int max(int lvl){
-        return  2*(tier()+1) +    //base
-                lvl*tier();       //level scaling
+    public int max(int lvl) {
+        return  3*(tier()+1) +    //base
+                lvl*tier();       //+1 per level
     }
 
 	@Override

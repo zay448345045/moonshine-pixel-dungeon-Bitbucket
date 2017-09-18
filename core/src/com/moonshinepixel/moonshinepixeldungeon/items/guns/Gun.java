@@ -58,6 +58,12 @@ import java.util.*;
 
 public abstract class Gun extends Weapon {
 
+	{
+		if (!(this instanceof GunslingerPistol)) {
+			attachment = Attachment.random();
+		}
+	}
+
 	private static final int USAGES_TO_KNOW    = 5;
 
 	public static final String AC_SHOT	= "SHOT";
@@ -537,7 +543,8 @@ public abstract class Gun extends Weapon {
                             int shots = spAmmo?1:curGun.shootsPerCast();
                         for (int i=0;i<shots;i++) {
 							Dungeon.spark(Item.curUser.pos);
-                            curGun.attachment.onStartShoot(shot,ammo,curGun, Item.curUser);
+							if (curGun.attachment!=null)
+                            	curGun.attachment.onStartShoot(shot,ammo,curGun, Item.curUser);
 							if (i==shots-1) {
 								rlAmmo.fx(shot, new Callback() {
 									public void call() {
@@ -609,11 +616,15 @@ public abstract class Gun extends Weapon {
 
     @Override
     public Weapon enchant( Enchantment ench ) {
-        if (ench.curse()){
-            return enchant(Attachment.randomCurse());
-        } else {
-            return enchant(Attachment.random());
-        }
+    	if (ench!=null) {
+			if (ench.curse()) {
+				return enchant(Attachment.randomCurse());
+			} else {
+				return enchant(Attachment.random());
+			}
+		} else {
+			return enchant(Attachment.random());
+		}
     }
     public Weapon enchant( Attachment ench ) {
         attachment = ench;

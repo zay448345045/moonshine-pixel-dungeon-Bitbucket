@@ -47,6 +47,8 @@ public class UpdateNotification extends Component {
 	private static boolean latestIsUpdate;
 	private static String latestMessage;
 	private static String updateURL;
+	private static String patchInfo;
+	private static String updateInfo;
 
 	private NinePatch panel;
 	private BitmapText updateMessage;
@@ -68,7 +70,8 @@ public class UpdateNotification extends Component {
 					try {
 						int currentVersion = Game.versionCode;
 
-						URL versionInfo = new URL("https://raw.githubusercontent.com/juh9870/moonshine-info/master/master/desktop/VersionInfo.txt");
+//						URL versionInfo = new URL("https://raw.githubusercontent.com/juh9870/moonshine-info/master/master/desktop/VersionInfo.txt");
+						URL versionInfo = new URL("https://raw.githubusercontent.com/juh9870/moonshine-info/master/master/desktop/versionInfo2.txt");
 						BufferedReader inforeader = new BufferedReader(new InputStreamReader(versionInfo.openStream()));
 
 						latestVersion = Integer.parseInt(inforeader.readLine());
@@ -91,9 +94,15 @@ public class UpdateNotification extends Component {
 						// you don't have, even if the latest version is a patch.
 						String latestVersionMessage = inforeader.readLine();
 						String latestUpdateMessage = inforeader.readLine();
-						latestMessage = latestIsUpdate ? latestUpdateMessage : latestVersionMessage;
 
 						updateURL = inforeader.readLine();
+
+						patchInfo = inforeader.readLine();
+						updateInfo = inforeader.readLine();
+
+						System.out.println(patchInfo + "|" + updateInfo);
+						latestMessage = latestIsUpdate ? latestUpdateMessage : latestVersionMessage;
+
 
 						updateMessage();
 
@@ -223,7 +232,8 @@ public class UpdateNotification extends Component {
 		public WndUpdate(){
 			super(
 					latestIsUpdate ? TTL_UPD : TTL_PTH,
-					Messages.format((latestIsUpdate ? MSG_UPD : MSG_PTH), latestMessage),
+//					Messages.format((latestIsUpdate ? MSG_UPD : MSG_PTH), latestMessage),
+					Messages.format((latestIsUpdate ? "%s\n\nThis update contain:\n"+updateInfo : "%s\n\nThis patch contain:\n"+patchInfo), latestMessage),
 					latestIsUpdate ? BTN_UPD : BTN_PTH);
 		}
 

@@ -194,7 +194,7 @@ public abstract class RegularLevel extends Level {
 				//mobs are not randomly spawned on floor 1.
 				return 0;
 			default:
-				return (int)((2 + (int)((Dungeon.fakedepth[Dungeon.depth] % 5)*1.5f) + Random.Int(6))*mod);
+				return (int)((2 + (int)((Dungeon.fakedepth[Dungeon.depth] % 5)*1.25f) + Random.Int(6))*mod);
 		}
 	}
 	

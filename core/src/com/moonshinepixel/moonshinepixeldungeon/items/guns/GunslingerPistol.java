@@ -1,12 +1,11 @@
 package com.moonshinepixel.moonshinepixeldungeon.items.guns;
 
+import com.moonshinepixel.moonshinepixeldungeon.items.Item;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.Ammo;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
 
-/**
- * Created by Анна on 01.08.2017.
- */
 public class GunslingerPistol extends BulletGun {
     {
         image = ItemSpriteSheet.HANDCRAFTGUN;
@@ -42,5 +41,12 @@ public class GunslingerPistol extends BulletGun {
     @Override
     public float acu() {
         return 0.9f;
+    }
+
+    @Override
+    public Item random() {
+        super.random();
+        attachment=null;
+        return this;
     }
 }

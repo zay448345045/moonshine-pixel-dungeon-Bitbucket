@@ -110,7 +110,7 @@ public class DismoundIndicator extends Tag {
 		    HashSet<Integer> candidates = new HashSet<>();
 		    for (int ofs : PathFinder.NEIGHBOURS8){
                 if (Dungeon.level.traps.get(Dungeon.hero.pos+ofs)!=null){
-                    if (Dungeon.level.traps.get(Dungeon.hero.pos+ofs).active)
+                    if (Dungeon.level.traps.get(Dungeon.hero.pos+ofs).active && Dungeon.level.traps.get(Dungeon.hero.pos+ofs).visible)
                         if (!TrapPlacer.tounPickupable.contains(Dungeon.level.traps.get(Dungeon.hero.pos+ofs)))
                             candidates.add(Dungeon.hero.pos+ofs);
                 }

@@ -23,14 +23,18 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
+import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.GunslingerPistol;
+import com.moonshinepixel.moonshinepixeldungeon.items.guns.Pistol;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.Dagger;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Dart;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GrippingTrap;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.items.BrokenSeal;
 import com.moonshinepixel.moonshinepixeldungeon.items.TomeOfMastery;
@@ -107,6 +111,25 @@ public enum HeroClass {
 			TomeOfMastery tom = new TomeOfMastery();
 			tom.collect();
 		}
+//
+//		TrapPlacer trapGrim = new TrapPlacer(OozeTrap.class);
+////		TrapPlacer trapGrim = new TrapPlacer(SpearTrap.class);
+//		trapGrim.quantity(4);
+//		trapGrim.collect();
+
+//		Scrap scr = new Scrap();
+//		scr.quantity(100);
+//		scr.collect();
+//
+//		Pistol pistol = new Pistol();
+//		pistol.identify();
+//		pistol.collect();
+////		pistol.attachment= Gun.Attachment.randomCurse();
+//
+//		ScrollOfRemoveCurse sorc = new ScrollOfRemoveCurse();
+//		sorc.quantity(20);
+//		sorc.collect();
+
 
 //		Amulet amulet = new Amulet();
 //		amulet.collect();
@@ -235,7 +258,7 @@ public enum HeroClass {
         Boolean curse = Dungeon.isChallenged(Challenges.CURSE);
         GunslingerPistol pistol = new GunslingerPistol();
         pistol.cursed=pistol.cursedKnown=curse;
-        pistol.enchant(Gun.Attachment.random());
+//        pistol.enchant(Gun.Attachment.random());
         (hero.belongings.weapon = pistol).identify();
         GunslingerSubbag subbag = new GunslingerSubbag();
 		(hero.belongings.misc1 = subbag).identify();

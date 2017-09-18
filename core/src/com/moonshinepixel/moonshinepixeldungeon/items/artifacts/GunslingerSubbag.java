@@ -75,7 +75,7 @@ public class GunslingerSubbag extends Artifact {
             if (scrap!=null){
                 if (scrap.quantity()>=2){
                     scrap.detach(hero.belongings.backpack, 2);
-                    Bullet  bull = (Bullet) Generator.random(Generator.Category.AMMO);
+                    Bullet bull = (Bullet) Generator.random(Generator.Category.AMMO);
                     bull.quantity(Random.NormalIntRange(4,6));
                     bull.give();
                     GLog.i(Messages.get(this, "bulletmade", bull.quantity(), bull.name()));

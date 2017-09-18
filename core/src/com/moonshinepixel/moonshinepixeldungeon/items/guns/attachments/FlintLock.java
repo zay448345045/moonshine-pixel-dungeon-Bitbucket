@@ -26,7 +26,7 @@ public class FlintLock extends Gun.Attachment{
             float[] mods = new float[]{
                     1f,      //accuracy mod
                     1f,      //reload speed mod
-                    3f,      //shooting speed mod
+                    2.5f,      //shooting speed mod
                     1f,      //melee min dmg mod
                     1f,      //melee max dmg mod
             };
@@ -64,7 +64,7 @@ public class FlintLock extends Gun.Attachment{
     public float failChanceMod() {
         float mod = 1;
         if (!curse()){
-            mod = 1/3f;
+            mod = 1/1.5f;
         } else {
             mod = 1/3f;
         }

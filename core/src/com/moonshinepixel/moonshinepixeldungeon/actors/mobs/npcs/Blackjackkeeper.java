@@ -64,7 +64,6 @@ public class Blackjackkeeper extends NPC {
 		spend( TICK );
 		if (die){
 			destroy();
-			sprite.destroy();
 			sprite.killAndErase();
 		}
 		return true;
@@ -125,7 +124,6 @@ public class Blackjackkeeper extends NPC {
 			Dungeon.level.blobs.get( ShopBlob.class ).explode(pos);
 			CellEmitter.get(pos).burst(ElmoParticle.FACTORY, 8);
 			destroy();
-			sprite.destroy();
 			sprite.killAndErase();
 		}
 
