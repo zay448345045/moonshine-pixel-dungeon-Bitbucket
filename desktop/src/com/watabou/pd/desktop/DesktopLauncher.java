@@ -41,7 +41,7 @@ public class DesktopLauncher {
 		try {
 			versionCode = Integer.parseInt(DesktopLauncher.class.getPackage().getImplementationVersion());
 		} catch (NumberFormatException e) {
-			versionCode = 42;
+			versionCode = 43;
 		}
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
