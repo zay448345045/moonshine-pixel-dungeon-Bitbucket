@@ -38,7 +38,7 @@ import com.watabou.utils.Random;
 
 public class WelcomeScene extends PixelScene {
 
-	private static int LATEST_UPDATE = 40;
+	private static int LATEST_UPDATE = 44;
 
 	@Override
 	public void create() {
@@ -168,8 +168,8 @@ public class WelcomeScene extends PixelScene {
 				 message += "\n" + Messages.get(this, "patch_bugfixes");
 //				message += "\n" + Messages.get(this, "patch_translations");
 //				message += "\n" + Messages.get(this, "patch_balance");
-//				 message += "\n" + Messages.get(this, "patch_balance_big");
-//				message += "\n" + Messages.get(this, "no_save");
+				 message += "\n" + Messages.get(this, "patch_balance_big");
+				message += "\n" + Messages.get(this, "no_save");
 //				message += "\n" + "Added blackjack challenge.";
 
 			}

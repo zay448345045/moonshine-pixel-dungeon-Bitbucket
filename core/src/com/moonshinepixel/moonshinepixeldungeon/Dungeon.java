@@ -117,6 +117,8 @@ public class Dungeon {
 
 	public static int depth;
 
+
+
 	public static int storyline = 0; //0 = shattered, 1 = moonshine
 
 	//this array used for depth-based damage and mobs(Mimic, Statue)

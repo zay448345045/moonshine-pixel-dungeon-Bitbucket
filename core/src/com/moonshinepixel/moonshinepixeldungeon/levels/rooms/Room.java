@@ -21,7 +21,9 @@
 
 package com.moonshinepixel.moonshinepixeldungeon.levels.rooms;
 
+import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
+import com.moonshinepixel.moonshinepixeldungeon.levels.RegularLevel;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Graph;
@@ -29,9 +31,7 @@ import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 //Note that this class should be treated as if it were abstract
 // it is currently not abstract to maintain compatibility with pre-0.6.0 saves
@@ -67,7 +67,14 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		}
 		return this;
 	}
-	
+
+
+
+	int[] conrooms;
+	int[] neigboursArr;
+	Collection<Bundlable> conDoors;
+
+
 	// **** Spatial logic ****
 	
 	//Note: when overriding these YOU MUST store any randomly decided values.
@@ -331,16 +338,66 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		bundle.put( "top", top );
 		bundle.put( "right", right );
 		bundle.put( "bottom", bottom );
+		int[] rooms = new int[connected.keySet().size()];
+		int[] neigbours = new int[this.neigbours.size()];
+		Iterator<? extends Room> iter = connected.keySet().iterator();
+		for (int i = 0; i< rooms.length; i++){
+			if (iter.hasNext()){
+				Room room = iter.next();
+				rooms[i]=room.center().x+room.center().y* Dungeon.level.width();
+			}
+		}
+		for (int i = 0; i < neigbours.length; i++){
+			Room r = this.neigbours.get(i);
+			System.out.println(r);
+			System.out.println(r.center());
+			System.out.println(r.center().x);
+			System.out.println(r.center().y);
+			System.out.println(Dungeon.level);
+			System.out.println(Dungeon.level.width());
+			neigbours[i]=r.center().x+r.center().y*Dungeon.level.width();
+		}
+		bundle.put("neigbours", neigbours);
+		bundle.put( "connected", rooms);
+		bundle.put( "connectedvals", connected.values());
+
+
+
 		if (!legacyType.equals("NULL"))
 			bundle.put( "type", legacyType );
 	}
-	
+
+	public void postRestore(RegularLevel level){
+		connected = new LinkedHashMap<>();
+		int i=0;
+		for (Bundlable door2 : conDoors){
+			Door door = (Door)door2;
+			System.out.println(conrooms[i]);
+
+			connected.put(level.room(conrooms[i]),door);
+			i++;
+		}
+		neigbours = new ArrayList<>();
+		for (i = 0;  i<neigboursArr.length; i++){
+			neigbours.add(level.room(neigboursArr[i]));
+		}
+	}
+
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		left = bundle.getInt( "left" );
 		top = bundle.getInt( "top" );
 		right = bundle.getInt( "right" );
 		bottom = bundle.getInt( "bottom" );
+		conrooms = bundle.getIntArray("connected");
+		conDoors = bundle.getCollection("connectedvals");
+		neigboursArr = bundle.getIntArray("neigbours");
+//		neigbours = bundle.get("neigbours");
+//		Iterator<? extends Room> romsIter = conRooms.iterator();
+//		Iterator<? extends Door> doorsIter = conDoors.iterator();
+//		while (romsIter.hasNext() && doorsIter.hasNext()){
+//			connected.put(romsIter.next(),doorsIter.next());
+//		}
 		if (bundle.contains( "type" ))
 			legacyType = bundle.getString( "type" );
 	}
@@ -350,13 +407,15 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		//does nothing by default
 	}
 	
-	public static class Door extends Point {
+	public static class Door extends Point implements Bundlable {
 		
 		public enum Type {
 			EMPTY, TUNNEL, REGULAR, UNLOCKED, HIDDEN, BARRICADE, LOCKED
 		}
 		public Type type = Type.EMPTY;
-		
+
+		public Door(){ super(0,0); }
+
 		public Door( Point p ){
 			super(p);
 		}
@@ -369,6 +428,20 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 			if (type.compareTo( this.type ) > 0) {
 				this.type = type;
 			}
+		}
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			bundle.put("type", type);
+			bundle.put("x", x);
+			bundle.put("y", y);
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			type = bundle.getEnum("type", Type.class);
+			x = bundle.getInt("x");
+			y = bundle.getInt("y");
 		}
 	}
 }

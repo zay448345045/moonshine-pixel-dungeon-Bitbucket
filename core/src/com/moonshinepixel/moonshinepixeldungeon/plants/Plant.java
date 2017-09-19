@@ -22,6 +22,8 @@ package com.moonshinepixel.moonshinepixeldungeon.plants;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ShopBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
@@ -139,7 +141,7 @@ public abstract class Plant implements Bundlable {
 		
 		@Override
 		protected void onThrow( int cell ) {
-			if (Dungeon.level.map[cell] == Terrain.ALCHEMY || Level.pit[cell] || Dungeon.level.traps.get(cell) != null) {
+			if (Dungeon.level.map[cell] == Terrain.ALCHEMY || Level.pit[cell] || Dungeon.level.traps.get(cell) != null || Blob.volumeAt(cell, ShopBlob.class)>0) {
 				super.onThrow( cell );
 			} else {
 				Dungeon.level.plant( this, cell );

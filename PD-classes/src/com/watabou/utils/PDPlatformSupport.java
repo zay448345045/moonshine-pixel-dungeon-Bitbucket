@@ -25,15 +25,17 @@ import com.watabou.input.NoosaInputProcessor;
 
 public class PDPlatformSupport<GameActionType> {
 	private final String version;
+	private final boolean previewmode;
 	private final int versionCode;
 	private final String basePath;
 	private final NoosaInputProcessor<GameActionType> inputProcessor;
 
-	public PDPlatformSupport(String version, int versionCode, String basePath, NoosaInputProcessor<GameActionType> inputProcessor) {
+	public PDPlatformSupport(String version, int versionCode, String basePath, NoosaInputProcessor<GameActionType> inputProcessor, boolean previewmode) {
 		this.version = version;
 		this.versionCode = versionCode;
 		this.basePath = basePath;
 		this.inputProcessor = inputProcessor;
+		this.previewmode = previewmode;
 	}
 
 	public String getVersion() {
@@ -52,5 +54,9 @@ public class PDPlatformSupport<GameActionType> {
 
 	public boolean isFullscreenEnabled() {
 		return false;
+	}
+
+	public boolean isPreviewmode(){
+		return previewmode;
 	}
 }

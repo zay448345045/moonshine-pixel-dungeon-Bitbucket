@@ -39,8 +39,12 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update =
 			"_NOTE:_ Desktop version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
-					"_v0.1.2 - alpha:_\n" +
-					"_-_ Some more bugfixes"+
+					"_v0.1.4 - alpha:_\n" +
+					"_-_ LOTS of bugfixes with levelgen and especially with blackjack challenge\nOld saves no longer openable"+
+					"\n" +
+					"\n" +
+					"_v0.1.3 - alpha:_\n" +
+					"_-_ Again bugfixes"+
 					"\n" +
 					"\n" +
 					"_v0.1.1 - alpha:_\n" +

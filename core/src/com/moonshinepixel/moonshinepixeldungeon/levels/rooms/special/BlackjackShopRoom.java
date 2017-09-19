@@ -42,6 +42,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.items.bags.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.Wand;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
@@ -50,7 +51,8 @@ import java.util.ArrayList;
 public class BlackjackShopRoom extends SpecialRoom {
 
 	private ArrayList<Item> itemsToSpawn;
-	
+
+	int[] map = new int[0];
 	@Override
 	public int minWidth() {
 		return 7;
@@ -64,7 +66,7 @@ public class BlackjackShopRoom extends SpecialRoom {
 	public void paint( Level level ) {
 		
 		Painter.fill( level, this, Terrain.WALL );
-		Painter.fill( level, this, 1, Terrain.EMPTY_SP );
+		Painter.fill( level, this, 1, Terrain.EMPTY );
 
 		placeShopkeeper( level );
 
@@ -90,16 +92,22 @@ public class BlackjackShopRoom extends SpecialRoom {
 			GameScene.updateMap(cell);
 			Level.setPassable(cell,false);
 		}
+		map = Dungeon.level.map.clone();
+		Painter.fill( Dungeon.level, this, 1, Terrain.EMPTY_SP );
+		GameScene.updateMap();
+		Dungeon.level.buildFlagMaps();
+		Dungeon.observe();
 	}
 
 	public void unseal(){
+		Painter.fill( Dungeon.level, this, 1, Terrain.EMPTY );
 		for (int i = left; i < right; i++) {
 			for (int j = top; j < bottom; j++) {
 				int cell = i + j*Dungeon.level.width();
 				CellEmitter.get(cell).burst(ElmoParticle.FACTORY, 2);
+				Dungeon.level.map[cell]=this.map[cell];
 			}
 		}
-		Painter.fill( Dungeon.level, this, 1, Terrain.EMPTY );
 		for (Door door : connected.values()) {
 			int cell = door.x + door.y*Dungeon.level.width();
 			Dungeon.level.map[cell]=Terrain.DOOR;
@@ -107,6 +115,8 @@ public class BlackjackShopRoom extends SpecialRoom {
 			Level.setPassable(cell,true);
 		}
 		GameScene.updateMap();
+		Dungeon.level.buildFlagMaps();
+		Dungeon.observe();
 	}
 
 	public void placeItems( Level level ){
@@ -162,55 +172,16 @@ public class BlackjackShopRoom extends SpecialRoom {
 		}
 
 	}
-	
-	protected static ArrayList<Item> generateItems() {
-		ArrayList<Item> itemsToSpawn = Dungeon.level.itemsToSpawn;
 
-
-		//hard limit is 63 items + 1 shopkeeper, as shops can't be bigger than 8x8=64 internally
-		if (itemsToSpawn.size() > 64)
-			throw new RuntimeException("Shop attempted to carry more than 63 items!");
-
-		Random.shuffle(itemsToSpawn);
-		return itemsToSpawn;
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put("map",map);
 	}
 
-	protected static Bag ChooseBag(Belongings pack){
-
-		int seeds = 0, scrolls = 0, potions = 0, wands = 0;
-
-		//count up items in the main bag, for bags which haven't yet been dropped.
-		for (Item item : pack.backpack.items) {
-			if (!Dungeon.limitedDrops.seedBag.dropped() && item instanceof Plant.Seed)
-				seeds++;
-			else if (!Dungeon.limitedDrops.scrollBag.dropped() && item instanceof Scroll)
-				scrolls++;
-			else if (!Dungeon.limitedDrops.potionBag.dropped() && item instanceof Potion)
-				potions++;
-			else if (!Dungeon.limitedDrops.wandBag.dropped() && item instanceof Wand)
-				wands++;
-		}
-
-		//then pick whichever valid bag has the most items available to put into it.
-		//note that the order here gives a perference if counts are otherwise equal
-		if (seeds >= scrolls && seeds >= potions && seeds >= wands && !Dungeon.limitedDrops.seedBag.dropped()) {
-			Dungeon.limitedDrops.seedBag.drop();
-			return new SeedPouch();
-
-		} else if (scrolls >= potions && scrolls >= wands && !Dungeon.limitedDrops.scrollBag.dropped()) {
-			Dungeon.limitedDrops.scrollBag.drop();
-			return new ScrollHolder();
-
-		} else if (potions >= wands && !Dungeon.limitedDrops.potionBag.dropped()) {
-			Dungeon.limitedDrops.potionBag.drop();
-			return new PotionBandolier();
-
-		} else if (!Dungeon.limitedDrops.wandBag.dropped()) {
-			Dungeon.limitedDrops.wandBag.drop();
-			return new WandHolster();
-		}
-
-		return null;
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		map = bundle.getIntArray("map");
 	}
-
 }

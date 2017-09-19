@@ -53,6 +53,7 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	
 	public static String version;
 	public static int versionCode;
+	public static boolean previewmode;
 
 
 	private final String basePath;
