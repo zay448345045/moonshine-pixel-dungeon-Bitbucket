@@ -52,7 +52,7 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 		
 		Game.version = platformSupport.getVersion();
 		Game.versionCode = platformSupport.getVersionCode();
-		
+		Game.previewmode=platformSupport.isPreviewmode();
 		//v0.6.0
 		com.watabou.utils.Bundle.addAlias(
 				MassGraveRoom.Bones.class,

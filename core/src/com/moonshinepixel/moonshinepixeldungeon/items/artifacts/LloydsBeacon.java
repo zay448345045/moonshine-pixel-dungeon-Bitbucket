@@ -23,6 +23,8 @@ package com.moonshinepixel.moonshinepixeldungeon.items.artifacts;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ShopBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.LockedFloor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
@@ -157,10 +159,13 @@ public class LloydsBeacon extends Artifact {
 		} else if (action == AC_RETURN) {
 			
 			if (returnDepth == Dungeon.depth) {
-				ScrollOfTeleportation.appear( hero, returnPos );
-				Dungeon.level.press( returnPos, hero );
-				Dungeon.observe();
-				GameScene.updateFog();
+				if (Blob.volumeAt(curUser.pos, ShopBlob.class)<=0) {
+					ScrollOfTeleportation.appear(hero, returnPos);
+					Dungeon.level.press(returnPos, hero);
+					Dungeon.observe();
+					GameScene.updateFog();
+				} else
+					GLog.w(Messages.get(this,"tele_fail"));
 			} else if (!Dungeon.isChallenged(Challenges.COUNTDOWN)){
 
 				Buff buff = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);

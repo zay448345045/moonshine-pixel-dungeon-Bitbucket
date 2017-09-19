@@ -20,6 +20,8 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.items.scrolls;
 
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ShopBlob;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
@@ -61,7 +63,7 @@ public class ScrollOfTeleportation extends Scroll {
 			}
 		} while (pos == -1);
 		
-		if (pos == -1 || Dungeon.bossLevel()) {
+		if (pos == -1 || Dungeon.bossLevel() || Blob.volumeAt(hero.pos,ShopBlob.class)>0) {
 			
 			GLog.w( Messages.get(ScrollOfTeleportation.class, "no_tele") );
 			
@@ -78,19 +80,18 @@ public class ScrollOfTeleportation extends Scroll {
 	}
 
 	public static void appear( Char ch, int pos ) {
+			ch.sprite.interruptMotion();
 
-		ch.sprite.interruptMotion();
+			ch.move(pos);
+			ch.sprite.place(pos);
 
-		ch.move( pos );
-		ch.sprite.place( pos );
+			if (ch.invisible == 0) {
+				ch.sprite.alpha(0);
+				ch.sprite.parent.add(new AlphaTweener(ch.sprite, 1, 0.4f));
+			}
 
-		if (ch.invisible == 0) {
-			ch.sprite.alpha( 0 );
-			ch.sprite.parent.add( new AlphaTweener( ch.sprite, 1, 0.4f ) );
-		}
-
-		ch.sprite.emitter().start( Speck.factory(Speck.LIGHT), 0.2f, 3 );
-		Sample.INSTANCE.play( Assets.SND_TELEPORT );
+			ch.sprite.emitter().start(Speck.factory(Speck.LIGHT), 0.2f, 3);
+			Sample.INSTANCE.play(Assets.SND_TELEPORT);
 	}
 	
 	@Override

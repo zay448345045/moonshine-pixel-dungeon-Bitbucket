@@ -448,16 +448,28 @@ public abstract class RegularLevel extends Level {
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
-		
+
+
+
 		rooms = new ArrayList<>( (Collection<Room>) ((Collection<?>) bundle.getCollection( "rooms" )) );
 		itemsToBlackJackSpawn = new ArrayList<>( (Collection<Item>) ((Collection<?>) bundle.getCollection( "bjItems" )) );
+		//3 phases of loading
+		//First: load all rooms
 		for (Room r : rooms) {
-			r.onLevelLoad( this );
 			if (r instanceof EntranceRoom || r.legacyType.equals("ENTRANCE")){
 				roomEntrance = r;
 			} else if (r instanceof ExitRoom  || r.legacyType.equals("EXIT")){
 				roomExit = r;
 			}
+		}
+		//Second: fill neigbours and connected sets
+		for (Room r : rooms){
+			r.postRestore( this );
+		}
+
+		//Third: rooms loading is complete, so now you can do fun things with them)
+		for (Room r: rooms){
+			r.onLevelLoad( this );
 		}
 	}
 	

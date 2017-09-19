@@ -27,8 +27,10 @@ import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.GunslingerPistol;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.Pistol;
+import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfRemoveCurse;
+import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.Dagger;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
@@ -49,6 +51,9 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.WornShortswor
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.ClothArmor;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.CloakOfShadows;
+import com.moonshinepixel.moonshinepixeldungeon.plants.Fadeleaf;
+import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
+import com.watabou.noosa.Game;
 import com.watabou.utils.Bundle;
 
 public enum HeroClass {
@@ -71,6 +76,10 @@ public enum HeroClass {
 		hero.heroClass = this;
 
 		initCommon( hero );
+
+		if (Game.previewmode){
+			initDev( hero );
+		}
 
 		switch (this) {
 			case WARRIOR:
@@ -96,6 +105,20 @@ public enum HeroClass {
 		hero.updateAwareness();
 	}
 
+	private static void initDev( Hero hero ){
+
+		ScrollOfTeleportation sot = new ScrollOfTeleportation();
+		sot.quantity(10);
+		sot.identify().collect();
+
+		Plant.Seed seed = new Fadeleaf.Seed();
+		seed.collect();
+
+		PotionOfStorm pos = new PotionOfStorm();
+		pos.identify().collect();
+		pos.quantity(10);
+	}
+
 	private static void initCommon( Hero hero ) {
         Boolean curse = Dungeon.isChallenged(Challenges.CURSE);
         ClothArmor armor = new ClothArmor();
@@ -111,32 +134,6 @@ public enum HeroClass {
 			TomeOfMastery tom = new TomeOfMastery();
 			tom.collect();
 		}
-//
-//		TrapPlacer trapGrim = new TrapPlacer(OozeTrap.class);
-////		TrapPlacer trapGrim = new TrapPlacer(SpearTrap.class);
-//		trapGrim.quantity(4);
-//		trapGrim.collect();
-
-//		Scrap scr = new Scrap();
-//		scr.quantity(100);
-//		scr.collect();
-//
-//		Pistol pistol = new Pistol();
-//		pistol.identify();
-//		pistol.collect();
-////		pistol.attachment= Gun.Attachment.randomCurse();
-//
-//		ScrollOfRemoveCurse sorc = new ScrollOfRemoveCurse();
-//		sorc.quantity(20);
-//		sorc.collect();
-
-
-//		Amulet amulet = new Amulet();
-//		amulet.collect();
-
-//		SoulVial sv = new SoulVial();
-//		sv.fill();
-//		sv.collect();
 	}
 
 	public Hero.Gender defaultGender(){

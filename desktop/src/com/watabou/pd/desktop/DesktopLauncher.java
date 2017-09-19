@@ -34,14 +34,16 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		String version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
-			version = "0.1.3 - alpha";
+			version = "0.1.4 - alpha";
 		}
 
+		boolean previewmode = false;
 		int versionCode;
 		try {
 			versionCode = Integer.parseInt(DesktopLauncher.class.getPackage().getImplementationVersion());
 		} catch (NumberFormatException e) {
-			versionCode = 43;
+			versionCode = 44;
+			previewmode = true;
 		}
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -76,13 +78,13 @@ public class DesktopLauncher {
 		config.title = "Moonshine Pixel Dungeon (pre-alpha)";
 
 		new LwjglApplication(new MoonshinePixelDungeon(
-				new DesktopSupport(version, versionCode, config.preferencesDirectory, new DesktopInputProcessor())
+				new DesktopSupport(version, versionCode, config.preferencesDirectory, new DesktopInputProcessor(), previewmode)
 		), config);
 	}
 
 	private static class DesktopSupport extends PDPlatformSupport {
-		public DesktopSupport( String version, int versionCode, String basePath, NoosaInputProcessor inputProcessor ) {
-			super( version, versionCode, basePath, inputProcessor );
+		public DesktopSupport( String version, int versionCode, String basePath, NoosaInputProcessor inputProcessor, boolean previewmode ) {
+			super( version, versionCode, basePath, inputProcessor, previewmode );
 		}
 
 		@Override

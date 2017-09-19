@@ -4,6 +4,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.traps.Trap;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.WornTrap;
+import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -50,6 +51,7 @@ public class TrapObject implements Bundlable {
     }
 
     public void trigger(){
+        int tile = Dungeon.level.map[pos];
         if (Dungeon.visible[pos]) {
             Sample.INSTANCE.play(Assets.SND_TRAP);
         }
@@ -57,6 +59,8 @@ public class TrapObject implements Bundlable {
         trap.trigger();
         if (!trap.active)
             Dungeon.level.untrap(pos);
+        Dungeon.level.map[pos]=tile;
+        GameScene.updateMap(pos);
     }
 
     public String trapName = trap.name;

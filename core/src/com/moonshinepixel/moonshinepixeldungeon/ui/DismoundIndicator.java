@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.ui;
 
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
+import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
@@ -110,7 +111,7 @@ public class DismoundIndicator extends Tag {
 		    HashSet<Integer> candidates = new HashSet<>();
 		    for (int ofs : PathFinder.NEIGHBOURS8){
                 if (Dungeon.level.traps.get(Dungeon.hero.pos+ofs)!=null){
-                    if (Dungeon.level.traps.get(Dungeon.hero.pos+ofs).active && Dungeon.level.traps.get(Dungeon.hero.pos+ofs).visible)
+                    if (Dungeon.level.traps.get(Dungeon.hero.pos+ofs).active && Dungeon.level.traps.get(Dungeon.hero.pos+ofs).visible && Dungeon.level.map[Dungeon.hero.pos+ofs]== Terrain.TRAP)
                         if (!TrapPlacer.tounPickupable.contains(Dungeon.level.traps.get(Dungeon.hero.pos+ofs)))
                             candidates.add(Dungeon.hero.pos+ofs);
                 }

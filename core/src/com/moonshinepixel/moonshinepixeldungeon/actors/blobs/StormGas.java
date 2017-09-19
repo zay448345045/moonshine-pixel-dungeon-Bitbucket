@@ -69,7 +69,7 @@ public class StormGas extends Blob implements Hero.Doom {
                     Integer[] targs = Arrays.copyOf(dumm,dumm.length,Integer[].class);
                     System.out.println(targs.length);
                     if (targs.length>0){
-                        targ=targs[Random.Int(targs.length)];
+                        targ=Random.element(targs);
                     } else {
                         targ=cell;
                     }
@@ -79,11 +79,13 @@ public class StormGas extends Blob implements Hero.Doom {
 
                     Ballistica bolt = new Ballistica(cell,targ,Ballistica.STOP_TARGET);
                     for(int bCell : bolt.path){
-                        ch = Actor.findChar(bCell);
-                        if (ch!=null) {
-                            int dmg = Math.max(1,(Random.NormalIntRange((int)(levelDamage*0.5f),(levelDamage))));
+                        if (cur[bCell]>0) {
+                            ch = Actor.findChar(bCell);
+                            if (ch != null) {
+                                int dmg = Math.max(1, (Random.NormalIntRange((int) (levelDamage * 0.5f), (levelDamage)))) / 2 + 1;
 //                            ch.damage( dmg, LightningTrap.LIGHTNING );
-                            ch.damage( dmg, this );
+                                ch.damage(dmg, this);
+                            }
                         }
                     }
 

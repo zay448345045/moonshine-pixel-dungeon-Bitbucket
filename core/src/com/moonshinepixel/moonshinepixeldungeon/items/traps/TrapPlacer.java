@@ -1,6 +1,8 @@
 package com.moonshinepixel.moonshinepixeldungeon.items.traps;
 
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ShopBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.*;
@@ -128,7 +130,7 @@ public class TrapPlacer extends Item {
         }
     };
     HashSet<Integer> tiles = new HashSet<>(Arrays.asList(Terrain.EMPTY,Terrain.EMPTY_SP,Terrain.WATER,Terrain.INACTIVE_TRAP,Terrain.TRAP,Terrain.EMPTY_DECO,Terrain.GRASS,Terrain.HIGH_GRASS,Terrain.SECRET_TRAP,Terrain.EMBERS,Terrain.SIGN));
-    public void setTrap(int targ){
+    public void setTrap(final int targ){
         final Ballistica ball = new Ballistica(curUser.pos,targ,Ballistica.PROJECTILE);
         final int cell = ball.collisionPos;
         final Item proto = this;
@@ -136,7 +138,7 @@ public class TrapPlacer extends Item {
                 reset(curUser.pos, cell, proto, new Callback() {
                     @Override
                     public void call() {
-                        if (tiles.contains(Dungeon.level.map[cell])) {
+                        if (tiles.contains(Dungeon.level.map[cell]) && Blob.volumeAt(targ, ShopBlob.class)<=0) {
                             Dungeon.level.press(cell, null);
                             Dungeon.level.setTrapObj(new TrapObject(trap), cell);
                             if (Actor.findChar(cell)!=null) Dungeon.level.press(cell,Actor.findChar(cell));
