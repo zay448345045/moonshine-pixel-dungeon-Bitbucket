@@ -14,7 +14,7 @@ import com.watabou.utils.Callback;
 
 /*  All non-default bullets disabled!
  *
- *  Fire bullet ignites cell bullet lands at.
+ *  Applies bleeding.
  */
 
 

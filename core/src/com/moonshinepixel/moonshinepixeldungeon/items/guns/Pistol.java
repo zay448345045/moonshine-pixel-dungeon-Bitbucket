@@ -17,10 +17,6 @@ public class Pistol extends BulletGun {
         return 2;
     }
     @Override
-    public int STRReq(int level) {
-        return level < 0 ? 12 - level : 12;
-    }
-    @Override
     protected int initialCharges() {
         return 2;
     }

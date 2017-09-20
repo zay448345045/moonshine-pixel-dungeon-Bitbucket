@@ -21,18 +21,13 @@ public class Blunderbuss extends BulletGun {
 
     @Override
     public float reloadTime() {
-        return 0.75f;
+        return 0.6f;
     }
 
 
     @Override
     public float shotTime() {
-        return 1.5f;
-    }
-
-    @Override
-    public int STRReq(int level) {
-        return level < 0 ? 14 - level : 14;
+        return 1f;
     }
 
     @Override
@@ -42,7 +37,7 @@ public class Blunderbuss extends BulletGun {
 
     @Override
     public int damageRoll(int lvl) {
-        return Random.NormalIntRange((int)(minWnd(lvl)/1.5), (int)(maxWnd(lvl)/1.5));
+        return (int)(super.damageRoll(lvl)/1.5f);
     }
 
     @Override

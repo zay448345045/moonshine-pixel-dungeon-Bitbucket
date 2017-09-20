@@ -185,7 +185,8 @@ public class ShopRoom extends SpecialRoom {
 			itemsToSpawn.add( new MailArmor().identify() );
 			itemsToSpawn.add( new Blunderbuss().identify() );
 			if (Random.Int(4)==0){
-				itemsToSpawn.add(new BleedingBullet().random(2));
+//				itemsToSpawn.add(new BleedingBullet().random(2));
+				itemsToSpawn.add(new Bullet().random(2));
 			} else {
 				itemsToSpawn.add(new Bullet().random(2));
 			}
@@ -199,7 +200,8 @@ public class ShopRoom extends SpecialRoom {
 			itemsToSpawn.add( new ScaleArmor().identify() );
 			itemsToSpawn.add( new Fusil().identify() );
             if (Random.Int(2)==0){
-                itemsToSpawn.add(new BleedingBullet().random(2f));
+//                itemsToSpawn.add(new BleedingBullet().random(2f));
+				itemsToSpawn.add(new Bullet().random(2));
             } else {
                 itemsToSpawn.add(new Bullet().random(2f));
             }
@@ -215,12 +217,14 @@ public class ShopRoom extends SpecialRoom {
 			itemsToSpawn.add( new Torch() );
 			itemsToSpawn.add( new Torch() );
             if (Random.Int(4)!=0){
-                itemsToSpawn.add(new BleedingBullet().random(2f));
+//                itemsToSpawn.add(new BleedingBullet().random(2f));
+				itemsToSpawn.add(new Bullet().random(2));
             } else {
                 itemsToSpawn.add(new Bullet().random(2f));
             }
             if (Random.Int(4)!=0){
-                itemsToSpawn.add(new BleedingBullet().random(2f));
+//                itemsToSpawn.add(new BleedingBullet().random(2f));
+				itemsToSpawn.add(new Bullet().random(2));
             } else {
                 itemsToSpawn.add(new Bullet().random(2f));
             }

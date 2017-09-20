@@ -54,9 +54,10 @@ public class BlackjackkeeperSprite extends MobSprite {
 		if (visible && anim == idle) {
 			if (coin == null) {
 				coin = new PixelParticle();
+				coin.color(0x800000);
 				parent.add( coin );
 			}
-			coin.reset( x + (flipHorizontal ? 0 : 13), y + 7, 0xFFFF00, 1, 0.5f );
+			coin.reset( x + (flipHorizontal ? 0 : 13), y + 7, 0x800000, 1, 0.5f );
 			coin.speed.y = -40;
 			coin.acc.y = +160;
 		}

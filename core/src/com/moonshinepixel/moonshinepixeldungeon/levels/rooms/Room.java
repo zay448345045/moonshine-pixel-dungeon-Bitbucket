@@ -349,12 +349,6 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		}
 		for (int i = 0; i < neigbours.length; i++){
 			Room r = this.neigbours.get(i);
-			System.out.println(r);
-			System.out.println(r.center());
-			System.out.println(r.center().x);
-			System.out.println(r.center().y);
-			System.out.println(Dungeon.level);
-			System.out.println(Dungeon.level.width());
 			neigbours[i]=r.center().x+r.center().y*Dungeon.level.width();
 		}
 		bundle.put("neigbours", neigbours);

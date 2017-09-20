@@ -35,18 +35,13 @@ public class Mortair extends BulletGun {
     }
 
     @Override
-    public int STRReq(int level) {
-        return level < 0 ? 18 - level : 18;
-    }
-
-    @Override
     protected int initialCharges() {
         return 1;
     }
 
     @Override
     public int damageRoll(int lvl) {
-        return Random.NormalIntRange((int)(minWnd(lvl)*1.2f), (int)(maxWnd(lvl)*1.2f));
+        return (int)(super.damageRoll(lvl)*1.2f);
     }
 
     @Override

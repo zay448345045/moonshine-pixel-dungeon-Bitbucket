@@ -70,8 +70,8 @@ public class UpdateNotification extends Component {
 					try {
 						int currentVersion = Game.versionCode;
 
-//						URL versionInfo = new URL("https://raw.githubusercontent.com/juh9870/moonshine-info/master/master/desktop/VersionInfo.txt");
-						URL versionInfo = new URL("https://raw.githubusercontent.com/juh9870/moonshine-info/master/master/desktop/versionInfo2.txt");
+						URL versionInfo = new URL("https://raw.githubusercontent.com/juh9870/moonshine-info/master/master/desktop/VersionInfo.txt");
+//						URL versionInfo = new URL("https://raw.githubusercontent.com/juh9870/moonshine-info/master/master/desktop/versionInfo2.txt");
 						BufferedReader inforeader = new BufferedReader(new InputStreamReader(versionInfo.openStream()));
 
 						latestVersion = Integer.parseInt(inforeader.readLine());
@@ -100,7 +100,18 @@ public class UpdateNotification extends Component {
 						patchInfo = inforeader.readLine();
 						updateInfo = inforeader.readLine();
 
-						System.out.println(patchInfo + "|" + updateInfo);
+						String[] patchInfArr = patchInfo.split("/n");
+						patchInfo=patchInfArr[0];
+						for (int i = 1; i< patchInfArr.length; i++){
+							patchInfo+="\n"+patchInfArr[i];
+						}
+						String[] updateInfoArr = patchInfo.split("/n");
+						updateInfo=updateInfoArr[0];
+						for (int i = 1; i< updateInfoArr.length; i++){
+							updateInfo+="\n"+updateInfoArr[i];
+						}
+
+//						System.out.println(patchInfo + "|" + updateInfo);
 						latestMessage = latestIsUpdate ? latestUpdateMessage : latestVersionMessage;
 
 

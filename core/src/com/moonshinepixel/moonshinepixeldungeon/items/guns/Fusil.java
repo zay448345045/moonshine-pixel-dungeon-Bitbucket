@@ -28,11 +28,6 @@ public class Fusil extends BulletGun {
     }
 
     @Override
-    public int STRReq(int level) {
-        return level < 0 ? 16 - level : 16;
-    }
-
-    @Override
     protected int initialCharges() {
         return 3;
     }

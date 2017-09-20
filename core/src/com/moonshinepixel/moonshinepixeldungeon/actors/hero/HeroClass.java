@@ -111,6 +111,9 @@ public enum HeroClass {
 		sot.quantity(10);
 		sot.identify().collect();
 
+		ScrollOfMagicMapping somm = new ScrollOfMagicMapping();
+		somm.identify().collect();
+
 		Plant.Seed seed = new Fadeleaf.Seed();
 		seed.collect();
 

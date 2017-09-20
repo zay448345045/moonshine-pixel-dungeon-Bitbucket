@@ -85,4 +85,8 @@ public class Challenges {
 		return Statistics.amuletObtained?2.5f:1.5f;
 	}
 
+	public static float countdownTurns(){
+		return Statistics.amuletObtained?300f:400f;
+	}
+
 }

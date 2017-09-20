@@ -72,9 +72,11 @@ public abstract class BulletGun extends Gun {
 		return STRReq(level());
 	}
 	@Override
-	public int STRReq(int level) {
-        return level < 0 ? 10 - level : 10;
-	}
+    public int STRReq(int lvl){
+        lvl = Math.max(0, lvl);
+        //strength req decreases at +1,+3,+6,+10,etc.
+        return (8 + tier() * 2) - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+    }
 
 	public int minWnd(int lvl){
         int dmg;

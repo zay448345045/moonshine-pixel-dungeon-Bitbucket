@@ -133,7 +133,7 @@ public class TrapPlacer extends Item {
     public void setTrap(final int targ){
         final Ballistica ball = new Ballistica(curUser.pos,targ,Ballistica.PROJECTILE);
         final int cell = ball.collisionPos;
-        final Item proto = this;
+        final TrapPlacer proto = this;
         ((MissileSprite) curUser.sprite.parent.recycle(MissileSprite.class)).
                 reset(curUser.pos, cell, proto, new Callback() {
                     @Override
@@ -143,7 +143,8 @@ public class TrapPlacer extends Item {
                             Dungeon.level.setTrapObj(new TrapObject(trap), cell);
                             if (Actor.findChar(cell)!=null) Dungeon.level.press(cell,Actor.findChar(cell));
                         } else {
-                            Heap itm = Dungeon.level.drop(proto,cell);
+                            TrapPlacer todrop = new TrapPlacer(proto.trap);
+                            Heap itm = Dungeon.level.drop(todrop,cell);
                             itm.sprite.drop();
                             GLog.w(Messages.get(TrapPlacer.class, "invalidcell"));
                         }

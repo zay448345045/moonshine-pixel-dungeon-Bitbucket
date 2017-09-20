@@ -32,7 +32,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.items.Heap;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.keys.IronKey;
-import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.MazeRoom;
+import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.TenguMazeRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.Trap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
@@ -298,7 +298,7 @@ public class PrisonBossLevel extends Level {
 				HealthIndicator.instance.target(null);
 				tengu.sprite.kill();
 
-				Room maze = new MazeRoom();
+				Room maze = new TenguMazeRoom();
 				maze.set(10, 1, 31, 29);
 				maze.connected.put(null, new Room.Door(10, 2));
 				maze.connected.put(maze, new Room.Door(20, 29));

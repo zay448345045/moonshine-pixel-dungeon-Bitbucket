@@ -259,7 +259,7 @@ public class Generator {
 				BleedingBullet.class,
 				ArmorPiercingBullet.class
         };
-        Category.AMMO.probs = new float[]{ 4, 1, 1};
+        Category.AMMO.probs = new float[]{ 4, 0, 0};
 
         Category.BOMB.classes = new Class<?>[]{
                 Bomb.class,

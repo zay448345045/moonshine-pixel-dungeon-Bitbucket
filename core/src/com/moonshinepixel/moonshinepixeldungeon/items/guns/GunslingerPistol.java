@@ -21,12 +21,12 @@ public class GunslingerPistol extends BulletGun {
     }
     @Override
     public float reloadTime(){
-        return 0.75f;
+        return 0.5f;
     }
 
     @Override
     public float shotTime() {
-        return 0.75f;
+        return 0.5f;
     }
 
     @Override
