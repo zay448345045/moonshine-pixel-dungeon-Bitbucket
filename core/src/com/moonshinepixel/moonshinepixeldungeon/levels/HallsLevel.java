@@ -62,8 +62,6 @@ public class HallsLevel extends RegularLevel {
 		
 		color1 = 0x801500;
 		color2 = 0xa68521;
-
-		time = 600;
 	}
 	
 	@Override

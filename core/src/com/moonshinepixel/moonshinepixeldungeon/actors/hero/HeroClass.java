@@ -120,6 +120,10 @@ public enum HeroClass {
 		PotionOfStorm pos = new PotionOfStorm();
 		pos.identify().collect();
 		pos.quantity(10);
+
+		Dart dart = new Dart(120);
+		dart.collect();
+
 	}
 
 	private static void initCommon( Hero hero ) {

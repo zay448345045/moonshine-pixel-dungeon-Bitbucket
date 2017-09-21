@@ -43,7 +43,7 @@ import java.util.HashSet;
 public class PitRoom extends StandardRoom {
 
 	private int platform = Terrain.HIGH_GRASS;
-	private int wall = Terrain.PIT;
+	private int wall = Terrain.CHASM;
 
 	@Override
 	public int minWidth() {
@@ -93,6 +93,7 @@ public class PitRoom extends StandardRoom {
 					}
 				}
 			}
+			System.out.println("");
 			try {
 				do {
 					Point targ = Random.element(cells);
@@ -117,12 +118,22 @@ public class PitRoom extends StandardRoom {
 		Item prize;
 		prize = level.findPrizeItem(Artifact.class);
 		if (prize == null && Random.Int(100)<10) prize = Generator.random(Generator.Category.ARTIFACT);
-		do{
-			prize = Random.oneOf(level.findPrizeItem(Weapon.class),level.findPrizeItem(Armor.class),level.findPrizeItem(Wand.class),level.findPrizeItem(Ring.class));
-		} while (prize == null || prize instanceof Ring || prize instanceof MissileWeapon);
 
-		if (prize != null) {
-			level.drop(prize, (center.x + center.y * level.width()));
+		if (prize == null || prize instanceof Ring || prize instanceof MissileWeapon) {
+			if (prize!=null) level.addItemToSpawn(prize);
+			prize = Random.oneOf(level.findPrizeItem(Weapon.class), level.findPrizeItem(Armor.class), level.findPrizeItem(Wand.class), level.findPrizeItem(Ring.class));
+		}
+		if (prize!=null) {
+			if (!(prize instanceof MissileWeapon)){
+				level.drop(prize, (center.x + center.y * level.width()));
+			} else {
+				level.drop(Generator.random( Random.oneOf(
+						Generator.Category.WEAPON,
+						Generator.Category.ARMOR,
+						Generator.Category.WAND,
+						Generator.Category.GUN,
+						Generator.Category.RING)), (center.x + center.y * level.width()));
+			}
 		} else {
 			level.drop(Generator.random( Random.oneOf(
 					Generator.Category.WEAPON,

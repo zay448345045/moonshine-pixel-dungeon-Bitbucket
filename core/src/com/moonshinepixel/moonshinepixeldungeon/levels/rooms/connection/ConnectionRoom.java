@@ -28,6 +28,7 @@ import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class ConnectionRoom extends Room {
 	
@@ -69,8 +70,9 @@ public abstract class ConnectionRoom extends Room {
 		rooms.add(MazeConnectionRoom.class);
 	}
 	
-	private static float[][] chances = new float[27][];
+	private static float[][] chances = new float[100][];
 	static {
+		Arrays.fill(chances, new float[]{1, 1, 1, 1, 1});
 		chances[1] =  new float[]{10, 1,  0, 1,  0};
 		chances[4] =  chances[3] = chances[2] = chances[1];
 		chances[5] =  new float[]{1, 0,  0, 0,  0};
@@ -88,6 +90,7 @@ public abstract class ConnectionRoom extends Room {
 		
 		chances[22] = new float[]{10, 3,  0, 2,  0};
 		chances[26] = chances[25] = chances[24] = chances[23] = chances[22];
+		chances[31] = new float[]{10, 3,  0, 5,  2};
 	}
 	
 	public static ConnectionRoom createRoom(){

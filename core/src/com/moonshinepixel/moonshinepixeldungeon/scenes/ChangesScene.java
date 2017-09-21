@@ -39,8 +39,12 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update =
 			"_NOTE:_ Desktop version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.6 - alpha:_\n" +
+					"_-_ Bugfixes for room types, lowered bullet's debuff chance and damage, some bugfixes."+
+					"\n" +
+					"\n" +
 					"_v0.1.5 - alpha:_\n" +
-					"_-_ Some new room types, buffed guns, some bugfixes."+
+					"_-_ Some new room types, buffed guns, some bugfixes.\nRemoved all non-default bullets.\nBullets now have a chance to affect debuffs on target"+
 					"\n" +
 					"\n" +
 					"_v0.1.4 - alpha:_\n" +

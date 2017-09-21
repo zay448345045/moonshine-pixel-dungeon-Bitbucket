@@ -64,8 +64,8 @@ public class Bullet extends BulletAmmo {
 		return true;
 	}
 	public boolean hit(Char targ, Char shooter, int dmg){
-		if (Random.Int(100)<25) Buff.affect(targ, Bleeding.class).set(dmg);
-		if (Random.Int(100)<25) Buff.prolong(targ, Cripple.class, dmg);
+		if (Random.Int(100)<10) Buff.affect(targ, Bleeding.class).set(dmg/2);
+		if (Random.Int(100)<10) Buff.prolong(targ, Cripple.class, dmg);
 //		miss(targ.pos,shooter,dmg);
 		return true;
 	}

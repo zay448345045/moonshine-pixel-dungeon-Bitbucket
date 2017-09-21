@@ -50,6 +50,7 @@ public enum Preferences {
 	public static final String KEY_VERSION      = "version";
 	public static final String KEY_LASTGENDER   = "lastgender";
 	public static final String KEY_DEVOPTIONS   = "devoptions";
+	public static final String KEY_STORYLINE   = "storyline";
 
 	public static final String KEY_WINDOW_FULLSCREEN	= "windowFullscreen";
 	public static final String KEY_WINDOW_WIDTH			= "windowWidth";

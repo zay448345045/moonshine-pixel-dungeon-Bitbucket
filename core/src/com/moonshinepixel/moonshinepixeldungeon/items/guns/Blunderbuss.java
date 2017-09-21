@@ -21,7 +21,7 @@ public class Blunderbuss extends BulletGun {
 
     @Override
     public float reloadTime() {
-        return 0.6f;
+        return 0.75f;
     }
 
 

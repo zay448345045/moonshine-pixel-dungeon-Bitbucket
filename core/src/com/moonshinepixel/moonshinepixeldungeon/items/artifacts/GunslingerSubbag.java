@@ -27,6 +27,8 @@ import java.util.ArrayList;
 
 public class GunslingerSubbag extends Artifact {
 
+    public Item lastItem = null;
+
     {
         image = ItemSpriteSheet.ARTIFACT_GUNSLINGER_SUBBAG;
 

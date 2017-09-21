@@ -394,16 +394,25 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_DEVOPTIONS, 0, Integer.MIN_VALUE, Integer.MAX_VALUE );
 	}
 
+	public static void storyline( int value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_STORYLINE, value );
+	}
+
+	public static int storyline() {
+		return Preferences.INSTANCE.getInt( Preferences.KEY_STORYLINE, 0,0, 1 );
+	}
+
 	public static int devlevel(){
-		return 1;
+		return Game.previewmode?9:1;
 	}
 
 	/*
 	 * <--- Preferences
 	 */
-	
+
 	public static void reportException( Throwable tr ) {
 		Gdx.app.error("PD", tr.getMessage(), tr);
 		tr.printStackTrace();
 	}
+
 }

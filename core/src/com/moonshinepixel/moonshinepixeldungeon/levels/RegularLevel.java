@@ -80,10 +80,14 @@ public abstract class RegularLevel extends Level {
 			for (Room r : initRooms){
 				r.neigbours.clear();
 				r.connected.clear();
+				System.out.println(r.getClass());
 			}
+			System.out.println("|");
 			rooms = builder.build((ArrayList<Room>)initRooms.clone());
 		} while (rooms == null);
-		
+
+		System.out.println("|");
+
 		if (painter().paint(this, rooms)){
 			placeSign();
 			return true;

@@ -107,6 +107,7 @@ public class Assets {
 	public static final String ROT_LASH = "rot_lasher.png";
 	public static final String ROT_HEART= "rot_heart.png";
 	public static final String GUARD    = "guard.png";
+	public static final String MOBDUMMY = "mob_empty.png";
 
 	public static final String ITEMS	        = "items.png";
 	public static final String TERRAIN_FEATURES	= "terrain_features.png";
@@ -116,6 +117,7 @@ public class Assets {
 	public static final String TILES_CAVES	= "tiles_caves.png";
 	public static final String TILES_CITY	= "tiles_city.png";
 	public static final String TILES_HALLS	= "tiles_halls.png";
+	public static final String TILES_VOLCANO	= "tiles_volcano.png";
 	
 	public static final String WATER_SEWERS	= "water0.png";
 	public static final String WATER_PRISON	= "water1.png";

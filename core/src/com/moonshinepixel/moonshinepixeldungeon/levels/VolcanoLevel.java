@@ -21,23 +21,15 @@
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Ghost;
+import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Ripple;
-import com.moonshinepixel.moonshinepixeldungeon.items.DewVial;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.SewerPainter;
+import com.moonshinepixel.moonshinepixeldungeon.levels.painters.VolcanoPainter;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.*;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.tiles.DungeonTilemap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.SummoningTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.TeleportationTrap;
-import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.AlarmTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.ChillingTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FlockTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.ToxicTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.WornTrap;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.particles.Emitter;
@@ -46,121 +38,112 @@ import com.watabou.utils.ColorMath;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
-public class SewerLevel extends RegularLevel {
+public class VolcanoLevel extends RegularLevel {
 
 	{
-		color1 = 0x48763c;
-		color2 = 0x59994a;
+		color1 = 0x801500;
+		color2 = 0xa68521;
 	}
-	
+
 	@Override
 	protected int standardRooms() {
-		//5 to 7, average 5.57
-		return 5+Random.chances(new float[]{4, 2, 1});
+		//6 to 9, average 7.333
+		return 6+Random.chances(new float[]{2, 3, 3, 1});
 	}
-	
+
 	@Override
 	protected int specialRooms() {
-		//1 to 3, average 1.67
-		return 1+Random.chances(new float[]{4, 4, 2});
+		//1 to 3, average 2.2
+		return 1+Random.chances(new float[]{2, 4, 4});
 	}
-	
+
 	@Override
 	protected Painter painter() {
-		return new SewerPainter()
+		return new VolcanoPainter()
 				.setWater(feeling == Feeling.WATER ? 0.85f : 0.30f, 5)
 				.setGrass(feeling == Feeling.GRASS ? 0.80f : 0.20f, 4)
 				.setTraps(nTraps(), trapClasses(), trapChances());
 	}
-	
+
 	@Override
 	public String tilesTex() {
-		return Assets.TILES_SEWERS;
+		return Assets.TILES_VOLCANO;
 	}
-	
+
 	@Override
 	public String waterTex() {
-		return Assets.WATER_SEWERS;
+		return Assets.WATER_HALLS;
 	}
-	
+
+
 	@Override
 	protected Class<?>[] trapClasses() {
-		return Dungeon.depth == 1 ?
-				new Class<?>[]{WornTrap.class} :
-				new Class<?>[]{ChillingTrap.class, ToxicTrap.class, WornTrap.class,
-						AlarmTrap.class, OozeTrap.class,
-						FlockTrap.class, SummoningTrap.class, TeleportationTrap.class, };
-}
+		return new Class[]{ FireTrap.class, FrostTrap.class, PoisonTrap.class, SpearTrap.class, VenomTrap.class,
+				ExplosiveTrap.class, FlashingTrap.class, GrippingTrap.class, ParalyticTrap.class, LightningTrap.class, RockfallTrap.class, OozeTrap.class,
+				ConfusionTrap.class, FlockTrap.class, GuardianTrap.class, PitfallTrap.class, SummoningTrap.class, TeleportationTrap.class/*,
+				WarpingTrap.class*/};
+	}
 
 	@Override
 	protected float[] trapChances() {
-		return Dungeon.depth == 1 ?
-				new float[]{1} :
-				new float[]{4, 4, 4,
-						2, 2,
-						1, 1, 1};
+		return new float[]{ 8, 8, 8, 8, 8,
+				4, 4, 4, 4, 4, 4, 4,
+				2, 2, 2, 2, 2, 2/*,
+				1*/ };
 	}
-	
+
 	@Override
 	protected void createItems() {
-		if (!Dungeon.limitedDrops.dewVial.dropped() && Random.Int( 4 - Dungeon.depth ) == 0) {
-			addItemToSpawn( new DewVial() );
-//			addItemToSpawn( new SoulVial() );
-			Dungeon.limitedDrops.dewVial.drop();
-		}
-
-		Ghost.Quest.spawn( this );
-		
 		super.createItems();
 	}
-	
+
 	@Override
 	public Group addVisuals() {
 		super.addVisuals();
-		addSewerVisuals(this, visuals);
+		addVolcanoVisuals(this, visuals);
 		return visuals;
 	}
-	
-	public static void addSewerVisuals( Level level, Group group ) {
+
+	public static void addVolcanoVisuals(Level level, Group group ) {
 		for (int i=0; i < level.length(); i++) {
 			if (level.map[i] == Terrain.WALL_DECO) {
 				group.add( new Sink( i ) );
 			}
 		}
 	}
-	
+
 	@Override
 	public String tileName( int tile ) {
 		switch (tile) {
 			case Terrain.WATER:
-				return Messages.get(SewerLevel.class, "water_name");
+				return Messages.get(VolcanoLevel.class, "water_name");
 			default:
 				return super.tileName( tile );
 		}
 	}
-	
+
 	@Override
 	public String tileDesc(int tile) {
 		switch (tile) {
 			case Terrain.EMPTY_DECO:
-				return Messages.get(SewerLevel.class, "empty_deco_desc");
+				return Messages.get(VolcanoLevel.class, "empty_deco_desc");
 			case Terrain.BOOKSHELF:
-				return Messages.get(SewerLevel.class, "bookshelf_desc");
+				return Messages.get(VolcanoLevel.class, "bookshelf_desc");
 			default:
 				return super.tileDesc( tile );
 		}
 	}
-	
+
 	private static class Sink extends Emitter {
-		
+
 		private int pos;
 		private float rippleDelay = 0;
-		
-		private static final Emitter.Factory factory = new Factory() {
+
+		private static final Factory factory = new Factory() {
 			
 			@Override
 			public void emit( Emitter emitter, int index, float x, float y ) {
-				WaterParticle p = (WaterParticle)emitter.recycle( WaterParticle.class );
+				LavaParticle p = (LavaParticle)emitter.recycle( LavaParticle.class );
 				p.reset( x, y );
 			}
 		};
@@ -193,15 +176,15 @@ public class SewerLevel extends RegularLevel {
 		}
 	}
 	
-	public static final class WaterParticle extends PixelParticle {
+	public static final class LavaParticle extends PixelParticle {
 		
-		public WaterParticle() {
+		public LavaParticle() {
 			super();
 			
 			acc.y = 50;
 			am = 0.5f;
 			
-			color( ColorMath.random( 0xb6ccc2, 0x3b6653 ) );
+			color( ColorMath.random( 0xca7373, 0x722727 ) );
 			size( 2 );
 		}
 		

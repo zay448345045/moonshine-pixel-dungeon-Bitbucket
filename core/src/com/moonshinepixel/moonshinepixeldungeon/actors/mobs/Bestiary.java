@@ -22,6 +22,7 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Sheep;
 import com.watabou.utils.Random;
 
 public class Bestiary {
@@ -175,6 +176,11 @@ public class Bestiary {
 		case 25:
 			chances = new float[]{ 1 };
 			classes = new Class<?>[]{ Yog.class };
+			break;
+
+		case 31:
+			chances = new float[]{ 1 };
+			classes = new Class<?>[]{MagmaGolem.class};
 			break;
 
 //		case 31:

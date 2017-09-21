@@ -200,7 +200,8 @@ public class Dungeon {
 
 		quickslot.reset();
 		QuickSlotButton.reset();
-		
+
+		storyline=MoonshinePixelDungeon.storyline();
 		depth = storyline==0?0:30;
 		gold = 0;
 
@@ -298,6 +299,12 @@ public class Dungeon {
 			break;
 		case 26:
 			level = new LastLevel();
+			break;
+		case 31:
+		case 32:
+		case 33:
+		case 34:
+			level = new VolcanoLevel();
 			break;
 //		case 31:
 //			level= new MazeLevel();

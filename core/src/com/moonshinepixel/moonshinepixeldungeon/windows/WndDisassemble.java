@@ -25,6 +25,7 @@ import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
+import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.IncendiaryBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
@@ -61,11 +62,16 @@ public class WndDisassemble extends Window {
 	private ItemButton btnItem1;
 	private ItemButton btnItem2;
 	private RedButton btnReforge;
+	private RedButton btnReforgeAll;
+	private GunslingerSubbag subBag;
 
 	public WndDisassemble(Hero hero ) {
 		
 		super();
-		
+
+		subBag = Dungeon.hero.belongings.getItem(GunslingerSubbag.class);
+		System.out.println(subBag);
+
 		IconTitle titlebar = new IconTitle();
 		titlebar.icon( new ItemSprite((new Scrap().image()),null) );
 		titlebar.label( Messages.titleCase( "Disassembling kit" ) );
@@ -84,6 +90,15 @@ public class WndDisassemble extends Window {
 				GameScene.selectItem( itemSelector, WndBag.Mode.DISASSEMBLEABLE, Messages.get(WndDisassemble.class, "select") );
 			}
 		};
+		if (subBag!=null){
+			if (subBag.lastItem!=null){
+				if (subBag.lastItem.quantity()>0) {
+					System.out.println(subBag.lastItem);
+					btnItem1.item(subBag.lastItem);
+					btnPressed = btnItem1;
+				}
+			}
+		}
 		btnItem1.setRect( WIDTH / 2 - BTN_SIZE/2, message.top() + message.height() + BTN_GAP, BTN_SIZE, BTN_SIZE );
 		add( btnItem1 );
 
@@ -105,12 +120,32 @@ public class WndDisassemble extends Window {
 				hide();
 			}
 		};
-		btnReforge.enable( false );
+		float bottom = 0;
+		btnReforge.enable( btnItem1.item!=null );
 		btnReforge.setRect( 0, btnItem1.bottom() + BTN_GAP, WIDTH, 20 );
 		add( btnReforge );
+		bottom = btnReforge.bottom();
+
+		btnReforgeAll = new RedButton( Messages.get(this, "reforgeall") ) {
+			@Override
+			protected void onClick() {
+				disassemble(btnItem1.item, true);
+				hide();
+			}
+		};
+		btnReforgeAll.enable( false );
+
+		if (btnItem1.item!=null){
+			if (btnItem1.item.quantity()>1){
+				btnReforgeAll.enable( true );
+			}
+		}
+		btnReforgeAll.setRect( 0, bottom + BTN_GAP, WIDTH, 20 );
+		add( btnReforgeAll );
+		bottom = btnReforgeAll.bottom();
 		
-		
-		resize( WIDTH, (int)btnReforge.bottom() );
+
+		resize( WIDTH, (int)bottom );
 	}
 	
 	protected WndBag.Listener itemSelector = new WndBag.Listener() {
@@ -120,106 +155,121 @@ public class WndDisassemble extends Window {
 				btnPressed.item( item );
 				
 				if (btnItem1.item != null) {
+					if (subBag!=null) {
+						subBag.lastItem = item;
+						System.out.println(subBag.lastItem);
+					}
 					btnReforge.enable( true );
+					btnReforgeAll.enable( item.quantity()>1 );
 				}
 			}
 		}
 	};
 
 	public void disassemble(Item item){
+		disassemble(item,false);
+	}
+	public void disassemble(Item item, boolean all){
 	    Scrap scrap = new Scrap();
-	    int quanity = 0;
-	    if (item instanceof MeleeWeapon){
-	        MeleeWeapon w = (MeleeWeapon)item;
-	        quanity += Random.NormalIntRange((w.tier+2)/2,w.tier+2);
-	        if (w == Dungeon.hero.belongings.weapon){
-                Dungeon.hero.belongings.weapon=null;
-                Dungeon.quickslot.clearItem(w);
-                w.updateQuickslot();
-            }
-        }
-        if (item instanceof BulletGun){
-	        BulletGun b = (BulletGun)item;
-	        quanity += Random.NormalIntRange((b.tier()+2)/2,b.tier()+2);
-	        if (b.attachment!=null){
-	            quanity+=Random.NormalIntRange(1,2);
-            }
-            if (b == Dungeon.hero.belongings.weapon){
-                Dungeon.hero.belongings.weapon=null;
-                Dungeon.quickslot.clearItem(b);
-                b.updateQuickslot();
-            }
-        }
-        if (item instanceof MissileWeapon){
-            MissileWeapon w = (MissileWeapon)item;
-            if (w instanceof Dart){
-                quanity+=Random.chances(new float[]{3,1});
-            }
-            if (w instanceof CurareDart){
-                quanity+=Random.chances(new float[]{3,1});
-            }
-            if (w instanceof IncendiaryDart){
-                quanity+=Random.chances(new float[]{3,1});
-            }
-            if (w instanceof Javelin){
-                quanity+=Random.chances(new float[]{2,2,1});
-            }
-            if (w instanceof Shuriken){
-                quanity+=Random.chances(new float[]{4,1});
-            }
-            if (w instanceof Tamahawk){
-                quanity+=Random.chances(new float[]{1,2,1,1});
-            }
-            if (w == Dungeon.hero.belongings.weapon){
-                if (w.quantity()<=1) {
-                    Dungeon.hero.belongings.weapon = null;
-                    Dungeon.quickslot.clearItem(w);
-                    w.updateQuickslot();
-                } else {
-                    w.quantity(w.quantity()-1);
-                    w.updateQuickslot();
-                }
-            }
-        }
-        if (item instanceof Armor){
-            Armor a = (Armor)item;
-            quanity+=Random.NormalIntRange((a.tier+2)/2,a.tier+2);
-            if (a == Dungeon.hero.belongings.armor){
-                Dungeon.hero.belongings.armor=null;
-                Dungeon.quickslot.clearItem(a);
-                a.updateQuickslot();
-            }
-        }
-        if (item instanceof Bomb){
-            if (item instanceof IncendiaryBomb){
-                quanity+=Random.chances(new float[]{1,1});
-            } else
-            if (item instanceof ShrapnelBomb){
-                quanity+=Random.chances(new float[]{1,2});
-            } else
-            if (item instanceof AshBomb){
-                quanity+=Random.chances(new float[]{1,1.5f});
-            }
-			quanity+=1;
-        }
-	    if (item.isUpgradable() && item.level()>0){
-            quanity+=Random.NormalIntRange(1,Math.max((int)(item.level()*0.75f),1));
-        }
-        if (item.cursed){
-	        quanity/=2;
-        }
-        if (quanity>0) {
-            GLog.p(Messages.get(this, "success", item.name(), quanity));
-            scrap.quantity(quanity);
-            scrap.give();
-        } else {
-            GLog.n(Messages.get(this, "fail", item.name()));
-        }
-        item.detach(Dungeon.hero.belongings.backpack);
+	    int overAllQuanity = 0;
+	    int repeats = all?item.quantity():1;
+	    for (int i = 0; i<repeats;i++) {
+			int quanity = 0;
+			if (item instanceof MeleeWeapon) {
+				MeleeWeapon w = (MeleeWeapon) item;
+				quanity += Random.NormalIntRange((w.tier + 2) / 2, w.tier + 2);
+				if (w == Dungeon.hero.belongings.weapon) {
+					Dungeon.hero.belongings.weapon = null;
+					Dungeon.quickslot.clearItem(w);
+					w.updateQuickslot();
+				}
+			}
+			if (item instanceof BulletGun) {
+				BulletGun b = (BulletGun) item;
+				quanity += Random.NormalIntRange((b.tier() + 2) / 2, b.tier() + 2);
+				if (b.attachment != null) {
+					quanity += Random.NormalIntRange(1, 2);
+				}
+				if (b == Dungeon.hero.belongings.weapon) {
+					Dungeon.hero.belongings.weapon = null;
+					Dungeon.quickslot.clearItem(b);
+					b.updateQuickslot();
+				}
+			}
+			if (item instanceof MissileWeapon) {
+				MissileWeapon w = (MissileWeapon) item;
+				if (w instanceof Dart) {
+					quanity += Random.chances(new float[]{3, 1});
+				}
+				if (w instanceof CurareDart) {
+					quanity += Random.chances(new float[]{3, 1});
+				}
+				if (w instanceof IncendiaryDart) {
+					quanity += Random.chances(new float[]{3, 1});
+				}
+				if (w instanceof Javelin) {
+					quanity += Random.chances(new float[]{2, 2, 1});
+				}
+				if (w instanceof Shuriken) {
+					quanity += Random.chances(new float[]{4, 1});
+				}
+				if (w instanceof Tamahawk) {
+					quanity += Random.chances(new float[]{1, 2, 1, 1});
+				}
+				if (w == Dungeon.hero.belongings.weapon) {
+					if (w.quantity() <= 1) {
+						Dungeon.hero.belongings.weapon = null;
+						Dungeon.quickslot.clearItem(w);
+						w.updateQuickslot();
+					} else {
+						w.quantity(w.quantity() - 1);
+						w.updateQuickslot();
+					}
+				}
+			}
+			if (item instanceof Armor) {
+				Armor a = (Armor) item;
+				quanity += Random.NormalIntRange((a.tier + 2) / 2, a.tier + 2);
+				if (a == Dungeon.hero.belongings.armor) {
+					Dungeon.hero.belongings.armor = null;
+					Dungeon.quickslot.clearItem(a);
+					a.updateQuickslot();
+				}
+			}
+			if (item instanceof Bomb) {
+				if (item instanceof IncendiaryBomb) {
+					quanity += Random.chances(new float[]{1, 1});
+				} else if (item instanceof ShrapnelBomb) {
+					quanity += Random.chances(new float[]{1, 2});
+				} else if (item instanceof AshBomb) {
+					quanity += Random.chances(new float[]{1, 1.5f});
+				}
+				quanity += 1;
+			}
+			if (item.isUpgradable() && item.level() > 0) {
+				quanity += Random.NormalIntRange(1, Math.max((int) (item.level() * 0.75f), 1));
+			}
+			if (item.cursed) {
+				quanity /= 2;
+			}
+			item.detach(Dungeon.hero.belongings.backpack);
+			overAllQuanity+=quanity;
+		}
+		if (overAllQuanity>0) {
+	    	if (!all) {
+				GLog.p(Messages.get(this, "success", item.name(), overAllQuanity));
+			} else
+				GLog.p(Messages.get(this, "successall", repeats, item.name(), overAllQuanity));
+			scrap.quantity(overAllQuanity);
+			scrap.give();
+		} else {
+			GLog.n(Messages.get(this, "fail", item.name()));
+		}
         try {
             Dungeon.hero.busy();
             Dungeon.hero.sprite.operate(Dungeon.hero.pos);
-            Dungeon.hero.spendAndNext(3);
+            float wait = repeats<4?3:repeats<10?2:repeats<20?1:0.5f;
+            Dungeon.hero.spendAndNext(wait*repeats);
         } catch (Exception e){
             MoonshinePixelDungeon.reportException(e);
         }

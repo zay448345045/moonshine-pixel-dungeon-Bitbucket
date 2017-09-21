@@ -55,8 +55,6 @@ public class CityLevel extends RegularLevel {
 	{
 		color1 = 0x4b6636;
 		color2 = 0xf2f2f2;
-
-		time = 600;
 	}
 	
 	@Override

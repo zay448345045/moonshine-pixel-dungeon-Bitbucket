@@ -26,6 +26,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class StandardRoom extends Room {
 	
@@ -133,8 +134,9 @@ public abstract class StandardRoom extends Room {
 		rooms.add(MazeRoom.class);
 	}
 	
-	private static float[][] chances = new float[27][];
+	private static float[][] chances = new float[100][];
 	static {
+		Arrays.fill(chances, new float[]{11,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f});
 //		chances[1] =  new float[]{22,  10, 0, 0, 0, 0,  1, 0, 1, 0, 1, 0, 1, 1};
 		chances[1] =  new float[]{22,  10, 0, 0, 0, 0,  1, 0, 1, 0, 1, 0, 1, 1,  0, 0};
 		chances[2] =  new float[]{22,  10, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
@@ -154,6 +156,10 @@ public abstract class StandardRoom extends Room {
 		
 		chances[22] = new float[]{22,  0, 0, 0, 0, 10,  1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
 		chances[26] = chances[25] = chances[24] = chances[23] = chances[22];
+		chances[31] = new float[]{22,  0, 5, 0, 0, 5,  1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
+		chances[35] = chances[34] = chances[33] = chances[32] = chances[31];
+
+
 	}
 	
 	

@@ -21,12 +21,12 @@
 
 package com.moonshinepixel.moonshinepixeldungeon.levels.painters;
 
-import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
-import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.standard.EmptyRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
+import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.connection.ConnectionRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.standard.CaveRoom;
+import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.standard.EmptyRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.standard.StandardRoom;
 import com.moonshinepixel.moonshinepixeldungeon.tiles.DungeonTileSheet;
 import com.watabou.utils.Random;
@@ -34,7 +34,7 @@ import com.watabou.utils.Rect;
 
 import java.util.ArrayList;
 
-public class CavesPainter extends RegularPainter {
+public class VolcanoPainter extends RegularPainter {
 	
 	@Override
 	protected void decorate(Level level, ArrayList<Room> rooms) {
@@ -146,44 +146,6 @@ public class CavesPainter extends RegularPainter {
 							fill( level, i.left, i.top, i.width(), 1, Terrain.CHASM );
 						}
 					}
-				}
-			}
-		}
-
-		map = level.map;
-		w = level.width();
-		l = level.length();
-
-		for (int i=0; i < w; i++) {
-			if (map[i] == Terrain.WALL &&
-					map[i + w] == Terrain.WATER &&
-					Random.Int( 4 ) == 0) {
-
-				map[i] = Terrain.WALL_DECO;
-			}
-		}
-
-		for (int i=w; i < l - w; i++) {
-			if (map[i] == Terrain.WALL &&
-					map[i - w] == Terrain.WALL &&
-					map[i + w] == Terrain.WATER &&
-					Random.Int( 2 ) == 0) {
-
-				map[i] = Terrain.WALL_DECO;
-			}
-		}
-
-		for (int i=w + 1; i < l - w - 1; i++) {
-			if (map[i] == Terrain.EMPTY) {
-
-				int count =
-						(map[i + 1] == Terrain.WALL ? 1 : 0) +
-								(map[i - 1] == Terrain.WALL ? 1 : 0) +
-								(map[i + w] == Terrain.WALL ? 1 : 0) +
-								(map[i - w] == Terrain.WALL ? 1 : 0);
-
-				if (Random.Int( 16 ) < count * count) {
-					map[i] = Terrain.EMPTY_DECO;
 				}
 			}
 		}

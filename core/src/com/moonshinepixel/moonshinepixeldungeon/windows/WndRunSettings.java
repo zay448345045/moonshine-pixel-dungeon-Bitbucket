@@ -163,11 +163,12 @@ public class WndRunSettings extends WndTabbed {
 					Messages.get(this, "classic"), Messages.get(this, "moonshine"), 0, 1) {
 				@Override
 				protected void onChange() {
+					MoonshinePixelDungeon.storyline(getSelectedValue());
 				}
 			};
-			storylineSlider.setSelectedValue(0);
+			storylineSlider.setSelectedValue(MoonshinePixelDungeon.storyline());
 			storylineSlider.setRect(0,genderSlider.height()+9,  WIDTH, SLIDER_HEIGHT);
-			storylineSlider.enabled(false);
+			storylineSlider.enabled(Game.previewmode);
 			add(storylineSlider);
 		}
 	}
