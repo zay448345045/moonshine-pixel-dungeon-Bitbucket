@@ -132,7 +132,11 @@ public class CursingTrap extends Trap {
 		if (item instanceof Weapon){
 			Weapon w = (Weapon) item;
 			if (w.enchantment == null){
-				w.enchantment = Weapon.Enchantment.randomCurse();
+				if (!(w instanceof Gun)) {
+					w.enchantment = Weapon.Enchantment.randomCurse();
+				} else {
+					((Gun) w).enchant(Gun.Attachment.randomCurse());
+				}
 			}
 		}
 		if (item instanceof Armor){

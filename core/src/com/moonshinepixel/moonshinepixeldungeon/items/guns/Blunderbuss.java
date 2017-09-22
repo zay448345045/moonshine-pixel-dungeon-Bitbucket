@@ -12,7 +12,7 @@ public class Blunderbuss extends BulletGun {
     {
         image = ItemSpriteSheet.BLUNDERBUSS;
         this._load.fill(Bullet.class);
-        strAcuMod=false;
+        strAcuMod=true;
     }
     @Override
     public int tier() {
@@ -21,7 +21,7 @@ public class Blunderbuss extends BulletGun {
 
     @Override
     public float reloadTime() {
-        return 0.75f;
+        return 1f;
     }
 
 
@@ -37,7 +37,7 @@ public class Blunderbuss extends BulletGun {
 
     @Override
     public int damageRoll(int lvl) {
-        return (int)(super.damageRoll(lvl)/1.5f);
+        return (int)(super.damageRoll(lvl)/3f);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Blunderbuss extends BulletGun {
     }
     @Override
     public int chargesPerCast() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -56,6 +56,6 @@ public class Blunderbuss extends BulletGun {
 
     @Override
     public float acu() {
-        return 0.75f;
+        return 1.2f;
     }
 }

@@ -26,6 +26,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.GunslingerPistol;
+import com.moonshinepixel.moonshinepixeldungeon.items.guns.Mortair;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.Pistol;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -35,6 +36,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.Dagger;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Dart;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.BleedingBullet;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GrippingTrap;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
@@ -107,22 +109,31 @@ public enum HeroClass {
 
 	private static void initDev( Hero hero ){
 
+		hero.STR=20;
+		Mortair mort = new Mortair();
+		mort.identify().collect();
+
+
+		BleedingBullet bb = new BleedingBullet();
+		bb.quantity(500);
+		bb.identify().collect();
+
+
 		ScrollOfTeleportation sot = new ScrollOfTeleportation();
 		sot.quantity(10);
 		sot.identify().collect();
 
 		ScrollOfMagicMapping somm = new ScrollOfMagicMapping();
 		somm.identify().collect();
-
-		Plant.Seed seed = new Fadeleaf.Seed();
-		seed.collect();
+		somm.quantity(10);
 
 		PotionOfStorm pos = new PotionOfStorm();
 		pos.identify().collect();
 		pos.quantity(10);
 
-		Dart dart = new Dart(120);
-		dart.collect();
+		PotionOfMindVision pomv = new PotionOfMindVision();
+		pomv.quantity(100);
+		pomv.identify().collect();
 
 	}
 

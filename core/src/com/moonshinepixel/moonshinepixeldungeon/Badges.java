@@ -87,6 +87,7 @@ public class Badges {
 		BOSS_SLAIN_1_MAGE,
 		BOSS_SLAIN_1_ROGUE,
 		BOSS_SLAIN_1_HUNTRESS,
+		BOSS_SLAIN_1_GUNSLINGER,
 		BOSS_SLAIN_1( 12 ),
 		BOSS_SLAIN_2( 13 ),
 		BOSS_SLAIN_3( 14 ),
@@ -100,6 +101,8 @@ public class Badges {
 		BOSS_SLAIN_3_ASSASSIN,
 		BOSS_SLAIN_3_SNIPER,
 		BOSS_SLAIN_3_WARDEN,
+		BOSS_SLAIN_3_GANGSTER,
+		BOSS_SLAIN_3_BOMBERMAN,
 		BOSS_SLAIN_3_ALL_SUBCLASSES( 33, true ),
 		RING_OF_HAGGLER( 20 ),
 		RING_OF_THORNS( 21 ),
@@ -212,6 +215,7 @@ public class Badges {
 		String names[] = new String[badges.size()];
 		
 		for (Badge badge:badges) {
+			System.out.println(badge);
 			names[count++] = badge.toString();
 		}
 		bundle.put( BADGES, names );
@@ -621,6 +625,9 @@ public class Badges {
 					case HUNTRESS:
 					badge = Badge.BOSS_SLAIN_1_HUNTRESS;
 					break;
+					case GUNSLINGER:
+					badge = Badge.BOSS_SLAIN_1_GUNSLINGER;
+					break;
 				}
 				local.add( badge );
 				if (!global.contains( badge )) {
@@ -631,6 +638,7 @@ public class Badges {
 				if (global.contains( Badge.BOSS_SLAIN_1_WARRIOR ) &&
 					global.contains( Badge.BOSS_SLAIN_1_MAGE ) &&
 					global.contains( Badge.BOSS_SLAIN_1_ROGUE ) &&
+					global.contains( Badge.BOSS_SLAIN_1_GUNSLINGER ) &&
 					global.contains( Badge.BOSS_SLAIN_1_HUNTRESS)) {
 					
 					badge = Badge.BOSS_SLAIN_1_ALL_CLASSES;
@@ -667,6 +675,12 @@ public class Badges {
 				case WARDEN:
 					badge = Badge.BOSS_SLAIN_3_WARDEN;
 					break;
+					case BOMBERMAN:
+					badge = Badge.BOSS_SLAIN_3_BOMBERMAN;
+					break;
+					case GANGSTER:
+					badge = Badge.BOSS_SLAIN_3_GANGSTER;
+					break;
 				default:
 					return;
 				}
@@ -683,7 +697,9 @@ public class Badges {
 					global.contains( Badge.BOSS_SLAIN_3_FREERUNNER ) &&
 					global.contains( Badge.BOSS_SLAIN_3_ASSASSIN ) &&
 					global.contains( Badge.BOSS_SLAIN_3_SNIPER ) &&
-					global.contains( Badge.BOSS_SLAIN_3_WARDEN )) {
+					global.contains( Badge.BOSS_SLAIN_3_WARDEN ) &&
+					global.contains( Badge.BOSS_SLAIN_3_BOMBERMAN ) &&
+					global.contains( Badge.BOSS_SLAIN_3_GANGSTER )) {
 					
 					badge = Badge.BOSS_SLAIN_3_ALL_SUBCLASSES;
 					if (!global.contains( badge )) {
@@ -711,6 +727,9 @@ public class Badges {
 			break;
 		case HUNTRESS:
 			badge = Badge.MASTERY_HUNTRESS;
+			break;
+			case GUNSLINGER:
+			badge = Badge.MASTERY_GUNSLINGER;
 			break;
 		}
 		

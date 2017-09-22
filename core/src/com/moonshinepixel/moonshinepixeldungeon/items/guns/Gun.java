@@ -474,6 +474,7 @@ public abstract class Gun extends Weapon {
 		partialCharge = bundle.getFloat( PARTIALCHARGE );
 		ammoClass=bundle.getClass(AMMO_CLASS);
 		attachment=(Attachment)bundle.get(ATTACHMENT);
+		enchantment=null;
 	}
 	
 	protected static CellSelector.Listener zapper = new  CellSelector.Listener() {
@@ -616,6 +617,7 @@ public abstract class Gun extends Weapon {
 
     @Override
     public Weapon enchant( Enchantment ench ) {
+		enchantment=null;
     	if (ench!=null) {
 			if (ench.curse()) {
 				return enchant(Attachment.randomCurse());
@@ -637,10 +639,12 @@ public abstract class Gun extends Weapon {
 
             }
         }
+        enchantment=null;
         return this;
     }
     @Override
     public Weapon enchant() {
+		enchantment=null;
 
         Class<? extends Attachment> oldEnchantment = attachment != null ? attachment.getClass() : null;
         Attachment ench = Attachment.random();

@@ -92,7 +92,8 @@ public class WndDisassemble extends Window {
 		};
 		if (subBag!=null){
 			if (subBag.lastItem!=null){
-				if (subBag.lastItem.quantity()>0) {
+				Item itm = hero.belongings.getItem(subBag.lastItem.getClass());
+				if (itm!=null) {
 					System.out.println(subBag.lastItem);
 					btnItem1.item(subBag.lastItem);
 					btnPressed = btnItem1;

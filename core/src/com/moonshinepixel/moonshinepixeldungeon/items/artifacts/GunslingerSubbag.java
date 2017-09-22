@@ -169,4 +169,14 @@ public class GunslingerSubbag extends Artifact {
             }
         }
     }
+
+    @Override
+    public int price(boolean levelKnown, boolean cursedKnown) {
+        return 0;
+    }
+
+    @Override
+    public int price() {
+        return 0;
+    }
 }
