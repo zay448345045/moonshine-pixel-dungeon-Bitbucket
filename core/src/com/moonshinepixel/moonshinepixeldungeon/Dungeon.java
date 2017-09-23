@@ -139,7 +139,7 @@ public class Dungeon {
             11,12,13,14,15,
             16,17,18,19,20,
             21,22,23,24,25,
-            26, 0, 0, 0, 0,
+            26, 1, 1, 1, 1,
              1, 2, 3, 4, 5,
 			 6, 7, 8, 9,10
     };
@@ -202,7 +202,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 
 		storyline=MoonshinePixelDungeon.storyline();
-		depth = storyline==0?0:30;
+		depth = storyline==0?0:26;
 		gold = 0;
 
 		droppedItems = new SparseArray<ArrayList<Item>>();
@@ -299,6 +299,9 @@ public class Dungeon {
 			break;
 		case 26:
 			level = new LastLevel();
+			break;
+		case 27:
+			level = new TestLevel();
 			break;
 		case 31:
 		case 32:

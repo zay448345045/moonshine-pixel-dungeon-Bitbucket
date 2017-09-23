@@ -24,8 +24,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.UnstableSpellbook;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.IncendiaryBomb;
+import com.moonshinepixel.moonshinepixeldungeon.items.bombs.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.MysteryMeat;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Pasty;
@@ -45,8 +44,6 @@ import com.moonshinepixel.moonshinepixeldungeon.plants.Stormvine;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Sungrass;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Ghost;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.LeatherArmor;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.AshBomb;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfBlastWave;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfCorruption;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfMagicMissile;
@@ -147,7 +144,9 @@ public class Generator {
 		ARTIFACT( 15,   Artifact.class),
 		SEED	( 50,	Plant.Seed.class ),
 		FOOD	( 0,	Food.class ),
-		BOMB	( 100,	Bomb.class ),
+		BOMB	( 0,	Bomb.class ),
+		TRAP	( 0,	TrapPlacer.class ),
+		UTILITY	( 100,	Item.class ),
 		GOLD	( 500,	Gold.class );
 		
 		public Class<?>[] classes;
@@ -266,9 +265,18 @@ public class Generator {
 				AshBomb.class,
 				IncendiaryBomb.class,
                 ShrapnelBomb.class,
+				ClusterBomb.class
+        };
+        Category.BOMB.probs = new float[]{ 12, 1, 1, 1, 2 };
+
+        Category.TRAP.classes = new Class<?>[]{
                 TrapPlacer.class
         };
-        Category.BOMB.probs = new float[]{ 12, 1, 1, 1, 7.5f};
+        Category.TRAP.probs = new float[]{ 1 };
+
+        Category.UTILITY.classes = new Class<?>[]{
+        };
+        Category.UTILITY.probs = new float[]{};
 
         Category.GUN.classes = new Class<?>[]{
                 GunslingerPistol.class,
@@ -428,6 +436,8 @@ public class Generator {
 				Item item = randomArtifact();
 				//if we're out of artifacts, return a ring instead.
 				return item != null ? item : random(Category.RING);
+			case UTILITY:
+				return random(Random.oneOf(Category.BOMB,Category.BOMB,Category.TRAP));
 			default:
 				return ((Item)cat.classes[Random.chances( cat.probs )].newInstance()).random();
 			}

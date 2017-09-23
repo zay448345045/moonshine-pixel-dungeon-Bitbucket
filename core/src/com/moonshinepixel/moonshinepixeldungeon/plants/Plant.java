@@ -140,7 +140,7 @@ public abstract class Plant implements Bundlable {
 		}
 		
 		@Override
-		protected void onThrow( int cell ) {
+        public void onThrow(int cell) {
 			if (Dungeon.level.map[cell] == Terrain.ALCHEMY || Level.pit[cell] || Dungeon.level.traps.get(cell) != null || Blob.volumeAt(cell, ShopBlob.class)>0) {
 				super.onThrow( cell );
 			} else {

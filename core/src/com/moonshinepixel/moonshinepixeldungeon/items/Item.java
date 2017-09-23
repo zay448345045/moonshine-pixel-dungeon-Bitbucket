@@ -153,7 +153,7 @@ public class Item implements Bundlable {
 		execute( hero, defaultAction );
 	}
 	
-	protected void onThrow( int cell ) {
+	public void onThrow(int cell) {
 		Heap heap = Dungeon.level.drop( this, cell );
 		if (!heap.isEmpty()) {
 			heap.sprite.drop( cell );

@@ -52,7 +52,7 @@ public abstract class BulletAmmo extends Ammo {
     return Messages.get(this, "desc");
     }
     @Override
-    protected void onThrow( int cell ) {
+    public void onThrow(int cell) {
         Heap heap = Dungeon.level.drop( this, cell );
         if (!heap.isEmpty()) {
             heap.sprite.drop( cell );

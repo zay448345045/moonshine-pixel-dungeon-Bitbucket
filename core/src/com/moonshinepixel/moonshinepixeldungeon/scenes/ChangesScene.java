@@ -39,6 +39,10 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update =
 			"_NOTE:_ Desktop version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.8 - alpha:_\n" +
+					"_-_ Fixed some bugs, Added cluster bomb, added new enemy - bombergnoll"+
+					"\n" +
+					"\n" +
 					"_v0.1.7 - alpha:_\n" +
 					"_-_ Fixed crash on leaving tengu's floor, Fixed bugs with gunslinger's subbag, some other guns-related bugfixes"+
 					"\n" +

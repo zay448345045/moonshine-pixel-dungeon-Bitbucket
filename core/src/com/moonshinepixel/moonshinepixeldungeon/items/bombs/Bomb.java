@@ -51,11 +51,12 @@ public class Bomb extends Item {
 
 		stackable = true;
 	}
-
+	public boolean canPickup = true;
 	public Fuse fuse;
+	public int fuseDly = 2;
 
 	//FIXME using a static variable for this is kinda gross, should be a better way
-	protected static boolean lightingFuse = false;
+	public static boolean lightingFuse = false;
 
 	protected static final String AC_LIGHTTHROW = "LIGHTTHROW";
 
@@ -84,9 +85,9 @@ public class Bomb extends Item {
 	}
 
 	@Override
-	protected void onThrow( int cell ) {
+	public void onThrow(int cell) {
 		if (!Level.pit[ cell ] && lightingFuse) {
-			Actor.addDelayed(fuse = new Fuse().ignite(this), 2);
+			Actor.addDelayed(fuse = new Fuse().ignite(this), fuseDly);
 		}
 		if (Actor.findChar( cell ) != null && !(Actor.findChar( cell ) instanceof Hero) ){
 			ArrayList<Integer> candidates = new ArrayList<>();
@@ -101,11 +102,13 @@ public class Bomb extends Item {
 
 	@Override
 	public boolean doPickUp(Hero hero) {
-		if (fuse != null) {
-			GLog.w( Messages.get(this, "snuff_fuse") );
-			fuse = null;
-		}
-		return super.doPickUp(hero);
+		if (canPickup) {
+			if (fuse != null) {
+				GLog.w(Messages.get(this, "snuff_fuse"));
+				fuse = null;
+			}
+			return super.doPickUp(hero);
+		} else return false;
 	}
 	public void explode(int cell) {
 		explode(cell, false);
@@ -116,9 +119,12 @@ public class Bomb extends Item {
 		this.fuse = null;
 
 		Sample.INSTANCE.play( Assets.SND_BLAST );
+		try {
+			if (Dungeon.visible[cell]) {
+				CellEmitter.center(cell).burst(BlastParticle.FACTORY, 30);
+			}
+		} catch (Exception e){
 
-		if (Dungeon.visible[cell]) {
-			CellEmitter.center( cell ).burst( BlastParticle.FACTORY, 30 );
 		}
 
 		boolean terrainAffected = false;
@@ -145,7 +151,7 @@ public class Bomb extends Item {
                     if (ch != null && !(safe && ch instanceof Hero)) {
                         //those not at the center of the blast take damage less consistently.
                         int minDamage = c == cell ? Dungeon.fakedepth[Dungeon.depth] + 5 : 1;
-                        int maxDamage = 10 + Dungeon.fakedepth[Dungeon.depth] * 2;
+                        int maxDamage = 10 + Dungeon.fakedepth[Dungeon.depth] * 4;
 
                         int dmg = Random.NormalIntRange(minDamage, maxDamage) - ch.drRoll();
                         if (dmg > 0) {
@@ -207,16 +213,19 @@ public class Bomb extends Item {
 	}
 
 	private static final String FUSE = "fuse";
+	private static final String CANPU= "canpickup";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 		bundle.put( FUSE, fuse );
+		bundle.put( CANPU, canPickup);
 	}
 
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
+		canPickup=bundle.getBoolean(CANPU);
 		if (bundle.contains( FUSE ))
 			Actor.add( fuse = ((Fuse)bundle.get(FUSE)).ignite(this) );
 	}

@@ -57,6 +57,11 @@ public class Bestiary {
 //				cl = Caustic.class;
 			}
 		}
+		if (Random.Int(10)==0){
+			if (cl==Gnoll.class){
+				cl=Bomberman.class;
+			}
+		}
 		
 		try {
 			return ClassReflection.newInstance(cl);

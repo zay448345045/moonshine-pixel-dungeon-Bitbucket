@@ -23,6 +23,8 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
+import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ClusterBomb;
+import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.GunslingerPistol;
@@ -118,6 +120,9 @@ public enum HeroClass {
 		bb.quantity(500);
 		bb.identify().collect();
 
+		ClusterBomb sb = new ClusterBomb();
+		sb.quantity(50);
+		sb.collect();
 
 		ScrollOfTeleportation sot = new ScrollOfTeleportation();
 		sot.quantity(10);

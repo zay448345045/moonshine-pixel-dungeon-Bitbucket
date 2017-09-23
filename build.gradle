@@ -16,9 +16,9 @@ allprojects {
 	apply plugin: "eclipse"
 	apply plugin: "idea"
 
-	version = '0.1.7 - alpha'
+	version = '0.1.8 - alpha'
 	ext {
-		versionCode = 47
+		versionCode = 48
 		appName = 'moonshine-pixel-dungeon'
 		appTitle = 'moonshine Pixel Dungeon'
 		appId = 'com.moonshinepixel.moonshinepixeldungeon'

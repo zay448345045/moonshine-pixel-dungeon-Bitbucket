@@ -253,8 +253,16 @@ public class WndDisassemble extends Window {
 			if (item.cursed) {
 				quanity /= 2;
 			}
+			if (item.quantity()<=1){
+				if (subBag!=null){
+					if (subBag.lastItem==item){
+						subBag.lastItem=null;
+					}
+				}
+			}
 			item.detach(Dungeon.hero.belongings.backpack);
 			overAllQuanity+=quanity;
+
 		}
 		if (overAllQuanity>0) {
 	    	if (!all) {

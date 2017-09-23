@@ -118,11 +118,17 @@ public class ItemSpriteSheet {
 	public static final int BOMB2           = EXPLOSIVES+1;
 	public static final int BOMB3           = EXPLOSIVES+2;
 	public static final int BOMB4           = EXPLOSIVES+3;
+	public static final int SMALLBOMB       = EXPLOSIVES+4;
+	public static final int SMALLBOMB2      = EXPLOSIVES+5;
+	public static final int CLUSTERBOMB     = EXPLOSIVES+6;
 	static {
 		assignItemRect(BOMB,             10, 13);
 		assignItemRect(BOMB2,            10, 13);
 		assignItemRect(BOMB3,            10, 13);
 		assignItemRect(BOMB4,            10, 13);
+		assignItemRect(SMALLBOMB,        8,  10);
+		assignItemRect(SMALLBOMB2,       8,  10);
+		assignItemRect(CLUSTERBOMB,      12, 16);
 	}
 
 
@@ -241,7 +247,7 @@ public class ItemSpriteSheet {
 		assignItemRect(CURARE_DART,     15, 15);
 		assignItemRect(JAVELIN,         16, 16);
 		assignItemRect(TOMAHAWK,        13, 13);
-		assignItemRect(BULLET,      	16, 16);
+		assignItemRect(BULLET,      	16, 11);
 		assignItemRect(GIGANTSHURIKEN,	16, 16);
 	}
 
