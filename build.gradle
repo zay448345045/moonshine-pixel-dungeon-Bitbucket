@@ -47,19 +47,23 @@ project(":desktop") {
 	}
 }
 
-/*project(":android") {
+project(":android") {
+	//Uses the android gradle plugin (provides compiling, copying on device, etc.)
 	apply plugin: "android"
 
 	configurations { natives }
 
+	//Defines dependencies for the :android project
 	dependencies {
+		//Adds dependencies on the :core project as well as the android backends and all platform natives.
+		//Note the 'natives' classifier in this project.
 		compile project(":core")
 		compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
 		natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
 		natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+		natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
 		natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-		compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
-		compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
+		natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
 	}
 }
 
@@ -78,7 +82,7 @@ project(":ios") {
 	}
 }
 
-project(":html") {
+/*project(":html") {
 	apply plugin: "gwt"
 	apply plugin: "war"
 

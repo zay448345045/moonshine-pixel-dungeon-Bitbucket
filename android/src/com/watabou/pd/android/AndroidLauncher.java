@@ -24,7 +24,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.moonshinepixel.moonshinepixeldungeon.ShatteredPixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.watabou.utils.PDPlatformSupport;
 
@@ -42,6 +42,6 @@ public class AndroidLauncher extends AndroidApplication {
 			version = "???";
 			versionCode = 0;
 		}
-		initialize(new ShatteredPixelDungeon(new PDPlatformSupport<GameAction>(version, versionCode, null, new AndroidInputProcessor())), config);
+		initialize(new MoonshinePixelDungeon(new PDPlatformSupport<GameAction>(version, versionCode, null, new AndroidInputProcessor(),false)), config);
 	}
 }
