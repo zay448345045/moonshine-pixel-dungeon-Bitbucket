@@ -23,6 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
 import com.moonshinepixel.moonshinepixeldungeon.items.Honeypot;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
+import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
@@ -55,7 +56,7 @@ public class StorageRoom extends SpecialRoom {
 		}
 		
 		entrance().set( Room.Door.Type.BARRICADE );
-		level.addItemToSpawn( new PotionOfLiquidFlame() );
+		level.addItemToSpawn(Random.oneOf(new PotionOfLiquidFlame(), new Bomb()));
 	}
 	
 	private static Item prize(Level level ) {

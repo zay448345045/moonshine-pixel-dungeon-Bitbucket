@@ -72,7 +72,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	//the width and height of the shadow are a percentage of sprite size
 	//offset is the number of pixels the shadow is moved down or up (handy for some animations)
-	protected boolean renderShadow  = false;
+	public boolean renderShadow  = false;
 	protected float shadowWidth     = 1.2f;
 	protected float shadowHeight    = 0.25f;
 	protected float shadowOffset    = 0.25f;

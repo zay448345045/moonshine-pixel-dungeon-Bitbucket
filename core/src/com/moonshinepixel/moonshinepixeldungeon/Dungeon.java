@@ -202,7 +202,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 
 		storyline=MoonshinePixelDungeon.storyline();
-		depth = storyline==0?0:26;
+		depth = storyline==0?0:34;
 		gold = 0;
 
 		droppedItems = new SparseArray<ArrayList<Item>>();
@@ -308,6 +308,9 @@ public class Dungeon {
 		case 33:
 		case 34:
 			level = new VolcanoLevel();
+			break;
+		case 35:
+			level = new VolcanoBossLevel();
 			break;
 //		case 31:
 //			level= new MazeLevel();
@@ -769,7 +772,6 @@ public class Dungeon {
 	}
 	
 	public static void observe( int dist ) {
-
         if (level == null) {
             return;
         }
@@ -797,7 +799,7 @@ public class Dungeon {
 			for (int y = ay; y <= by; y++, pos+=level.width()) {
 				BArray.or( level.visited, visible, pos, len, level.visited );
 			}
-			GameScene.updateFog(ax, ay, len, by-ay);
+			GameScene.updateFog(ax, ay, len, by - ay);
 		}
 
 

@@ -26,7 +26,7 @@ import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 
 public final class ShadowCaster {
 
-	private static final int MAX_DISTANCE = 8;
+	private static final int MAX_DISTANCE = 64;
 
 	private static boolean[] falseArray;
 	

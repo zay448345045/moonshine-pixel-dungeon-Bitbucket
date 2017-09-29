@@ -39,9 +39,20 @@ public class Mortair extends BulletGun {
         return 1;
     }
 
+//    @Override
+//    public int damageRoll(int lvl) {
+//        return (int)(super.damageRoll(lvl)*1.2f);
+//    }
+
+
     @Override
-    public int damageRoll(int lvl) {
-        return (int)(super.damageRoll(lvl)*1.2f);
+    public int minWnd() {
+        return (int)(super.minWnd()*1.2f);
+    }
+
+    @Override
+    public int maxWnd() {
+        return (int)(super.maxWnd()*1.2f);
     }
 
     @Override

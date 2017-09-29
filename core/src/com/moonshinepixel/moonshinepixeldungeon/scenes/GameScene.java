@@ -90,7 +90,7 @@ import java.util.Locale;
 
 public class GameScene extends PixelScene {
 	
-	static GameScene scene;
+	public static GameScene scene;
 
 	private SkinnedBlock water;
 	private DungeonTerrainTilemap tiles;
@@ -117,7 +117,7 @@ public class GameScene extends PixelScene {
 	private Group plants;
 	private Group traps;
 	private Group heaps;
-	private Group mobs;
+	public Group mobs;
 	private Group emitters;
 	private Group effects;
 	private Group gases;

@@ -26,6 +26,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
 import com.moonshinepixel.moonshinepixeldungeon.items.Gold;
 import com.moonshinepixel.moonshinepixeldungeon.items.Heap;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
+import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.moonshinepixel.moonshinepixeldungeon.items.quest.CorpseDust;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
@@ -51,7 +52,7 @@ public class MassGraveRoom extends SpecialRoom {
 
 		Room.Door entrance = entrance();
 		entrance.set(Room.Door.Type.BARRICADE);
-		level.addItemToSpawn(new PotionOfLiquidFlame());
+		level.addItemToSpawn(Random.oneOf(new PotionOfLiquidFlame(), new Bomb()));
 
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.EMPTY_SP);

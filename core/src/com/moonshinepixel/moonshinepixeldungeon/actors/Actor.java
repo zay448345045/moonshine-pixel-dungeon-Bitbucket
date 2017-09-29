@@ -49,7 +49,11 @@ public abstract class Actor implements Bundlable {
 	protected void spend( float time ) {
 		this.time += time;
 	}
-	
+
+	public void enable(){
+		this.time=now;
+	}
+
 	protected void postpone( float time ) {
 		if (this.time < now + time) {
 			this.time = now + time;
@@ -60,7 +64,7 @@ public abstract class Actor implements Bundlable {
 		return time - now;
 	}
 	
-	protected void diactivate() {
+	public void diactivate() {
 		time = Float.MAX_VALUE;
 	}
 	

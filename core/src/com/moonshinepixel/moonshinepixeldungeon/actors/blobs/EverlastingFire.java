@@ -22,18 +22,17 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.blobs;
 
 
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
+import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.effects.BlobEmitter;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
-import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
+import com.moonshinepixel.moonshinepixeldungeon.effects.particles.EverFlameParticle;
+import com.moonshinepixel.moonshinepixeldungeon.effects.particles.FlameParticle;
 import com.moonshinepixel.moonshinepixeldungeon.items.Heap;
+import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.RatSprite;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
 
-public class DevMarkerBlob extends Blob {
+public class EverlastingFire extends Blob {
 
 
 	{
@@ -50,10 +49,16 @@ public class DevMarkerBlob extends Blob {
 		for (int i = area.left; i < area.right; i++){
 			for (int j = area.top; j < area.bottom; j++){
 				cell = i + j* Dungeon.level.width();
-				off[cell] = cur[cell] > 0 ? cur[cell] - 0 : 0;
+				off[cell] = cur[cell];
 
 				if (off[cell] > 0) {
 					volume += off[cell];
+				}
+				if (cur[cell]>0){
+					Fire.burn(cell);
+					if (Actor.findChar(cell)!=null||Dungeon.level.heaps.get(cell)!=null||Level.flamable[cell]){
+						Blob.seed(cell,2,Fire.class);
+					}
 				}
 			}
 		}
@@ -64,7 +69,7 @@ public class DevMarkerBlob extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 
-		emitter.pour( ElmoParticle.FACTORY, 0.1f );
+		emitter.start( EverFlameParticle.FACTORY, 0.03f, 0 );
 	}
 
 	@Override
@@ -77,8 +82,8 @@ public class DevMarkerBlob extends Blob {
 		Heap heap = Dungeon.level.heaps.get(cell);
 		if (heap!=null) {
 			if (heap.type == Heap.Type.FOR_SALE) {
-				CellEmitter.get(heap.pos).burst(ElmoParticle.FACTORY, 4);
-				heap.destroy();
+				CellEmitter.get(heap.pos).burst(FlameParticle.FACTORY, 4);
+				Blob.seed(cell,6,Fire.class);
 			}
 		}
 		super.explode(cell);

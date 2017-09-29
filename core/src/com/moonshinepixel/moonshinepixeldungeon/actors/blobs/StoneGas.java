@@ -58,7 +58,7 @@ public class StoneGas extends Blob {
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		
-		emitter.pour( Speck.factory( Speck.ASH ), 0.2f );
+		emitter.pour( Speck.factory( Speck.SMOKE), 0.2f );
 	}
 	
 	@Override

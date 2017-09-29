@@ -324,6 +324,17 @@ public class Bundle {
 			reportException(e);
 		}
 	}
+	public void put( String key, Integer[] array ) {
+		try {
+			JSONArray jsonArray = new JSONArray();
+			for (int i=0; i < array.length; i++) {
+				jsonArray.put( i, array[i] );
+			}
+			data.put( key, jsonArray );
+		} catch (JSONException e) {
+			reportException(e);
+		}
+	}
 	
 	public void put( String key, boolean[] array ) {
 		try {

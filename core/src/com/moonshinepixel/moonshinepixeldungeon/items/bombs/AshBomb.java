@@ -3,7 +3,7 @@ package com.moonshinepixel.moonshinepixeldungeon.items.bombs;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.AshGas;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.SmokeGas;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
@@ -66,18 +66,18 @@ public class AshBomb extends Bomb {
             Dungeon.level.press(cell, null);
 
             Dungeon.spark(cell);
-            GameScene.add(Blob.seed(cell, 100, AshGas.class));
+            GameScene.add(Blob.seed(cell, 100, SmokeGas.class));
             int gas = 100;
             for(int n: PathFinder.NEIGHBOURS4) {
                 if (!Dungeon.level.getSolid(cell+n)) {
                     Dungeon.spark(cell + n);
-                    GameScene.add(Blob.seed(cell + n, 100, AshGas.class));
+                    GameScene.add(Blob.seed(cell + n, 100, SmokeGas.class));
                 } else {
                     gas+=100;
                 }
             }
             Dungeon.spark(cell);
-            GameScene.add(Blob.seed(cell, gas, AshGas.class));
+            GameScene.add(Blob.seed(cell, gas, SmokeGas.class));
         } catch (Exception e){
 
         }

@@ -22,20 +22,19 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 
 import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
+import com.moonshinepixel.moonshinepixeldungeon.items.bombs.AshBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ClusterBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
-import com.moonshinepixel.moonshinepixeldungeon.items.guns.GunslingerPistol;
-import com.moonshinepixel.moonshinepixeldungeon.items.guns.Mortair;
-import com.moonshinepixel.moonshinepixeldungeon.items.guns.Pistol;
+import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.Dagger;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Dart;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.BleedingBullet;
@@ -44,14 +43,10 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.items.BrokenSeal;
 import com.moonshinepixel.moonshinepixeldungeon.items.TomeOfMastery;
-import com.moonshinepixel.moonshinepixeldungeon.items.guns.Gun;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfHealing;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfMindVision;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfMagicMissile;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.Knuckles;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.MagesStaff;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.WornShortsword;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.ClothArmor;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.CloakOfShadows;
@@ -112,9 +107,12 @@ public enum HeroClass {
 	private static void initDev( Hero hero ){
 
 		hero.STR=20;
-		Mortair mort = new Mortair();
-		mort.identify().collect();
+//		Mortair mort = new Mortair();
+//		mort.identify().collect();
 
+		Blunderbuss blb = new Blunderbuss();
+		blb.identify().collect();
+		blb.level(3);
 
 		BleedingBullet bb = new BleedingBullet();
 		bb.quantity(500);
@@ -139,6 +137,24 @@ public enum HeroClass {
 		PotionOfMindVision pomv = new PotionOfMindVision();
 		pomv.quantity(100);
 		pomv.identify().collect();
+
+		GiantShuriken gs = new GiantShuriken();
+		gs.identify().collect();
+		gs.upgrade(3);
+		gs.enchant();
+
+		Sword sw = new Sword();
+		sw.identify().collect();
+		sw.upgrade(3);
+		sw.enchant();
+
+		AshBomb abmb = new AshBomb();
+		abmb.quantity(15);
+		abmb.collect();
+
+//		while (new Knuckles().collect()){
+//			//nothing
+//		}
 
 	}
 

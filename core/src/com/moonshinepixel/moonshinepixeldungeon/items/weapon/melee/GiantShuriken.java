@@ -81,6 +81,7 @@ public class GiantShuriken extends MeleeWeapon {
 
     @Override
     public void execute(Hero hero, String action) {
+	    curItem=this;
         if (action.equals(AC_THROWBIG) && this.isEquipped(hero)){
             if (!cursed)
                 GameScene.selectCell( ((GiantShuriken) Item.curItem).throwerbig );

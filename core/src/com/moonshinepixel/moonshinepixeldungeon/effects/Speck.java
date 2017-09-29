@@ -59,7 +59,7 @@ public class Speck extends Image {
 	public static final int VENOM		= 108;
 	public static final int PARALYSIS	= 109;
 	public static final int FLAMABLE	= 110;
-	public static final int ASH			= 111;
+	public static final int SMOKE		= 111;
 	public static final int DUST		= 112;
 	public static final int STENCH      = 113;
 	public static final int FORGE		= 114;
@@ -112,7 +112,7 @@ public class Speck extends Image {
 		case VENOM:
 		case PARALYSIS:
 		case FLAMABLE:
-		case ASH:
+		case SMOKE:
 		case STENCH:
 		case CONFUSION:
 		case DUST:
@@ -312,7 +312,7 @@ public class Speck extends Image {
 			lifespan = Random.Float( 1f, 3f );
 			break;
 
-		case ASH:
+		case SMOKE:
 			hardlight( 0x000000 );
 			angularSpeed = -30;
 			angle = Random.Float( 360 );
@@ -441,7 +441,7 @@ public class Speck extends Image {
 			case TOXIC:
 			case PARALYSIS:
 			case FLAMABLE:
-			case ASH:
+			case SMOKE:
 			case STORM:
 			case CONFUSION:
 			case DUST:

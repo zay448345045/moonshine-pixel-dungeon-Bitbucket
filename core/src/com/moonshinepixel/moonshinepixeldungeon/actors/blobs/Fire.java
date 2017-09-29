@@ -86,7 +86,7 @@ public class Fire extends Blob {
 		}
 	}
 	
-	private void burn( int pos ) {
+	public static void burn( int pos ) {
 		Char ch = Actor.findChar( pos );
 		if (ch != null) {
 			Buff.affect( ch, Burning.class ).reignite( ch );

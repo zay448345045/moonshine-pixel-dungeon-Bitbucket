@@ -27,7 +27,7 @@ import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.effects.BlobEmitter;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 
-public class AshGas extends Blob {
+public class SmokeGas extends Blob {
 
     @Override
     public void seed(Level level, int cell, int amount) {
@@ -35,30 +35,30 @@ public class AshGas extends Blob {
         Dungeon.observe();
     }
 
-    @Override
-	protected void evolve() {
-		super.evolve();
-		Char ch;
-		int cell;
-
-		for (int i = area.left; i < area.right; i++) {
-			for (int j = area.top; j < area.bottom; j++) {
-				cell = i + j * Dungeon.level.width();
-				if (cur[cell]>0) {
-                    Dungeon.observe();
-                    int oldCur = cur[cell];
-				    cur[cell]/=1.2;
-				    volume-=(oldCur-cur[cell]);
-				}
-			}
-		}
-	}
+//    @Override
+//	protected void evolve() {
+//		super.evolve();
+//		Char ch;
+//		int cell;
+//
+//		for (int i = area.left; i < area.right; i++) {
+//			for (int j = area.top; j < area.bottom; j++) {
+//				cell = i + j * Dungeon.level.width();
+//				if (cur[cell]>0) {
+//                    Dungeon.observe();
+//                    int oldCur = cur[cell];
+//				    cur[cell]/=1.2;
+//				    volume-=(oldCur-cur[cell]);
+//				}
+//			}
+//		}
+//	}
 	
 	@Override
 	public void use( BlobEmitter emitter ) {
 		super.use( emitter );
 		
-		emitter.pour( Speck.factory( Speck.ASH ), 0.2f );
+		emitter.pour( Speck.factory( Speck.SMOKE), 0.2f );
 	}
 	
 	@Override

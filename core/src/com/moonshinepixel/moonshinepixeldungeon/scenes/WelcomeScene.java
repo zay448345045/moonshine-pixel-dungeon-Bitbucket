@@ -38,7 +38,7 @@ import com.watabou.utils.Random;
 
 public class WelcomeScene extends PixelScene {
 
-	private static int LATEST_UPDATE = 44;
+	private static int LATEST_UPDATE = 49;
 
 	@Override
 	public void create() {

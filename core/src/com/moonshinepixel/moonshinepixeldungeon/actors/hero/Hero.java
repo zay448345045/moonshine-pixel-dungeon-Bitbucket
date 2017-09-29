@@ -22,6 +22,8 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 
 import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.DevMarkerBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
@@ -38,12 +40,9 @@ import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Sungrass;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
-import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
-import com.moonshinepixel.moonshinepixeldungeon.items.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.glyphs.Obfuscation;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.glyphs.Stone;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.glyphs.Swiftness;
@@ -74,11 +73,8 @@ import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndMessage;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndTradeItem;
-import com.moonshinepixel.moonshinepixeldungeon.*;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CheckedCell;
-import com.moonshinepixel.moonshinepixeldungeon.items.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.glyphs.AntiMagic;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.glyphs.Flow;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.EtherealChains;
@@ -1525,7 +1521,6 @@ public class Hero extends Char {
 	@Override
 	public void move( int step ) {
 		super.move( step );
-		
 		if (!flying) {
 			
 			if (Level.water[pos]) {

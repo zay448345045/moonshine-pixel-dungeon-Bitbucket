@@ -24,7 +24,7 @@ import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.AshGas;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.SmokeGas;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Invisibility;
@@ -272,15 +272,17 @@ public abstract class Gun extends Weapon {
 		String desc = desc();
 
 		desc += "\n\n" + statsDesc();
-        if (attachment!=null){
-            if(!attachment.curse()) {
-                desc += "\n\n" + Messages.get(Gun.class, "attachment", attachment.name());
-                desc += "\n" + attachment.desc();
-            } else {
-                desc += "\n\n" + Messages.get(Gun.class, "cursedattachment", attachment.name());
-                desc += "\n" + attachment.desc();
-            }
-        }
+		if(isIdentified()||(cursed&&cursedKnown)) {
+			if (attachment != null) {
+				if (!attachment.curse()) {
+					desc += "\n\n" + Messages.get(Gun.class, "attachment", attachment.name());
+					desc += "\n" + attachment.desc();
+				} else {
+					desc += "\n\n" + Messages.get(Gun.class, "cursedattachment", attachment.name());
+					desc += "\n" + attachment.desc();
+				}
+			}
+		}
 		if (cursed && cursedKnown)
 			desc += "\n\n" + Messages.get(Gun.class, "cursed");
 
@@ -795,7 +797,7 @@ public abstract class Gun extends Weapon {
     public abstract boolean hit( Char attacker, Char defender);
     public void cursedZap(Ballistica shot, Hero hero, Gun gun){
         int cell = hero.pos;
-        GameScene.add(Blob.seed(cell, 100, AshGas.class));
+        GameScene.add(Blob.seed(cell, 100, SmokeGas.class));
         if (Random.Int(100)<25){
             Buff.prolong(hero,Vertigo.class,2);
         }

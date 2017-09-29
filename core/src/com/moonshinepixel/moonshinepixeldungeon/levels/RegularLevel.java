@@ -206,7 +206,7 @@ public abstract class RegularLevel extends Level {
 	protected void createMobs() {
 		float mod = Dungeon.isChallenged(Challenges.HORDE)?1:Challenges.hiveMobsMod();
 		//on floor 1, 10 rats are created so the player can get level 2.
-		int mobsToSpawn = Dungeon.depth == 1 ? (int)(10*mod) : nMobs();
+		int mobsToSpawn = Dungeon.depth == 1 ? (int)(10*mod*0) : nMobs();
 		
 		ArrayList<Room> stdRooms = new ArrayList<>();
 		for (Room room : rooms) {

@@ -32,12 +32,22 @@ public class Blunderbuss extends BulletGun {
 
     @Override
     protected int initialCharges() {
-        return 2;
+        return 1;
+    }
+
+//    @Override
+//    public int damageRoll(int lvl) {
+//        return (int)(super.damageRoll(lvl)/3f);
+//    }
+
+    @Override
+    public int minWnd(int lvl) {
+        return super.minWnd(lvl)/3;
     }
 
     @Override
-    public int damageRoll(int lvl) {
-        return (int)(super.damageRoll(lvl)/3f);
+    public int maxWnd() {
+        return super.maxWnd()/3;
     }
 
     @Override

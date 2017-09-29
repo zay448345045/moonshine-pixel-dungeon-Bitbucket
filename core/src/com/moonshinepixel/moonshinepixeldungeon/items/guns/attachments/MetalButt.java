@@ -27,8 +27,8 @@ public class MetalButt extends Gun.Attachment{
                     0.85f,   //accuracy mod
                     1f,      //reload speed mod
                     1f,      //shooting speed mod
-                    1.25f,      //melee min dmg mod
-                    1.25f,      //melee max dmg mod
+                    1.1f,      //melee min dmg mod
+                    1.1f,      //melee max dmg mod
             };
             return mods;
         } else {

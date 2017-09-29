@@ -108,7 +108,7 @@ public abstract class Level implements Bundlable {
     }
     public static boolean getLosBlocking(int cell) {
         boolean ret = losBlocking[cell];
-        if (Blob.volumeAt(cell, AshGas.class)>0){
+        if (Blob.volumeAt(cell, SmokeGas.class)>=1){
             ret = true;
         }
         return ret;
@@ -863,7 +863,7 @@ public abstract class Level implements Bundlable {
         trapsObjects.remove( pos );
     }
 
-	public Trap setTrap( Trap trap, int pos ){
+	public<T extends Trap> T setTrap( T trap, int pos ){
 		Trap existingTrap = traps.get(pos);
 		if (existingTrap != null){
 			traps.remove( pos );
@@ -1077,7 +1077,9 @@ public abstract class Level implements Bundlable {
 						Dungeon.hero.mindVisionEnemies.add(mob);
 					}
 					for (int i : PathFinder.NEIGHBOURS9)
-						fieldOfView[p+i] = true;
+						if (insideMap(p + i)) {
+							fieldOfView[p + i] = true;
+						}
 
 				}
 			} else if (((Hero)c).heroClass == HeroClass.HUNTRESS) {

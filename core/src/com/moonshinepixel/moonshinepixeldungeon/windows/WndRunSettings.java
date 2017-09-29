@@ -96,6 +96,7 @@ public class WndRunSettings extends WndTabbed {
 		};
 		add( uiLabel );
         uiLabel.setEnabled(MoonshinePixelDungeon.devlevel()>0);
+//        uiLabel.setEnabled(true);
 
         LabeledTab chLabel = new LabeledTab(Messages.get(this, "challenges")){
             @Override
@@ -168,7 +169,8 @@ public class WndRunSettings extends WndTabbed {
 			};
 			storylineSlider.setSelectedValue(MoonshinePixelDungeon.storyline());
 			storylineSlider.setRect(0,genderSlider.height()+9,  WIDTH, SLIDER_HEIGHT);
-			storylineSlider.enabled(Game.previewmode);
+//			storylineSlider.enabled(Game.previewmode);
+			storylineSlider.enabled(true);
 			add(storylineSlider);
 		}
 	}

@@ -22,9 +22,14 @@ package com.moonshinepixel.moonshinepixeldungeon.levels;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Bomberman;
+import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.StoneSnake;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DeadlySpearTrap;
+import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 
 public class TestLevel extends Level {
@@ -45,7 +50,25 @@ public class TestLevel extends Level {
 	public String waterTex() {
 		return Assets.WATER_HALLS;
 	}
-	
+
+
+	protected void setTraps(){
+		int center = (SIZE / 2 + 1) * (width() + 1);
+//		setTrap(new DeadlySpearTrap(),center).reveal();
+//		map[center]=Terrain.TRAP;
+		for (int i=1; i <= SIZE; i++) {
+			map[width() + i] =
+					map[width() * SIZE + i] =
+							map[width() * i + 1] =
+									map[width() * i + SIZE] =
+											Terrain.TRAP;
+			setTrap(new DeadlySpearTrap(),width() + i).reveal();
+			setTrap(new DeadlySpearTrap(),width() * SIZE + i).reveal();
+			setTrap(new DeadlySpearTrap(),width() * i + 1).reveal();
+			setTrap(new DeadlySpearTrap(),width() * i + SIZE).reveal();
+		}
+	}
+
 	@Override
 	protected boolean build() {
 		
@@ -66,25 +89,59 @@ public class TestLevel extends Level {
 				Terrain.WATER;
 		}
 		int center = (SIZE / 2 + 1) * (width() + 1);
-		Painter.fill(this,center%width()-3,center/width()-2,7,5,Terrain.WALL);
-		Painter.fill(this,center%width()-2,center/width()-1,5,3,Terrain.EMPTY);
-		Painter.fill(this,center%width(),center/width()+2,1,1,Terrain.DOOR);
+//		Painter.fill(this,center%width()-3,center/width()-2,7,5,Terrain.WALL);
+//		Painter.fill(this,center%width()-2,center/width()-1,5,3,Terrain.EMPTY);
+//		Painter.fill(this,center%width(),center/width()+2,1,1,Terrain.DOOR);
+
 
 		entrance = SIZE * width() + SIZE / 2 + 1;
-		map[entrance] = Terrain.ENTRANCE;
 		
 		map[(SIZE / 2 + 1) * (width() + 1)] = Terrain.SIGN;
 		
 		exit = 0;
-		
+
+		setTraps();
+		traps.remove(entrance);
+		map[entrance] = Terrain.ENTRANCE;
+		GameScene.updateMap();
 		return true;
 	}
 
 	@Override
 	protected void createMobs() {
-		Mob mob = new Bomberman();
-		mob.pos=(SIZE / 2 + 1) * (width() + 1);
+		int center = (SIZE / 2 + 1) * (width() + 1);
+//		Mob mob = new Bomberman();
+//		mob.pos=(SIZE / 2 + 1) * (width() + 1);
+//		mobs.add(mob);
+		StoneSnake mob = new StoneSnake();
+		mob.pos=center;
 		mobs.add(mob);
+//		mob.spawnSnake();
+	}
+	public boolean spawned = false;
+	@Override
+	public void press(int cell, Char ch) {
+		super.press(cell, ch);
+		if (ch instanceof Hero && !spawned){
+			for (Mob mob:mobs){
+				if (mob instanceof StoneSnake) {
+					((StoneSnake)mob).spawnSnake();
+				}
+			}
+			spawned=true;
+		}
+	}
+
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put("sp",spawned);
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		spawned=bundle.getBoolean("sp");
 	}
 
 	public Actor respawner() {
