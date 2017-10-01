@@ -25,12 +25,14 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Rat;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.StoneSnake;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DeadlySpearTrap;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
 
 public class TestLevel extends Level {
 
@@ -109,28 +111,18 @@ public class TestLevel extends Level {
 
 	@Override
 	protected void createMobs() {
-		int center = (SIZE / 2 + 1) * (width() + 1);
-//		Mob mob = new Bomberman();
-//		mob.pos=(SIZE / 2 + 1) * (width() + 1);
-//		mobs.add(mob);
-		StoneSnake mob = new StoneSnake();
-		mob.pos=center;
-		mobs.add(mob);
-//		mob.spawnSnake();
+		Mob rat = new Rat();
+		do{
+			rat.pos= Random.Int(map.length);
+		} while (!getPassable(rat.pos));
+		Mob rat2 = new Rat();
+		do{
+			rat2.pos= Random.Int(map.length);
+		} while (!getPassable(rat.pos));
+		mobs.add(rat);
+		mobs.add(rat2);
 	}
 	public boolean spawned = false;
-	@Override
-	public void press(int cell, Char ch) {
-		super.press(cell, ch);
-		if (ch instanceof Hero && !spawned){
-			for (Mob mob:mobs){
-				if (mob instanceof StoneSnake) {
-					((StoneSnake)mob).spawnSnake();
-				}
-			}
-			spawned=true;
-		}
-	}
 
 	@Override
 	public void storeInBundle(Bundle bundle) {

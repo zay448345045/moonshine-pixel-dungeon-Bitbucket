@@ -26,6 +26,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Cripple;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.LockedFloor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Chains;
+import com.moonshinepixel.moonshinepixeldungeon.effects.Hook;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Pushing;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
@@ -108,85 +109,89 @@ public class EtherealChains extends Artifact {
 				final Ballistica chain = new Ballistica(curUser.pos, target, missileProperties);
 
 				//determine if we're grabbing an enemy, pulling to a location, or doing nothing.
-				if (Actor.findChar( chain.collisionPos ) != null){
-					int newPos = -1;
-					for (int i : chain.subPath(1, chain.dist)){
-						if (!Level.getSolid(i) && Actor.findChar(i) == null){
-							newPos = i;
-							break;
-						}
-					}
-					if (newPos == -1){
-						GLog.w( Messages.get(EtherealChains.class, "does_nothing") );
-					} else {
-						final int newMobPos = newPos;
-						final Char affected = Actor.findChar( chain.collisionPos );
-						int chargeUse = Dungeon.level.distance(affected.pos, newMobPos);
-						if (chargeUse > charge) {
-							GLog.w( Messages.get(EtherealChains.class, "no_charge") );
-							return;
-						} else if (affected.properties().contains(Char.Property.IMMOVABLE)) {
-							GLog.w( Messages.get(EtherealChains.class, "cant_pull") );
-							return;
-						} else {
-							charge -= chargeUse;
-							updateQuickslot();
-						}
-						curUser.busy();
-						curUser.sprite.parent.add(new Chains(curUser.sprite.center(), affected.sprite.center(), new Callback() {
-							public void call() {
-								Actor.add(new Pushing(affected, affected.pos, newMobPos, new Callback() {
-									public void call() {
-										Dungeon.level.press(newMobPos, affected);
-									}
-								}));
-								affected.pos = newMobPos;
-								Dungeon.observe();
-								GameScene.updateFog();
-								curUser.spendAndNext(1f);
+				if (Dungeon.hasPatch(curUser.pos,chain.collisionPos)) {
+					if (Actor.findChar(chain.collisionPos) != null) {
+						int newPos = -1;
+						for (int i : chain.subPath(1, chain.dist)) {
+							if (!Level.getSolid(i) && Actor.findChar(i) == null) {
+								newPos = i;
+								break;
 							}
-						}));
-					}
-
-				} else if (Level.getSolid(chain.path.get(chain.dist))
-						|| (chain.dist > 0 && Level.getSolid(chain.path.get(chain.dist-1)))
-						|| (chain.path.size() > chain.dist+1 && Level.getSolid(chain.path.get(chain.dist+1)))
-						//if the player is trying to grapple the edge of the map, let them.
-						|| (chain.path.size() == chain.dist+1)) {
-					int newPos = -1;
-					for (int i : chain.subPath(1, chain.dist)){
-						if (!Level.getSolid(i) && Actor.findChar(i) == null) newPos = i;
 						}
-					if (newPos == -1) {
-						GLog.w( Messages.get(EtherealChains.class, "does_nothing") );
-					} else {
-						final int newHeroPos = newPos;
-						int chargeUse = Dungeon.level.distance(curUser.pos, newHeroPos);
-						if (chargeUse > charge){
-							GLog.w( Messages.get(EtherealChains.class, "no_charge") );
-							return;
+						if (newPos == -1) {
+							GLog.w(Messages.get(EtherealChains.class, "does_nothing"));
 						} else {
-							charge -= chargeUse;
-							updateQuickslot();
-						}
-						curUser.busy();
-						curUser.sprite.parent.add(new Chains(curUser.sprite.center(), DungeonTilemap.tileCenterToWorld(target), new Callback() {
-							public void call() {
-								Actor.add(new Pushing(curUser, curUser.pos, newHeroPos, new Callback() {
-									public void call() {
-										Dungeon.level.press(newHeroPos, curUser);
-									}
-								}));
-								curUser.spendAndNext(1f);
-								curUser.pos = newHeroPos;
-								Dungeon.observe();
-								GameScene.updateFog();
+							final int newMobPos = newPos;
+							final Char affected = Actor.findChar(chain.collisionPos);
+							int chargeUse = Dungeon.level.distance(affected.pos, newMobPos);
+							if (chargeUse > charge) {
+								GLog.w(Messages.get(EtherealChains.class, "no_charge"));
+								return;
+							} else if (affected.properties().contains(Char.Property.IMMOVABLE)) {
+								GLog.w(Messages.get(EtherealChains.class, "cant_pull"));
+								return;
+							} else {
+								charge -= chargeUse;
+								updateQuickslot();
 							}
-						}));
-					}
+							curUser.busy();
+							curUser.sprite.parent.add(new Chains(curUser.sprite.center(), affected.sprite.center(), new Callback() {
+								public void call() {
+									Actor.add(new Pushing(affected, affected.pos, newMobPos, new Callback() {
+										public void call() {
+											Dungeon.level.press(newMobPos, affected);
+										}
+									}));
+									affected.pos = newMobPos;
+									Dungeon.observe();
+									GameScene.updateFog();
+									curUser.spendAndNext(1f);
+								}
+							}));
+						}
 
+					} else if (Level.getSolid(chain.path.get(chain.dist))
+							|| (chain.dist > 0 && Level.getSolid(chain.path.get(chain.dist - 1)))
+							|| (chain.path.size() > chain.dist + 1 && Level.getSolid(chain.path.get(chain.dist + 1)))
+							//if the player is trying to grapple the edge of the map, let them.
+							|| (chain.path.size() == chain.dist + 1)) {
+						int newPos = -1;
+						for (int i : chain.subPath(1, chain.dist)) {
+							if (!Level.getSolid(i) && Actor.findChar(i) == null) newPos = i;
+						}
+						if (newPos == -1) {
+							GLog.w(Messages.get(EtherealChains.class, "does_nothing"));
+						} else {
+							final int newHeroPos = newPos;
+							int chargeUse = Dungeon.level.distance(curUser.pos, newHeroPos);
+							if (chargeUse > charge) {
+								GLog.w(Messages.get(EtherealChains.class, "no_charge"));
+								return;
+							} else {
+								charge -= chargeUse;
+								updateQuickslot();
+							}
+							curUser.busy();
+							curUser.sprite.parent.add(new Chains(curUser.sprite.center(), DungeonTilemap.tileCenterToWorld(target), new Callback() {
+								public void call() {
+									Actor.add(new Pushing(curUser, curUser.pos, newHeroPos, new Callback() {
+										public void call() {
+											Dungeon.level.press(newHeroPos, curUser);
+										}
+									}));
+									curUser.spendAndNext(1f);
+									curUser.pos = newHeroPos;
+									Dungeon.observe();
+									GameScene.updateFog();
+								}
+							}));
+						}
+
+					} else {
+						GLog.i(Messages.get(EtherealChains.class, "nothing_to_grab"));
+					}
 				} else {
-					GLog.i( Messages.get(EtherealChains.class, "nothing_to_grab") );
+					GLog.i(Messages.get(EtherealChains.class, "impassable"));
 				}
 
 			}

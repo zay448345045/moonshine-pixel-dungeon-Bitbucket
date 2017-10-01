@@ -139,7 +139,7 @@ public abstract class StandardRoom extends Room {
 	static {
 		Arrays.fill(chances, new float[]{11,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f});
 //		chances[1] =  new float[]{22,  10, 0, 0, 0, 0,  1, 0, 1, 0, 1, 0, 1, 1};
-		chances[1] =  new float[]{22,  10, 0, 0, 0, 0,  1, 0, 1, 0, 1, 0, 1, 1, 100,  0, 0};
+		chances[1] =  new float[]{22,  10, 0, 0, 0, 0,  1, 0, 1, 0, 1, 0, 1, 1, 0,  0, 0};
 		chances[2] =  new float[]{22,  10, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
 		chances[4] =  chances[3] = chances[2];
 		chances[5] =  new float[]{1,   0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0,  0.25f, 0.25f};

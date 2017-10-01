@@ -105,6 +105,9 @@ public class GiantShuriken extends MeleeWeapon {
                     if (enemy!=null){
                         if (Item.curUser.hit(Item.curUser,enemy,false)){
                             int dmg = curWep.damageRoll(Item.curUser)- Item.curUser.drRoll();
+                            if (curWep.enchantment!=null){
+                                dmg=curWep.enchantment.proc(curWep, Item.curUser,enemy,dmg);
+                            }
                             enemy.damage(dmg, Item.curUser);
                             enemy.sprite.bloodBurstA( Item.curUser.sprite.center(), dmg );
                             enemy.sprite.flash();

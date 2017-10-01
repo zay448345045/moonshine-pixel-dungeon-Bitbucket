@@ -344,9 +344,11 @@ public class Generator {
 		Category.WEP_MT1.classes = new Class<?>[]{
 				Scythe.class,
 				Claw.class,
-				GiantShuriken.class
+				GiantShuriken.class,
+				SwitchHook.class,
+				BambooSpear.class
 		};
-		Category.WEP_MT1.probs = new float[]{ 1, 1, 1 };
+		Category.WEP_MT1.probs = new float[]{ 1, 1, 1, 1, 1 };
 
 		//see Generator.randomArmor
 		Category.ARMOR.classes = new Class<?>[]{

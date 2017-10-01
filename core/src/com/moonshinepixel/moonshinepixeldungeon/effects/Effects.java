@@ -31,6 +31,7 @@ public class Effects {
 		WOUND,
 		EXCLAMATION,
 		CHAIN,
+		HOOK,
 		DEATH_RAY,
 		LIGHT_RAY,
 		HEALTH_RAY
@@ -53,6 +54,9 @@ public class Effects {
 				break;
 			case CHAIN:
 				icon.frame(icon.texture.uvRect(6, 16, 11, 22));
+				break;
+			case HOOK:
+				icon.frame(icon.texture.uvRect(11, 16, 13, 22));
 				break;
 			case DEATH_RAY:
 				icon.frame(icon.texture.uvRect(16, 16, 32, 24));

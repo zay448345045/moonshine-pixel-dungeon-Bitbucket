@@ -41,6 +41,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 import java.util.HashSet;
@@ -190,6 +191,7 @@ public class StoneSnake extends Mob {
 			state = HUNTING;
 
 			properties.add(Property.SNAKEPART);
+			properties.add(Property.IMMOVABLE);
 		}
 
         @Override
@@ -349,7 +351,9 @@ public class StoneSnake extends Mob {
                     if (((Mob)Actor.findById(curTail[i])).isAlive()){
                         int oldHP = ((Mob)Actor.findById(curTail[i])).HP;
                         int oldPos = ((Mob)Actor.findById(curTail[i])).pos;
+                        ((Mob)Actor.findById(curTail[i])).pos=0;
                         ((Mob)Actor.findById(curTail[i])).die(this);
+                        ((Mob)Actor.findById(curTail[i])).sprite.point(new Point(0,0));
                         ((Mob)Actor.findById(curTail[i])).sprite.destroy();
                         Head newHead = new Head();
                         newHead.pos=oldPos;
@@ -403,10 +407,12 @@ public class StoneSnake extends Mob {
         @Override
         public void die(Object cause) {
             super.die(cause);
-            HashSet<Mob> mobs =(HashSet<Mob>)Dungeon.level.mobs.clone();
-            for (Mob mob:mobs){
-                if (mob instanceof Head){
-                    ((Head)mob).checkTail(((Head)mob).tailID,((Head)mob));
+            if(!(cause instanceof Head)) {
+                HashSet<Mob> mobs = (HashSet<Mob>) Dungeon.level.mobs.clone();
+                for (Mob mob : mobs) {
+                    if (mob instanceof Head) {
+                        ((Head) mob).checkTail(((Head) mob).tailID, ((Head) mob));
+                    }
                 }
             }
         }

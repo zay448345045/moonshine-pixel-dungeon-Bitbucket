@@ -80,13 +80,10 @@ public abstract class RegularLevel extends Level {
 			for (Room r : initRooms){
 				r.neigbours.clear();
 				r.connected.clear();
-				System.out.println(r.getClass());
 			}
-			System.out.println("|");
 			rooms = builder.build((ArrayList<Room>)initRooms.clone());
 		} while (rooms == null);
 
-		System.out.println("|");
 
 		if (painter().paint(this, rooms)){
 			placeSign();
@@ -206,7 +203,7 @@ public abstract class RegularLevel extends Level {
 	protected void createMobs() {
 		float mod = Dungeon.isChallenged(Challenges.HORDE)?1:Challenges.hiveMobsMod();
 		//on floor 1, 10 rats are created so the player can get level 2.
-		int mobsToSpawn = Dungeon.depth == 1 ? (int)(10*mod*0) : nMobs();
+		int mobsToSpawn = Dungeon.depth == 1 ? (int)(10*mod) : nMobs();
 		
 		ArrayList<Room> stdRooms = new ArrayList<>();
 		for (Room room : rooms) {
@@ -471,7 +468,7 @@ public abstract class RegularLevel extends Level {
 			r.postRestore( this );
 		}
 
-		//Third: rooms loading is complete, so now you can do fun things with them)
+		//Third: rooms loading is complete, so now you can do fun things with them
 		for (Room r: rooms){
 			r.onLevelLoad( this );
 		}

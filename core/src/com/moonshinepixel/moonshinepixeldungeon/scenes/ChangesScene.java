@@ -39,6 +39,14 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update =
 			"_NOTE:_ Desktop version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.11 - alpha:_\n" +
+					"_-_ Added new weapon - bamboo spear. Reworked Lucky enchantment to make it more useful"+
+					"\n" +
+					"\n" +
+					"_v0.1.10 - alpha:_\n" +
+					"_-_ Added new weapon - switch hook. Some bugfixes"+
+					"\n" +
+					"\n" +
 					"_v0.1.9 - alpha:_\n" +
 					"_-_ Nerfed blunderbuss(again), some bugfixes, now you can test new boss(WIP)(coming with cool intro)"+
 					"\n" +

@@ -118,14 +118,19 @@ public abstract class Char extends Actor {
 			}
 		}
 	}
-	
+
 	public boolean attack( Char enemy ) {
+		return attack(enemy,false);
+	}
+
+
+	public boolean attack( Char enemy, boolean forcehit) {
 
 		if (enemy == null || !enemy.isAlive()) return false;
 		
 		boolean visibleFight = Dungeon.visible[pos] || Dungeon.visible[enemy.pos];
 		
-		if (hit( this, enemy, false )) {
+		if (hit( this, enemy, false ) || forcehit) {
 			
 			// FIXME
 			int dr = this instanceof Hero && ((Hero)this).rangedWeapon != null && ((Hero)this).subClass ==

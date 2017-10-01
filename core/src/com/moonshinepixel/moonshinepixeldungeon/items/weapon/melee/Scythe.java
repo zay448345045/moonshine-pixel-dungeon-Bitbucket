@@ -68,7 +68,7 @@ public class Scythe extends MeleeWeapon {
                 int dmg = attacker.damageRoll();
 
                 if (enchantment != null) {
-                    enchantment.proc( this, attacker, defender, dmg );
+                    dmg = enchantment.proc( this, attacker, defender, dmg );
                 }
 
                 int effectiveDamage = Math.max( dmg - defender.drRoll(), 0 );

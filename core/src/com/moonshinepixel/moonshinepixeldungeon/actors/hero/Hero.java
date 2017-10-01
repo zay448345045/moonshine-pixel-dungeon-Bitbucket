@@ -430,10 +430,14 @@ public class Hero extends Char {
 				return false;
 		}
 		//can always attack adjacent enemies
-		if (Dungeon.level.adjacent(pos, enemy.pos))
+		KindOfWeapon wep = Dungeon.hero.belongings.weapon;
+		boolean attackAdj = true;
+		if (wep!=null){
+			attackAdj=wep.minReachFactor(this)==1;
+		}
+		if (Dungeon.level.adjacent(pos, enemy.pos) && attackAdj)
 			return true;
 
-		KindOfWeapon wep = Dungeon.hero.belongings.weapon;
 
 		if (wep != null && Dungeon.level.distance( pos, enemy.pos ) <= wep.reachFactor(this)){
 
@@ -443,7 +447,7 @@ public class Hero extends Char {
 
 			PathFinder.buildDistanceMap(enemy.pos, passable, wep.reachFactor(this));
 
-			return PathFinder.distance[pos] <= wep.reachFactor(this);
+			return PathFinder.distance[pos] <= wep.reachFactor(this) && PathFinder.distance[pos]>=wep.minReachFactor(this);
 
 		} else {
 			return false;

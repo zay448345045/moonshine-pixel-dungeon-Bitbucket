@@ -103,6 +103,9 @@ abstract public class KindOfWeapon extends EquipableItem {
 	public int reachFactor( Hero hero ){
 		return 1;
 	}
+	public int minReachFactor( Hero hero ){
+		return 1;
+	}
 
 	public int defenseFactor(Hero hero ) {
 		return 0;

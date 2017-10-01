@@ -895,4 +895,9 @@ public class Dungeon {
 	public static int upgLimit(){
 		return Statistics.deepestFloor+1;
 	}
+
+	public static boolean hasPatch(int from, int to){
+		boolean[] passable = BArray.or(Level.getPassable(),Level.getAvoid(),null);
+		return PathFinder.buildDistanceMap(from,to,passable);
+	}
 }

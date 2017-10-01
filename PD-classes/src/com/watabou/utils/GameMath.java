@@ -43,4 +43,12 @@ public class GameMath {
 			return value;
 		}
 	}
+
+	public static int findMaxInt(Iterable<Integer> iterable){
+		int max=Integer.MIN_VALUE;
+		for (int num : iterable){
+			max = Math.max(num,max);
+		}
+		return max;
+	}
 }

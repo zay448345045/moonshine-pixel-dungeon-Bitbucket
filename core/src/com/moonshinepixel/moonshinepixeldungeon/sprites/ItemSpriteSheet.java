@@ -219,11 +219,17 @@ public class ItemSpriteSheet {
 		assignItemRect(GREATSHIELD, 12, 16);
 	}
 	private static final int WEP_TIERM1      =                              xy(9, 9);   //8 slots
-	public static final int SCYTHE      = WEP_TIERM1+0;
-	public static final int CLAW        = WEP_TIERM1+1;
+	public static final int SCYTHE      	= WEP_TIERM1+0;
+	public static final int CLAW        	= WEP_TIERM1+1;
+	public static final int GIGANTSHURIKEN  = WEP_TIERM1+2;
+	public static final int HOOK        	= WEP_TIERM1+3;
+	public static final int BAMBOSPEAR  	= WEP_TIERM1+4;
 	static {
 		assignItemRect(GREATSWORD,  13, 15);
 		assignItemRect(CLAW,  14, 14);
+		assignItemRect(GIGANTSHURIKEN,	16, 16);
+		assignItemRect(HOOK,	16, 16);
+		assignItemRect(BAMBOSPEAR,	16, 16);
 	}
 
 
@@ -238,7 +244,6 @@ public class ItemSpriteSheet {
 	public static final int JAVELIN         = MISSILE_WEP+5;
 	public static final int TOMAHAWK        = MISSILE_WEP+6;
 	public static final int BULLET	        = MISSILE_WEP+7;
-	public static final int GIGANTSHURIKEN  = MISSILE_WEP+8;
 	static{
 		assignItemRect(DART,            15, 15);
 		assignItemRect(BOOMERANG,       14, 14);
@@ -248,7 +253,6 @@ public class ItemSpriteSheet {
 		assignItemRect(JAVELIN,         16, 16);
 		assignItemRect(TOMAHAWK,        13, 13);
 		assignItemRect(BULLET,      	16, 11);
-		assignItemRect(GIGANTSHURIKEN,	16, 16);
 	}
 
 	private static final int ARMOR          =                               xy(1, 11);  //16 slots

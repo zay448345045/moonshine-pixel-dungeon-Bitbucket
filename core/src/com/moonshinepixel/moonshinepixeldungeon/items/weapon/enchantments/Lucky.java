@@ -24,7 +24,10 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite.Glowing;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.Random;
+
+import java.util.HashSet;
 
 public class Lucky extends Weapon.Enchantment {
 
@@ -33,13 +36,16 @@ public class Lucky extends Weapon.Enchantment {
 	@Override
 	public int proc(Weapon weapon, Char attacker, Char defender, int damage ) {
 		int level = Math.max( 0, weapon.level() );
+		if (Random.Float()<(level+1)/(level+3)) {
+			HashSet<Integer> rolls = new HashSet<>();
+			rolls.add(damage);
+			for (int i = 0; i < (level / 2) + 1; i++) {
+				rolls.add(attacker.damageRoll()-defender.drRoll());
+			}
+			damage = GameMath.findMaxInt(rolls);
 
-		if (Random.Int(100) < (60 + level)){
-			return 2*damage;
-		} else {
-			return 0;
 		}
-		
+		return damage;
 	}
 
 	@Override
