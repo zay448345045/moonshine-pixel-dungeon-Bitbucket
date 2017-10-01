@@ -38,6 +38,7 @@ import com.moonshinepixel.moonshinepixeldungeon.scenes.CellSelector;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndBag;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -204,4 +205,10 @@ public class GiantShuriken extends MeleeWeapon {
             }
         }
     };
+
+    @Override
+    public Item random() {
+        tier= Random.NormalIntRange(2,5);
+        return super.random();
+    }
 }

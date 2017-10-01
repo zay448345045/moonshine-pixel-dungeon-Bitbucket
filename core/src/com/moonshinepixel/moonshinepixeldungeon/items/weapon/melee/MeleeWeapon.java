@@ -24,6 +24,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
+import com.watabou.utils.Bundle;
 
 public class MeleeWeapon extends Weapon {
 	
@@ -119,5 +120,18 @@ public class MeleeWeapon extends Weapon {
 		}
 		return price;
 	}
+	public static final String TIER = "tier";
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(TIER,tier);
+	}
 
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		if (bundle.contains(TIER)) {
+			tier = bundle.getInt(TIER);
+		}
+	}
 }

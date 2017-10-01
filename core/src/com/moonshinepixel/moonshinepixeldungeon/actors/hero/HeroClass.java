@@ -148,10 +148,11 @@ public enum HeroClass {
 //		gs.upgrade(3);
 //		gs.enchant();
 //
-//		Sword sw = new Sword();
-//		sw.identify().collect();
-//		sw.upgrade(3);
-//		sw.enchant();
+		Sword sw = new Sword();
+		sw.identify().collect();
+		sw.upgrade(3);
+		sw.enchant();
+		sw.tier=5;
 //
 //		AshBomb abmb = new AshBomb();
 //		abmb.quantity(15);
@@ -166,6 +167,7 @@ public enum HeroClass {
 		BambooSpear bs = new BambooSpear();
 		bs.identify().collect();
 		bs.grow(50.1f);
+		bs.tier=5;
 
 //		while (new Knuckles().collect()){
 //			//nothing

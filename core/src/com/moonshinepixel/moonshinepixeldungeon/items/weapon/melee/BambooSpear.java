@@ -86,7 +86,9 @@ public class BambooSpear extends MeleeWeapon {
 	}
 
 	public BambooSpear grow(float num){
+		final float limit = 10;
 		growLevel+= num;
+		growLevel=Math.min(growLevel,limit);
 //		DLY=(float)(1+Math.pow(Math.sqrt(1.5),reachFactor(Dungeon.hero)-1));
 		DLY=Math.max((float)(Math.sqrt(reachFactor(Dungeon.hero)*1.5f)),1);
 		return this;
@@ -143,6 +145,7 @@ public class BambooSpear extends MeleeWeapon {
 		super.random();
 		int length = Random.chances(new float[]{3,0.75f,0.429f,0.3f,0.231f,0.188f});
 		grow(length*dly);
+		tier=Random.NormalIntRange(2,5);
 		return grow(length*dly);
 	}
 

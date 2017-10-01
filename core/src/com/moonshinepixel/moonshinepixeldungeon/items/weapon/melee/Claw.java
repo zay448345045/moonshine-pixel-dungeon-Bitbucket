@@ -20,7 +20,9 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee;
 
+import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class Claw extends MeleeWeapon {
 
@@ -40,5 +42,12 @@ public class Claw extends MeleeWeapon {
 	@Override
 	public int min(int lvl) {
 		return tier+(int)Math.floor(lvl*0.75f);
+	}
+
+
+	@Override
+	public Item random() {
+		tier= Random.NormalIntRange(2,5);
+		return super.random();
 	}
 }

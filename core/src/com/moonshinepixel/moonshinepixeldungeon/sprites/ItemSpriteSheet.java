@@ -222,13 +222,13 @@ public class ItemSpriteSheet {
 	public static final int SCYTHE      	= WEP_TIERM1+0;
 	public static final int CLAW        	= WEP_TIERM1+1;
 	public static final int GIGANTSHURIKEN  = WEP_TIERM1+2;
-	public static final int HOOK        	= WEP_TIERM1+3;
-	public static final int BAMBOSPEAR  	= WEP_TIERM1+4;
+	public static final int HOOK        	= WEP_TIERM1+6;
+	public static final int BAMBOSPEAR  	= WEP_TIERM1+5;
 	static {
 		assignItemRect(GREATSWORD,  13, 15);
 		assignItemRect(CLAW,  14, 14);
 		assignItemRect(GIGANTSHURIKEN,	16, 16);
-		assignItemRect(HOOK,	16, 16);
+		assignItemRect(HOOK,	14, 16);
 		assignItemRect(BAMBOSPEAR,	16, 16);
 	}
 

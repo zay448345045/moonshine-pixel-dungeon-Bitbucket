@@ -27,6 +27,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Chains;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Hook;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Pushing;
+import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.Artifact;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.EtherealChains;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Projecting;
@@ -40,6 +41,7 @@ import com.moonshinepixel.moonshinepixeldungeon.tiles.DungeonTilemap;
 import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -140,4 +142,10 @@ public class SwitchHook extends MeleeWeapon {
 			return Messages.get(EtherealChains.class, "prompt");
 		}
 	};
+
+	@Override
+	public Item random() {
+		tier=Random.NormalIntRange(2,5);
+		return super.random();
+	}
 }
