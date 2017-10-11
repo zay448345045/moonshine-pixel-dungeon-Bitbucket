@@ -21,6 +21,8 @@
 package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 
 import com.moonshinepixel.moonshinepixeldungeon.*;
+import com.moonshinepixel.moonshinepixeldungeon.items.ArmorKit;
+import com.moonshinepixel.moonshinepixeldungeon.items.WeaponKit;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.EtherealChains;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.AshBomb;
@@ -35,6 +37,8 @@ import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfMagicMappi
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Sacrificial;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Grim;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Unstable;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Vampiric;
@@ -109,69 +113,14 @@ public enum HeroClass {
 	}
 
 	private static void initDev( Hero hero ){
-
-		hero.STR=12;
-//		Mortair mort = new Mortair();
-//		mort.identify().collect();
-
-//		Blunderbuss blb = new Blunderbuss();
-//		blb.identify().collect();
-//		blb.level(3);
-//
-//		BleedingBullet bb = new BleedingBullet();
-//		bb.quantity(500);
-//		bb.identify().collect();
-//		bb.enchant(new Vampiric());
-//
-//		ClusterBomb sb = new ClusterBomb();
-//		sb.quantity(50);
-//		sb.collect();
-//
-//		ScrollOfTeleportation sot = new ScrollOfTeleportation();
-//		sot.quantity(10);
-//		sot.identify().collect();
-//
-//		ScrollOfMagicMapping somm = new ScrollOfMagicMapping();
-//		somm.identify().collect();
-//		somm.quantity(10);
-//
-//		PotionOfStorm pos = new PotionOfStorm();
-//		pos.identify().collect();
-//		pos.quantity(10);
-//
-//		PotionOfMindVision pomv = new PotionOfMindVision();
-//		pomv.quantity(100);
-//		pomv.identify().collect();
-//
-//		GiantShuriken gs = new GiantShuriken();
-//		gs.identify().collect();
-//		gs.upgrade(3);
-//		gs.enchant();
-//
-		Sword sw = new Sword();
-		sw.identify().collect();
-		sw.upgrade(3);
-		sw.enchant();
-		sw.tier=5;
-//
-//		AshBomb abmb = new AshBomb();
-//		abmb.quantity(15);
-//		abmb.collect();
-//
-//		EtherealChains chains = new EtherealChains();
-//		chains.identify().collect();
-
-		SwitchHook hook = new SwitchHook();
-		hook.identify().collect();
-
-		BambooSpear bs = new BambooSpear();
-		bs.identify().collect();
-		bs.grow(50.1f);
-		bs.tier=5;
-
-//		while (new Knuckles().collect()){
-//			//nothing
-//		}
+		hero.earnExp(150);
+		hero.STR=18;
+		WeaponKit ak = new WeaponKit();
+		ak.collect();
+		ak = new WeaponKit();
+		ak.collect();
+		ak = new WeaponKit();
+		ak.collect();
 
 	}
 

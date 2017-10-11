@@ -17,10 +17,7 @@ public class Mortair extends BulletGun {
         image = ItemSpriteSheet.MORTAIR;
         this._load.fill(Bullet.class);
         shake=2f;
-    }
-    @Override
-    public int tier() {
-        return 5;
+        tier=5;
     }
 
     @Override

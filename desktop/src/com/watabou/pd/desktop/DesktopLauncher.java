@@ -34,7 +34,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		String version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
-			version = "0.1.8 - alpha";
+			version = "0.1.12 - alpha";
 		}
 
 		boolean previewmode = false;
@@ -42,7 +42,7 @@ public class DesktopLauncher {
 		try {
 			versionCode = Integer.parseInt(DesktopLauncher.class.getPackage().getImplementationVersion());
 		} catch (NumberFormatException e) {
-			versionCode = 48;
+			versionCode = 52;
 			previewmode = true;
 		}
 
@@ -75,7 +75,7 @@ public class DesktopLauncher {
 		config.addIcon( "ic_launcher_16.png", Files.FileType.Internal );
 
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
-		config.title = "Moonshine Pixel Dungeon (pre-alpha)";
+		config.title = "Moonshine Pixel Dungeon (alpha)";
 
 		new LwjglApplication(new MoonshinePixelDungeon(
 				new DesktopSupport(version, versionCode, config.preferencesDirectory, new DesktopInputProcessor(), previewmode)

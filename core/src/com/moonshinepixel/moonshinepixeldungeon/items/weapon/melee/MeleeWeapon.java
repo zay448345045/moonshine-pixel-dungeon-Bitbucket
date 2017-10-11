@@ -25,9 +25,11 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
+import com.watabou.utils.Random;
 
 public class MeleeWeapon extends Weapon {
-	
+
 	public int tier;
 
 	@Override
@@ -56,7 +58,13 @@ public class MeleeWeapon extends Weapon {
 		//strength req decreases at +1,+3,+6,+10,etc.
 		return (8 + tier * 2) - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
 	}
-	
+
+	@Override
+	public Item random() {
+		tier= (int)GameMath.gate(2, tier-1+Random.chances(new float[]{1,18,1}),5);
+		return super.random();
+	}
+
 	@Override
 	public String info() {
 

@@ -39,8 +39,12 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update =
 			"_NOTE:_ Desktop version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.12 - alpha:_\n" +
+					"_-_ gra"+
+					"\n" +
+					"\n" +
 					"_v0.1.11 - alpha:_\n" +
-					"_-_ Added new weapon - bamboo spear. Reworked Lucky enchantment to make it more useful. Switch hook, Giant shuriken, Steel claw, Switch hook and Bamboo spear now have random tier from 2 to 5"+
+					"_-_ Added new weapon - bamboo spear. Reworked Lucky enchantment to make it more useful. Switch hook, Giant shuriken, Steel claw and Bamboo spear now have random tier from 2 to 5"+
 					"\n" +
 					"\n" +
 					"_v0.1.10 - alpha:_\n" +

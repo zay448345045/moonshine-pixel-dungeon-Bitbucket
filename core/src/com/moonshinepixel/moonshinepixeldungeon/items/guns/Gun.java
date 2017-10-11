@@ -170,31 +170,38 @@ public abstract class Gun extends Weapon {
 	public void execute( Hero hero, String action ) {
 
 		super.execute( hero, action );
-        if (this.isEquipped(hero)) {
-            if (action.equals(AC_SHOT)) {
-                Item.curUser = hero;
-                Item.curItem = this;
-                if (this._load.curLoad() > 0 || !curChargeKnown) {
-                    GameScene.selectCell(zapper);
-                } else if (this._load.maxLoad() > 0) {
-                    action = AC_RELOAD;
-                }
-            }
-            if (action.equals(AC_RELOAD)) {
-                if (this._load.curLoad() < this._load.maxLoad()) {
-                    Item.curUser = hero;
-                    Item.curItem = this;
-                    reload();
-                } else {
-                    GLog.w( Messages.get(this, "already_loaded") );
-                }
-            }
-            if (action.equals(AC_CHOOSE)) {
-                chooseAmmoItem();
-            }
-        } else {
-            GLog.w( Messages.get(this, "not_equipped") );
-        }
+		if(curUser.ready) {
+			if (this.isEquipped(hero)) {
+				if (action.equals(AC_SHOT)) {
+					Item.curUser = hero;
+					Item.curItem = this;
+					if (this._load.curLoad() > 0 || !curChargeKnown) {
+						GameScene.selectCell(zapper);
+					} else if (this._load.maxLoad() > 0) {
+						QuickSlotButton.cancel();
+						action = AC_RELOAD;
+					}
+				}
+				if (action.equals(AC_RELOAD)) {
+					if (this._load.curLoad() < this._load.maxLoad()) {
+						Item.curUser = hero;
+						Item.curItem = this;
+						reload();
+					} else {
+						GLog.w(Messages.get(this, "already_loaded"));
+					}
+				}
+				if (action.equals(AC_CHOOSE)) {
+					QuickSlotButton.cancel();
+					chooseAmmoItem();
+				}
+			} else {
+				GLog.w(Messages.get(this, "not_equipped"));
+				QuickSlotButton.cancel();
+			}
+		} else {
+			QuickSlotButton.cancel();
+		}
 		updateQuickslot();
 	}
 
@@ -295,7 +302,7 @@ public abstract class Gun extends Weapon {
             return Messages.get(this, "stats_desc", minWnd(), maxWnd(), min(), max());
         else
             return Messages.get(this, "stats_desc", minWnd(0), maxWnd(0), min(0), max(0));
-	};
+	}
 	
 	@Override
 	public boolean isIdentified() {

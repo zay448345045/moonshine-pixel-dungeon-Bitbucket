@@ -107,6 +107,7 @@ public class Assets {
 	public static final String ROT_LASH = "rot_lasher.png";
 	public static final String ROT_HEART= "rot_heart.png";
 	public static final String GUARD    = "guard.png";
+	public static final String ANGRYSK    = "angryy_hopkeeper.png";
 	public static final String MOBDUMMY = "mob_empty.png";
 	public static final String STONESNAKEHEAD = "StoneSnakeHead.png";
 	public static final String STONESNAKETAIL = "StoneSnakeBody.png";

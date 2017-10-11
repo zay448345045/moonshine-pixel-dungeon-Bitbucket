@@ -11,10 +11,7 @@ public class Fusil extends BulletGun {
     {
         image = ItemSpriteSheet.FUSIL;
         this._load.fill(Bullet.class);
-    }
-    @Override
-    public int tier() {
-        return 4;
+        tier = 4;
     }
 
     @Override

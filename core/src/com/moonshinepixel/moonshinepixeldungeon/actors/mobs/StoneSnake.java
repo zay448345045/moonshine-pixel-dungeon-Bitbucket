@@ -39,6 +39,10 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
+import com.watabou.gltextures.TextureCache;
+import com.watabou.noosa.Camera;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.Scene;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
@@ -354,7 +358,15 @@ public class StoneSnake extends Mob {
                         ((Mob)Actor.findById(curTail[i])).pos=0;
                         ((Mob)Actor.findById(curTail[i])).die(this);
                         ((Mob)Actor.findById(curTail[i])).sprite.point(new Point(0,0));
-                        ((Mob)Actor.findById(curTail[i])).sprite.destroy();
+                        ((Mob)Actor.findById(curTail[i])).sprite.killAndErase();
+                        Scene sc = Game.scene();
+
+                        //FIXME: This is very ugly way to prevent tail's sprite remain unchanged in scene
+                        if (sc != null) {
+                            TextureCache.reload();
+                            Camera.reset();
+                            Game.switchScene(sc.getClass());
+                        }
                         Head newHead = new Head();
                         newHead.pos=oldPos;
                         newHead.HP=oldHP;

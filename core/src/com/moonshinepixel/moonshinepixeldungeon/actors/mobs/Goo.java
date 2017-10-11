@@ -30,6 +30,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.LockedFloor;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
+import com.moonshinepixel.moonshinepixeldungeon.items.WeaponKit;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.LloydsBeacon;
 import com.moonshinepixel.moonshinepixeldungeon.items.keys.SkeletonKey;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfPsionicBlast;
@@ -60,8 +61,8 @@ public class Goo extends Mob {
 		EXP = 10;
 		defenseSkill = 8;
 		spriteClass = GooSprite.class;
-		loot = new LloydsBeacon().identify();
-		lootChance = 0.333f;
+		loot = new WeaponKit();
+		lootChance = 1;
 
 		properties.add(Char.Property.BOSS);
 		properties.add(Char.Property.DEMONIC);

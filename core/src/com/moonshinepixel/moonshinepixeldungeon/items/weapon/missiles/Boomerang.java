@@ -28,10 +28,13 @@ import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.MissileSprite;
+import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
 
 public class Boomerang extends MissileWeapon {
+
+	public int tier = 1;
 
 	{
 		image = ItemSpriteSheet.BOOMERANG;
@@ -51,14 +54,14 @@ public class Boomerang extends MissileWeapon {
 
 	@Override
 	public int min(int lvl) {
-		return  1 +
+		return  tier +
 				lvl;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  5 +     //half the base damage of a tier-1 weapon
-				2 * lvl;//scales the same as a tier 1 weapon
+		return  5*tier +     //half the base damage of a tier-1 weapon
+				lvl*(tier+1);//scales the same as a tier 1 weapon
 	}
 
 	@Override
@@ -144,5 +147,19 @@ public class Boomerang extends MissileWeapon {
 		}
 
 		return info;
+	}
+	public static final String TIER = "tier";
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(TIER,tier);
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		if (bundle.contains(TIER)) {
+			tier = bundle.getInt(TIER);
+		}
 	}
 }

@@ -13,10 +13,7 @@ public class Blunderbuss extends BulletGun {
         image = ItemSpriteSheet.BLUNDERBUSS;
         this._load.fill(Bullet.class);
         strAcuMod=true;
-    }
-    @Override
-    public int tier() {
-        return 3;
+        tier=3;
     }
 
     @Override

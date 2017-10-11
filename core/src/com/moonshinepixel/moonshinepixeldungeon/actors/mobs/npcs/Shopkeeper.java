@@ -20,19 +20,24 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs;
 
+import com.moonshinepixel.moonshinepixeldungeon.QuickSlot;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ShopBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.AngryShopKeeper;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.ShopThief;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
 import com.moonshinepixel.moonshinepixeldungeon.items.Heap;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
+import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndTradeItem;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndBag;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ShopkeeperSprite;
+import com.watabou.utils.Random;
 
 public class Shopkeeper extends NPC {
 
@@ -61,21 +66,41 @@ public class Shopkeeper extends NPC {
 	public void add( Buff buff ) {
 		flee();
 	}
-	
+
+	@Override
+	public boolean isAlive() {
+		return true;
+	}
+
 	public void flee() {
 		for (Heap heap: Dungeon.level.heaps.values()) {
 			if (heap.type == Heap.Type.FOR_SALE) {
 				if (Blob.volumeAt(heap.pos, ShopBlob.class)<=0) {
-					CellEmitter.get(heap.pos).burst(ElmoParticle.FACTORY, 4);
-					heap.destroy();
+					switch (Random.Int(5)){
+						case 0:
+						case 1:
+							ShopThief.spawnAt(heap.pos, heap);
+							break;
+						case 2:
+						case 3:
+						case 4:
+							CellEmitter.get(heap.pos).burst(ElmoParticle.FACTORY, 4);
+							heap.destroy();
+					}
 				}
 			}
 		}
-		
+
 		destroy();
-		
 		sprite.killAndErase();
-		CellEmitter.get( pos ).burst( ElmoParticle.FACTORY, 6 );
+		AngryShopKeeper ask = new AngryShopKeeper();
+		ask.pos=pos;
+		GameScene.add(ask);
+		ask.state = ask.HUNTING;
+		ask.sprite.turnTo(pos, Dungeon.hero.pos);
+		yell(Messages.get(this,"thief"));
+		QuickSlotButton.target(ask);
+//		CellEmitter.get( pos ).burst( ElmoParticle.FACTORY, 6 );
 	}
 	
 	@Override
@@ -96,6 +121,12 @@ public class Shopkeeper extends NPC {
 			}
 		}
 	};
+
+	@Override
+	public void die(Object cause) {
+		destroy();
+		sprite.die();
+	}
 
 	@Override
 	public boolean interact() {

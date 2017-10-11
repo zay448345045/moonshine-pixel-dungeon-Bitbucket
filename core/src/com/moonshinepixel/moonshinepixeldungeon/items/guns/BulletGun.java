@@ -34,13 +34,20 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.Ammo;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.DummyBullet;
 import com.moonshinepixel.moonshinepixeldungeon.mechanics.Ballistica;
+import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.CharSprite;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
 import com.watabou.utils.Random;
 
 public abstract class BulletGun extends Gun {
-    public abstract int tier();
+    public final int tier(){
+        return tier;
+    }
+
+    public int tier;
 
     @Override
     public float acu() {
@@ -65,6 +72,14 @@ public abstract class BulletGun extends Gun {
     public int max(int lvl) {
         return  3*(tier()+1) +    //base
                 lvl*tier();       //+1 per level
+    }
+
+    public String statsDesc(){
+
+        if (levelKnown)
+            return Messages.get(this, "stats_desc", minWnd(), maxWnd(), min(), max(), tier);
+        else
+            return Messages.get(this, "stats_desc", minWnd(0), maxWnd(0), min(0), max(0), tier);
     }
 
 	@Override
@@ -173,6 +188,11 @@ public abstract class BulletGun extends Gun {
     }
 
 
+    @Override
+    public Item random() {
+        tier= (int) GameMath.gate(2, tier-1+Random.chances(new float[]{1,18,1}),5);
+        return super.random();
+    }
 
     @Override
     public boolean hit( Char attacker, Char defender) {
@@ -233,4 +253,18 @@ public abstract class BulletGun extends Gun {
     }
 
 
+    public static final String TIER = "tier";
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(TIER,tier);
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        if (bundle.contains(TIER)) {
+            tier = bundle.getInt(TIER);
+        }
+    }
 }

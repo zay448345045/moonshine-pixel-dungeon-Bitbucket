@@ -10,10 +10,7 @@ public class GunslingerPistol extends BulletGun {
     {
         image = ItemSpriteSheet.HANDCRAFTGUN;
         this._load.fill(Bullet.class);
-    }
-    @Override
-    public int tier() {
-        return 1;
+        tier=1;
     }
     @Override
     protected int initialCharges() {

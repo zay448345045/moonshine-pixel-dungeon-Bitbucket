@@ -192,7 +192,7 @@ public class Generator {
 	
 	private static HashMap<Category,Float> categoryProbs = new LinkedHashMap<>();
 
-	private static final float[] INITIAL_ARTIFACT_PROBS = new float[]{ 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1};
+	private static final float[] INITIAL_ARTIFACT_PROBS = new float[]{ 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1};
 	
 	static {
 		

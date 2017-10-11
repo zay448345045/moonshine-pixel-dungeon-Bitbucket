@@ -78,6 +78,7 @@ public class WndBag extends WndTabbed {
 		WEAPON,
 		WEAPONSLOTABLE,
 		ARMOR,
+		KITUPGRADEUBLEWEAPON,
 		ENCHANTABLE,
         ENCHANTABLELIMIT,
 		WAND,
@@ -404,6 +405,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.WEAPON && (item instanceof MeleeWeapon || item instanceof Boomerang) ||
 						mode == Mode.WEAPONSLOTABLE && item instanceof Weapon ||
 						mode == Mode.ARMOR && (item instanceof Armor) ||
+						mode == Mode.KITUPGRADEUBLEWEAPON && (item instanceof BulletGun || item instanceof MeleeWeapon) ||
 						mode == Mode.ENCHANTABLE && (item instanceof MeleeWeapon || item instanceof Boomerang || item instanceof Armor) ||
 						mode == Mode.ENCHANTABLELIMIT && (item instanceof MeleeWeapon || item instanceof Boomerang || item instanceof Armor) && item.level()<limit ||
 						mode == Mode.WAND && (item instanceof Wand) ||

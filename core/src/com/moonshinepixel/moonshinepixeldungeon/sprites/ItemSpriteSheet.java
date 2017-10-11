@@ -95,6 +95,7 @@ public class ItemSpriteSheet {
 	public static final int MASTERY         = SINGLE_USE+12;
 	public static final int KIT             = SINGLE_USE+13;
 	public static final int AMULET          = SINGLE_USE+14;
+	public static final int WEPKIT          = SINGLE_USE+15;
 	static{
 		assignItemRect(ANKH,            10, 16);
 		assignItemRect(STYLUS,          12, 13);
@@ -110,7 +111,8 @@ public class ItemSpriteSheet {
 		assignItemRect(MASTERY,         13, 16);
 		assignItemRect(KIT,             16, 15);
 		assignItemRect(AMULET,          16, 16);
-		assignItemRect(DARK_ANKH,            10, 16);
+		assignItemRect(DARK_ANKH,       10, 16);
+		assignItemRect(WEPKIT,          16, 15);
 	}
 
 	private static final int EXPLOSIVES=                               xy(1, 4);
