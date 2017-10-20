@@ -43,7 +43,7 @@ public class AboutScene extends PixelScene {
 	private static final String TXT_SHPX =
 			"Based on Evan's Shattered Pixel Dungeon\n" +
 					"Code: juh9870\n" +
-					"Graphic: SadSaltan\n" +
+					"Graphics: SadSaltan\n" +
 					"Special thanks to russian PD community";
 
 	private static final String LNK_SHPX = "vk.com/moonpd (ru)";
