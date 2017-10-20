@@ -42,6 +42,6 @@ public class AndroidLauncher extends AndroidApplication {
 			version = "???";
 			versionCode = 0;
 		}
-		initialize(new MoonshinePixelDungeon(new PDPlatformSupport<GameAction>(version, versionCode, null, new AndroidInputProcessor(), false)), config);
+		initialize(new MoonshinePixelDungeon(new PDPlatformSupport<GameAction>(version, versionCode, "android", new AndroidInputProcessor(), false)), config);
 	}
 }
