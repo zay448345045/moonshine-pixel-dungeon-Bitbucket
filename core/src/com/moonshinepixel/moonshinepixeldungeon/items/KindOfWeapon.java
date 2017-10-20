@@ -20,14 +20,23 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.items;
 
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
+import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.watabou.utils.Bundlable;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.util.HashMap;
+
 abstract public class KindOfWeapon extends EquipableItem {
-	
+
+	public Suffix suffix;
+
 	protected static final float TIME_TO_EQUIP = 1f;
 	
 	@Override
@@ -64,6 +73,14 @@ abstract public class KindOfWeapon extends EquipableItem {
 	}
 
 	@Override
+	public void activate(Char ch) {
+		super.activate(ch);
+		if (suffix!=null){
+			suffix.activate(ch);
+		}
+	}
+
+	@Override
 	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
 
@@ -78,11 +95,19 @@ abstract public class KindOfWeapon extends EquipableItem {
 	}
 
 	public int min(){
-		return min(level());
+		int min=min(level());
+		if (suffix!=null){
+			min=(int)(min*suffix.modifiers()[0]);
+		}
+		return min;
 	}
 
 	public int max(){
-		return max(level());
+		int max=max(level());
+		if (suffix!=null){
+			max=(int)(max*suffix.modifiers()[1]);
+		}
+		return max;
 	}
 
 	abstract public int min(int lvl);
@@ -97,7 +122,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	}
 	
 	public float speedFactor( Hero hero ) {
-		return 1f;
+		return suffix!=null?suffix.modifiers()[2]:1f;
 	}
 
 	public int reachFactor( Hero hero ){
@@ -107,12 +132,102 @@ abstract public class KindOfWeapon extends EquipableItem {
 		return 1;
 	}
 
-	public int defenseFactor(Hero hero ) {
-		return 0;
+	public int defenseFactor( Hero hero ) {
+		return suffix!=null?(int)suffix.modifiers()[3]:1;
 	}
 	
 	public int proc(Char attacker, Char defender, int damage ) {
 		return damage;
 	}
-	
+
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put("suff",suffix);
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		suffix=(Suffix)bundle.get("suff");
+	}
+
+	public static abstract class Suffix implements Bundlable {
+
+		private static final Class<?>[] sufixes = new Class<?>[]{};
+		private static final float[] chances= new float[]{};
+
+		public static Suffix random(){
+			try {
+				return (Suffix)sufixes[Random.chances(chances)].newInstance();
+			} catch (Exception e){
+				MoonshinePixelDungeon.reportException(e);
+				return null;
+			}
+		}
+
+		protected SuffixBuff buff;
+
+		public SuffixBuff buff(){
+			if (buff!=null){
+				return buff;
+			}
+			else {
+				buff=newBuff();
+				return buff;
+			}
+		}
+
+		protected SuffixBuff newBuff(){
+			return new SuffixBuff();
+		}
+
+		protected Suffix parent;
+
+		public void activate(Char ch){
+			buff().attachTo(ch);
+		}
+
+		public boolean curse() {
+			return false;
+		}
+
+		public abstract int proc(Weapon weapon, Char attacker, Char defender, int damage );
+
+		public float[] modifiers(){
+			return new float[]{
+					1f,		//min dmg(*)
+					1f,		//max dmg(*)
+					1f,		//speed(/)
+					0f,		//defence(casted to int)(+)
+			};
+		}
+
+		public boolean act(){
+			return true;
+		}
+
+		public String desc(){
+			return Messages.get(this,"desc");
+		}
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+		}
+
+		public class SuffixBuff extends Buff{
+			@Override
+			public boolean act() {
+				if (parent.buff!=this){
+					detach();
+					return true;
+				}
+				return parent.act();
+			}
+		}
+	}
 }

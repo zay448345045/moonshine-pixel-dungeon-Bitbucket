@@ -202,7 +202,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 
 		storyline=MoonshinePixelDungeon.storyline();
-		depth = storyline==0?0:34;
+		depth = storyline==0?0:30;
 		gold = 0;
 
 		droppedItems = new SparseArray<ArrayList<Item>>();
@@ -307,7 +307,7 @@ public class Dungeon {
 		case 32:
 		case 33:
 		case 34:
-			level = new VolcanoLevel();
+			level = new GardenLevel();
 			break;
 		case 35:
 			level = new VolcanoBossLevel();

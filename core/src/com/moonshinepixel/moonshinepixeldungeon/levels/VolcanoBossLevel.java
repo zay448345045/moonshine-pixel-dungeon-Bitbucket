@@ -447,7 +447,7 @@ public class VolcanoBossLevel extends Level {
 	@Override
 	public Group addVisuals( ) {
 		super.addVisuals();
-		CityLevel.addCityVisuals(this, visuals);
+		VolcanoLevel.addVolcanoVisuals(this, visuals);
 		return visuals;
 	}
 }

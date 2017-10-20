@@ -68,29 +68,32 @@ public abstract class ConnectionRoom extends Room {
 		rooms.add(WalkwayRoom.class);
 		
 		rooms.add(MazeConnectionRoom.class);
+		rooms.add(WellConnectorRoom.class);
 	}
 	
 	private static float[][] chances = new float[100][];
 	static {
-		Arrays.fill(chances, new float[]{1, 1, 1, 1, 1});
-		chances[1] =  new float[]{10, 1,  0, 1,  0};
+		Arrays.fill(chances, new float[]{1, 1, 1, 1, 1, 1});
+		chances[1] =  new float[]{10, 1,  0, 1,  0, 0};
 		chances[4] =  chances[3] = chances[2] = chances[1];
-		chances[5] =  new float[]{1, 0,  0, 0,  0};
+		chances[5] =  new float[]{1, 0,  0, 0,  0, 0};
 		
-		chances[6] =  new float[]{0, 0,  10, 2,  0};
+		chances[6] =  new float[]{0, 0,  10, 2,  0, 0};
 		chances[10] = chances[9] = chances[8] = chances[7] = chances[6];
 		
-		chances[11] = new float[]{10, 0,  0, 5,  0};
+		chances[11] = new float[]{10, 0,  0, 5,  0, 0};
 		chances[15] = chances[14] = chances[13] = chances[12] = chances[11];
 		
-		chances[16] = new float[]{0, 1,  10, 1,  0};
+		chances[16] = new float[]{0, 1,  10, 1,  0, 0};
 		chances[20] = chances[19] = chances[18] = chances[17] = chances[16];
 		
 		chances[21] = chances[5];
 		
-		chances[22] = new float[]{10, 3,  0, 2,  0};
+		chances[22] = new float[]{10, 3,  2, 0,  0, 0};
 		chances[26] = chances[25] = chances[24] = chances[23] = chances[22];
-		chances[31] = new float[]{10, 3,  0, 5,  2};
+		chances[31] = new float[]{10, 0,  0, 0,  3, 2};
+//		chances[31] = new float[]{0, 0,  0, 0,  0, 2};
+		chances[34] = chances[33] = chances[32] = chances[31];
 	}
 	
 	public static ConnectionRoom createRoom(){

@@ -47,25 +47,15 @@ public abstract class BulletGun extends Gun {
         return tier;
     }
 
-    public int tier;
-
     @Override
     public float acu() {
         return 1.0f;
     }
     protected boolean strAcuMod = true;
     @Override
-    public int min(){
-        return min(level());
-    }
-    @Override
     public int min(int lvl){
         return  Math.max(tier(),2) +//base
                 lvl;    //level scaling
-    }
-    @Override
-    public int max(){
-        return max(level());
     }
 
     @Override

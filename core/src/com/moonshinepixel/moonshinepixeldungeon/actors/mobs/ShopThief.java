@@ -177,6 +177,11 @@ public class ShopThief extends Mob {
 	}
 
 	@Override
+	public boolean reset() {
+		return true;
+	}
+
+	@Override
 	public String description() {
 		String desc = super.description();
 

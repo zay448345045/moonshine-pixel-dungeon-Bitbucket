@@ -22,7 +22,6 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Sheep;
 import com.watabou.utils.Random;
 
 public class Bestiary {
@@ -53,8 +52,8 @@ public class Bestiary {
 				cl = Senior.class;
 			} else if (cl == Scorpio.class) {
 				cl = Acidic.class;
-//			} else if (cl == Slime.class) {
-//				cl = Caustic.class;
+			} else if (cl == Slime.class) {
+				cl = Caustic.class;
 			}
 		}
 		if (Random.Int(10)==0){
@@ -185,29 +184,24 @@ public class Bestiary {
 
 		case 31:
 			chances = new float[]{ 1 };
-			classes = new Class<?>[]{MagmaGolem.class};
+			classes = new Class<?>[]{ Slime.class };
 			break;
-
-//		case 31:
-//			chances = new float[]{ 1 };
-//			classes = new Class<?>[]{ Slime.class };
-//			break;
-//		case 32:
-//			chances = new float[]{ 2, 1 };
-//			classes = new Class<?>[]{ Slime.class, Snake.class };
-//			break;
-//		case 33:
-//			chances = new float[]{ 1, 1 };
-//			classes = new Class<?>[]{ Slime.class, Snake.class };
-//			break;
-//		case 34:
-//			chances = new float[]{ 1, 1 };
-//			classes = new Class<?>[]{ Slime.class, Snake.class };
-//			break;
-//		case 35:
-//			chances = new float[]{ 1 };
-//			classes = new Class<?>[]{ StoneSnake.class };
-//			break;
+		case 32:
+			chances = new float[]{ 2, 1 };
+			classes = new Class<?>[]{ Slime.class, Snake.class };
+			break;
+		case 33:
+			chances = new float[]{ 2, 3 };
+			classes = new Class<?>[]{ Slime.class, Snake.class };
+			break;
+		case 34:
+			chances = new float[]{ 2, 3 };
+			classes = new Class<?>[]{ Slime.class, Snake.class };
+			break;
+		case 35:
+			chances = new float[]{ 1 };
+			classes = new Class<?>[]{ StoneSnake.class };
+			break;
 			
 		default:
 			chances = new float[]{ 1 };

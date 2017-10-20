@@ -94,15 +94,7 @@ public class WeaponKit extends Item {
 		
 		GLog.w( Messages.get(this, "upgraded", wep.name()) );
 
-		if (wep instanceof BulletGun){
-			((BulletGun)wep).tier+=1;
-		}
-		if (wep instanceof MeleeWeapon){
-			((MeleeWeapon)wep).tier+=1;
-		}
-		if (wep instanceof Boomerang){
-			((Boomerang)wep).tier+=1;
-		}
+		wep.tier++;
 		
 		curUser.sprite.operate( curUser.pos );
 		Sample.INSTANCE.play( Assets.SND_EVOKE );

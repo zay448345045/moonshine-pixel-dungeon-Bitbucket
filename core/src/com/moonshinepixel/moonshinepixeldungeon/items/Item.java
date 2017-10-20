@@ -74,7 +74,9 @@ public class Item implements Bundlable {
 	
 	public boolean stackable = false;
 	protected int quantity = 1;
-	
+
+	public int tier = 0;
+
 	private int level = 0;
 
 	public boolean levelKnown = false;
@@ -470,6 +472,7 @@ public class Item implements Bundlable {
 	private static final String CURSED			= "cursed";
 	private static final String CURSED_KNOWN	= "cursedKnown";
 	private static final String QUICKSLOT		= "quickslotpos";
+	public static final String TIER = "tier";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -479,6 +482,7 @@ public class Item implements Bundlable {
 		bundle.put( TURNS_KNOWN, knownTurns );
 		bundle.put( CURSED, cursed );
 		bundle.put( CURSED_KNOWN, cursedKnown );
+		bundle.put(TIER,tier);
 		if (Dungeon.quickslot.contains(this)) {
 			bundle.put( QUICKSLOT, Dungeon.quickslot.getSlot(this) );
 		}
@@ -491,7 +495,11 @@ public class Item implements Bundlable {
 		cursedKnown	= bundle.getBoolean( CURSED_KNOWN );
 
 		knownTurns=bundle.getInt(TURNS_KNOWN);
-		
+
+		if (bundle.contains(TIER)) {
+			tier = bundle.getInt(TIER);
+		}
+
 		int level = bundle.getInt( LEVEL );
 		if (level > 0) {
 			upgrade( level );

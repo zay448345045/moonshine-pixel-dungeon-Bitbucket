@@ -21,8 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 
 import com.moonshinepixel.moonshinepixeldungeon.*;
-import com.moonshinepixel.moonshinepixeldungeon.items.ArmorKit;
-import com.moonshinepixel.moonshinepixeldungeon.items.WeaponKit;
+import com.moonshinepixel.moonshinepixeldungeon.items.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.EtherealChains;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.AshBomb;
@@ -49,8 +48,6 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bulle
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GrippingTrap;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.items.BrokenSeal;
-import com.moonshinepixel.moonshinepixeldungeon.items.TomeOfMastery;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfHealing;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfMindVision;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfUpgrade;
@@ -62,6 +59,8 @@ import com.moonshinepixel.moonshinepixeldungeon.plants.Fadeleaf;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundle;
+
+import javax.rmi.CORBA.Tie;
 
 public enum HeroClass {
 
@@ -84,10 +83,6 @@ public enum HeroClass {
 
 		initCommon( hero );
 
-		if (Game.previewmode){
-			initDev( hero );
-		}
-
 		switch (this) {
 			case WARRIOR:
 				initWarrior( hero );
@@ -109,12 +104,16 @@ public enum HeroClass {
                 break;
 		}
 
+		if (Game.previewmode){
+			initDev( hero );
+		}
+
 		hero.updateAwareness();
 	}
 
 	private static void initDev( Hero hero ){
-		hero.earnExp(150);
-		hero.STR=18;
+//		hero.earnExp(150);
+//		hero.STR=26;
 		WeaponKit ak = new WeaponKit();
 		ak.collect();
 		ak = new WeaponKit();
@@ -122,6 +121,11 @@ public enum HeroClass {
 		ak = new WeaponKit();
 		ak.collect();
 
+		ScrollOfMagicMapping somm = new ScrollOfMagicMapping();
+		somm.quantity(10);
+		somm.identify().collect();
+
+//		hero.belongings.weapon.tier=6;
 	}
 
 	private static void initCommon( Hero hero ) {

@@ -109,12 +109,18 @@ public class GiantShuriken extends MeleeWeapon {
                             if (curWep.enchantment!=null){
                                 dmg=curWep.enchantment.proc(curWep, Item.curUser,enemy,dmg);
                             }
+                            if (curWep.suffix!=null){
+                                dmg=curWep.suffix.proc(curWep, Item.curUser,enemy,dmg);
+                            }
                             enemy.damage(dmg, Item.curUser);
                             enemy.sprite.bloodBurstA( Item.curUser.sprite.center(), dmg );
                             enemy.sprite.flash();
-                            if (curWep.enchantment!=null){
-                                curWep.enchantment.proc(curWep, Item.curUser,enemy,dmg);
-                            }
+//                            if (curWep.enchantment!=null){
+//                                curWep.enchantment.proc(curWep, Item.curUser,enemy,dmg);
+//                            }
+//                            if (curWep.suffix!=null){
+//                                curWep.suffix.proc(curWep, Item.curUser,enemy,dmg);
+//                            }
                             if (!enemy.isAlive() && Dungeon.visible[enemy.pos]) {
                                 GLog.i( Messages.capitalize(Messages.get(Char.class, "defeat", enemy.name)) );
                             }

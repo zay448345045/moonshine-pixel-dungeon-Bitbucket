@@ -34,8 +34,6 @@ import java.util.ArrayList;
 
 public class Boomerang extends MissileWeapon {
 
-	public int tier = 1;
-
 	{
 		image = ItemSpriteSheet.BOOMERANG;
 

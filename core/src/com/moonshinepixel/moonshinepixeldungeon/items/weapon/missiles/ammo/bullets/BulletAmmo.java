@@ -13,15 +13,8 @@ public abstract class BulletAmmo extends Ammo {
     {
         defaultAction=null;
     }
-    @Override
-    public int min() {
-        return min(level());
-    }
     public int min(int i) {
         return 0;
-    }
-    public int max() {
-        return max(level());
     }
     public int max(int i) {
         return 0;

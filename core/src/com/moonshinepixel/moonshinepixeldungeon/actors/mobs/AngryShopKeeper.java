@@ -66,6 +66,11 @@ public class AngryShopKeeper extends Mob {
 	}
 
 	@Override
+	public boolean reset() {
+		return true;
+	}
+
+	@Override
 	protected boolean getFurther(int target) {
 		return false;
 	}

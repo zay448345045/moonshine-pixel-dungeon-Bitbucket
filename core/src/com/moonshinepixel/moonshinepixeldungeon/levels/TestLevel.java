@@ -21,8 +21,11 @@
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.TriggerBlob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.triggers.VineTrigger;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Rat;
@@ -98,7 +101,7 @@ public class TestLevel extends Level {
 
 		entrance = SIZE * width() + SIZE / 2 + 1;
 		
-		map[(SIZE / 2 + 1) * (width() + 1)] = Terrain.SIGN;
+		map[(SIZE / 2 + 1) * (width() + 1)] = Terrain.EMPTY_SP;
 		
 		exit = 0;
 
@@ -121,6 +124,9 @@ public class TestLevel extends Level {
 		} while (!getPassable(rat.pos));
 		mobs.add(rat);
 		mobs.add(rat2);
+
+
+		TriggerBlob.place((SIZE / 2 + 1) * (width() + 1), this, VineTrigger.class);
 	}
 	public boolean spawned = false;
 
@@ -143,7 +149,13 @@ public class TestLevel extends Level {
 	@Override
 	protected void createItems() {
 	}
-	
+
+	@Override
+	public void press(int cell, Char ch) {
+		entrance=0;
+		super.press(cell, ch);
+	}
+
 	@Override
 	public int randomRespawnCell() {
 		return entrance-width();

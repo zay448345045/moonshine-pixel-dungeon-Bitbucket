@@ -30,8 +30,6 @@ import com.watabou.utils.Random;
 
 public class MeleeWeapon extends Weapon {
 
-	public int tier;
-
 	@Override
 	public int min(int lvl) {
 		return  tier +  //base
@@ -127,19 +125,5 @@ public class MeleeWeapon extends Weapon {
 			price = 1;
 		}
 		return price;
-	}
-	public static final String TIER = "tier";
-	@Override
-	public void storeInBundle(Bundle bundle) {
-		super.storeInBundle(bundle);
-		bundle.put(TIER,tier);
-	}
-
-	@Override
-	public void restoreFromBundle(Bundle bundle) {
-		super.restoreFromBundle(bundle);
-		if (bundle.contains(TIER)) {
-			tier = bundle.getInt(TIER);
-		}
 	}
 }

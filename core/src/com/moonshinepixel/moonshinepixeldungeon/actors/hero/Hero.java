@@ -879,6 +879,16 @@ public class Hero extends Char {
 					Game.switchScene( SurfaceScene.class );
 				}
 				
+			} else if (Dungeon.depth == 31){
+
+				if (belongings.getItem( Amulet.class ) == null) {
+					GameScene.show( new WndMessage( Messages.get(this, "leave") ) );
+					ready();
+				} else {
+					Dungeon.win( Amulet.class );
+					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
+					Game.switchScene( SurfaceScene.class );
+				}
 			} else {
 				
 				curAction = null;

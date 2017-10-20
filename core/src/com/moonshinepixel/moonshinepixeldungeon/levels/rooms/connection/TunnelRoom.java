@@ -21,16 +21,20 @@
 package com.moonshinepixel.moonshinepixeldungeon.levels.rooms.connection;
 
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
+import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 //tunnels along the rooms center, with straight lines
 public class TunnelRoom extends ConnectionRoom {
-	
+
+	protected int floor = Terrain.CHASM;
+
 	public void paint(Level level) {
-		
-		int floor = level.tunnelTile();
+		if (floor == Terrain.CHASM) {
+			 floor = level.tunnelTile();
+		}
 		
 		Point c = center();
 		

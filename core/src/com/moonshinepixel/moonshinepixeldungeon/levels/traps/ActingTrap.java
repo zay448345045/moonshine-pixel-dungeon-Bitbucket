@@ -35,7 +35,7 @@ public abstract class ActingTrap extends Trap {
     }
     public static class TrapActor extends Actor {
         {
-            actPriority = 3; //as if it were a buff
+            actPriority = -1;
         }
 
         private ActingTrap trap;

@@ -98,9 +98,12 @@ abstract public class Weapon extends KindOfWeapon {
 	
 	@Override
 	public int proc(Char attacker, Char defender, int damage ) {
-		
+
 		if (enchantment != null) {
 			damage = enchantment.proc( this, attacker, defender, damage );
+		}
+		if (suffix != null) {
+			damage = suffix.proc( this, attacker, defender, damage );
 		}
 		
 		if (!levelKnown) {
@@ -168,7 +171,7 @@ abstract public class Weapon extends KindOfWeapon {
 
 		DLY = (float)(0.2 + (DLY - 0.2)*Math.pow(0.85, bonus));
 
-		return
+		return super.speedFactor(hero) *
 				(encumrance > 0 ? (float)(DLY * Math.pow( 1.2, encumrance )) : DLY);
 	}
 
