@@ -73,12 +73,12 @@ public class GardenLevel extends RegularLevel {
 
 	@Override
 	public String tilesTex() {
-		return Assets.TILES_SEWERS;
+		return Assets.TILES_GARDEN;
 	}
 
 	@Override
 	public String waterTex() {
-		return Assets.WATER_SEWERS;
+		return Assets.WATER_PRISON;
 	}
 
 	@Override

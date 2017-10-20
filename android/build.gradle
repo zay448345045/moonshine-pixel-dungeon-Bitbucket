@@ -6,6 +6,7 @@ android {
 		versionCode project.ext.versionCode
 		versionName version
 	}
+
 	sourceSets {
 		main {
 			manifest.srcFile 'AndroidManifest.xml'

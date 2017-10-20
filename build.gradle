@@ -16,9 +16,9 @@ allprojects {
 	apply plugin: "eclipse"
 	apply plugin: "idea"
 
-	version = '0.1.12 - alpha'
+	version = '0.1.13 - alpha'
 	ext {
-		versionCode = 52
+		versionCode = 53
 		appName = 'moonshine-pixel-dungeon'
 		appTitle = 'moonshine Pixel Dungeon'
 		appId = 'com.moonshinepixel.moonshinepixeldungeon'
@@ -47,7 +47,7 @@ project(":desktop") {
 	}
 }
 
-/*project(":android") {
+project(":android") {
 	apply plugin: "android"
 
 	configurations { natives }
@@ -62,7 +62,7 @@ project(":desktop") {
 		compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
 	}
 }
-
+/*
 project(":ios") {
 	apply plugin: "java"
 	apply plugin: "robovm"

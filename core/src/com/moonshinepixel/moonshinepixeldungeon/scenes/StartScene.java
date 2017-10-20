@@ -79,7 +79,7 @@ public class StartScene extends PixelScene {
 
 		super.create();
 
-        if (Random.Int(100)<10) invert = true; else invert=false;
+        //if (Random.Int(100)<10) invert = true; else invert=false;
 
 		Badges.loadGlobal();
 

@@ -39,6 +39,10 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update =
 			"_NOTE:_ Desktop version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.13 - alpha:_\n" +
+					"_-_ Not quite gameplay changing but some bugfixes and first android release"+
+					"\n" +
+					"\n" +
 					"_v0.1.12 - alpha:_\n" +
 					"_-_ All weapons now have 5% chance to spawn with +-1 tier, Shopkeeper now will attack hero instead of fleeing, Goo now drops weapon upgrade kit instead of Lloyds Beacon. Lloyds Beacon now generates as regular artifact. Improved guns stats description"+
 					"\n" +
