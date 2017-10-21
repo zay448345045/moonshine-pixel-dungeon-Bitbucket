@@ -37,7 +37,15 @@ import com.watabou.noosa.ui.Component;
 public class ChangesScene extends PixelScene {
 
 	private static final String TXT_Update =
-			"_NOTE:_ Desktop version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
+			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
+					"\n" +
+					"_v0.1.15 - alpha):_\n" +
+					"_-_ Now you can change name of your hero. Some bugfixes"+
+					"\n" +
+					"\n" +
+					"_v0.1.14 - alpha (android only):_\n" +
+					"_-_ Fixed game not saving, fixed lots of crashes"+
+					"\n" +
 					"\n" +
 					"_v0.1.13 - alpha:_\n" +
 					"_-_ Not quite gameplay changing but some bugfixes and first android release"+

@@ -155,7 +155,7 @@ public class Hero extends Char {
 	
 	public Hero() {
 		super();
-		name = Messages.get(this, "name");
+		name = MoonshinePixelDungeon.heroName();
 		
 		HP = HT = 20;
 		STR = STARTING_STR;

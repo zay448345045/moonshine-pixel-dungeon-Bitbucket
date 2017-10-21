@@ -57,6 +57,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.armor.ClothArmor;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.CloakOfShadows;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Fadeleaf;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
+import com.moonshinepixel.moonshinepixeldungeon.plants.Sungrass;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundle;
 
@@ -124,6 +125,8 @@ public enum HeroClass {
 		ScrollOfMagicMapping somm = new ScrollOfMagicMapping();
 		somm.quantity(10);
 		somm.identify().collect();
+		Plant.Seed seed = new Sungrass.Seed();
+		seed.collect();
 
 //		hero.belongings.weapon.tier=6;
 	}

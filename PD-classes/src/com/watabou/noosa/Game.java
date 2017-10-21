@@ -251,9 +251,16 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 		Gdx.input.vibrate(milliseconds);
 	}
 
+	private static final String pref = "-a";
+
 	public boolean deleteFile(String fileName) {
-		final FileHandle fh = Gdx.files.external(basePath != null ? basePath + fileName : fileName);
-		return fh.exists() && fh.delete();
+		if (!basePath.equals("android")) {
+			final FileHandle fh = Gdx.files.external(basePath != null ? basePath + fileName : fileName);
+			return fh.exists() && fh.delete();
+		} else {
+			final FileHandle fh = Gdx.files.local("files/"+pref+fileName);
+			return fh.exists() && fh.delete();
+		}
 	}
 
 	public InputStream openFileInput(String fileName) throws IOException {
@@ -263,7 +270,7 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 				throw new IOException("File " + fileName + " doesn't exist");
 			return fh.read();
 		} else {
-			final FileHandle fh = Gdx.files.local(fileName);
+			final FileHandle fh = Gdx.files.local("files/"+pref+fileName);
 			if (!fh.exists())
 				throw new IOException("File " + fileName + " doesn't exist");
 			return fh.read();
@@ -275,7 +282,7 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 			final FileHandle fh = Gdx.files.external(basePath != null ? basePath + fileName : fileName);
 			return fh.write(false);
 		} else {
-			final FileHandle fh = Gdx.files.local("saves/"+fileName);
+			final FileHandle fh = Gdx.files.local("files/"+pref+fileName);
 			return fh.write(false);
 		}
 	}
@@ -295,5 +302,9 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	public interface SceneChangeCallback {
 		void beforeCreate();
 		void afterCreate();
+	}
+
+	public static boolean isAndroid(){
+		return instance.basePath.equals("android");
 	}
 }

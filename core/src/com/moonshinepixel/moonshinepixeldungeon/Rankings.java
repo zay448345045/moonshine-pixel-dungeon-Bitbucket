@@ -260,9 +260,11 @@ public enum Rankings {
 		private static final String DATA	= "gameData";
 		private static final String ID      = "gameID";
 		private static final String CHALLENGES= "challenges";
+		private static final String NAME	= "name";
 
 		public Class cause;
 		public boolean win;
+		public String name;
 
 		public HeroClass heroClass;
 		public int armorTier;
@@ -312,6 +314,7 @@ public enum Rankings {
 //			System.out.println("got_"+challenges);
 //			System.out.println("got_"+heroClass);
 			herolevel = bundle.getInt( LEVEL );
+			name = bundle.getString( NAME );
 		}
 
 		@Override
@@ -327,6 +330,7 @@ public enum Rankings {
 			bundle.put( LEVEL, herolevel );
 			bundle.put( DEPTH, depth );
 			bundle.put( CHALLENGES, challenges );
+			bundle.put( NAME, name);
 //			System.out.println("put_"+challenges);
 //			System.out.println("put_"+heroClass);
 

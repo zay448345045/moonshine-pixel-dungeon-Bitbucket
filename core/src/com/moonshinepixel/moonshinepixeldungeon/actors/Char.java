@@ -49,7 +49,7 @@ public abstract class Char extends Actor {
 	
 	public CharSprite sprite;
 	
-	public String name = "mob";
+	public String name = defaultName();
 	
 	public int HT;
 	public int HP;
@@ -75,6 +75,10 @@ public abstract class Char extends Actor {
         return 1;
     }
 
+    public String defaultName(){
+    	return Messages.get(this, "name");
+	}
+
 	@Override
 	protected boolean act() {
 		Dungeon.level.updateFieldOfView( this, Level.fieldOfView );
@@ -87,7 +91,8 @@ public abstract class Char extends Actor {
 	private static final String TAG_HT		= "HT";
 	private static final String TAG_SHLD    = "SHLD";
 	private static final String BUFFS		= "buffs";
-	
+	private static final String NAME		= "name";
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		
@@ -99,6 +104,7 @@ public abstract class Char extends Actor {
 		bundle.put( TAG_HT, HT );
 		bundle.put( TAG_SHLD, SHLD );
 		bundle.put( BUFFS, buffs );
+		bundle.put( NAME, name );
 	}
 	
 	@Override
@@ -111,7 +117,13 @@ public abstract class Char extends Actor {
 		HP = bundle.getInt( TAG_HP );
 		HT = bundle.getInt( TAG_HT );
 		SHLD = bundle.getInt( TAG_SHLD );
-		
+
+		if (bundle.contains(NAME)){
+			name=bundle.getString(NAME);
+		} else {
+			name=defaultName();
+		}
+
 		for (Bundlable b : bundle.getCollection( BUFFS )) {
 			if (b != null) {
 				((Buff)b).attachTo( this );

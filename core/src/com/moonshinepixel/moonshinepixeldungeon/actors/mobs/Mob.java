@@ -60,7 +60,6 @@ import java.util.Map;
 public abstract class Mob extends Char {
 
 	{
-		name = Messages.get(this, "name");
 		actPriority = 2; //hero gets priority over mobs.
 	}
 	
@@ -106,7 +105,6 @@ public abstract class Mob extends Char {
 	public int danger(){
 		return (int)(HT+regularDMG()*baseSpeed);
 	}
-
 
 	//FIXME: THIS IS BAD! Must be a better way
 	public int regularDMG(){

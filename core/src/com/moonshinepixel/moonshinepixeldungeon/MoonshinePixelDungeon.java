@@ -23,7 +23,9 @@ package com.moonshinepixel.moonshinepixeldungeon;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.standard.RitualSiteRoom;
+import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.WelcomeScene;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
@@ -44,7 +46,7 @@ import java.util.Locale;
 
 public class MoonshinePixelDungeon extends Game<GameAction> {
 	
-	//old shad
+	//old shat
 	public static final int v0_0_0  = 41;
 	
 	public MoonshinePixelDungeon(final PDPlatformSupport<GameAction> platformSupport) {
@@ -404,6 +406,14 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 
 	public static int devlevel(){
 		return Game.previewmode?9:1;
+	}
+
+	public static String heroName() {
+		return Preferences.INSTANCE.getString( Preferences.KEY_NAME, Messages.get(Hero.class, "name") );
+	}
+
+	public static void heroName(String value){
+		Preferences.INSTANCE.put( Preferences.KEY_NAME, value );
 	}
 
 	/*

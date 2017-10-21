@@ -23,11 +23,9 @@ package com.moonshinepixel.moonshinepixeldungeon.windows;
 import com.moonshinepixel.moonshinepixeldungeon.Badges;
 import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.ui.CheckBox;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Icons;
-import com.moonshinepixel.moonshinepixeldungeon.ui.OptionSlider;
-import com.moonshinepixel.moonshinepixeldungeon.ui.ScrollPane;
+import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.StartScene;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -43,7 +41,7 @@ public class WndRunSettings extends WndTabbed {
 
 	private static final String TXT_BINDINGS	= "Key bindings";
 
-	private static final int WIDTH		    = 150;
+	private static int WIDTH		    	= 150;
 	private static final int HEIGHT         = 138;
 	private static final int SLIDER_HEIGHT	= 24;
 	private static final int BTN_HEIGHT	    = 18;
@@ -67,6 +65,8 @@ public class WndRunSettings extends WndTabbed {
 		super();
 //		editable=true;
 
+		WIDTH=Math.min(Camera.main.width-Camera.main.width/4,150);
+
 		CAM=camera;
 
 		main = new MainTab();
@@ -86,6 +86,7 @@ public class WndRunSettings extends WndTabbed {
 				if (value) last_index = 0;
 			}
 		});
+
 		LabeledTab uiLabel = new LabeledTab(Messages.get(this, "gear")){
 			@Override
 			protected void select(boolean value) {
@@ -148,6 +149,7 @@ public class WndRunSettings extends WndTabbed {
 
 		public MainTab() {
 			super();
+			float top = 0;
 			OptionSlider genderSlider = new OptionSlider(Messages.get(this, "gender"),
 					Messages.get(this, "male"), Messages.get(this, "female"), 0, 1) {
 				@Override
@@ -160,6 +162,8 @@ public class WndRunSettings extends WndTabbed {
 			genderSlider.setRect(0, 0, WIDTH, SLIDER_HEIGHT);
 			add(genderSlider);
 
+			top+=genderSlider.height()+9;
+
 			OptionSlider storylineSlider = new OptionSlider(Messages.get(this, "storyline"),
 					Messages.get(this, "classic"), Messages.get(this, "moonshine"), 0, 1) {
 				@Override
@@ -168,10 +172,25 @@ public class WndRunSettings extends WndTabbed {
 				}
 			};
 			storylineSlider.setSelectedValue(MoonshinePixelDungeon.storyline());
-			storylineSlider.setRect(0,genderSlider.height()+9,  WIDTH, SLIDER_HEIGHT);
+			storylineSlider.setRect(0,top,  WIDTH, SLIDER_HEIGHT);
 //			storylineSlider.enabled(Game.previewmode);
 			storylineSlider.enabled(true);
 			add(storylineSlider);
+
+			top+=storylineSlider.height()+9;
+
+			TextField butt = new TextField("Name", MoonshinePixelDungeon.heroName()){
+				@Override
+				public void onTextChange() {
+					if (text().equals("")){
+						MoonshinePixelDungeon.heroName(Messages.get(Hero.class, "name"));
+					} else {
+						MoonshinePixelDungeon.heroName(text());
+					}
+				}
+			};
+			butt.setRect(0,top, WIDTH, SLIDER_HEIGHT);
+			add(butt);
 		}
 	}
 
@@ -349,6 +368,5 @@ public class WndRunSettings extends WndTabbed {
 				onTouchDown();
 			}
 		}
-
 	}
 }
