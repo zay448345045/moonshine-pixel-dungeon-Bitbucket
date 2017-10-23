@@ -28,6 +28,7 @@ import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Recharging;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.moonshinepixel.moonshinepixeldungeon.utils.Holidays;
 
 import java.util.Calendar;
 
@@ -35,43 +36,9 @@ public class Pasty extends Food {
 
 	//TODO: implement fun stuff for other holidays
 	//TODO: probably should externalize this if I want to add any more festive stuff.
-	private enum Holiday{
-		NONE,
-		EASTER, //TBD
-		HWEEN,//2nd week of october though first day of november
-		XMAS //3rd week of december through first week of january
-	}
-
-	private static Holiday holiday;
-
-	static{
-
-		holiday = Holiday.NONE;
-
-		final Calendar calendar = Calendar.getInstance();
-		switch(calendar.get(Calendar.MONTH)){
-			case Calendar.JANUARY:
-				if (calendar.get(Calendar.WEEK_OF_MONTH) == 1)
-					holiday = Holiday.XMAS;
-				break;
-			case Calendar.OCTOBER:
-				if (calendar.get(Calendar.WEEK_OF_MONTH) >= 2)
-					holiday = Holiday.HWEEN;
-				break;
-			case Calendar.NOVEMBER:
-				if (calendar.get(Calendar.DAY_OF_MONTH) == 1)
-					holiday = Holiday.HWEEN;
-				break;
-			case Calendar.DECEMBER:
-				if (calendar.get(Calendar.WEEK_OF_MONTH) >= 3)
-					holiday = Holiday.XMAS;
-				break;
-		}
-	}
 
 	{
-
-		switch(holiday){
+		switch(Holidays.getHoliday()){
 			case NONE:
 				name = Messages.get(this, "pasty");
 				image = ItemSpriteSheet.PASTY;
@@ -97,7 +64,7 @@ public class Pasty extends Food {
 		super.execute(hero, action);
 
 		if (action.equals(AC_EAT)){
-			switch(holiday){
+			switch(Holidays.getHoliday()){
 				case NONE:
 					break; //do nothing extra
 				case HWEEN:
@@ -115,7 +82,7 @@ public class Pasty extends Food {
 
 	@Override
 	public String info() {
-		switch(holiday){
+		switch(Holidays.getHoliday()){
 			case NONE: default:
 				return Messages.get(this, "pasty_desc");
 			case HWEEN:

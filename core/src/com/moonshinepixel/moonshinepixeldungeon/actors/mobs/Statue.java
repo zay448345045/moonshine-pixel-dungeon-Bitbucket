@@ -149,7 +149,7 @@ public class Statue extends Mob {
 
 	@Override
 	public String description() {
-		return Messages.get(this, "desc", weapon.name());
+		return Messages.get(this, "desc", weapon.tier, weapon.name());
 	}
 	
 	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();

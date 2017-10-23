@@ -82,7 +82,10 @@ public class Challenges {
 	}
 
 	public static float hiveMobsMod(){
-		return Statistics.amuletObtained?2.5f:1.5f;
+		return Statistics.amuletObtained?3f:2f;
+	}
+	public static float noHiveMobsMod(){
+		return Statistics.amuletObtained?2f:1.5f;
 	}
 
 	public static float countdownTurns(){

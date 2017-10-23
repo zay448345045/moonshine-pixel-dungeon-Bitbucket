@@ -363,6 +363,10 @@ public class Hero extends Char {
 			dmg = berserk.damageFactor(dmg);
 		}
 		dmg = buff( Fury.class ) != null ? (int)(dmg * 1.5f) : dmg;
+		Drunk dr = buff(Drunk.class);
+		if (dr!=null){
+			dmg+=dmg*dr.dmgMod();
+		}
         ShadowRage sr = buff(ShadowRage.class);
         if (sr!=null) {
             dmg *= Math.max(0.5f * sr.LEVEL, 1);
@@ -519,6 +523,10 @@ public class Hero extends Char {
 			
 			if (resting) {
 				spend( TIME_TO_REST ); next();
+				Drunk dr = buff(Drunk.class);
+				if (dr!=null){
+					dr.drunk=Math.max(dr.drunk- Random.IntRange(2,6),0);
+				}
 				return false;
 			}
 

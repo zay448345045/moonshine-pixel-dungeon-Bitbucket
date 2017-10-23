@@ -26,6 +26,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.ui.BuffIndicator;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
+import com.watabou.utils.Random;
 
 public class MagicalSleep extends Buff {
 
@@ -36,7 +37,7 @@ public class MagicalSleep extends Buff {
 		if (super.attachTo( target ) && !target.immunities().contains(Sleep.class)) {
 
 			if (target instanceof Hero)
-				if (target.HP == target.HT) {
+				if (target.HP == target.HT && target.buff(Drunk.class)!=null) {
 					GLog.i(Messages.get(this, "toohealthy"));
 					detach();
 					return true;
@@ -57,8 +58,13 @@ public class MagicalSleep extends Buff {
 	@Override
 	public boolean act(){
 		if (target instanceof Hero) {
-			target.HP = Math.min(target.HP+1, target.HT);
 			((Hero) target).resting = true;
+			Drunk dr = target.buff(Drunk.class);
+			if (dr!=null){
+				dr.drunk=Math.max(dr.drunk- Random.IntRange(2,6),0);
+			} else {
+				target.HP = Math.min(target.HP+1, target.HT);
+			}
 			if (target.HP == target.HT) {
 				GLog.p(Messages.get(this, "wakeup"));
 				detach();

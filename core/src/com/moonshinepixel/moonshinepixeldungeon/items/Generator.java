@@ -26,6 +26,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.UnstableSpellbook;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.MysteryMeat;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Pasty;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
@@ -362,8 +363,10 @@ public class Generator {
 		Category.FOOD.classes = new Class<?>[]{
 			Food.class,
 			Pasty.class,
-			MysteryMeat.class };
-		Category.FOOD.probs = new float[]{ 4, 1, 0 };
+			MysteryMeat.class,
+			Moonshine.class
+		};
+		Category.FOOD.probs = new float[]{ 4, 1, 0, 0 };
 			
 		Category.RING.classes = new Class<?>[]{
 			RingOfAccuracy.class,

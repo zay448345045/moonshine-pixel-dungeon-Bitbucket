@@ -24,6 +24,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.moonshinepixel.moonshinepixeldungeon.input.PDInputProcessor;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.standard.RitualSiteRoom;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
@@ -51,7 +52,7 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 	
 	public MoonshinePixelDungeon(final PDPlatformSupport<GameAction> platformSupport) {
 		super(WelcomeScene.class, platformSupport);
-		
+
 		Game.version = platformSupport.getVersion();
 		Game.versionCode = platformSupport.getVersionCode();
 		Game.previewmode=platformSupport.isPreviewmode();
@@ -159,6 +160,9 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 		} else {
 			RenderedText.setFont( null );
 		}
+
+		ScreenOrientation(ScreenOrientation());
+		Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override
@@ -414,6 +418,14 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 
 	public static void heroName(String value){
 		Preferences.INSTANCE.put( Preferences.KEY_NAME, value );
+	}
+
+	public static void ScreenOrientation(boolean landcape){
+		Preferences.INSTANCE.put(Preferences.KEY_ORIENTATION,landcape);
+		((PDInputProcessor)Game.instance.getInputProcessor()).rotate(landcape);
+	}
+	public static boolean ScreenOrientation(){
+		return Preferences.INSTANCE.getBoolean(Preferences.KEY_ORIENTATION,false);
 	}
 
 	/*

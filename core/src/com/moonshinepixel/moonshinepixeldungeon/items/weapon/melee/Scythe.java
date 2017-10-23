@@ -24,14 +24,17 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.EarthImbue;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.FireImbue;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.features.HighGrass;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
+import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,23 +46,36 @@ public class Scythe extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.SCYTHE;
         DLY=1.5f;
-		tier = 2;
+		tier = Random.NormalIntRange(2,5);
         defaultAction = AC_MOW;
 	}
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
         HashSet<Char> targets = new HashSet();
-        for (int pf : PathFinder.NEIGHBOURS8){
-            int cell = attacker.pos+pf;
-            Char ch = Actor.findChar(cell);
-            if(ch!=null){
-                if (Dungeon.level.adjacent(ch.pos,defender.pos)){
-                    targets.add(ch);
-                }
+//        for (int pf : PathFinder.NEIGHBOURS8){
+//            int cell = attacker.pos+pf;
+//            Char ch = Actor.findChar(cell);
+//            if(ch!=null){
+//                if (Dungeon.level.adjacent(ch.pos,defender.pos)){
+//                    targets.add(ch);
+//                }
+//            }
+//            if (Dungeon.level.map[cell] == Terrain.HIGH_GRASS){
+////                HighGrass.trample(Dungeon.level,cell,null);
+//            }
+//        }
+        HashSet<Char> posTargs = new HashSet();
+        PathFinder.buildDistanceMap(attacker.pos, BArray.or(Level.getPassable(),Level.getAvoid(),null));
+        for (Char ch :Dungeon.level.mobs ){
+            if (!(ch == attacker )&&PathFinder.distance[ch.pos]<=reachFactor(attacker instanceof Hero?(Hero)attacker:null)) {
+                posTargs.add(ch);
             }
-            if (Dungeon.level.map[cell] == Terrain.HIGH_GRASS){
-//                HighGrass.trample(Dungeon.level,cell,null);
+        }
+        PathFinder.buildDistanceMap(defender.pos, BArray.or(Level.getPassable(),Level.getAvoid(),null));
+        for (Char ch :posTargs ){
+            if (PathFinder.distance[ch.pos]<=reachFactor(attacker instanceof Hero?(Hero)attacker:null)) {
+                targets.add(ch);
             }
         }
         for (Char enemy : targets){

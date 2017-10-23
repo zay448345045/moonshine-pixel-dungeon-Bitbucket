@@ -23,8 +23,8 @@ package com.moonshinepixel.moonshinepixeldungeon.scenes;
 import com.badlogic.gdx.Gdx;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
-import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
+import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
 import com.moonshinepixel.moonshinepixeldungeon.ui.Icons;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RenderedTextMultiline;
 import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
@@ -65,7 +65,7 @@ public class AboutScene extends PixelScene {
 		final float colTop = (Camera.main.height / 2) - (MoonshinePixelDungeon.landscape() ? 30 : 90);
 		final float wataOffset = MoonshinePixelDungeon.landscape() ? colWidth : 0;
 
-		Image shpx = new ItemSprite((new GunslingerSubbag().image()),null);
+		Image shpx = new ItemSprite(ItemSpriteSheet.MOONSHINELOGO,null);
 		shpx.x = (colWidth - shpx.width()) / 2;
 		shpx.y = colTop;
 		align(shpx);

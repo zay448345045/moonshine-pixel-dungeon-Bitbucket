@@ -24,7 +24,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite.Glowing;
-import com.watabou.utils.GameMath;
+import com.watabou.utils.GameArrays;
 import com.watabou.utils.Random;
 
 import java.util.HashSet;
@@ -42,7 +42,7 @@ public class Lucky extends Weapon.Enchantment {
 			for (int i = 0; i < (level / 2) + 1; i++) {
 				rolls.add(attacker.damageRoll()-defender.drRoll());
 			}
-			damage = GameMath.findMaxInt(rolls);
+			damage = GameArrays.findMaxInt(rolls);
 
 		}
 		return damage;

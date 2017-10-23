@@ -23,6 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.sprites;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
+import com.moonshinepixel.moonshinepixeldungeon.utils.Holidays;
 import com.watabou.noosa.TextureFilm;
 
 public class SkeletonSprite extends MobSprite {
@@ -30,7 +31,7 @@ public class SkeletonSprite extends MobSprite {
 	public SkeletonSprite() {
 		super();
 		
-		texture( Assets.SKELETON );
+		texture(Holidays.getHoliday()==Holidays.HWEEN?Assets.SKELETONH:Assets.SKELETON);
 		
 		TextureFilm frames = new TextureFilm( texture, 12, 15 );
 		

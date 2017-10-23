@@ -48,7 +48,7 @@ public class BambooSpear extends MeleeWeapon {
 	{
 		image = ItemSpriteSheet.BAMBOSPEAR;
 
-		tier = 2;
+		tier = Random.NormalIntRange(2,5);
 
 	}
 
@@ -86,7 +86,7 @@ public class BambooSpear extends MeleeWeapon {
 	}
 
 	public BambooSpear grow(float num){
-		final float limit = 10;
+		final float limit = 70;
 		growLevel+= num;
 		growLevel=Math.min(growLevel,limit);
 //		DLY=(float)(1+Math.pow(Math.sqrt(1.5),reachFactor(Dungeon.hero)-1));

@@ -20,6 +20,8 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 
+import com.moonshinepixel.moonshinepixeldungeon.items.Item;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.GnollSprite;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.items.Gold;
@@ -39,7 +41,7 @@ public class Gnoll extends Mob {
 		loot = Gold.class;
 		lootChance = 0.5f;
 	}
-	
+
 	@Override
 	public int damageRoll() {
 		return Random.NormalIntRange( 1, 6 );

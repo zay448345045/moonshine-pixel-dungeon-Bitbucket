@@ -43,7 +43,7 @@ public class TextField extends RedButton {
 	public TextField( String label, String txt ){
 		super(label, 9);
 
-		inputText = PixelScene.renderText( 9 );
+		inputText = PixelScene.renderText( 7 );
 		inputText.text( txt );
 		add( inputText );
 	}
@@ -126,7 +126,7 @@ public class TextField extends RedButton {
 		white.size(width()-4-right,height-height/4);
 		right+=2;
 
-		inputText.x=right+2;
+		inputText.x=right+1;
 		inputText.y = y + (height - inputText.baseLine()) / 2;
 		PixelScene.align(inputText);
 	}

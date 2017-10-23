@@ -448,6 +448,7 @@ public class ItemSpriteSheet {
 	public static final int PASTY       = FOOD+6;
 	public static final int PUMPKIN_PIE = FOOD+7;
 	public static final int CANDY_CANE  = FOOD+8;
+	public static final int MOONSHINE  	= FOOD+9;
 	static{
 		assignItemRect(MEAT,        15, 11);
 		assignItemRect(STEAK,       15, 11);
@@ -458,6 +459,7 @@ public class ItemSpriteSheet {
 		assignItemRect(PASTY,       16, 11);
 		assignItemRect(PUMPKIN_PIE, 16, 12);
 		assignItemRect(CANDY_CANE,  13, 16);
+		assignItemRect(MOONSHINE,   13, 15);
 	}
 
 	private static final int QUEST  =                                       xy(1, 26);  //32 slots
@@ -497,9 +499,11 @@ public class ItemSpriteSheet {
 	private static final int MISC       =                                   xy(1, 29);  //16 slots
 	public static final int TRAP        = MISC+2;
 	public static final int SCRAP       = MISC+3;
+	public static final int MOONSHINELOGO= MISC+4;
 	static {
 		assignItemRect(TRAP,		16,16);
 		assignItemRect(SCRAP,		13,13);
+		assignItemRect(MOONSHINELOGO,12,14);
 	}
 
 	                                                                                    //48 free slots

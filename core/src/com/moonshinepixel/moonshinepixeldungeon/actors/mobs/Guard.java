@@ -27,6 +27,7 @@ import com.moonshinepixel.moonshinepixeldungeon.effects.Pushing;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
@@ -155,9 +156,9 @@ public class Guard extends Mob {
 		//otherwise, we may drop a health potion. overall chance is 7/(8 * (7 + potions dropped))
 		//with 0 potions dropped that simplifies to 1/8
 		} else {
-			if (Random.Int(7 + Dungeon.limitedDrops.guardHP.count) < 7){
+			if (Random.Int(10 + Dungeon.limitedDrops.guardHP.count) < 10){
 				Dungeon.limitedDrops.guardHP.drop();
-				return new PotionOfHealing();
+				return new Moonshine();
 			}
 		}
 

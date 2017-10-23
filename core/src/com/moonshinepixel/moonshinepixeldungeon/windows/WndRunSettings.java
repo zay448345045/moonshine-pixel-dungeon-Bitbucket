@@ -27,10 +27,12 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.StartScene;
+import com.moonshinepixel.moonshinepixeldungeon.utils.HeroNames;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.Callback;
 
 import java.util.ArrayList;
 
@@ -173,13 +175,25 @@ public class WndRunSettings extends WndTabbed {
 			};
 			storylineSlider.setSelectedValue(MoonshinePixelDungeon.storyline());
 			storylineSlider.setRect(0,top,  WIDTH, SLIDER_HEIGHT);
-//			storylineSlider.enabled(Game.previewmode);
 			storylineSlider.enabled(true);
 			add(storylineSlider);
 
 			top+=storylineSlider.height()+9;
 
-			TextField butt = new TextField("Name", MoonshinePixelDungeon.heroName()){
+			final Caller caller = new Caller() {
+				public RedButton butt;
+				@Override
+				public void call() {
+					butt.enable(true);
+				}
+
+				@Override
+				public void func1(Object obj) {
+					butt=(RedButton)obj;
+				}
+			};
+
+			final TextField name = new TextField("Name", MoonshinePixelDungeon.heroName()){
 				@Override
 				public void onTextChange() {
 					if (text().equals("")){
@@ -187,10 +201,41 @@ public class WndRunSettings extends WndTabbed {
 					} else {
 						MoonshinePixelDungeon.heroName(text());
 					}
+					if (!HeroNames.hasTitle(text()))
+						caller.call();
 				}
 			};
-			butt.setRect(0,top, WIDTH, SLIDER_HEIGHT);
-			add(butt);
+			name.setRect(0,top, WIDTH-GAP_TINY-SLIDER_HEIGHT/2, SLIDER_HEIGHT);
+			add(name);
+
+			RedButton rndName = new RedButton("?", 9){
+				@Override
+				protected void onClick() {
+					name.text(HeroNames.getName(MoonshinePixelDungeon.lastGender()==0?HeroNames.MALE:HeroNames.FEMALE,.0f));
+					MoonshinePixelDungeon.heroName(name.text());
+					if (!HeroNames.hasTitle(name.text()))
+						caller.call();
+				}
+			};
+
+			rndName.setRect(name.right()+GAP_TINY,name.top(),SLIDER_HEIGHT/2,SLIDER_HEIGHT/2);
+			add(rndName);
+			RedButton rndTitle = new RedButton("?", 9){
+				@Override
+				protected void onClick() {
+					name.text(HeroNames.titledName(name.text()));
+					MoonshinePixelDungeon.heroName(name.text());
+//					enable(false);
+				}
+			};
+
+			rndTitle.setRect(name.right()+GAP_TINY,rndName.bottom(),SLIDER_HEIGHT/2,SLIDER_HEIGHT/2);
+
+			caller.func1(rndTitle);
+
+			add(rndTitle);
+
+//			rndTitle.enable(false);
 		}
 	}
 
@@ -367,6 +412,19 @@ public class WndRunSettings extends WndTabbed {
 			if (inside( x, y )){
 				onTouchDown();
 			}
+		}
+	}
+
+	private abstract class Caller{
+
+		public abstract void call();
+
+		public void func1(Object obj){
+
+		}
+
+		public void func2(Object obj){
+
 		}
 	}
 }

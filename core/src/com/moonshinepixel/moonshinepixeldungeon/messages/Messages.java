@@ -20,6 +20,8 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.messages;
 
+import com.moonshinepixel.moonshinepixeldungeon.utils.HeroNames;
+
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -87,6 +89,8 @@ public class Messages {
 				strings.put(key, value);
 			}
 		}
+
+		HeroNames.init();
 	}
 
 
@@ -110,7 +114,7 @@ public class Messages {
 			key += "." + k;
 		} else
 			key = k;
-
+		key = key.replaceAll(" ", "_");
 		if (strings.containsKey(key.toLowerCase(Locale.ENGLISH))){
 			if (args.length > 0) return format(strings.get(key.toLowerCase(Locale.ENGLISH)), args);
 			else return strings.get(key.toLowerCase(Locale.ENGLISH));

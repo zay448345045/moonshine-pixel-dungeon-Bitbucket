@@ -189,11 +189,13 @@ public abstract class RegularLevel extends Level {
 	
 	@Override
 	public int nMobs() {
-		float mod = Dungeon.isChallenged(Challenges.HORDE)?1:Challenges.hiveMobsMod();
+		float mod = Dungeon.isChallenged(Challenges.HORDE)?Challenges.hiveMobsMod():Challenges.noHiveMobsMod();
 		switch(Dungeon.depth) {
 			case 1:
 				//mobs are not randomly spawned on floor 1.
-				return 0;
+				if (!Dungeon.isChallenged(Challenges.HORDE)) {
+					return 0;
+				}
 			default:
 				return (int)((2 + (int)((Dungeon.fakedepth[Dungeon.depth] % 5)*1.25f) + Random.Int(6))*mod);
 		}
@@ -201,9 +203,9 @@ public abstract class RegularLevel extends Level {
 	
 	@Override
 	protected void createMobs() {
-		float mod = Dungeon.isChallenged(Challenges.HORDE)?1:Challenges.hiveMobsMod();
+		float mod = Dungeon.isChallenged(Challenges.HORDE)?Challenges.hiveMobsMod():Challenges.noHiveMobsMod();
 		//on floor 1, 10 rats are created so the player can get level 2.
-		int mobsToSpawn = Dungeon.depth == 1 ? (int)(10*mod) : nMobs();
+		int mobsToSpawn = Dungeon.depth == 1 ? (int)(10) : nMobs();
 		
 		ArrayList<Room> stdRooms = new ArrayList<>();
 		for (Room room : rooms) {

@@ -48,7 +48,7 @@ public class GiantShuriken extends MeleeWeapon {
 
 	{
 		image = ItemSpriteSheet.GIGANTSHURIKEN;
-		tier = 2;
+		tier = Random.NormalIntRange(2,5);
 	}
 
     @Override

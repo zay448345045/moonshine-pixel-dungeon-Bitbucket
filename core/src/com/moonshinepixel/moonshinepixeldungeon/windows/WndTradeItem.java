@@ -20,8 +20,13 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ShopBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Blackjackkeeper;
+import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
+import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
 import com.moonshinepixel.moonshinepixeldungeon.items.EquipableItem;
 import com.moonshinepixel.moonshinepixeldungeon.items.Heap;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
@@ -150,12 +155,18 @@ public class WndTradeItem extends Window {
 								Dungeon.level.drop( item, heap.pos ).sprite.drop();
 							}
 						} else {
-							for (Mob mob : Dungeon.level.mobs){
-								if (mob instanceof Shopkeeper) {
-									mob.yell(Messages.get(mob, "thief"));
-									((Shopkeeper) mob).flee();
-									break;
+							if (Blob.volumeAt(Dungeon.hero.pos, ShopBlob.class)<=0) {
+								for (Mob mob : Dungeon.level.mobs) {
+									if (mob instanceof Shopkeeper) {
+										mob.yell(Messages.get(mob, "thief"));
+										((Shopkeeper) mob).flee();
+										break;
+									}
 								}
+							} else {
+								Dungeon.hero.damage(Dungeon.hero.HT/2, Blackjackkeeper.class);
+								new Blackjackkeeper().damage(1,Dungeon.hero);
+                                CellEmitter.get(Dungeon.hero.pos).burst(ElmoParticle.FACTORY, 4);
 							}
 							hide();
 						}

@@ -20,6 +20,7 @@
  */
 package com.watabou.pd.android;
 
+import com.badlogic.gdx.Input;
 import com.moonshinepixel.moonshinepixeldungeon.input.PDInputProcessor;
 
 public class AndroidInputProcessor extends PDInputProcessor {
@@ -42,5 +43,10 @@ public class AndroidInputProcessor extends PDInputProcessor {
 		pointers.get(pointer).update(screenX, screenY);
 		eventTouch.dispatch(null);
 		return true;
+	}
+
+	@Override
+	public void rotate(boolean landscape) {
+		AndroidLauncher.rotate(landscape);
 	}
 }

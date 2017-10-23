@@ -294,7 +294,8 @@ public class Heap implements Bundlable {
 
 				} else if (item instanceof Bomb) {
 					items.remove( item );
-					((Bomb) item).explode(pos);
+					for(int i = 0; i<item.quantity;i++)
+						((Bomb) item).explode(pos);
 					//stop processing current explosion, it will be replaced by the new one.
 					return;
 

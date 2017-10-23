@@ -160,7 +160,8 @@ public class WndRanking extends WndTabbed {
 			if(Dungeon.hero.givenName().equals(Dungeon.hero.className())) {
 				title.label(Messages.get(this, "title", Dungeon.hero.lvl, heroClass).toUpperCase(Locale.ENGLISH));
 			} else{
-				title.label(Messages.get(this, "titlenamed_1", Dungeon.hero.lvl).toUpperCase(Locale.ENGLISH)+Dungeon.hero.givenName()+"\n"+Messages.get(this, "titlenamed_2", Dungeon.hero.className()).toUpperCase(Locale.ENGLISH));
+//				title.label(Messages.get(this, "titlenamed_1", Dungeon.hero.lvl).toUpperCase(Locale.ENGLISH)+Dungeon.hero.givenName()+"\n"+Messages.get(this, "titlenamed_2", Dungeon.hero.className()).toUpperCase(Locale.ENGLISH));
+				title.label(Dungeon.hero.givenName()+"\n"+Messages.get(this, "title", Dungeon.hero.lvl, heroClass).toUpperCase(Locale.ENGLISH));
 			}
 			title.color(Window.SHPX_COLOR);
 			title.setRect( 0, 0, WIDTH, 0 );

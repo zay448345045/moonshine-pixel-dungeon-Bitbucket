@@ -24,12 +24,14 @@ import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.EtherealChains;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
+import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.MasterThievesArmband;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.AshBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ClusterBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -39,6 +41,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Sacrificial;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Grim;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Projecting;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Unstable;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Vampiric;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.*;
@@ -114,7 +117,7 @@ public enum HeroClass {
 
 	private static void initDev( Hero hero ){
 //		hero.earnExp(150);
-//		hero.STR=26;
+		hero.STR=26;
 		WeaponKit ak = new WeaponKit();
 		ak.collect();
 		ak = new WeaponKit();
@@ -127,6 +130,24 @@ public enum HeroClass {
 		somm.identify().collect();
 		Plant.Seed seed = new Sungrass.Seed();
 		seed.collect();
+
+		MasterThievesArmband ab = new MasterThievesArmband();
+		ab.identify().collect();
+		ab.upgrade(10);
+		ab.setCharge(5);
+
+		PotionOfStorm pos = new PotionOfStorm();
+		pos.identify().collect();
+		pos.quantity(10);
+
+		Scythe sc = new Scythe();
+		sc.identify().collect();
+		sc.tier=5;
+		sc.enchant(new Projecting());
+
+		Moonshine ms = new Moonshine();
+		ms.identify().collect();
+		ms.quantity(10);
 
 //		hero.belongings.weapon.tier=6;
 	}

@@ -61,4 +61,7 @@ public abstract class PDInputProcessor extends NoosaInputProcessor<GameAction> {
 		}
 		return null;
 	}
+	public void rotate(boolean landscape){
+
+	}
 }

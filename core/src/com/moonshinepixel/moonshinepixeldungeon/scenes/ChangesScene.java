@@ -28,6 +28,7 @@ import com.moonshinepixel.moonshinepixeldungeon.ui.Archs;
 import com.moonshinepixel.moonshinepixeldungeon.ui.ExitButton;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RenderedTextMultiline;
 import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
+import com.moonshinepixel.moonshinepixeldungeon.utils.Holidays;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.RenderedText;
@@ -36,10 +37,14 @@ import com.watabou.noosa.ui.Component;
 //TODO: update this class with relevant info as new versions come out.
 public class ChangesScene extends PixelScene {
 
-	private static final String TXT_Update =
+	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
 			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
-					"_v0.1.15 - alpha):_\n" +
+					"_v0.1.16 - alpha:_\n" +
+					"_-_ New item - _Bottle of moonshine_, new _Drunk_ buff\nRandom nicknames generator\nFixed screen orientation and back buttons on android\nLots of bugfixes"+
+					"\n" +
+					"\n" +
+					"_v0.1.15 - alpha:_\n" +
 					"_-_ Now you can change name of your hero. Some bugfixes"+
 					"\n" +
 					"\n" +

@@ -20,6 +20,7 @@
  */
 package com.watabou.pd.android;
 
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -29,6 +30,7 @@ import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.watabou.utils.PDPlatformSupport;
 
 public class AndroidLauncher extends AndroidApplication {
+	public static AndroidLauncher instance;
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +44,11 @@ public class AndroidLauncher extends AndroidApplication {
 			version = "???";
 			versionCode = 0;
 		}
+		instance=this;
 		initialize(new MoonshinePixelDungeon(new PDPlatformSupport<GameAction>(version, versionCode, "android", new AndroidInputProcessor(), false)), config);
+	}
+
+	public static void rotate(boolean landscape){
+		instance.setRequestedOrientation (landscape?ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 }

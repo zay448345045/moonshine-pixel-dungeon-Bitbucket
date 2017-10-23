@@ -85,6 +85,7 @@ public class BuffIndicator extends Component {
 	public static final int RECOVERING  = 42;
 	public static final int COUNTDOWN   = 43;
 	public static final int COUNTDOWND  = 44;
+	public static final int DRUNK 	 	= 45;
 
 	public static final int SIZE	= 7;
 	

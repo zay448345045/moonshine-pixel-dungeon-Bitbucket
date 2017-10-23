@@ -41,6 +41,8 @@ public class WndSettings extends WndTabbed {
 
 	private static final String TXT_SWITCH_FULL = "Switch to fullscreen";
 	private static final String TXT_SWITCH_WIN = "Switch to windowed";
+	private static final String TXT_SWITCH_LAND = "Switch to landscape";
+	private static final String TXT_SWITCH_PORT = "Switch to portrait";
 
 	private static final String TXT_BINDINGS	= "Key bindings";
 
@@ -139,13 +141,23 @@ public class WndSettings extends WndTabbed {
 				add(scale);
 			}
 
-			RedButton btnResolution = new RedButton(Gdx.graphics.isFullscreen() ? TXT_SWITCH_WIN : TXT_SWITCH_FULL ) {
-				@Override
-				protected void onClick() {
-					MoonshinePixelDungeon.fullscreen(!MoonshinePixelDungeon.fullscreen());
-				}
-			};
-			btnResolution.enable(MoonshinePixelDungeon.instance.getPlatformSupport().isFullscreenEnabled() );
+			RedButton btnResolution;
+			if (!Game.isAndroid()) {
+				btnResolution = new RedButton(Gdx.graphics.isFullscreen() ? TXT_SWITCH_WIN : TXT_SWITCH_FULL) {
+					@Override
+					protected void onClick() {
+						MoonshinePixelDungeon.fullscreen(!MoonshinePixelDungeon.fullscreen());
+					}
+				};
+			} else {
+				btnResolution = new RedButton((!MoonshinePixelDungeon.ScreenOrientation()) ? TXT_SWITCH_LAND : TXT_SWITCH_PORT) {
+					@Override
+					protected void onClick() {
+						MoonshinePixelDungeon.ScreenOrientation(!MoonshinePixelDungeon.ScreenOrientation());
+					}
+				};
+			}
+			//btnResolution.enable(MoonshinePixelDungeon.instance.getPlatformSupport().isFullscreenEnabled() );
 			btnResolution.setRect(0, scale.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
 			add(btnResolution);
 
