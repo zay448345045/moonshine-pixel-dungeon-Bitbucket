@@ -70,12 +70,12 @@ public class Shaman extends Mob implements Callback {
 	}
 	
 	@Override
-	protected boolean canAttack( Char enemy ) {
+    public boolean canAttack(Char enemy) {
 		return new Ballistica( pos, enemy.pos, Ballistica.MAGIC_BOLT).collisionPos == enemy.pos;
 	}
 	
 	@Override
-	protected boolean doAttack( Char enemy ) {
+	public boolean doAttack(Char enemy) {
 
 		if (Dungeon.level.distance( pos, enemy.pos ) <= 1) {
 			

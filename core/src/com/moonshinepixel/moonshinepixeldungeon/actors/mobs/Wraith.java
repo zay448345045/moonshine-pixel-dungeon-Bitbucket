@@ -49,6 +49,7 @@ public class Wraith extends Mob {
 		EXP = 0;
 		
 		flying = true;
+		defFlying = true;
 
 		properties.add(Char.Property.UNDEAD);
 	}

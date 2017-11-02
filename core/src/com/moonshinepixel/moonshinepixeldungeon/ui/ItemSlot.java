@@ -149,7 +149,12 @@ public class ItemSlot extends Button<GameAction> {
 	
 	public void item( Item item ) {
 		if (this.item == item) {
-			if (item != null) icon.frame(item.image());
+			if (item != null) {
+				icon.isDouble=item.isDouble;
+				icon.frame(item.image());
+			} else {
+				icon.isDouble=false;
+			}
 			updateText();
 			return;
 		}

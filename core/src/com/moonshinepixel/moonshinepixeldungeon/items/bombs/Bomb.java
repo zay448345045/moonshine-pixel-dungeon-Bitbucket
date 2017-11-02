@@ -50,6 +50,8 @@ public class Bomb extends Item {
 		usesTargeting = true;
 
 		stackable = true;
+
+		destructable=true;
 	}
 	public boolean canPickup = true;
 	public Fuse fuse;

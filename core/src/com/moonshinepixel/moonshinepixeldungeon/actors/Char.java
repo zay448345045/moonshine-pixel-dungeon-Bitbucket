@@ -27,6 +27,8 @@ import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroSubClass;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
+import com.moonshinepixel.moonshinepixeldungeon.items.grimoires.GrimoireOfWind;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.features.Door;
@@ -61,6 +63,7 @@ public abstract class Char extends Actor {
 	public int paralysed	    = 0;
 	public boolean rooted		= false;
 	public boolean flying		= false;
+	public boolean defFlying	= false;
 	public int invisible		= 0;
 	
 	public int viewDistance	= 8;
@@ -92,6 +95,12 @@ public abstract class Char extends Actor {
 	private static final String TAG_SHLD    = "SHLD";
 	private static final String BUFFS		= "buffs";
 	private static final String NAME		= "name";
+
+	public void updateFlying(){
+		flying=defFlying;
+		if (buff(Transformation.class)!=null) flying=buff(Transformation.class).mob.flying;
+		if (buff(Levitation.class)!=null) flying=true;
+	}
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -138,21 +147,38 @@ public abstract class Char extends Actor {
 
 	public boolean attack( Char enemy, boolean forcehit) {
 
+
 		if (enemy == null || !enemy.isAlive()) return false;
 		
 		boolean visibleFight = Dungeon.visible[pos] || Dungeon.visible[enemy.pos];
-		
+
 		if (hit( this, enemy, false ) || forcehit) {
 			
 			// FIXME
 			int dr = this instanceof Hero && ((Hero)this).rangedWeapon != null && ((Hero)this).subClass ==
 				HeroSubClass.SNIPER ? 0 : enemy.drRoll();
-			
-			int dmg = damageRoll();
-			int effectiveDamage = Math.max( dmg - dr, 0 );
-			
-			effectiveDamage = attackProc( enemy, effectiveDamage );
-			effectiveDamage = enemy.defenseProc( this, effectiveDamage );
+			int dmg;
+			int effectiveDamage;
+			if (buff(Transformation.class)!=null) {
+//				buff(Transformation.class).prepareAttack();
+				dmg = buff(Transformation.class).mob.damageRoll();
+				effectiveDamage = Math.max(dmg - dr, 0);
+//
+//				effectiveDamage = buff(Transformation.class).mob.attackProc(enemy, effectiveDamage);
+//				buff(Transformation.class).finishAttack();
+			} else {
+				dmg = damageRoll();
+				effectiveDamage = Math.max(dmg - dr, 0);
+
+				effectiveDamage = attackProc(enemy, effectiveDamage);
+			}
+			if (enemy.buff(Transformation.class)!=null) {
+				enemy.buff(Transformation.class).prepareAttack();
+				effectiveDamage = enemy.buff(Transformation.class).mob.defenseProc(this, effectiveDamage);
+				enemy.buff(Transformation.class).finishAttack();
+			} else {
+				effectiveDamage = enemy.defenseProc(this, effectiveDamage);
+			}
 
 			if (visibleFight) {
 				Sample.INSTANCE.play( Assets.SND_HIT, 1, 1, Random.Float( 0.8f, 1.25f ) );
@@ -222,6 +248,11 @@ public abstract class Char extends Actor {
 		if (dr!=null){
 			acuRoll*=dr.acumod();
 		}
+
+		GrimoireOfWind.SlyphBuff sb = attacker.buff(GrimoireOfWind.SlyphBuff.class);
+		if (sb!=null){
+			acuRoll=sb.evadeRoll(acuRoll);
+		}
 		return (magic ? acuRoll * 2 : acuRoll) >= defRoll;
 	}
 	
@@ -267,6 +298,12 @@ public abstract class Char extends Actor {
 		}
 		if (this.buff(MagicalSleep.class) != null){
 			Buff.detach(this, MagicalSleep.class);
+		}
+		if (this.buff(Transformation.class) != null && src instanceof Mob){
+			this.buff(Transformation.class).agressive=true;
+		}
+		if (src instanceof Hero)if(((Hero)src).buff(Transformation.class) != null){
+			((Hero)src).buff(Transformation.class).agressive=true;
 		}
 		
 		Class<?> srcClass = src.getClass();

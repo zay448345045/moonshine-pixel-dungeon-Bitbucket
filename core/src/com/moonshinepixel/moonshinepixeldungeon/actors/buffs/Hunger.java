@@ -23,6 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.buffs;
 import com.moonshinepixel.moonshinepixeldungeon.Badges;
 import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
+import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroClass;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.Artifact;
@@ -44,6 +45,12 @@ public class Hunger extends Buff implements Hero.Doom {
 
 	private static final String LEVEL			= "level";
 	private static final String PARTIALDAMAGE 	= "partialDamage";
+
+	@Override
+	public boolean attachTo(Char target) {
+		if (!(target instanceof Hero))return false;
+		return super.attachTo(target);
+	}
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {

@@ -10,6 +10,34 @@ public class GameArrays {
         }
         return max;
     }
+    public static<T extends Comparable> T  findMax(Iterable<T> iterable){
+        T max = null;
+        boolean init = false;
+        for (T num : iterable){
+            if (!init) {
+                max = num;
+                init = true;
+            }
+            if (num.compareTo(max)>0){
+                max=num;
+            }
+        }
+        return max;
+    }
+    public static<T extends Comparable> T  findMin(Iterable<T> iterable){
+        T min = null;
+        boolean init = false;
+        for (T num : iterable){
+            if (!init) {
+                min = num;
+                init = true;
+            }
+            if (num.compareTo(min)<0){
+                min=num;
+            }
+        }
+        return min;
+    }
     public static<T> boolean contain(T[] array, T element){
         for (int i = 0; i<array.length;i++){
             if (element.equals(array[i])){

@@ -227,7 +227,7 @@ public class ItemSpriteSheet {
 	public static final int HOOK        	= WEP_TIERM1+6;
 	public static final int BAMBOSPEAR  	= WEP_TIERM1+5;
 	static {
-		assignItemRect(GREATSWORD,  13, 15);
+		assignItemRect(SCYTHE,  13, 15);
 		assignItemRect(CLAW,  14, 14);
 		assignItemRect(GIGANTSHURIKEN,	16, 16);
 		assignItemRect(HOOK,	14, 16);
@@ -375,8 +375,16 @@ public class ItemSpriteSheet {
 
 	private static final int GRIMOIRES          =                            xy(1, 18);  //16 slots
 	public static final int GRIMOIREOFSUMMON           = GRIMOIRES+0;
+	public static final int GRIMOIREOFFIRE	           = GRIMOIRES+1;
+	public static final int GRIMOIREOFWIND	           = GRIMOIRES+2;
+	public static final int GRIMOIREOFWATER	           = GRIMOIRES+2;
+	public static final int GRIMOIREOFEARTH	           = GRIMOIRES+2;
+	public static final int GRIMOIREOFDARK	           = GRIMOIRES+2;
+	public static final int GRIMOIREOFLIGHT	           = GRIMOIRES+2;
 	static {
-		assignItemRect(GRIMOIREOFSUMMON,            13, 16);
+		//assignItemRect(GRIMOIREOFSUMMON,            13, 16);
+		for (int i = GRIMOIRES; i < GRIMOIRES+16; i++)
+			assignItemRect(i, 13, 16);
 	}
 
 	                                                                                    //16 free slots
@@ -389,11 +397,13 @@ public class ItemSpriteSheet {
 	public static final int SCROLL_GYFU     = SCROLLS+4;
 	public static final int SCROLL_RAIDO    = SCROLLS+5;
 	public static final int SCROLL_ISAZ     = SCROLLS+6;
-	public static final int SCROLL_MANNAZ   = SCROLLS+7;
+	public static final int SCROLL_ALGIZ   = SCROLLS+7;
 	public static final int SCROLL_NAUDIZ   = SCROLLS+8;
 	public static final int SCROLL_BERKANAN = SCROLLS+9;
 	public static final int SCROLL_ODAL     = SCROLLS+10;
 	public static final int SCROLL_TIWAZ    = SCROLLS+11;
+	public static final int SCROLL_URUZ    = SCROLLS+12;
+	public static final int SCROLL_MANNAZ    = SCROLLS+13;
 	static {
 		for (int i = SCROLLS; i < SCROLLS+16; i++)
 			assignItemRect(i, 15, 14);
@@ -510,6 +520,7 @@ public class ItemSpriteSheet {
 
 
 	private static void assignItemRect( int item, int width, int height){
+//		width=16;
 		int x = (item % WIDTH) * WIDTH;
 		int y = (item / WIDTH) * WIDTH;
 		film.add( item, x, y, x+width, y+height);

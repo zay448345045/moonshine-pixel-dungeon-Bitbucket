@@ -29,8 +29,9 @@ public class RingOfMight extends Ring {
 	@Override
 	public boolean doEquip(Hero hero) {
 		if (super.doEquip(hero)){
-			hero.HT += level()*5;
-			hero.HP = Math.min(hero.HP, hero.HT);
+//			hero.HT += level()*5;
+//			hero.HP = Math.min(hero.HP, hero.HT);
+			hero.updateHT(false);
 			return true;
 		} else {
 			return false;
@@ -41,8 +42,9 @@ public class RingOfMight extends Ring {
 	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
 
 		if (super.doUnequip(hero, collect, single)){
-			hero.HT -= level()*5;
-			hero.HP = Math.min(hero.HP, hero.HT);
+//			hero.HT -= level()*5;
+//			hero.HP = Math.min(hero.HP, hero.HT);
+			hero.updateHT(false);
 			return true;
 		} else {
 			return false;
@@ -53,20 +55,26 @@ public class RingOfMight extends Ring {
 	@Override
 	public Item upgrade() {
 		if (buff != null && buff.target != null){
-			buff.target.HT += 5;
+//			buff.target.HT += 5;
+			if (buff.target instanceof Hero) {
+				((Hero)buff.target).updateHT();
+			}
 		}
 		return super.upgrade();
 	}
 
 	@Override
 	public void level(int value) {
-		if (buff != null && buff.target != null){
-			buff.target.HT -= level()*5;
-		}
+//		if (buff != null && buff.target != null){
+//			buff.target.HT -= level()*5;
+//		}
 		super.level(value);
 		if (buff != null && buff.target != null){
-			buff.target.HT += level()*5;
-			buff.target.HP = Math.min(buff.target.HP, buff.target.HT);
+//			buff.target.HT += level()*5;
+//			buff.target.HP = Math.min(buff.target.HP, buff.target.HT);
+			if (buff.target instanceof Hero) {
+				((Hero)buff.target).updateHT();
+			}
 		}
 	}
 

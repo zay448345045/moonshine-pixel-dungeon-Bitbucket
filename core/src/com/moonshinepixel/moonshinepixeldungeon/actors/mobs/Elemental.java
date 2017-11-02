@@ -47,6 +47,7 @@ public class Elemental extends Mob {
 		maxLvl = 20;
 		
 		flying = true;
+		defFlying = true;
 		
 		loot = new PotionOfLiquidFlame();
 		lootChance = 0.1f;

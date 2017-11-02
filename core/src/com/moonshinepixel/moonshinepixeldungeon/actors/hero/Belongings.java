@@ -122,7 +122,7 @@ public class Belongings implements Iterable<Item> {
 			misc2.activate( owner );
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public<T extends Item> T getItem( Class<T> itemClass ) {
 
@@ -131,7 +131,18 @@ public class Belongings implements Iterable<Item> {
 				return (T)item;
 			}
 		}
-		
+
+		return null;
+	}
+	@SuppressWarnings("unchecked")
+	public<T extends Item> T getExactItem( Class<T> itemClass ) {
+
+		for (Item item : this) {
+			if (itemClass.equals(item.getClass())) {
+				return (T)item;
+			}
+		}
+
 		return null;
 	}
 	

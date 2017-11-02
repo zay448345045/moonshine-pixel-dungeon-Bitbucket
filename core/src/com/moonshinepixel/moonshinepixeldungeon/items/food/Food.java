@@ -54,6 +54,8 @@ public class Food extends Item {
 		image = ItemSpriteSheet.RATION;
 
 		bones = true;
+
+		destructable=true;
 	}
 	
 	@Override

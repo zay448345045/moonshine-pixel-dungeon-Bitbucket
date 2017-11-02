@@ -21,6 +21,8 @@
 package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 
 import com.moonshinepixel.moonshinepixeldungeon.*;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Yog;
 import com.moonshinepixel.moonshinepixeldungeon.items.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.EtherealChains;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
@@ -32,11 +34,10 @@ import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
+import com.moonshinepixel.moonshinepixeldungeon.items.grimoires.GrimoireOfWind;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
-import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfRemoveCurse;
-import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Sacrificial;
@@ -53,7 +54,6 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfHealing;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfMindVision;
-import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfMagicMissile;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.ClothArmor;
@@ -140,7 +140,7 @@ public enum HeroClass {
 		pos.identify().collect();
 		pos.quantity(10);
 
-		Scythe sc = new Scythe();
+		Weapon sc = new Greatsword();
 		sc.identify().collect();
 		sc.tier=5;
 		sc.enchant(new Projecting());
@@ -149,6 +149,29 @@ public enum HeroClass {
 		ms.identify().collect();
 		ms.quantity(10);
 
+		GrimoireOfWind gow = new GrimoireOfWind();
+		Mob yog = new Yog();
+		gow.validateMobKill(yog);
+		gow.validateMobKill(yog);
+		gow.validateMobKill(yog);
+		gow.validateMobKill(yog);
+		gow.identify().collect();
+
+		Bomb sb = new ShrapnelBomb();
+		sb.identify().collect();
+		sb.quantity(50);
+
+		Bomb cb = new ClusterBomb();
+		cb.identify().collect();
+		cb.quantity(50);
+
+		SoulVial sv = new SoulVial();
+		sv.identify().collect();
+		sv.setVolume(666);
+
+		ScrollOfTransform sot = new ScrollOfTransform();
+		sot.identify().collect();
+		sot.quantity(20);
 //		hero.belongings.weapon.tier=6;
 	}
 

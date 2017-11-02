@@ -75,7 +75,9 @@ public class EyeSprite extends MobSprite {
 	@Override
 	public void link(Char ch) {
 		super.link(ch);
-		if (((Eye)ch).beamCharged) play(charging);
+		if(ch instanceof Eye) {
+			if (((Eye) ch).beamCharged) play(charging);
+		}
 	}
 
 	@Override
@@ -85,7 +87,7 @@ public class EyeSprite extends MobSprite {
 			chargeParticles.pos(center());
 			chargeParticles.visible = visible;
 		} catch (Exception e){
-			//do nothing)))
+			//do nothing
 		}
 	}
 
@@ -99,7 +101,7 @@ public class EyeSprite extends MobSprite {
 		try {
 			chargeParticles.on = anim == charging;
 		} catch (Exception e){
-			//do nothing)))
+			//do nothing
 		}
 		super.play(anim);
 	}
@@ -120,7 +122,9 @@ public class EyeSprite extends MobSprite {
 			} else {
 				parent.add(new Beam.DeathRay(center(), DungeonTilemap.raisedTileCenterToWorld(zapPos)));
 			}
-			((Eye)ch).deathGaze();
+			if(ch instanceof Eye) {
+				((Eye) ch).deathGaze();
+			}
 			ch.next();
 		} else if (anim == die){
 			chargeParticles.killAndErase();

@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
@@ -106,7 +107,15 @@ public class WndHero extends WndTabbed {
 			Hero hero = Dungeon.hero;
 
 			IconTitle title = new IconTitle();
-			title.icon( HeroSprite.avatar(hero.heroClass, hero.tier()) );
+			if (Dungeon.hero.spriteClass.isAssignableFrom(HeroSprite.class)) {
+				title.icon( HeroSprite.avatar(hero.heroClass, hero.tier()) );
+			}else {
+				try {
+					title.icon(Dungeon.hero.spriteClass.newInstance());
+				} catch (Exception e){
+					MoonshinePixelDungeon.reportException(e);
+				}
+			}
 			if (hero.givenName().equals(hero.className()))
 				title.label( Messages.get(this, "title", hero.lvl, hero.className() ).toUpperCase( Locale.ENGLISH ) );
 			else {

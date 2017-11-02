@@ -32,6 +32,8 @@ public class PotionOfMight extends Potion {
 		initials = 6;
 
 		bones = true;
+
+		destructable=false;
 	}
 	
 	@Override
@@ -39,8 +41,8 @@ public class PotionOfMight extends Potion {
 		setKnown();
 		
 		hero.STR++;
-		hero.HT += 5;
-		hero.HP += 5;
+		hero.potionOfMightBonus+=5;
+		hero.updateHT();
 		hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "msg_1") );
 		GLog.p( Messages.get(this, "msg_2") );
 

@@ -24,6 +24,7 @@ package com.watabou.gltextures;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.watabou.glwrap.Texture;
+import com.watabou.noosa.LayeredImage;
 
 import java.util.HashMap;
 
@@ -132,6 +133,8 @@ public class TextureCache {
 				
 				return (Pixmap) src;
 				
+			} if(src instanceof LayeredImage){
+				return ((LayeredImage)src).getImage();
 			} else {
 				
 				return null;
@@ -148,5 +151,21 @@ public class TextureCache {
 	public static boolean contains( Object key ) {
 		return all.containsKey( key );
 	}
-	
+
+	public static Pixmap flipPixmap(Object src){
+		if (src instanceof Pixmap){
+			final int width = ((Pixmap)src).getWidth();
+			final int height = ((Pixmap)src).getHeight();
+			Pixmap flipped = new Pixmap(width, height, ((Pixmap)src).getFormat());
+
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					flipped.drawPixel(x, y, ((Pixmap)src).getPixel(width - x - 1, y));
+				}
+			}
+			return flipped;
+		} else {
+			return flipPixmap(getBitmap(src));
+		}
+	}
 }

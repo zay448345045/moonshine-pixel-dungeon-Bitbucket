@@ -63,6 +63,7 @@ public class Tengu extends Mob {
 		HUNTING = new Hunting();
 
 		flying = true; //doesn't literally fly, but he is fleet-of-foot enough to avoid hazards
+		defFlying = true;
 
 		properties.add(Property.BOSS);
 	}
@@ -149,13 +150,13 @@ public class Tengu extends Mob {
 	}
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+    public boolean canAttack(Char enemy) {
 		return new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE).collisionPos == enemy.pos;
 	}
 
 	//tengu's attack is always visible
 	@Override
-	protected boolean doAttack(Char enemy) {
+    public boolean doAttack(Char enemy) {
 		if (enemy == Dungeon.hero)
 			Dungeon.hero.resting = false;
 		sprite.attack( enemy.pos );

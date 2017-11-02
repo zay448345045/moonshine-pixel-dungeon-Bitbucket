@@ -290,7 +290,8 @@ public class Heap implements Bundlable {
 
 				if (item instanceof Potion) {
 					items.remove( item );
-					((Potion) item).shatter(pos);
+					for(int i = 0; i<item.quantity;i++)
+						((Potion) item).shatter(pos);
 
 				} else if (item instanceof Bomb) {
 					items.remove( item );
@@ -300,7 +301,7 @@ public class Heap implements Bundlable {
 					return;
 
 				//unique and upgraded items can endure the blast
-				} else if (!(item.level() > 0 || item.unique))
+				} else if (!(item.level() > 0 || item.unique || !item.destructable))
 					items.remove( item );
 
 			}

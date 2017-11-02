@@ -29,6 +29,7 @@ import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.*;
+import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndOptions;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Badges;
@@ -93,8 +94,8 @@ public class SoulVial extends Item {
 	private int charge;
 
 	public static int volumeCap(){
-	    return Math.min((int)(Statistics.deepestFloor*33.3f),666);
-//	    return 666;
+//	    return Math.min((int)(Statistics.deepestFloor*33.3f),666);
+	    return 666;
     }
 	{
 		image = ItemSpriteSheet.CRYSTAL;

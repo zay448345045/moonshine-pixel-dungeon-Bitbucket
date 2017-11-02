@@ -41,7 +41,7 @@ public class TrapPlacer extends Item {
 
         stackable=true;
     }
-    public static HashSet<Class<? extends Trap>> tounPickupable = new HashSet(Arrays.asList(AlarmTrap.class, CursingTrap.class, DisarmingTrap.class, DistortionTrap.class,GrimTrap.class,GuardianTrap.class,PitfallTrap.class,SummoningTrap.class,WarpingTrap.class));
+    public static HashSet<Class<? extends Trap>> tounPickupable = new HashSet(Arrays.asList(AlarmTrap.class, CursingTrap.class, DisarmingTrap.class, DistortionTrap.class,GrimTrap.class,GuardianTrap.class,PitfallTrap.class,SummoningTrap.class,WarpingTrap.class,DeadlySpearTrap.class));
     public static Trap convertTrap(Trap trap){
         return trap;
     }

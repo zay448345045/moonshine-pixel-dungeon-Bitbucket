@@ -56,6 +56,7 @@ public class Eye extends Mob {
 		maxLvl = 25;
 		
 		flying = true;
+		defFlying = true;
 
 		HUNTING = new Hunting();
 		
@@ -86,7 +87,7 @@ public class Eye extends Mob {
 	public boolean beamCharged;
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack(Char enemy ) {
 
 		if (beamCooldown == 0) {
 			Ballistica aim = new Ballistica(pos, enemy.pos, Ballistica.STOP_TERRAIN);
@@ -120,7 +121,7 @@ public class Eye extends Mob {
 	}
 
 	@Override
-	protected boolean doAttack( Char enemy ) {
+    public boolean doAttack(Char enemy) {
 
 		if (beamCooldown > 0) {
 			return super.doAttack(enemy);

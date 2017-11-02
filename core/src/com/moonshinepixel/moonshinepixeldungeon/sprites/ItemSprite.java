@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 package com.moonshinepixel.moonshinepixeldungeon.sprites;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
@@ -36,6 +37,7 @@ import com.watabou.gltextures.TextureCache;
 import com.watabou.glwrap.Matrix;
 import com.watabou.glwrap.Vertexbuffer;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.LayeredImage;
 import com.watabou.noosa.MovieClip;
 import com.watabou.noosa.NoosaScript;
 import com.watabou.noosa.audio.Sample;
@@ -57,7 +59,8 @@ public class ItemSprite extends MovieClip {
 	protected Emitter emitter;
 	private float phase;
 	private boolean glowUp;
-	
+	public boolean isDouble;
+
 	private float dropInterval;
 
 	//the amount the sprite is raised from flat when viewed in a raised perspective
@@ -76,14 +79,19 @@ public class ItemSprite extends MovieClip {
 	
 	public ItemSprite( Item item ) {
 		super(Assets.ITEMS);
+		isDouble=item.isDouble;
 
 		view (item);
 	}
 	
-	public ItemSprite( int image, Glowing glowing ) {
+	public ItemSprite( int image, Glowing glowing, boolean isDouble ) {
 		super( Assets.ITEMS );
+		this.isDouble=isDouble;
 		scale=new PointF(1f,1f);
 		view(image, glowing, new Flare( 7, 64 ).color( 0x112233, true ));
+	}
+	public ItemSprite( int image, Glowing glowing ) {
+		this(image,glowing,false);
 	}
 	
 	public void originToCenter() {
@@ -205,11 +213,33 @@ public class ItemSprite extends MovieClip {
 	public void frame( int image ){
 		frame( ItemSpriteSheet.film.get( image ));
 
+//		if(isDouble||true) {
+//			Pixmap txt = texture.bitmap;
+////			Pixmap newPixmap = TextureCache.getBitmap(Assets.ITEMS);
+//			Pixmap newPixmap = new Pixmap((int)(frame.width()*txt.getWidth()),(int)(frame.height()*txt.getHeight()), txt.getFormat());
+//			newPixmap.drawPixmap(txt,0,0,(int)(frame.left*txt.getWidth()),(int)(frame.top*txt.getHeight()),16,16);
+////			newPixmap.drawPixmap(txt,0,0);
+//			newPixmap=TextureCache.flipPixmap(newPixmap);
+////			newPixmap.setColor(new Color(0,0,0,1));
+////			newPixmap.fill();
+//			txt.drawPixmap(newPixmap,0,0,16,16,(int)(frame.left*txt.getWidth()),(int)(frame.top*txt.getHeight()),16,16);
+//			System.out.println(frame.left*txt.getWidth()+"|"+frame.top*txt.getHeight());
+////			txt.drawPixmap(newPixmap,0,0);
+//
+//			texture(txt);
+//		}
+
+		frame( ItemSpriteSheet.film.get( image ));
+
 		float height = ItemSpriteSheet.film.height( image );
 		//adds extra raise to very short items, so they are visible
 		if (height < 8f){
 			perspectiveRaise =  (5 + 8 - height) / 16f;
 		}
+	}
+
+	public ItemSprite flip(){
+		return this;
 	}
 
 	@Override

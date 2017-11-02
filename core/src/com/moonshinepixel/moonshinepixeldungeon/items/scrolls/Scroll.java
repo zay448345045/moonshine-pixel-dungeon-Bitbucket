@@ -58,7 +58,8 @@ public abstract class Scroll extends Item {
 		ScrollOfLullaby.class,
 		ScrollOfMagicalInfusion.class,
 		ScrollOfPsionicBlast.class,
-		ScrollOfMirrorImage.class
+		ScrollOfMirrorImage.class,
+		ScrollOfTransform.class
 	};
 
 	private static final HashMap<String, Integer> runes = new HashMap<String, Integer>() {
@@ -75,6 +76,8 @@ public abstract class Scroll extends Item {
 			put("BERKANAN",ItemSpriteSheet.SCROLL_BERKANAN);
 			put("ODAL",ItemSpriteSheet.SCROLL_ODAL);
 			put("TIWAZ",ItemSpriteSheet.SCROLL_TIWAZ);
+			put("URUZ",ItemSpriteSheet.SCROLL_URUZ);
+			put("ALGIZ",ItemSpriteSheet.SCROLL_ALGIZ);
 		}
 	};
 	
@@ -87,6 +90,8 @@ public abstract class Scroll extends Item {
 	{
 		stackable = true;
 		defaultAction = AC_READ;
+
+		destructable=true;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -153,7 +158,7 @@ public abstract class Scroll extends Item {
 	protected void readAnimation() {
 		curUser.spend( TIME_TO_READ );
 		curUser.busy();
-		((HeroSprite)curUser.sprite).read();
+		curUser.sprite.read();
 	}
 	
 	public boolean isKnown() {

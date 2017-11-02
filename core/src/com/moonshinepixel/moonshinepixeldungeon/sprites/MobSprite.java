@@ -20,8 +20,10 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.sprites;
 
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.tiles.DungeonTilemap;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
+import com.watabou.noosa.Camera;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.noosa.tweeners.ScaleTweener;
 import com.watabou.utils.PointF;
@@ -34,7 +36,9 @@ public class MobSprite extends CharSprite {
 	
 	@Override
 	public void update() {
-		sleeping = ch != null && ((Mob)ch).state == ((Mob)ch).SLEEPING;
+		if (ch instanceof Mob) {
+			sleeping = ch != null && ((Mob) ch).state == ((Mob) ch).SLEEPING;
+		}
 		super.update();
 	}
 	
@@ -71,5 +75,13 @@ public class MobSprite extends CharSprite {
 				am = 1 - progress;
 			}
 		} );
+	}
+
+	@Override
+	public void move(int from, int to) {
+		super.move(from, to);
+		if (ch instanceof Hero){
+			Camera.main.target = this;
+		}
 	}
 }

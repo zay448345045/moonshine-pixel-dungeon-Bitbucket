@@ -48,6 +48,8 @@ public class Scythe extends MeleeWeapon {
         DLY=1.5f;
 		tier = Random.NormalIntRange(2,5);
         defaultAction = AC_MOW;
+
+//        isDouble=true;
 	}
 
 	@Override

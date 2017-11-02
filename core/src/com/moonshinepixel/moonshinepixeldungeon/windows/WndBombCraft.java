@@ -76,7 +76,7 @@ public class WndBombCraft extends Window {
 		};
 		btnItem1.setRect( (WIDTH - BTN_GAP) / 2 - BTN_SIZE, message.top() + message.height() + BTN_GAP, BTN_SIZE, BTN_SIZE );
 		add( btnItem1 );
-        btnItem1.item(Dungeon.hero.belongings.getItem(Bomb.class));
+        btnItem1.item(Dungeon.hero.belongings.getExactItem(Bomb.class));
 
 		
 		btnItem2 = new ItemButton() {

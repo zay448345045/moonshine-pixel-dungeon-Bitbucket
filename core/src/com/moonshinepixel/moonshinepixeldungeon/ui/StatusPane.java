@@ -20,8 +20,11 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.ui;
 
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
+import com.moonshinepixel.moonshinepixeldungeon.sprites.SlimeSprite;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndGame;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndHero;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
@@ -117,7 +120,17 @@ public class StatusPane extends Component {
 		btnMenu = new MenuButton();
 		add( btnMenu );
 
-		avatar = HeroSprite.avatar( Dungeon.hero.heroClass, lastTier );
+		if (Dungeon.hero.spriteClass.isAssignableFrom(HeroSprite.class)) {
+			avatar = HeroSprite.avatar(Dungeon.hero.heroClass, lastTier);
+		} else {
+			try {
+				avatar = Dungeon.hero.spriteClass.newInstance();
+//				avatar = new SlimeSprite().avatar();
+				System.out.println(Dungeon.hero.spriteClass);
+			} catch (Exception e){
+				MoonshinePixelDungeon.reportException(e);
+			}
+		}
 		add( avatar );
 
 		compass = new Compass( Dungeon.level.exit );
@@ -234,7 +247,15 @@ public class StatusPane extends Component {
 		int tier = Dungeon.hero.tier();
 		if (tier != lastTier) {
 			lastTier = tier;
-			avatar.copy( HeroSprite.avatar( Dungeon.hero.heroClass, tier ) );
+			if (Dungeon.hero.spriteClass.isAssignableFrom(HeroSprite.class)) {
+				avatar.copy(HeroSprite.avatar(Dungeon.hero.heroClass, tier));
+			}else {
+				try {
+					avatar = Dungeon.hero.spriteClass.newInstance();
+				} catch (Exception e){
+					MoonshinePixelDungeon.reportException(e);
+				}
+			}
 		}
 	}
 
@@ -298,7 +319,7 @@ public class StatusPane extends Component {
 			boolean blackKey = false;
 			boolean specialKey = false;
 			int ironKeys = 0;
-			for (int i = 1; i <= Math.min(Dungeon.fakedepth[Dungeon.depth], 25); i++) {
+			for (int i = 1; i <= Dungeon.depth; i++) {
 				if (Dungeon.hero.belongings.ironKeys[i] > 0 || Dungeon.hero.belongings.specialKeys[i] > 0) {
 					foundKeys = true;
 

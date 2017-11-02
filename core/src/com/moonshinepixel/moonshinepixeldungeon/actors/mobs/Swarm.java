@@ -52,6 +52,7 @@ public class Swarm extends Mob {
 		maxLvl = 9;
 		
 		flying = true;
+		defFlying = true;
 
 		loot = new PotionOfHealing();
 		lootChance = 0.1667f; //by default, see die()
@@ -101,6 +102,8 @@ public class Swarm extends Mob {
 				clone.HP = (HP - damage) / 2;
 				clone.pos = Random.element( candidates );
 				clone.state = clone.HUNTING;
+				clone.hostile=hostile;
+				clone.ally=ally;
 				
 				if (Dungeon.level.map[clone.pos] == Terrain.DOOR) {
 					Door.enter( clone.pos );

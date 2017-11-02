@@ -335,7 +335,7 @@ public abstract class Mob extends Char {
 		}
 	}
 	
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack(Char enemy) {
 		return Dungeon.level.adjacent( pos, enemy.pos );
 	}
 
@@ -499,11 +499,11 @@ public abstract class Mob extends Char {
 		}
 	}
 	
-	protected float attackDelay() {
+	public float attackDelay() {
 		return 1f;
 	}
 	
-	protected boolean doAttack( Char enemy ) {
+	public boolean doAttack(Char enemy) {
 		
 		boolean visible = Dungeon.visible[pos];
 		
@@ -612,15 +612,15 @@ public abstract class Mob extends Char {
 					Statistics.nightHunt = 0;
 				}
 				Badges.validateNightHunter();
-			}
-			int exp = exp();
-			if (exp > 0) {
-				Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "exp", exp) );
-				Dungeon.hero.earnExp( exp );
-                SoulVial sv = Dungeon.hero.belongings.getItem(SoulVial.class);
-                if (sv!=null) {
-                    sv.collectSoul(this);
-                }
+				int exp = exp();
+				if (exp > 0) {
+					Dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "exp", exp) );
+					Dungeon.hero.earnExp( exp );
+					SoulVial sv = Dungeon.hero.belongings.getItem(SoulVial.class);
+					if (sv!=null) {
+						sv.collectSoul(this);
+					}
+				}
 			}
             for (Item item : Dungeon.hero.belongings){
 			    if (!ally) {

@@ -22,14 +22,13 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 
 import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.DevMarkerBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.items.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.glyphs.Viscosity;
+import com.moonshinepixel.moonshinepixeldungeon.items.grimoires.GrimoireOfWind;
 import com.moonshinepixel.moonshinepixeldungeon.items.keys.Key;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfElements;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfFuror;
@@ -39,6 +38,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Sungrass;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
+import com.moonshinepixel.moonshinepixeldungeon.sprites.HeroSprite;
 import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
@@ -89,10 +89,7 @@ import com.moonshinepixel.moonshinepixeldungeon.windows.WndResurrect;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Bundle;
-import com.watabou.utils.GameMath;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
+import com.watabou.utils.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -146,18 +143,24 @@ public class Hero extends Char {
 	
 	public int lvl = 1;
 	public int exp = 0;
-	
+
 	private ArrayList<Mob> visibleEnemies;
+
+	public int potionOfMightBonus;
 
 	//This list is maintained so that some logic checks can be skipped
 	// for enemies we know we aren't seeing normally, resultign in better performance
 	public ArrayList<Mob> mindVisionEnemies = new ArrayList<>();
-	
+
+
+	public Class<? extends CharSprite> spriteClass = HeroSprite.class;
+
 	public Hero() {
 		super();
 		name = MoonshinePixelDungeon.heroName();
 		
 		HP = HT = 20;
+		potionOfMightBonus = 0;
 		STR = STARTING_STR;
 		awareness = 0.1f;
 		
@@ -174,13 +177,56 @@ public class Hero extends Char {
 		return weakened ? STR - 2 : STR;
 	}
 
+	public void updateHT(){
+		updateHT(true);
+	}
+
+	public void updateHT(boolean changeHP){
+		int lastHT=HT;
+		int ht = 20;
+		ht+=5*(lvl-1);
+
+		ht+=potionOfMightBonus;
+
+		if (belongings.misc1 instanceof RingOfMight){
+			ht+=belongings.misc1.level()*5;
+		}
+		if (belongings.misc2 instanceof RingOfMight){
+			ht+=belongings.misc2.level()*5;
+		}
+
+		Transformation trans = buff(Transformation.class);
+		if (trans!=null && trans.mob!=null){
+			ht=trans.mob.HT;
+		}
+
+		ht=Math.max(1,ht);
+		HT=ht;
+		if ( ht>lastHT&&changeHP){
+			HP+=ht-lastHT;
+		}
+		HP=Math.min(HT,HP);
+	}
+
+	public void updateStats(){
+		attackSkill=10+lvl;
+		defenseSkill=5+lvl;
+		Transformation trans = buff(Transformation.class);
+		if (trans!=null && trans.mob!=null){
+			attackSkill=trans.mob.attackSkill(null);
+			defenseSkill=trans.mob.defenseSkill(null);
+		}
+	}
+
 	private static final String ATTACK		= "attackSkill";
 	private static final String DEFENSE		= "defenseSkill";
 	private static final String STRENGTH	= "STR";
 	private static final String LEVEL		= "lvl";
 	private static final String EXPERIENCE	= "exp";
     private static final String GENDER		= "gender";
-	
+    private static final String SPRITE		= "spriteclass";
+    private static final String POMMOD		= "potionofmightbonus";
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 
@@ -197,6 +243,8 @@ public class Hero extends Char {
 		bundle.put( LEVEL, lvl );
 		bundle.put( EXPERIENCE, exp );
         bundle.put( GENDER, gender);
+        bundle.put( SPRITE, spriteClass );
+        bundle.put( POMMOD, potionOfMightBonus );
 
 		belongings.storeInBundle( bundle );
 	}
@@ -217,6 +265,8 @@ public class Hero extends Char {
 		lvl = bundle.getInt( LEVEL );
 		exp = bundle.getInt( EXPERIENCE );
         gender = bundle.getEnum(GENDER, Gender.class);
+        spriteClass=bundle.getClass(SPRITE);
+        potionOfMightBonus = bundle.getInt(POMMOD);
 		
 		belongings.restoreFromBundle( bundle );
 	}
@@ -236,6 +286,7 @@ public class Hero extends Char {
 	public void live() {
 		Buff.affect( this, Regeneration.class );
 		Buff.affect( this, Hunger.class );
+		Buff.affect( this, ItemActor.class );
 	}
 	
 	public int tier() {
@@ -432,6 +483,10 @@ public class Hero extends Char {
 		if (enemy instanceof Mob){
 			if (((Mob)enemy).ally)
 				return false;
+		}
+		if (buff(Transformation.class)!=null&&buff(Transformation.class).mob!=null) {
+			buff(Transformation.class).mob.pos=pos;
+			return buff(Transformation.class).mob.canAttack(enemy);
 		}
 		//can always attack adjacent enemies
 		KindOfWeapon wep = Dungeon.hero.belongings.weapon;
@@ -937,8 +992,27 @@ public class Hero extends Char {
             if (enemy.isAlive() && canAttack(enemy) && !isCharmedBy(enemy)) {
 
                 Invisibility.dispel();
-                spend(attackDelay());
-                sprite.attack(enemy.pos);
+                final Transformation tbuff = buff(Transformation.class);
+                if (tbuff!=null) {
+					tbuff.prepareAttack();
+
+					tbuff.mob.sprite.attack(enemy.pos);
+
+					spend(tbuff.mob.attackDelay());
+					sprite.attack(enemy.pos, new Callback() {
+						@Override
+						public void call() {
+							tbuff.agressive=true;
+							next();
+						}
+					});
+
+					tbuff.finishAttack();
+				} else {
+					spend(attackDelay());
+
+					sprite.attack(enemy.pos);
+				}
 
                 return false;
 
@@ -1306,12 +1380,8 @@ public class Hero extends Char {
 			if (lvl < MAX_LEVEL) {
 				lvl++;
 				levelUp = true;
-
-				HT += 5;
-				HP += 5;
-				attackSkill++;
-				defenseSkill++;
-
+				updateHT();
+				updateStats();
 			} else {
 				Buff.prolong(this, Bless.class, 30f);
 				this.exp = 0;
@@ -1358,7 +1428,10 @@ public class Hero extends Char {
 
 		if (buff(TimekeepersHourglass.timeStasis.class) != null)
 			return;
+		GrimoireOfWind.SlyphBuff sb = buff(GrimoireOfWind.SlyphBuff.class);
+		if (sb!=null){
 
+		}
 		super.add( buff );
 
 		if (sprite != null) {
@@ -1370,7 +1443,6 @@ public class Hero extends Char {
 			if (buff instanceof Paralysis || buff instanceof Vertigo) {
 				interrupt();
 			}
-
 		}
 		
 		BuffIndicator.refreshHero();
@@ -1392,6 +1464,8 @@ public class Hero extends Char {
 		if (belongings.armor != null && belongings.armor.hasGlyph(Obfuscation.class)){
 			stealth += belongings.armor.level();
 		}
+
+		stealth=buff(Transformation.class)!=null?buff(Transformation.class).agressive?stealth:stealth+10:stealth;
 		return stealth;
 	}
 	
@@ -1577,6 +1651,10 @@ public class Hero extends Char {
 			}
 		}
 
+		if (buff(Transformation.class)!=null){
+			buff(Transformation.class).agressive=true;
+		}
+
 		curAction = null;
 
 		super.onAttackComplete();
@@ -1728,6 +1806,10 @@ public class Hero extends Char {
 	
 	@Override
 	public HashSet<Class<?>> immunities() {
+		if (buff(Transformation.class)!=null){
+			return buff(Transformation.class).mob.immunities();
+		}
+
 		HashSet<Class<?>> immunities = new HashSet<Class<?>>();
 		for (Buff buff : buffs()){
 			for (Class<?> immunity : buff.immunities)

@@ -100,6 +100,7 @@ public class Potion extends Item {
 	{
 		stackable = true;
 		defaultAction = AC_DRINK;
+		destructable=true;
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -95,12 +95,12 @@ public class Statue extends Mob {
 	}
 	
 	@Override
-	protected float attackDelay() {
+    public float attackDelay() {
 		return weapon.DLY;
 	}
 
 	@Override
-	protected boolean canAttack(Char enemy) {
+    public boolean canAttack(Char enemy) {
 		return Dungeon.level.distance( pos, enemy.pos ) <= weapon.RCH;
 	}
 

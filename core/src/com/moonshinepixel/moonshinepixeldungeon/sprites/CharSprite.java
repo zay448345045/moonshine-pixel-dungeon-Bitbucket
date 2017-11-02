@@ -41,11 +41,7 @@ import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.tiles.DungeonTilemap;
 import com.watabou.glwrap.Matrix;
 import com.watabou.glwrap.Vertexbuffer;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.MovieClip;
-import com.watabou.noosa.NoosaScript;
-import com.watabou.noosa.Visual;
+import com.watabou.noosa.*;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.AlphaTweener;
@@ -78,7 +74,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected float shadowOffset    = 0.25f;
 
 	public enum State {
-		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, SHADOWED
+		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, SHADOWED, NOSPRITE
 	}
 	
 	protected Animation idle;
@@ -244,7 +240,17 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 			emo.killAndErase();
 		}
 	}
-	
+
+	public void read() {
+		animCallback = new Callback() {
+			@Override
+			public void call() {
+				idle();
+				ch.onOperateComplete();
+			}
+		};
+		play(operate);
+	}
 	public Emitter emitter() {
 		Emitter emitter = GameScene.emitter();
 		emitter.pos( this );
@@ -310,6 +316,14 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 					parent.add(invisible);
 				} else
 					alpha( 0.4f );
+				break;
+			case NOSPRITE:
+				if (parent != null){
+					if (invisible != null) invisible.killAndErase();
+					invisible = new AlphaTweener( this, 0.0f, 0.0f );
+					parent.add(invisible);
+				} else
+					alpha( 0.0f );
 				break;
 			case PARALYSED:
 				paused = true;
@@ -597,5 +611,9 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		protected void updateValues( float progress ) {
 			visual.point( PointF.inter( start, end, progress ).offset( 0, -height * 4 * progress * (1 - progress) ) );
 		}
+	}
+
+	public Image avatar(){
+		return new Image(texture,(int)(idle.frames[0].left*texture.width),(int)(idle.frames[0].top*texture.height),(int)(idle.frames[0].width()*texture.width),(int)(idle.frames[0].height()*texture.height));
 	}
 }

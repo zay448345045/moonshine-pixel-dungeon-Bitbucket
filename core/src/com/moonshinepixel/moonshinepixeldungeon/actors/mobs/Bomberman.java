@@ -31,10 +31,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.LightningTrap;
 import com.moonshinepixel.moonshinepixeldungeon.mechanics.Ballistica;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.BombergnollSprite;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.GnollSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.MissileSprite;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.ShamanSprite;
-import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
@@ -82,7 +79,7 @@ public class Bomberman extends Mob implements Callback {
 	}
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+    public boolean canAttack(Char enemy) {
 		if (!attack && delay<=0) {
 			Arrays.fill(PathFinder.distance,Integer.MAX_VALUE);
 			PathFinder.buildDistanceMap(pos,Dungeon.level.getPassable());
@@ -103,7 +100,7 @@ public class Bomberman extends Mob implements Callback {
 	}
 
 	@Override
-	protected boolean doAttack( Char enemy ) {
+    public boolean doAttack(Char enemy) {
 
 		if (Dungeon.level.distance( pos, enemy.pos ) <= 1) {
 //			damage(HP,new Bomb());

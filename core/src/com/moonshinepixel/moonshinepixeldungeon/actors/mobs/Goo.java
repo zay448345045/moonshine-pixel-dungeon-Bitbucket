@@ -31,7 +31,6 @@ import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
 import com.moonshinepixel.moonshinepixeldungeon.items.WeaponKit;
-import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.LloydsBeacon;
 import com.moonshinepixel.moonshinepixeldungeon.items.keys.SkeletonKey;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Grim;
@@ -122,7 +121,7 @@ public class Goo extends Mob {
 	}
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+    public boolean canAttack(Char enemy) {
 		return (pumpedUp > 0) ? distance( enemy ) <= 2 : super.canAttack(enemy);
 	}
 
@@ -141,7 +140,7 @@ public class Goo extends Mob {
 	}
 
 	@Override
-	protected boolean doAttack( Char enemy ) {
+    public boolean doAttack(Char enemy) {
 		if (pumpedUp == 1) {
 			((GooSprite)sprite).pumpUp();
 			PathFinder.buildDistanceMap( pos, BArray.not(Level.getSolid(), null ), 2 );

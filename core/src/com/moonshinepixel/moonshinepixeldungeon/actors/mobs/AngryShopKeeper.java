@@ -20,25 +20,12 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 
-import com.moonshinepixel.moonshinepixeldungeon.Badges;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.Statistics;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ToxicGas;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.VenomGas;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Burning;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Frost;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Paralysis;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Roots;
-import com.moonshinepixel.moonshinepixeldungeon.items.food.MysteryMeat;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfBlastWave;
-import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.mechanics.Ballistica;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.PiranhaSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ShopKeepAngrySprite;
 import com.watabou.utils.Random;
-
-import java.util.HashSet;
 
 public class AngryShopKeeper extends Mob {
 
@@ -76,7 +63,7 @@ public class AngryShopKeeper extends Mob {
 	}
 
 	@Override
-	protected boolean canAttack(Char enemy) {
+    public boolean canAttack(Char enemy) {
 		if((new Ballistica(pos,enemy.pos,Ballistica.STOP_TARGET|Ballistica.STOP_TERRAIN).collisionPos==enemy.pos)){
 			return true;
 		}
@@ -99,7 +86,7 @@ public class AngryShopKeeper extends Mob {
 	}
 
 	@Override
-	protected float attackDelay() {
+    public float attackDelay() {
 		return 1.5f;
 	}
 

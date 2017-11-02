@@ -39,6 +39,7 @@ public class Bee extends Mob {
 		EXP = 0;
 		
 		flying = true;
+		defFlying = true;
 		state = WANDERING;
 	}
 

@@ -157,8 +157,9 @@ public class Armor extends EquipableItem {
 				equipCursed( hero );
 				GLog.n( Messages.get(Armor.class, "equip_cursed") );
 			}
-			
-			((HeroSprite)hero.sprite).updateArmor();
+			if(hero.sprite instanceof HeroSprite) {
+				((HeroSprite) hero.sprite).updateArmor();
+			}
 			activate(hero);
 
 			hero.spendAndNext( time2equip( hero ) );
@@ -203,7 +204,9 @@ public class Armor extends EquipableItem {
 		if (super.doUnequip( hero, collect, single )) {
 
 			hero.belongings.armor = null;
-			((HeroSprite)hero.sprite).updateArmor();
+			if(hero.sprite instanceof HeroSprite) {
+				((HeroSprite) hero.sprite).updateArmor();
+			}
 
 			BrokenSeal.WarriorShield sealBuff = hero.buff(BrokenSeal.WarriorShield.class);
 			if (sealBuff != null) sealBuff.setArmor(null);

@@ -99,7 +99,7 @@ public class GameScene extends PixelScene {
 	private DungeonWallsTilemap walls;
 	private WallBlockingTilemap wallBlocking;
 	private FogOfWar fog;
-	private HeroSprite hero;
+	private CharSprite hero;
 
 	private StatusPane pane;
 	
@@ -251,10 +251,17 @@ public class GameScene extends PixelScene {
 		add( statuses );
 
 		add( emoicons );
-		
-		hero = new HeroSprite();
+		try {
+			hero = Dungeon.hero.spriteClass.newInstance();
+		}catch (Exception e){
+			MoonshinePixelDungeon.reportException(e);
+		}
 		hero.place( Dungeon.hero.pos );
-		hero.updateArmor();
+		if (hero instanceof HeroSprite) {
+			((HeroSprite)hero).updateArmor();
+		} else {
+			hero.link(Dungeon.hero);
+		}
 		mobs.add( hero );
 
 
@@ -611,7 +618,7 @@ public class GameScene extends PixelScene {
 		}
 	}
 	
-	private void addMobSprite( Mob mob ) {
+	public void addMobSprite(Mob mob) {
 		CharSprite sprite = mob.sprite();
 		sprite.visible = Dungeon.visible[mob.pos];
 		mobs.add( sprite );

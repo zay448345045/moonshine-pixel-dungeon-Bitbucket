@@ -93,7 +93,9 @@ public class ArmorKit extends Item {
 		if (curUser.belongings.armor == armor) {
 			
 			curUser.belongings.armor = classArmor;
-			((HeroSprite)curUser.sprite).updateArmor();
+			if(curUser.sprite instanceof HeroSprite) {
+				((HeroSprite) curUser.sprite).updateArmor();
+			}
 			
 		} else {
 			

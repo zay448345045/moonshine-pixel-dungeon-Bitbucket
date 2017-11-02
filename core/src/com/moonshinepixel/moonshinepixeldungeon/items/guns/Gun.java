@@ -222,8 +222,8 @@ public abstract class Gun extends Weapon {
                                 this._load.add(amo.getClass());
                                 amo.detach(Dungeon.hero.belongings.backpack);
                                 Item.curUser.sprite.operate(Item.curUser.pos);
-                                Item.curUser.spend(realReloadTime()* Item.curUser.timeToReloadMod());
-                                Item.curUser.busy();
+								Item.curUser.busy();
+                                Item.curUser.spendAndNext(realReloadTime()* Item.curUser.timeToReloadMod());
                             } else break;
                         } else {
                             chooseAmmoItem();
@@ -582,6 +582,7 @@ public abstract class Gun extends Weapon {
 
                         GLog.w( Messages.get(Gun.class, "fizzles") );
                         Item.curUser.spendAndNext(curGun.realShotTime()*1.5f);
+//                        curUser.ready();
 
                     }
 					

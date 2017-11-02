@@ -25,6 +25,7 @@ import com.moonshinepixel.moonshinepixeldungeon.Badges;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.SnipersMark;
+import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Transformation;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
@@ -83,12 +84,16 @@ public class Item implements Bundlable {
 	
 	public boolean cursed;
 	public boolean cursedKnown;
+
+	public boolean destructable = false;
 	
 	// Unique items persist through revival
 	public boolean unique = false;
 
 	// whether an item can be included in heroes remains
 	public boolean bones = false;
+
+	public boolean isDouble = false;
 	
 	private static Comparator<Item> itemComparator = new Comparator<Item>() {
 		@Override
@@ -133,9 +138,12 @@ public class Item implements Bundlable {
 	}
 	
 	public void execute( Hero hero, String action ) {
-		
 		curUser = hero;
 		curItem = this;
+
+		if (curUser.buff(Transformation.class)!=null){
+			GLog.i(Messages.get(this,"cantuse"));
+		}
 
 		Combo combo = hero.buff(Combo.class);
 		if (combo != null) combo.detach();
@@ -589,4 +597,8 @@ public class Item implements Bundlable {
 			return Messages.get(Item.class, "prompt");
 		}
 	};
+
+	public void invAct(){
+
+	}
 }

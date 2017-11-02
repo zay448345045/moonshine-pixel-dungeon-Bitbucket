@@ -41,6 +41,8 @@ public class ScrollOfUpgrade extends InventoryScroll {
 		mode = WndBag.Mode.UPGRADEABLE;
 
 		bones = true;
+
+		destructable=false;
 	}
 
 	public void limited(boolean limited){

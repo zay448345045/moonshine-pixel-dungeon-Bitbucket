@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.sprites;
 
+import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Transformation;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Warlock;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.effects.MagicMissile;
@@ -58,6 +59,14 @@ public class WarlockSprite extends MobSprite {
 		turnTo( ch.pos , cell );
 		play( zap );
 
+		Warlock wl = null;
+		if (ch instanceof Warlock){
+			wl=(Warlock) ch;
+		} else {
+			wl=(Warlock) ch.buff(Transformation.class).mob;
+		}
+		final Warlock wl2 = wl;
+
 		MagicMissile.boltFromChar( parent,
 				MagicMissile.SHADOW,
 				this,
@@ -65,7 +74,11 @@ public class WarlockSprite extends MobSprite {
 				new Callback() {
 					@Override
 					public void call() {
-						((Warlock)ch).onZapComplete();
+						try {
+							wl2.onZapComplete();
+						}catch (Exception e){
+
+						}
 					}
 				} );
 		Sample.INSTANCE.play( Assets.SND_ZAP );
