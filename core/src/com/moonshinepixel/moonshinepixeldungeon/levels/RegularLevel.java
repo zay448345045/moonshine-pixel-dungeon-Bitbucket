@@ -306,7 +306,7 @@ public abstract class RegularLevel extends Level {
 	@Override
 	protected void createItems() {
 		
-		int nItems = 4;
+		int nItems = 2;
 		int bonus = RingOfWealth.getBonus(Dungeon.hero, RingOfWealth.Wealth.class);
 
 		//just incase someone gets a ridiculous ring, cap this at 80%

@@ -232,21 +232,24 @@ public class Heap implements Bundlable {
 		boolean evaporated = false;
 		
 		for (Item item : items.toArray( new Item[0] )) {
-			if (item instanceof Scroll
-					&& !(item instanceof ScrollOfUpgrade || item instanceof ScrollOfMagicalInfusion)) {
-				items.remove( item );
-				burnt = true;
-			} else if (item instanceof Dewdrop) {
-				items.remove( item );
-				evaporated = true;
-			} else if (item instanceof MysteryMeat) {
-				replace( item, ChargrilledMeat.cook( (MysteryMeat)item ) );
-				burnt = true;
-			} else if (item instanceof Bomb) {
-				items.remove( item );
-				((Bomb) item).explode( pos );
-				//stop processing the burning, it will be replaced by the explosion.
-				return;
+			if(item.destructable) {
+				if (item instanceof Scroll
+						&& !(item instanceof ScrollOfUpgrade || item instanceof ScrollOfMagicalInfusion)) {
+					items.remove(item);
+					burnt = true;
+				} else if (item instanceof Dewdrop) {
+					items.remove(item);
+					evaporated = true;
+				} else if (item instanceof MysteryMeat) {
+					replace(item, ChargrilledMeat.cook((MysteryMeat) item));
+					burnt = true;
+				} else if (item instanceof Bomb) {
+					items.remove(item);
+					for (int i = 0; i < item.quantity; i++)
+						((Bomb) item).explode(pos);
+					//stop processing the burning, it will be replaced by the explosion.
+					return;
+				}
 			}
 		}
 		
@@ -271,6 +274,9 @@ public class Heap implements Bundlable {
 
 	//Note: should not be called to initiate an explosion, but rather by an explosion that is happening.
 	public void explode() {
+		explode(false);
+	}
+	public void explode(boolean destroyAll) {
 
 		//breaks open most standard containers, mimics die.
 		if (type == Type.MIMIC || type == Type.CHEST || type == Type.SKELETON) {
@@ -287,7 +293,7 @@ public class Heap implements Bundlable {
 		} else {
 
 			for (Item item : items.toArray( new Item[0] )) {
-
+				if (!item.destructable && !destroyAll)continue;
 				if (item instanceof Potion) {
 					items.remove( item );
 					for(int i = 0; i<item.quantity;i++)
@@ -301,7 +307,7 @@ public class Heap implements Bundlable {
 					return;
 
 				//unique and upgraded items can endure the blast
-				} else if (!(item.level() > 0 || item.unique || !item.destructable))
+				} else if (!(item.level() > 0 || item.unique || item.destructable)||destroyAll)
 					items.remove( item );
 
 			}

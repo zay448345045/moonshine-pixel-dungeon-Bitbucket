@@ -38,6 +38,7 @@ public abstract class EquipableItem extends Item {
 
 	{
 		bones = true;
+		renameable=true;
 	}
 
 	@Override

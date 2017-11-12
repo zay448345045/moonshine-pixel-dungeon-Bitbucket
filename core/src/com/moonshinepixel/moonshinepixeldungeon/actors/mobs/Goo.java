@@ -63,6 +63,8 @@ public class Goo extends Mob {
 		loot = new WeaponKit();
 		lootChance = 1;
 
+		stonesreward=Random.IntRange(0,1);
+
 		properties.add(Char.Property.BOSS);
 		properties.add(Char.Property.DEMONIC);
 	}

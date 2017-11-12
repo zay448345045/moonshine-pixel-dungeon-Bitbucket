@@ -65,6 +65,8 @@ public class DM300 extends Mob {
 		loot = new CapeOfThorns().identify();
 		lootChance = 0.333f;
 
+		stonesreward=Random.IntRange(2,3);
+
 		properties.add(Property.BOSS);
 	}
 	

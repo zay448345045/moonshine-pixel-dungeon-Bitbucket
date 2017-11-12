@@ -67,7 +67,9 @@ public class Yog extends Mob {
 		HP = HT = 300;
 		
 		EXP = 50;
-		
+
+		stonesreward=Random.IntRange(4,5);
+
 		state = PASSIVE;
 
 		properties.add(Property.BOSS);

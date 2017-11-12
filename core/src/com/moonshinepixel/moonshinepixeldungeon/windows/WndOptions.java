@@ -33,6 +33,8 @@ public class WndOptions extends Window {
 
 	private static final int MARGIN 		= 2;
 	private static final int BUTTON_HEIGHT	= 20;
+
+	private RedButton[] buttons;
 	
 	public WndOptions( String title, String message, String... options ) {
 		super();
@@ -51,7 +53,8 @@ public class WndOptions extends Window {
 		add( tfMesage );
 		
 		float pos = tfMesage.bottom() + MARGIN;
-		
+
+		buttons = new RedButton[options.length];
 		for (int i=0; i < options.length; i++) {
 			final int index = i;
 			RedButton btn = new RedButton( options[i] ) {
@@ -61,6 +64,7 @@ public class WndOptions extends Window {
 					onSelect( index );
 				}
 			};
+			buttons[i]=btn;
 			btn.setRect( MARGIN, pos, width - MARGIN * 2, BUTTON_HEIGHT );
 			add( btn );
 			
@@ -68,6 +72,27 @@ public class WndOptions extends Window {
 		}
 		
 		resize( width, (int)pos );
+	}
+
+	public WndOptions setEnabled(boolean ...enables){
+		for (int i = 0; i<enables.length;i++){
+			try {
+				buttons[i].enable(enables[i]);
+			} catch (Exception e){
+				return this;
+			}
+		}
+		return this;
+	}
+	public WndOptions setLocked(boolean ...locks){
+		for (int i = 0; i<locks.length;i++){
+			try {
+				buttons[i].lock(!locks[i]);
+			} catch (Exception e){
+				return this;
+			}
+		}
+		return this;
 	}
 	
 	protected void onSelect( int index ) {};

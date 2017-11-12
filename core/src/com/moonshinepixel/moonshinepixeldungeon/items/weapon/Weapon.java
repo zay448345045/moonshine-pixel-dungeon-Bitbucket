@@ -214,7 +214,11 @@ abstract public class Weapon extends KindOfWeapon {
 	
 	@Override
 	public String name() {
-		return enchantment != null && (cursedKnown || !enchantment.curse()) ? enchantment.name( super.name() ) : super.name();
+		if(givenName.equals("")) {
+			return enchantment != null && (cursedKnown || !enchantment.curse()) ? enchantment.name(super.name()) : super.name();
+		} else {
+			return givenName;
+		}
 	}
 	
 	@Override

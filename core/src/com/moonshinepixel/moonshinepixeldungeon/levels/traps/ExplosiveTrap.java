@@ -31,7 +31,7 @@ public class ExplosiveTrap extends Trap {
 
 	@Override
 	public void activate() {
-		new Bomb().explode(pos);
+		new Bomb().destroyAll().explode(pos);
 	}
 
 }

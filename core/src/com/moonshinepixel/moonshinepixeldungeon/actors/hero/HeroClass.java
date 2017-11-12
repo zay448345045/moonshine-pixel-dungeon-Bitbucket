@@ -41,10 +41,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Sacrificial;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Grim;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Projecting;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Unstable;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Vampiric;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Dart;
@@ -140,22 +137,15 @@ public enum HeroClass {
 		pos.identify().collect();
 		pos.quantity(10);
 
-		Weapon sc = new Greatsword();
+		Weapon sc = new WarHammer();
 		sc.identify().collect();
-		sc.tier=5;
-		sc.enchant(new Projecting());
+		sc.tier=6;
+		sc.enchant(new Shocking());
+		sc.rename("Mjölnir");
 
 		Moonshine ms = new Moonshine();
 		ms.identify().collect();
 		ms.quantity(10);
-
-		GrimoireOfWind gow = new GrimoireOfWind();
-		Mob yog = new Yog();
-		gow.validateMobKill(yog);
-		gow.validateMobKill(yog);
-		gow.validateMobKill(yog);
-		gow.validateMobKill(yog);
-		gow.identify().collect();
 
 		Bomb sb = new ShrapnelBomb();
 		sb.identify().collect();
@@ -164,14 +154,6 @@ public enum HeroClass {
 		Bomb cb = new ClusterBomb();
 		cb.identify().collect();
 		cb.quantity(50);
-
-		SoulVial sv = new SoulVial();
-		sv.identify().collect();
-		sv.setVolume(666);
-
-		ScrollOfTransform sot = new ScrollOfTransform();
-		sot.identify().collect();
-		sot.quantity(20);
 //		hero.belongings.weapon.tier=6;
 	}
 

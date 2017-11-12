@@ -71,8 +71,9 @@ public class Item implements Bundlable {
 	public int knownTurns=-1;
 	
 	protected String name = Messages.get(this, "name");
+	protected String givenName = "";
 	public int image = 0;
-	
+
 	public boolean stackable = false;
 	protected int quantity = 1;
 
@@ -94,6 +95,8 @@ public class Item implements Bundlable {
 	public boolean bones = false;
 
 	public boolean isDouble = false;
+
+	public boolean renameable = false;
 	
 	private static Comparator<Item> itemComparator = new Comparator<Item>() {
 		@Override
@@ -407,11 +410,23 @@ public class Item implements Bundlable {
 	}
 	
 	public String name() {
-		return name;
+    	if(givenName.equals("")) {
+			return name;
+		} else{
+    		return givenName;
+		}
+	}
+
+	public void rename(String name){
+    	givenName=name;
 	}
 	
 	public final String trueName() {
 		return name;
+	}
+
+	public boolean hasName(){
+    	return !givenName.equals("");
 	}
 	
 	public int image() {
@@ -480,8 +495,9 @@ public class Item implements Bundlable {
 	private static final String CURSED			= "cursed";
 	private static final String CURSED_KNOWN	= "cursedKnown";
 	private static final String QUICKSLOT		= "quickslotpos";
-	public static final String TIER = "tier";
-	
+	private static final String TIER 			= "tier";
+	private static final String GIVENNAME 		= "givenname";
+
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		bundle.put( QUANTITY, quantity );
@@ -490,7 +506,8 @@ public class Item implements Bundlable {
 		bundle.put( TURNS_KNOWN, knownTurns );
 		bundle.put( CURSED, cursed );
 		bundle.put( CURSED_KNOWN, cursedKnown );
-		bundle.put(TIER,tier);
+		bundle.put( TIER, tier );
+		bundle.put( GIVENNAME, givenName );
 		if (Dungeon.quickslot.contains(this)) {
 			bundle.put( QUICKSLOT, Dungeon.quickslot.getSlot(this) );
 		}
@@ -503,6 +520,8 @@ public class Item implements Bundlable {
 		cursedKnown	= bundle.getBoolean( CURSED_KNOWN );
 
 		knownTurns=bundle.getInt(TURNS_KNOWN);
+
+		givenName = bundle.getString(GIVENNAME);
 
 		if (bundle.contains(TIER)) {
 			tier = bundle.getInt(TIER);

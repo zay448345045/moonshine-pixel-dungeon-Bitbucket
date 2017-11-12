@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndOptions;
 import com.moonshinepixel.moonshinepixeldungeon.Chrome;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
@@ -43,8 +44,12 @@ public class UpdateNotification extends Component {
 	//0 means no connection yet, -1 means connection failure.
 	private static int latestVersion = 0;
 
+	private static boolean hiden = MoonshinePixelDungeon.hideUpdNot();
+	public float shift = 100;
+
 	private static boolean updateAvailable;
 	private static boolean latestIsUpdate;
+	private static boolean checking = false;
 	private static String latestMessage;
 	private static String updateURL;
 	private static String patchInfo;
@@ -53,6 +58,7 @@ public class UpdateNotification extends Component {
 	private NinePatch panel;
 	private BitmapText updateMessage;
 	private TouchArea touchUpdate;
+	private SimpleButton close;
 
 	private float alpha;
 
@@ -63,6 +69,13 @@ public class UpdateNotification extends Component {
 
 	public UpdateNotification(){
 		super();
+
+		if (MoonshinePixelDungeon.updateChecker()){
+			checkUpdates();
+		}
+	}
+
+	protected void checkUpdates(){
 		if (latestVersion <= 1) {
 			Thread thread = new Thread() {
 				@Override
@@ -76,9 +89,10 @@ public class UpdateNotification extends Component {
 
 						latestVersion = Integer.parseInt(inforeader.readLine());
 
-                        System.out.println(latestVersion + "|" + currentVersion);
+						System.out.println(latestVersion + "|" + currentVersion);
 						if (latestVersion > currentVersion) {
 							updateAvailable = true;
+							updateMessage();
 						} else {
 							updateAvailable = false;
 							updateMessage();
@@ -114,7 +128,6 @@ public class UpdateNotification extends Component {
 //						System.out.println(patchInfo + "|" + updateInfo);
 						latestMessage = latestIsUpdate ? latestUpdateMessage : latestVersionMessage;
 
-
 						updateMessage();
 
 					} catch (Exception e) {
@@ -133,7 +146,11 @@ public class UpdateNotification extends Component {
 		add( panel );
 
 		//updateMessage = new BitmapText("Checking Updates", PixelScene.font1x);
-		updateMessage = PixelScene.createText("Checking Updates", 9);
+		if (MoonshinePixelDungeon.updateChecker()) {
+			updateMessage = PixelScene.createText("Checking Updates", 9);
+		} else{
+			updateMessage = PixelScene.createText("Check for updates", 9);
+		}
 		add(updateMessage);
 
 		touchUpdate = new TouchArea( panel ){
@@ -142,56 +159,85 @@ public class UpdateNotification extends Component {
 				if (updateAvailable) {
 					parent.add(new WndUpdate() );
 					Sample.INSTANCE.play( Assets.SND_CLICK );
+				} else if(!MoonshinePixelDungeon.updateChecker()){
+					checkUpdates();
+					checking=true;
+					updateMessage();
 				}
 			}
 		};
 		add(touchUpdate);
+
+		 close = new SimpleButton( Icons.get( Icons.CLOSELEFT ) ) {
+			@Override
+			protected void onClick() {
+				hiden=!hiden;
+				MoonshinePixelDungeon.hideUpdNot(hiden);
+				layout();
+			}
+		};
+		add(close);
 
 		updateMessage();
 	}
 
 	@Override
 	protected void layout() {
-		panel.x = this.x;
+		float xMod = hiden?0:shift;
+		panel.x = this.x+xMod;
 		panel.y = this.y;
 		panel.alpha(alpha);
-		panel.visible = updateAvailable || !quiet;
+
+		boolean visible = !MoonshinePixelDungeon.updateChecker();
+
+		panel.visible = updateAvailable || !quiet || visible;
 
 		updateMessage.x = panel.x+panel.marginLeft();
 		updateMessage.y = panel.y+panel.marginTop();
 		updateMessage.measure();
 		updateMessage.alpha(alpha);
-		updateMessage.visible = updateAvailable || !quiet;
+		updateMessage.visible = updateAvailable || !quiet || visible;
 
 		panel.size( panel.marginHor()+updateMessage.width(), panel.marginVer()+updateMessage.height()-1);
+		close.setPos(hiden?shift+x:panel.x+panel.width()+1,panel.center().y-close.height()/2f);
+		close.visible=panel.visible;
+		close.alpha(hiden?alpha/2f:alpha/1.3f);
+		close.mirrored(hiden);
+
 		this.width = panel.width();
 		this.height = panel.height();
 
 	}
 
 	private void updateMessage(){
-		if (latestVersion == -1){
-			updateMessage.text("Connection Failed");
-			updateMessage.hardlight( 0xFFCC66 );
-			alpha = 1f;
-		} else if (latestVersion == 0){
-			updateMessage.text("Checking Updates");
-			updateMessage.hardlight( 0xFFFFFF );
-			alpha = 0.8f;
-		} else if (!updateAvailable){
-			updateMessage.text("Up to Date!");
-			updateMessage.hardlight( 0xFFFFFF );
-			alpha = 0.8f;
-		} else {
-			if (!latestIsUpdate){
-				updateMessage.text("Patch Available!");
+		if (MoonshinePixelDungeon.updateChecker() || checking) {
+			if (latestVersion == -1) {
+				updateMessage.text("Connection Failed");
+				updateMessage.hardlight(0xFFCC66);
+				alpha = 1f;
+			} else if (latestVersion == 0) {
+				updateMessage.text("Checking Updates");
+				updateMessage.hardlight(0xFFFFFF);
+				alpha = 0.8f;
+			} else if (!updateAvailable) {
+				updateMessage.text("Up to Date!");
+				updateMessage.hardlight(0xFFFFFF);
+				alpha = 0.8f;
 			} else {
-				updateMessage.text("Update Available!");
+				if (!latestIsUpdate) {
+					updateMessage.text("Patch Available!");
+				} else {
+					updateMessage.text("Update Available!");
+				}
+				updateMessage.hardlight(Window.SHPX_COLOR);
+				alpha = 1f;
 			}
-			updateMessage.hardlight( Window.SHPX_COLOR );
+		} else {
+			updateMessage.text("Check for updates");
 			alpha = 1f;
 		}
 		layout();
+
 	}
 
 	@Override
@@ -232,8 +278,8 @@ public class UpdateNotification extends Component {
 				"\n" +
 				"Patches contain bugfixes, balance tweaks, and occasional bits of new content.\n" +
 				"\n" +
-//				"Simply download the new executable and run it to start playing with the latest patch!";
-				"Simply download the new sourcecode and compile it to start testing with the latest patch!";
+				"Simply download the new executable and run it to start playing with the latest patch!";
+//				"Simply download the new sourcecode and compile it to start testing with the latest patch!";
 
 		private static final String BTN_UPD = "Quit and Download Update";
 		private static final String BTN_PTH = "Quit and Download Patch";

@@ -27,14 +27,20 @@ import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.RenderedText;
+import com.watabou.noosa.RepeatingImage;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.ui.Button;
+import com.watabou.utils.GameMath;
 
 public class RedButton extends Button<GameAction> {
 	
 	protected NinePatch bg;
 	protected RenderedText text;
 	protected Image icon;
+	protected Image lock;
+	protected NinePatch black;
+	protected RepeatingImage chain1;
+	protected RepeatingImage chain2;
 
 	public void invert(){
 	    if (bg!=null) {
@@ -86,6 +92,31 @@ public class RedButton extends Button<GameAction> {
 			icon.y = y + (height - icon.height()) / 2;
 			PixelScene.align(icon);
 		}
+		if(black!=null) {
+			black.x = x;
+			black.y = y;
+			black.size(width(), height());
+		}
+		if(chain1!=null) {
+			chain1.x = x;
+			chain1.y = y+bg.innerBottom();
+			chain1.angle=-GameMath.diagonalAngle(width,height-bg.marginTop());
+			System.out.println("ANGLE: "+chain1.angle);
+			chain1.size((int) GameMath.diagonal(width,height-bg.marginTop()),(int)chain1.height);
+		}
+		if(chain2!=null) {
+			chain2.x = x;
+			chain2.y = y;
+			chain2.angle=GameMath.diagonalAngle(width,height-bg.marginTop());
+			System.out.println("ANGLE: "+chain1.angle);
+			chain2.size((int) GameMath.diagonal(width,height-bg.marginTop()),(int)chain2.height);
+		}
+		if(lock!=null) {
+			float x1 = chain1.x+(chain1.width/2)*(float)Math.cos(Math.toRadians(Math.abs(chain1.angle)));
+			float y1 = chain1.y-(chain1.width/2)*(float)Math.sin(Math.toRadians(Math.abs(chain1.angle)));
+			lock.x = x1 - lock.width / 2;
+			lock.y = y1 - lock.height / 2;
+		}
 	}
 
 	@Override
@@ -122,6 +153,32 @@ public class RedButton extends Button<GameAction> {
 			add( this.icon );
 			layout();
 		}
+	}
+
+	public void lock(boolean value){
+		erase(lock);
+		erase(black);
+		erase(chain1);
+		erase(chain2);
+		lock=null;
+		black=null;
+		chain1=null;
+		chain2=null;
+		if (value){
+			black = Chrome.get(Chrome.Type.WHITEBG);
+			black.color(0,0,0);
+			black.alpha(.5f);
+			add(black);
+
+			chain1 = new RepeatingImage(Icons.get(Icons.CHAIN));
+			add(chain1);
+			chain2 = new RepeatingImage(Icons.get(Icons.CHAIN));
+			add(chain2);
+
+			lock = Icons.get(Icons.LOCK);
+			add(lock);
+		}
+		layout();
 	}
 	
 	public float reqWidth() {

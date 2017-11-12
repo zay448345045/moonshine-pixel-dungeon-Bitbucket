@@ -177,6 +177,7 @@ public class WndCatalogs extends WndTabbed {
 				if (identified = item.isIdentified()) {
 					sprite.view( item.image(), null );
 					label.text( Messages.titleCase(item.name()) );
+					if(item.hasName())label.hardlight( Window.SHPX_COLOR );
 				} else {
 					sprite.view( ItemSpriteSheet.SOMETHING, null );
 					label.text( Messages.titleCase(item.trueName()) );

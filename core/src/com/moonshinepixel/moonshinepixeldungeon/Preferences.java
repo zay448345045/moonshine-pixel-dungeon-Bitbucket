@@ -53,6 +53,14 @@ public enum Preferences {
 	public static final String KEY_STORYLINE   	= "storyline";
 	public static final String KEY_NAME   		= "heroname";
 	public static final String KEY_ORIENTATION	= "orient";
+	public static final String KEY_UPDATECHECK	= "updatechecker";
+	public static final String KEY_UPDATECVIS	= "ipdatevisible";
+	public static final String KEY_INFOSHOWN	= "infoshown";
+	public static final String KEY_STARTINGAME	= "startingame";
+	public static final String KEY_HUDTYPE		= "hudtype";
+	public static final String KEY_BUTTONTYPE	= "buttontype";
+	public static final String KEY_UNLOCKS		= "unlocks";
+	public static final String KEY_MOONSTONES	= "moonstones";
 
 	public static final String KEY_WINDOW_FULLSCREEN	= "windowFullscreen";
 	public static final String KEY_WINDOW_WIDTH			= "windowWidth";

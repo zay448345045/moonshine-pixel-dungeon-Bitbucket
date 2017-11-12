@@ -287,7 +287,11 @@ public class Armor extends EquipableItem {
 
 	@Override
 	public String name() {
-		return glyph != null && (cursedKnown || !glyph.curse()) ? glyph.name( super.name() ) : super.name();
+		if(givenName.equals("")) {
+			return glyph != null && (cursedKnown || !glyph.curse()) ? glyph.name(super.name()) : super.name();
+		} else {
+			return givenName;
+		}
 	}
 	
 	@Override

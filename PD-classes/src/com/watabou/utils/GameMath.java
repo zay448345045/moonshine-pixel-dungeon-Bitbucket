@@ -44,4 +44,11 @@ public class GameMath {
 		}
 	}
 
+	public static float diagonal(float w, float h) {
+		return (float) Math.sqrt(w*w+h*h);
+	}
+
+	public static float diagonalAngle(float w, float h){
+		return (float)Math.toDegrees(Math.asin(h/diagonal(w,h)));
+	}
 }

@@ -59,7 +59,11 @@ public enum Icons {
 	CHALLENGE_OFF,
 	CHALLENGE_ON,
 	RESUME,
-	WRENCH;
+	WRENCH,
+	CLOSELEFT,
+	MOON,
+	LOCK,
+	CHAIN;
 
 	public Image get() {
 		return get( this );
@@ -169,6 +173,18 @@ public enum Icons {
 			break;
 		case WRENCH:
 			icon.frame( icon.texture.uvRect( 107, 40, 123, 56 ) );
+			break;
+		case CLOSELEFT:
+			icon.frame( icon.texture.uvRect( 0, 58, 13, 71 ) );
+			break;
+		case MOON:
+			icon.frame( icon.texture.uvRect( 13, 65, 28, 80 ) );
+			break;
+		case LOCK:
+			icon.frame( icon.texture.uvRect( 29, 64, 37, 73 ) );
+			break;
+		case CHAIN:
+			icon.frame( icon.texture.uvRect( 38, 64, 44, 67 ) );
 			break;
 		}
 		return icon;

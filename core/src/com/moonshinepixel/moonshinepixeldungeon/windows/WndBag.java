@@ -23,6 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.windows;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.Unlocks;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Belongings;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
@@ -48,10 +49,7 @@ import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Icons;
-import com.moonshinepixel.moonshinepixeldungeon.ui.ItemSlot;
-import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
+import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.bags.Bag;
 import com.moonshinepixel.moonshinepixeldungeon.items.bags.PotionBandolier;
 import com.moonshinepixel.moonshinepixeldungeon.items.bags.ScrollHolder;
@@ -405,7 +403,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.WEAPON && (item instanceof MeleeWeapon || item instanceof Boomerang) ||
 						mode == Mode.WEAPONSLOTABLE && item instanceof Weapon ||
 						mode == Mode.ARMOR && (item instanceof Armor) ||
-						mode == Mode.KITUPGRADEUBLEWEAPON && (item instanceof BulletGun || item instanceof MeleeWeapon) ||
+						mode == Mode.KITUPGRADEUBLEWEAPON && (item instanceof BulletGun || item instanceof MeleeWeapon || item instanceof Boomerang) ||
 						mode == Mode.ENCHANTABLE && (item instanceof MeleeWeapon || item instanceof Boomerang || item instanceof Armor) ||
 						mode == Mode.ENCHANTABLELIMIT && (item instanceof MeleeWeapon || item instanceof Boomerang || item instanceof Armor) && item.level()<limit ||
 						mode == Mode.WAND && (item instanceof Wand) ||
@@ -474,10 +472,8 @@ public class WndBag extends WndTabbed {
 		
 		@Override
 		protected boolean onLongClick() {
-			if (listener == null && item.defaultAction != null) {
-				hide();
-				Dungeon.quickslot.setSlot( 0 , item );
-				QuickSlotButton.refresh();
+			if (listener == null && item.renameable) {
+				WndBag.this.add(new ItemActionWindow(item));
 				return true;
 			} else {
 				return false;
@@ -487,5 +483,40 @@ public class WndBag extends WndTabbed {
 	
 	public interface Listener {
 		void onSelect( Item item );
+	}
+
+	private class ItemActionWindow extends Window{
+		ItemActionWindow(final Item itm){
+			float top = 0;
+			RenderedTextMultiline rtm = new RenderedTextMultiline(12);
+			rtm.text(Messages.get(this,"title"));
+			rtm.hardlight(Window.SHPX_COLOR);
+			rtm.setPos(0,top);
+			add(rtm);
+			top=rtm.bottom()+GAP_TINY;
+			RenderedTextMultiline renaming = new RenderedTextMultiline(9);
+			if (!Unlocks.isUnlocked(Unlocks.ITEMRENAMING)) {
+				renaming.text(Messages.get(this, "locked"),WIDTH);
+			} else {
+				renaming.text(Messages.get(this, "ren_txt"),WIDTH);
+			}
+			renaming.setPos(0, top);
+			add(renaming);
+			top = renaming.bottom() + GAP_SML;
+
+			TextField name = new TextField(Messages.get(this,"rename"),itm.name()){
+				@Override
+				public void onTextChange() {
+					itm.rename(text());
+				}
+			};
+			name.setRect(0,top,WIDTH,BTN_HEIGHT);
+			add(name);
+			name.enable(Unlocks.isUnlocked(Unlocks.ITEMRENAMING));
+			name.lock(!Unlocks.isUnlocked(Unlocks.ITEMRENAMING));
+			top+=name.height()+GAP_SML;
+
+			resize(WIDTH,(int)top);
+		}
 	}
 }

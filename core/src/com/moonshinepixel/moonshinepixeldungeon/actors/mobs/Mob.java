@@ -81,7 +81,9 @@ public abstract class Mob extends Char {
 	protected int target = -1;
 	
 	protected int defenseSkill = 0;
-	
+
+	protected int stonesreward = 0;
+
 	protected int EXP = 1;
 	protected int maxLvl = Hero.MAX_LEVEL;
 	
@@ -648,7 +650,13 @@ public abstract class Mob extends Char {
 		float lootChance = this.lootChance;
 		int bonus = RingOfWealth.getBonus(Dungeon.hero, RingOfWealth.Wealth.class);
 		lootChance *= Math.pow(1.15, bonus);
-		
+
+		MoonshinePixelDungeon.moonstones(MoonshinePixelDungeon.moonstones()+stonesreward);
+
+		if (stonesreward>0){
+			GLog.h( Messages.get(Mob.class, "stones",stonesreward) );
+		}
+
 		if (Random.Float() < lootChance && Dungeon.hero.lvl <= maxLvl + 2) {
 			Item loot = createLoot();
 			if (loot != null)

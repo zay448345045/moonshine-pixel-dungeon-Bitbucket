@@ -39,7 +39,7 @@ public class Chrome {
 	};
 	
 	public static NinePatch get( Type type ) {
-		String Asset = Assets.CHROME;
+		String Asset = MoonshinePixelDungeon.hudType()==0?Assets.CHROME:Assets.CHROMEG;
 		switch (type) {
 		case WINDOW:
 			return new NinePatch( Asset, 0, 0, 20, 20, 6 );

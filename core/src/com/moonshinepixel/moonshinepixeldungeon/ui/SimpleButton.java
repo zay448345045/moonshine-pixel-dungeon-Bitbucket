@@ -63,6 +63,18 @@ public class SimpleButton extends Component {
 		image.x = x;
 		image.y = y;
 	}
-	
+
+	public void alpha(float value){
+		image.alpha(value);
+	}
+
+	public void mirrored(boolean value){
+		image.flipHorizontal=value;
+		image.frame(image.frame());
+	}
+	public boolean mirrored(){
+		return  image.flipHorizontal;
+	}
+
 	protected void onClick() {};
 }

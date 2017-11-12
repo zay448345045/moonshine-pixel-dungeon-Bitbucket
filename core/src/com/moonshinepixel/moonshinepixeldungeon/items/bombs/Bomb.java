@@ -54,6 +54,7 @@ public class Bomb extends Item {
 		destructable=true;
 	}
 	public boolean canPickup = true;
+	public boolean destroyAll = false;
 	public Fuse fuse;
 	public int fuseDly = 2;
 
@@ -72,6 +73,11 @@ public class Bomb extends Item {
 		ArrayList<String> actions = super.actions( hero );
 		actions.add ( AC_LIGHTTHROW );
 		return actions;
+	}
+
+	public Bomb destroyAll(){
+		destroyAll=true;
+		return this;
 	}
 
 	@Override
@@ -147,7 +153,7 @@ public class Bomb extends Item {
                     //destroys items / triggers bombs caught in the blast.
                     Heap heap = Dungeon.level.heaps.get(c);
                     if (heap != null)
-                        heap.explode();
+                        heap.explode(destroyAll);
 
                     Char ch = Actor.findChar(c);
                     if (ch != null && !(safe && ch instanceof Hero)) {

@@ -49,6 +49,14 @@ public class HighlightedText extends Component {
 		normal.y = highlighted.y = y;
 	}
 
+	public float textWidth(){
+		return Math.max(normal.width,highlighted.width);
+	}
+
+	public float texHeight(){
+		return Math.max(normal.height,highlighted.height);
+	}
+
 	public void text( String value, int maxWidth ) {
 		Highlighter hl = new Highlighter( value );
 

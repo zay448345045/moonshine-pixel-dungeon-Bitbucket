@@ -80,7 +80,7 @@ public class StatusPane extends Component {
 	@Override
 	protected void createChildren() {
 
-		bg = new NinePatch( Assets.STATUS, 0, 0, 128, 36, 85, 0, 45, 0 );
+		bg = new NinePatch( MoonshinePixelDungeon.hudType()==0?Assets.STATUS:Assets.STATUSG, 0, 0, 128, 36, 85, 0, 45, 0 );
 		add( bg );
 
 		add( new TouchArea<GameAction>( 0, 1, 31, 31 ) {
@@ -285,7 +285,23 @@ public class StatusPane extends Component {
 		protected void createChildren() {
 			super.createChildren();
 
-			bg = new Image( Assets.MENU, 2, 2, 13, 11 );
+			switch (MoonshinePixelDungeon.buttonType()) {
+				case 0:
+					bg = new Image( Assets.MENU, 2, 2, 13, 11 );
+					break;
+				case 1:
+					bg = new Image( Assets.MENU, 34, 18, 13, 11 );
+					break;
+				case 2:
+					bg = new Image( Assets.MENU, 2, 18, 13, 11 );
+					break;
+				case 3:
+					bg = new Image( Assets.MENU, 2, 34, 13, 11 );
+					break;
+				case 4:
+					bg = new Image( Assets.MENU, 35, 35, 13, 11 );
+					break;
+			}
 			add( bg );
 
 			icon = new Image( Assets.MENU, 31, 0, 11, 7);
@@ -386,11 +402,28 @@ public class StatusPane extends Component {
 			height = image.height + 4;
 		}
 
+
 		@Override
 		protected void createChildren() {
 			super.createChildren();
 
-			image = new Image( Assets.MENU, 17, 2, 12, 11 );
+			switch (MoonshinePixelDungeon.buttonType()){
+				case 0:
+					image = new Image( Assets.MENU, 17, 2, 12, 11 );
+					break;
+				case 1:
+					image = new Image( Assets.MENU, 49, 18, 12, 11 );
+					break;
+				case 2:
+					image = new Image( Assets.MENU, 17, 18, 12, 11 );
+					break;
+				case 3:
+					image = new Image( Assets.MENU, 17, 34, 12, 11 );
+					break;
+				case 4:
+					image = new Image( Assets.MENU, 17, 50, 12, 11 );
+					break;
+			}
 			add( image );
 		}
 

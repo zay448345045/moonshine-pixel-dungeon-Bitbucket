@@ -67,6 +67,8 @@ public class King extends Mob {
 		
 		Undead.count = 0;
 
+		stonesreward=Random.IntRange(3,4);
+
 		properties.add(Property.BOSS);
 		properties.add(Property.UNDEAD);
 	}

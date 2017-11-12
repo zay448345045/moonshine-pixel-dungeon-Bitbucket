@@ -99,6 +99,13 @@ public class TextField extends RedButton {
 	}
 
 	@Override
+	public void enable(boolean value) {
+		super.enable(value);
+		inputText.alpha( value ? 1.0f : 0.3f );
+		white.alpha( value ? 1.0f : 0.3f );
+	}
+
+	@Override
 	protected void layout() {
 		super.layout();
 

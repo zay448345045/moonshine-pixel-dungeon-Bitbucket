@@ -46,6 +46,14 @@ public class Window extends Group implements Signal.Listener<NoosaInputProcessor
 	
 	public static final int TITLE_COLOR = 0xFFFF44;
 	public static final int SHPX_COLOR = 0x540075;
+
+	public static final int WIDTH		    = 112;
+	public static final int HEIGHT         = 138;
+	public static final int SLIDER_HEIGHT	= 24;
+	public static final int BTN_HEIGHT	    = 18;
+	public static final int GAP_TINY 		= 2;
+	public static final int GAP_SML 		= 6;
+	public static final int GAP_LRG 		= 18;
 	
 	public Window() {
 		this( 0, 0, 0, Chrome.get( Chrome.Type.WINDOW ) );

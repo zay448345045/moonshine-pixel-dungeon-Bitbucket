@@ -28,6 +28,7 @@ import com.moonshinepixel.moonshinepixeldungeon.input.PDInputProcessor;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.standard.RitualSiteRoom;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
+import com.moonshinepixel.moonshinepixeldungeon.scenes.TitleScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.WelcomeScene;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.SmallRation;
@@ -37,6 +38,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.MassGraveRo
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.WeakFloorRoom;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Languages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
+import com.moonshinepixel.moonshinepixeldungeon.windows.WndError;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.RenderedText;
 import com.watabou.noosa.audio.Music;
@@ -85,6 +87,7 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 						MoonshinePixelDungeon.reportException(t);
 					}
 				};
+		fillerScene= TitleScene.class;
 
 	}
 
@@ -337,7 +340,13 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 		}
 	}
 
-	public static void flipToolbar( boolean value) {
+	@Override
+	public void wndError(Exception e) {
+		scene().add(new WndError("There was an error during changing scene:\n"+e.toString()));
+		MoonshinePixelDungeon.reportException(e);
+	}
+
+	public static void flipToolbar(boolean value) {
 		Preferences.INSTANCE.put(Preferences.KEY_FLIPTOOLBAR, value );
 	}
 
@@ -424,10 +433,73 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 		Preferences.INSTANCE.put(Preferences.KEY_ORIENTATION,landcape);
 		((PDInputProcessor)Game.instance.getInputProcessor()).rotate(landcape);
 	}
+
 	public static boolean ScreenOrientation(){
 		return Preferences.INSTANCE.getBoolean(Preferences.KEY_ORIENTATION,false);
 	}
+	public static void updateChecker( boolean value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_UPDATECHECK, value );
+	}
 
+	public static boolean updateChecker() {
+		return Preferences.INSTANCE.getBoolean( Preferences.KEY_UPDATECHECK, false );
+	}
+
+	public static void hideUpdNot( boolean value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_UPDATECVIS, value );
+	}
+
+	public static boolean hideUpdNot() {
+		return Preferences.INSTANCE.getBoolean( Preferences.KEY_UPDATECVIS, false );
+	}
+
+	public static void infoLevel( int value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_INFOSHOWN, value );
+	}
+
+	public static int infoLevel() {
+		return Preferences.INSTANCE.getInt( Preferences.KEY_INFOSHOWN, 0, 0, Integer.MAX_VALUE );
+	}
+
+	public static void startInGame( boolean value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_STARTINGAME, value );
+	}
+
+	public static boolean startInGame() {
+		return Preferences.INSTANCE.getBoolean( Preferences.KEY_STARTINGAME, false );
+	}
+
+	public static void hudType( int value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_HUDTYPE, value );
+	}
+
+	public static int hudType() {
+		return Preferences.INSTANCE.getInt( Preferences.KEY_HUDTYPE, 0, 0, Integer.MAX_VALUE );
+	}
+
+	public static void buttonType( int value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_BUTTONTYPE, value );
+	}
+
+	public static int buttonType() {
+		return Preferences.INSTANCE.getInt( Preferences.KEY_BUTTONTYPE, 0, 0, Integer.MAX_VALUE );
+	}
+
+	public static void unlocks( int value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_UNLOCKS, value );
+	}
+
+	public static int unlocks() {
+		return Preferences.INSTANCE.getInt( Preferences.KEY_UNLOCKS, 0, 0, Integer.MAX_VALUE );
+	}
+
+	public static void moonstones( int value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_MOONSTONES, value );
+	}
+
+	public static int moonstones() {
+		return Preferences.INSTANCE.getInt( Preferences.KEY_MOONSTONES, 0, 0, Integer.MAX_VALUE );
+	}
 	/*
 	 * <--- Preferences
 	 */

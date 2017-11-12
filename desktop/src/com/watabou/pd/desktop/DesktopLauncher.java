@@ -34,7 +34,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		String version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
-			version = "0.1.13 - alpha";
+			version = "0.1.17 - alpha";
 		}
 
 		boolean previewmode = false;
@@ -42,7 +42,7 @@ public class DesktopLauncher {
 		try {
 			versionCode = Integer.parseInt(DesktopLauncher.class.getPackage().getImplementationVersion());
 		} catch (NumberFormatException e) {
-			versionCode = 53;
+			versionCode = 57;
 			previewmode = true;
 		}
 

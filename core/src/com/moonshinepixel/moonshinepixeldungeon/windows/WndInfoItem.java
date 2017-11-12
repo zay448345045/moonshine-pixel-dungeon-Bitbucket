@@ -51,11 +51,11 @@ public class WndInfoItem extends Window {
 			} else if (item.levelKnown && item.level() < 0) {
 				color = ItemSlot.DEGRADED;
 			}
-			fillFields( item.image(), item.glowing(), color, item.toString(), item.info() );
+			fillFields( item.image(), item.glowing(), color, item.toString(), item.info(), item.hasName() );
 			
 		} else {
 
-			fillFields( heap.image(), heap.glowing(), TITLE_COLOR, heap.toString(), heap.info() );
+			fillFields( heap.image(), heap.glowing(), TITLE_COLOR, heap.toString(), heap.info(), heap.peek().hasName() );
 
 		}
 	}
@@ -71,10 +71,10 @@ public class WndInfoItem extends Window {
 			color = ItemSlot.DEGRADED;
 		}
 		
-		fillFields( item.image(), item.glowing(), color, item.toString(), item.info() );
+		fillFields( item.image(), item.glowing(), color, item.toString(), item.info(), item.hasName() );
 	}
 	
-	private void fillFields( int image, ItemSprite.Glowing glowing, int titleColor, String title, String info ) {
+	private void fillFields( int image, ItemSprite.Glowing glowing, int titleColor, String title, String info, boolean named ) {
 
 		int width = MoonshinePixelDungeon.landscape() ? WIDTH_L : WIDTH_P;
 
@@ -82,6 +82,7 @@ public class WndInfoItem extends Window {
 		titlebar.icon( new ItemSprite( image, glowing ) );
 		titlebar.label( Messages.titleCase( title ), titleColor );
 		titlebar.setRect( 0, 0, width, 0 );
+		if(named) titlebar.color(Window.SHPX_COLOR);
 		add( titlebar );
 		
 		RenderedTextMultiline txtInfo = PixelScene.renderMultiline( info, 6 );

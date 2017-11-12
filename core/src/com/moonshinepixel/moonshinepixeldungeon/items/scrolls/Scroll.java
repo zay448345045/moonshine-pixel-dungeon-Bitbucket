@@ -46,6 +46,8 @@ public abstract class Scroll extends Item {
 
 	protected int initials;
 
+	static public final int scrollsNum = 12;
+
 	private static final Class<?>[] scrolls = {
 		ScrollOfIdentify.class,
 		ScrollOfMagicMapping.class,
@@ -221,7 +223,7 @@ public abstract class Scroll extends Item {
 	}
 	
 	public static boolean allKnown() {
-		return handler.known().size() == scrolls.length;
+		return handler.known().size() == scrollsNum;
 	}
 	
 	@Override

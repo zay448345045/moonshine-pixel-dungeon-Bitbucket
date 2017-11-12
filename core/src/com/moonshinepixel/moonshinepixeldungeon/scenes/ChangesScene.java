@@ -40,6 +40,10 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
 			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.17 - alpha:_\n" +
+					"_-_ Update checker now available on android\nFixed scythe\nAdded item renaming, you can buy it in new moonstone shop using moonstones that drops from bosses\n."+
+					"\n" +
+					"\n" +
 					"_v0.1.16 - alpha:_\n" +
 					"_-_ New item - _Bottle of moonshine_, new _Drunk_ buff\nRandom nicknames generator\nFixed screen orientation and back buttons on android\nLots of bugfixes"+
 					"\n" +

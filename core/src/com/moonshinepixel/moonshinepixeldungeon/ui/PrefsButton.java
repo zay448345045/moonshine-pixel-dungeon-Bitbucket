@@ -20,9 +20,13 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.ui;
 
+import com.moonshinepixel.moonshinepixeldungeon.windows.WndDonateFeatures;
+import com.moonshinepixel.moonshinepixeldungeon.windows.WndOptions;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndSettings;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
+import com.moonshinepixel.moonshinepixeldungeon.windows.WndSysSettings;
+import com.watabou.noosa.Group;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.ui.Button;
@@ -67,6 +71,20 @@ public class PrefsButton extends Button<GameAction> {
 	
 	@Override
 	protected void onClick() {
-		parent.add( new WndSettings() );
+		final Group par = parent;
+		parent.add(new WndOptions("Settings","","Preferences","System settings","Special features"){
+			@Override
+			protected void onSelect(int index) {
+				if (index==0) {
+					par.add( new WndSettings() );
+				}
+				if (index==1) {
+					par.add( new WndSysSettings() );
+				}
+				if (index==2) {
+					par.add( new WndDonateFeatures() );
+				}
+			}
+		});
 	}
 }

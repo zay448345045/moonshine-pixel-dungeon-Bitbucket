@@ -46,6 +46,8 @@ abstract public class MissileWeapon extends Weapon {
 
 		defaultAction = Item.AC_THROW;
 		usesTargeting = true;
+
+		renameable = false;
 	}
 	
 	@Override

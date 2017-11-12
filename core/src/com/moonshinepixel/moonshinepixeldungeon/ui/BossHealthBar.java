@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.ui;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.BloodParticle;
@@ -38,7 +39,7 @@ public class BossHealthBar extends Component {
 	private Image skull;
 	private Emitter blood;
 
-	private static String asset = Assets.BOSSHP;
+	private static String asset = MoonshinePixelDungeon.hudType()==0?Assets.BOSSHP:Assets.BOSSHPG;
 
 	private static BossHealthBar instance;
 	private static boolean bleeding;

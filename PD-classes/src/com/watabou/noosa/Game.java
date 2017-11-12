@@ -70,7 +70,8 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	protected SceneChangeCallback onChange;
 	// New scene class
 	protected Class<? extends Scene> sceneClass;
-	
+
+	public static Class<? extends Scene> fillerScene;
 	// Current time in milliseconds
 	protected long now;
 	// Milliseconds passed since previous update
@@ -198,6 +199,10 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 		instance.requestedReset = true;
 		instance.onChange = callback;
 	}
+
+	public void wndError(Exception e){
+
+	}
 	
 	public static Scene scene() {
 		return instance.scene;
@@ -206,12 +211,27 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	protected void step() {
 		
 		if (requestedReset) {
-			requestedReset = false;
 			try {
-				requestedScene = ClassReflection.newInstance(sceneClass);
-				switchScene();
-			} catch (ReflectionException e) {
-				e.printStackTrace();
+				requestedReset = false;
+				try {
+					requestedScene = ClassReflection.newInstance(sceneClass);
+					switchScene();
+				} catch (ReflectionException e) {
+					e.printStackTrace();
+				}
+			} catch (final Exception e){
+				switchScene(fillerScene, new SceneChangeCallback() {
+					@Override
+					public void beforeCreate() {
+
+					}
+
+					@Override
+					public void afterCreate() {
+						instance.wndError(e);
+					}
+				});
+				return;
 			}
 		}
 		
@@ -223,9 +243,8 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	}
 	
 	protected void switchScene() {
-
 		Camera.reset();
-		
+
 		if (scene != null) {
 			scene.destroy();
 		}
@@ -234,7 +253,7 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 		scene.create();
 		if (onChange != null) onChange.afterCreate();
 		onChange = null;
-		
+
 		Game.elapsed = 0f;
 		Game.timeScale = 1f;
 	}

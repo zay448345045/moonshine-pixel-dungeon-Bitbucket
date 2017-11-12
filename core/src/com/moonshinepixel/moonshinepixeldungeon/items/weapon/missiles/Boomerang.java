@@ -43,6 +43,8 @@ public class Boomerang extends MissileWeapon {
 		bones = false;
 
 		tier = 1;
+
+		renameable = true;
 	}
 
 	@Override

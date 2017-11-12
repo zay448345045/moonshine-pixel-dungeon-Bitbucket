@@ -30,6 +30,8 @@ import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
+import com.moonshinepixel.moonshinepixeldungeon.utils.Info;
+import com.moonshinepixel.moonshinepixeldungeon.windows.WndHardNotification;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -116,8 +118,8 @@ public class TitleScene extends PixelScene {
 			@Override
 			public void update() {
 				super.update();
-                fl.x=this.x+17*(this.width()/58f);
-                fl.y=this.y+7*(this.width()/58f);
+                fl.x=this.x+17;
+                fl.y=this.y+7;
 				y=title.y + title.height()*(17f/90f)*1.2f+(float)Math.sin( time += Game.elapsed )*3;
 			}
 		};
@@ -194,8 +196,12 @@ public class TitleScene extends PixelScene {
 		add( btnExit );
 
 		UpdateNotification updInfo = new UpdateNotification();
-		updInfo.setPos(0, h-updInfo.height());
 		add(updInfo);
+		updInfo.setPos(-updInfo.shift, h-updInfo.height());
+
+		for(WndHardNotification wnd : Info.getInfo()){
+			add(wnd);
+		}
 
 		fadeIn();
 	}

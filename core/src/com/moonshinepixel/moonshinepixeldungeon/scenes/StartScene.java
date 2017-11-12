@@ -72,7 +72,7 @@ public class StartScene extends PixelScene {
 	private boolean huntressUnlocked;
 	private Group unlock;
 
-	public static HeroClass curClass;
+	public static HeroClass curClass = HeroClass.values()[MoonshinePixelDungeon.lastClass()];
 
 	@Override
 	public void create() {

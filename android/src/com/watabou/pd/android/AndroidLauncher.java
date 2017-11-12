@@ -23,6 +23,7 @@ package com.watabou.pd.android;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
@@ -37,6 +38,9 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		String version;
 		int versionCode;
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().detectAll().build();
+
+		StrictMode.setThreadPolicy(policy);
 		try {
 			version = getPackageManager().getPackageInfo( getPackageName(), 0 ).versionName;
 			versionCode = getPackageManager().getPackageInfo( getPackageName(), 0  ).versionCode;

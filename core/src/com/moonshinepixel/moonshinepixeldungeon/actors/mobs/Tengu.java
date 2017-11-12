@@ -65,6 +65,8 @@ public class Tengu extends Mob {
 		flying = true; //doesn't literally fly, but he is fleet-of-foot enough to avoid hazards
 		defFlying = true;
 
+		stonesreward=Random.IntRange(1,2);
+
 		properties.add(Property.BOSS);
 	}
 	

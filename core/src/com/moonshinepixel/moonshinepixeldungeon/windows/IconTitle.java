@@ -50,6 +50,7 @@ public class IconTitle extends Component {
 		ItemSprite icon = new ItemSprite();
 		icon( icon );
 		label( Messages.titleCase( item.toString() ) );
+		color( Window.SHPX_COLOR);
 		icon.view( item );
 	}
 

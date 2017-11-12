@@ -210,6 +210,9 @@ public class WndTradeItem extends Window {
 			Messages.get(this, "sale", item.toString(), price( item ) ) :
 			Messages.titleCase( item.toString() ) );
 		titlebar.setRect( 0, 0, WIDTH, 0 );
+		if (item.hasName()&&!forSale){
+			titlebar.color(Window.SHPX_COLOR);
+		}
 		add( titlebar );
 		
 		// Upgraded / degraded

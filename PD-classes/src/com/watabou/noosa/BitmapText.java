@@ -30,9 +30,14 @@ import com.watabou.gltextures.TextureCache;
 import com.watabou.glwrap.Matrix;
 import com.watabou.glwrap.Quad;
 import com.watabou.glwrap.Vertexbuffer;
+import com.watabou.utils.GameArrays;
 import com.watabou.utils.RectF;
 
 import java.nio.FloatBuffer;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 public class BitmapText extends Visual {
 
@@ -222,6 +227,8 @@ public class BitmapText extends Visual {
 
 		public static final String LATIN_FULL =
 			" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007F";
+		public static final String ALL =
+			" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007F¡¨¯°´¸¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĜĝĤĥıĴĵŁłŃńŐőŒœŚśŜŝŞşŬŭŰűŴŵŶŷŸŹźŻżȷəʼˆˇˉ˘˙˚˛˝˳̣̀̀́̃̉̏ΓΠЀЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяѐё–—―‗‘’‚‛“”„†‡•‥…∂∏∑−√∞∫≈≠≤≥◊\uEE01\uEE02\uF6C3·ĞğİȘș";
 		
 		public SmartTexture texture;
 		
@@ -292,6 +299,10 @@ public class BitmapText extends Visual {
 			for (int i=0; i < length; i++) {
 
 				char ch = chars.charAt( i );
+				System.out.println(ch+"="+separator);
+				if(ch == '≤' || ch=='≠'){
+					System.out.println();
+				}
 				if (ch == ' ') {
 					continue;
 				} else {
@@ -363,6 +374,21 @@ public class BitmapText extends Visual {
 				return super.get( ch );
 			} else {
 				return super.get( '?' );
+			}
+		}
+
+		public static void main(String[] args) {
+			Character[] cl1 = (Character[])GameArrays.wrap("¡¨¯°´¸¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĜĝĤĥıĴĵŁłŃńŐőŒœŚśŜŝŞşŬŭŰűŴŵŶŷŸŹźŻżȷəʼˆˇˉ˘˙˚˛˜˝˳̣̀̀́̃̉̏ΓΠЀЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяѐё–—―‗‘’‚‛“”„†‡•‥…∂∏∑−√∞∫≈≠≤≥◊\uEE01\uEE02\uF6C3\uFEFF".toCharArray());
+			Character[] cl2 = (Character[])GameArrays.wrap("¡¨¯°´·¸¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĜĝĞğĤĥİıĴĵŁłŃńŐőŒœŚśŜŝŞşŬŭŰűŴŵŶŷŸŹźŻżȘșȷəʼˆˇˉ˘˙˚˛˜˝˳̣̀̀́̃̉̏ΓΠЀЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяѐё–—―‗‘’‚‛“”„†‡•‥…∂∏∑−√∞∫≈≠≤≥◊\uEE01\uEE02\uF6C3\uFEFF".toCharArray());
+			HashSet<Character> ch = new LinkedHashSet<>(Arrays.asList(cl1));
+			HashSet<Character> ch2 = new LinkedHashSet<>(Arrays.asList(cl2));
+			for (Character c:ch){
+				if (ch2.contains(c)){
+					ch2.remove(c);
+				}
+			}
+			for (char c:ch2){
+				System.out.print(c);
 			}
 		}
 	}

@@ -22,14 +22,17 @@ package com.moonshinepixel.moonshinepixeldungeon.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.moonshinepixel.moonshinepixeldungeon.GamesInProgress;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Fireball;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.effects.BannerSprites;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RedButton;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RenderedTextMultiline;
+import com.moonshinepixel.moonshinepixeldungeon.windows.WndError;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
@@ -38,7 +41,7 @@ import com.watabou.utils.Random;
 
 public class WelcomeScene extends PixelScene {
 
-	private static int LATEST_UPDATE = 49;
+	private static int LATEST_UPDATE = 57;
 
 	@Override
 	public void create() {
@@ -48,7 +51,12 @@ public class WelcomeScene extends PixelScene {
 //		final int previousVersion = -1;
 
 		if (MoonshinePixelDungeon.versionCode == previousVersion) {
-			MoonshinePixelDungeon.switchNoFade(TitleScene.class);
+			if (MoonshinePixelDungeon.startInGame()&&GamesInProgress.check( StartScene.curClass )!=null) {
+				InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
+				Game.switchScene(InterlevelScene.class);
+			} else {
+				MoonshinePixelDungeon.switchScene(TitleScene.class);
+			}
 			return;
 		}
 
@@ -127,7 +135,16 @@ public class WelcomeScene extends PixelScene {
 			protected void onClick() {
 				super.onClick();
 				updateVersion(previousVersion);
-				MoonshinePixelDungeon.switchScene(TitleScene.class);
+				if (MoonshinePixelDungeon.startInGame()){
+					if (GamesInProgress.check( StartScene.curClass )!=null) {
+						InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
+						Game.switchScene(InterlevelScene.class);
+					} else {
+						MoonshinePixelDungeon.switchScene(TitleScene.class);
+					}
+				} else {
+					MoonshinePixelDungeon.switchScene(TitleScene.class);
+				}
 			}
 		};
 

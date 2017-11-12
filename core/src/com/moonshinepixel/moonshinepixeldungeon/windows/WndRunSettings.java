@@ -25,6 +25,7 @@ import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
+import com.moonshinepixel.moonshinepixeldungeon.scenes.MoonshopScene;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.StartScene;
 import com.moonshinepixel.moonshinepixeldungeon.utils.HeroNames;
@@ -220,6 +221,7 @@ public class WndRunSettings extends WndTabbed {
 
 			rndName.setRect(name.right()+GAP_TINY,name.top(),SLIDER_HEIGHT/2,SLIDER_HEIGHT/2);
 			add(rndName);
+			top=rndName.bottom()+GAP_SML;
 			RedButton rndTitle = new RedButton("?", 9){
 				@Override
 				protected void onClick() {
@@ -234,6 +236,19 @@ public class WndRunSettings extends WndTabbed {
 			caller.func1(rndTitle);
 
 			add(rndTitle);
+
+			top = name.bottom()+GAP_SML;
+
+			RedButton shop = new RedButton(Messages.get(this,"shop"), 9){
+				@Override
+				protected void onClick() {
+//					WndRunSettings.this.add(new WndMoonShop());
+					MoonshinePixelDungeon.switchScene(MoonshopScene.class);
+				}
+			};
+
+			shop.setRect(0,top,WIDTH,BTN_HEIGHT);
+			add(shop);
 
 //			rndTitle.enable(false);
 		}
