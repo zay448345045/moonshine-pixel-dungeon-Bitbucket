@@ -175,6 +175,12 @@ public class WelcomeScene extends PixelScene {
 		if (previousVersion == 0) {
 			message = Messages.get(this, "welcome_msg");
 		} else if (previousVersion <= MoonshinePixelDungeon.versionCode) {
+			if(previousVersion==58){
+				MoonshinePixelDungeon.buttonType(0);
+				MoonshinePixelDungeon.hudType(0);
+				MoonshinePixelDungeon.unlocks(0);
+				MoonshinePixelDungeon.moonstones(0);
+			}
 			if (previousVersion < LATEST_UPDATE){
 				message = Messages.get(this, "update_intro");
 				message += "\n\n" + Messages.get(this, "update_msg");

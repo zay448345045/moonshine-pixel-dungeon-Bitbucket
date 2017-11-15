@@ -40,6 +40,10 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
 			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.19 - alpha:_\n" +
+					"_-_ Quickfix: removed infinite moonstones given on game start\nFixed drunk buff icon"+
+					"\n" +
+					"\n" +
 					"_v0.1.18 - alpha:_\n" +
 					"_-_ You now can have unlimited records in rankings\nAdded some new items to Moonstone shop\nFixed some bugs from 0.1.17"+
 					"\n" +

@@ -71,7 +71,7 @@ public class Drunk extends Buff {
 		}
 		float drunkEffect = Random.Float((drunk-drunkCap)/3f,drunk-drunkCap);
 		drunk-=Random.Float(drunk-drunkCap);
-		switch (Random.Int(8)){
+		switch (Random.Int(24)){
 			case 0:
 				Buff.affect(target,Vertigo.class,drunkEffect);
 				break;

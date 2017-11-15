@@ -40,7 +40,7 @@ public class MoonshopScene extends PixelScene {
 	@Override
 	public void create() {
 //		MoonshinePixelDungeon.unlocks(0);
-		MoonshinePixelDungeon.moonstones(310);
+//		MoonshinePixelDungeon.moonstones(310);
 		super.create();
 
 		int w = Camera.main.width;
