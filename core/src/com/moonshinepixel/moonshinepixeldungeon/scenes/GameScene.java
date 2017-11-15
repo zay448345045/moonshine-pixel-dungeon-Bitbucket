@@ -23,6 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.IntMap;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Yog;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.windows.*;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
@@ -406,6 +407,8 @@ public class GameScene extends PixelScene {
 		}
 
 		selectCell( defaultCellListener );
+
+//		Dungeon.hero.die(new Yog());
 	}
 	
 	public void destroy() {

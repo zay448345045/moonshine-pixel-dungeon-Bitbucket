@@ -1585,7 +1585,11 @@ public class Hero extends Char {
 			}
 
 			Item item = Random.element( items );
-			Dungeon.level.drop( item, cell ).sprite.drop( pos );
+			try {
+				Dungeon.level.drop(item, cell).sprite.drop(pos);
+			} catch (Exception e){
+				MoonshinePixelDungeon.reportException(e);
+			}
 			items.remove( item );
 		}
 

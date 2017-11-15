@@ -170,10 +170,10 @@ public class TrapPlacer extends Item {
     @Override
     public String name() {
         try {
-            return Messages.get(this, "name", trap.newInstance().name);
+            return Messages.get(this, "name", trap.newInstance().name.toLowerCase());
         } catch (Exception e){
             MoonshinePixelDungeon.reportException(e);
-            return Messages.get(this, "name", new WornTrap().name);
+            return Messages.get(this, "name", new WornTrap().name.toLowerCase());
         }
     }
 

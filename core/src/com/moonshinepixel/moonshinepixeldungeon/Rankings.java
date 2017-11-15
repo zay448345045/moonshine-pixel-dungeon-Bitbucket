@@ -85,17 +85,17 @@ public enum Rankings {
 		
 		lastRecord = records.indexOf( rec );
 		int size = records.size();
-		while (size > TABLE_SIZE) {
-
-			if (lastRecord == size - 1) {
-				records.remove( size - 2 );
-				lastRecord--;
-			} else {
-				records.remove( size - 1 );
-			}
-
-			size = records.size();
-		}
+//		while (size > TABLE_SIZE) {
+//
+//			if (lastRecord == size - 1) {
+//				records.remove( size - 2 );
+//				lastRecord--;
+//			} else {
+//				records.remove( size - 1 );
+//			}
+//
+//			size = records.size();
+//		}
 		
 		totalNumber++;
 		if (win) {

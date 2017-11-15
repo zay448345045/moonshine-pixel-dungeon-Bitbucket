@@ -64,8 +64,13 @@ public class Buff extends Actor {
 	public void detach() {
 		fx( false );
 		target.remove( this );
+		afterDetach();
 	}
-	
+
+	public void afterDetach() {
+
+	}
+
 	@Override
 	public boolean act() {
 		diactivate();

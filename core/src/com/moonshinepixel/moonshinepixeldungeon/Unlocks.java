@@ -9,10 +9,22 @@ public enum Unlocks {
 	BUTTONSILVER,
 	BUTTONGOLDEN,
 	BUTTONEMERALD,
-	ITEMRENAMING;
+	ITEMRENAMING,
+	INVULNERABILITY,
+	TOMSTART {
+		@Override
+		public int textSize() {
+			return 8;
+		}
+	},
+	CHALLENGES;
 
 	public int id(){
 		return (int)Math.pow(2,ordinal());
+	}
+
+	public int textSize(){
+		return 9;
 	}
 
 	public String dispName(){
@@ -45,6 +57,12 @@ public enum Unlocks {
 				return 12;
 			case ITEMRENAMING:
 				return 10;
+			case TOMSTART:
+				return 10;
+			case INVULNERABILITY:
+				return 10;
+			case CHALLENGES:
+				return 12;
 			default:
 				return 0;
 		}
@@ -52,11 +70,15 @@ public enum Unlocks {
 
 	public static Unlocks[] unlockables(){
 		return new Unlocks[]{
+				GOLDHUD,
 				BUTTONBRONZE,
 				BUTTONSILVER,
 				BUTTONGOLDEN,
 				BUTTONEMERALD,
-				ITEMRENAMING
+				ITEMRENAMING,
+				CHALLENGES,
+				TOMSTART,
+				INVULNERABILITY
 		};
 	}
 

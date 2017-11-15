@@ -40,7 +40,7 @@ public class MoonshopScene extends PixelScene {
 	@Override
 	public void create() {
 //		MoonshinePixelDungeon.unlocks(0);
-//		MoonshinePixelDungeon.moonstones(31);
+		MoonshinePixelDungeon.moonstones(310);
 		super.create();
 
 		int w = Camera.main.width;
@@ -57,19 +57,6 @@ public class MoonshopScene extends PixelScene {
 		pn1 = Chrome.get(Chrome.Type.TOAST);
 		add(pn1);
 
-		pn1.x=3;
-		pn1.y=3;
-		pn1.size(moon.width+pn1.marginHor()+2,moon.height+pn1.marginVer()+2);
-		moon.x=pn1.x+pn1.marginLeft()+1;
-		moon.y=pn1.y+pn1.marginTop()+1;
-		add(moon);
-
-		stones = new RenderedTextMultiline(9);
-		stones.setPos(moon.x+moon.width+2,pn1.y+9);
-		align(stones);
-		add(stones);
-		System.out.println(stones.width()+"|"+stones.height());
-
 		ExitButton btnExit = new ExitButton();
 		btnExit.setPos( Camera.main.width - btnExit.width(), 0 );
 		add( btnExit );
@@ -81,9 +68,32 @@ public class MoonshopScene extends PixelScene {
 
 		panel.size( pw, ph );
 		panel.x = (w - pw) / 2f;
+
 		panel.y = title.y + title.height();
 		align( panel );
 		add( panel );
+
+		if(MoonshinePixelDungeon.landscape()) {
+			pn1.x = 3;
+			pn1.y = 3;
+			pn1.size(moon.width + pn1.marginHor() + 2, moon.height + pn1.marginVer() + 2);
+			moon.x = pn1.x + pn1.marginLeft() + 1;
+			moon.y = pn1.y + pn1.marginTop() + 1;
+			add(moon);
+		} else{
+			pn1.x = panel.x+panel.marginLeft();
+			pn1.y = panel.y+panel.marginTop();
+			pn1.size(moon.width + pn1.marginHor() + 2, moon.height + pn1.marginVer() + 2);
+			moon.x = pn1.x + pn1.marginLeft() + 1;
+			moon.y = pn1.y + pn1.marginTop() + 1;
+			add(moon);
+		}
+
+		stones = new RenderedTextMultiline(9);
+		stones.setPos(moon.x+moon.width+2,pn1.y+9);
+		align(stones);
+		add(stones);
+		System.out.println(stones.width()+"|"+stones.height());
 
 		ScrollPane list = new ScrollPane( new Component() );
 		add( list );
@@ -91,7 +101,6 @@ public class MoonshopScene extends PixelScene {
 		Component content = list.content();
 		content.clear();
 
-//		content.add(text);
 		int pos = 0;
 		for(int i = 0; i<Unlocks.unlockables().length;i++){
 			ShopButton sb = new ShopButton(Unlocks.unlockables()[i]);
@@ -103,11 +112,19 @@ public class MoonshopScene extends PixelScene {
 
 		content.setSize( panel.innerWidth(), (int)Math.ceil(pos) );
 
-		list.setRect(
-				panel.x + panel.marginLeft(),
-				panel.y + panel.marginTop() - 1,
-				panel.innerWidth(),
-				panel.innerHeight() + 2);
+		if(MoonshinePixelDungeon.landscape()) {
+			list.setRect(
+					panel.x + panel.marginLeft(),
+					panel.y + panel.marginTop() - 1,
+					panel.innerWidth(),
+					panel.innerHeight() + 2);
+		} else {
+			list.setRect(
+					panel.x + panel.marginLeft(),
+					pn1.y + pn1.height,
+					panel.innerWidth(),
+					panel.innerHeight() + 2-pn1.height);
+		}
 		list.scrollTo(0, 0);
 
 		Archs archs = new Archs();
@@ -121,7 +138,7 @@ public class MoonshopScene extends PixelScene {
 	public void update() {
 		super.update();
 		stones.text(MoonshinePixelDungeon.moonstones()+"");
-		stones.setRect(moon.x+moon.width+2,pn1.center().y-stones.height()/2,stones.textWidth()/2,stones.texHeight());
+		stones.setRect(moon.x+moon.width+2,pn1.center().y-stones.height()/2,stones.textWidth()/1.5f,stones.texHeight());
 		pn1.size(stones.right()-pn1.x,pn1.height);
 	}
 
@@ -139,10 +156,12 @@ public class MoonshopScene extends PixelScene {
 		private Unlocks id;
 
 		public ShopButton(Unlocks id){
-			super(id.dispName());
+			super(id.dispName(),id.textSize());
 			price=Unlocks.price(id);
 			sold=id.isUnlocked();
 			this.id=id;
+			priceTXT = new RenderedTextMultiline(9);
+			add(priceTXT);
 			if (sold){
 				erase(moon);
 				erase(whiteBG);
@@ -153,14 +172,12 @@ public class MoonshopScene extends PixelScene {
 		protected void createChildren() {
 			super.createChildren();
 			whiteBG = Chrome.get(Chrome.Type.WHITEBG);
-			priceTXT = new RenderedTextMultiline(9);
 			moon = Icons.get(Icons.MOON);
 
 			if(!sold) {
 				add(whiteBG);
 				add(moon);
 			}
-			add(priceTXT);
 		}
 
 		@Override

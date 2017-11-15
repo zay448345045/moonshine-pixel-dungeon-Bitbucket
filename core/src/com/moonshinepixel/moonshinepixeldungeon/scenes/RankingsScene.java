@@ -20,28 +20,19 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.scenes;
 
-import com.moonshinepixel.moonshinepixeldungeon.Challenges;
-import com.moonshinepixel.moonshinepixeldungeon.Rankings;
+import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
+import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndRanking;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Icons;
-import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Archs;
-import com.moonshinepixel.moonshinepixeldungeon.ui.ExitButton;
-import com.moonshinepixel.moonshinepixeldungeon.ui.RenderedTextMultiline;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndError;
-import com.watabou.noosa.BitmapText;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Image;
-import com.watabou.noosa.RenderedText;
+import com.watabou.noosa.*;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.ui.Button;
+import com.watabou.noosa.ui.Component;
 import com.watabou.utils.ColorMath;
 import com.watabou.utils.GameMath;
 
@@ -85,13 +76,27 @@ public class RankingsScene extends PixelScene {
 		if (Rankings.INSTANCE.records.size() > 0) {
 
 			//attempts to give each record as much space as possible, ideally as much space as portrait mode
-			float rowHeight = GameMath.gate(ROW_HEIGHT_MIN, (uiCamera.height - 26)/Rankings.INSTANCE.records.size(), ROW_HEIGHT_MAX);
+//			float rowHeight = GameMath.gate(ROW_HEIGHT_MIN, (uiCamera.height - 26)/Rankings.INSTANCE.records.size(), ROW_HEIGHT_MAX);
+			float rowHeight = 20;
 
 			float left = (w - Math.min( MAX_ROW_WIDTH, w )) / 2 + GAP;
-			float top = (h - rowHeight  * Rankings.INSTANCE.records.size()) / 2;
-			
+//			float top = (h - rowHeight  * Rankings.INSTANCE.records.size()) / 2;
+			float top = 14;
+
 			int pos = 0;
-			
+
+			NinePatch panel = Chrome.get(Chrome.Type.TOAST);
+
+			panel.size(w - left,h-(title.y+title.height-8));
+			panel.x=(w-panel.width)/2;
+			panel.y=top+2;
+			add(panel);
+			top+=panel.marginTop();
+			ScrollPane pane = new ScrollPane(new Component());
+			Component ranks = pane.content();
+			ranks.clear();
+			add(pane);
+
 			for (Rankings.Record rec : Rankings.INSTANCE.records) {
 				Record row = new Record( pos, pos == Rankings.INSTANCE.lastRecord, rec );
 				float offset =
@@ -100,38 +105,39 @@ public class RankingsScene extends PixelScene {
 										5 :
 										-5
 								: 0;
-				row.setRect( left+offset, top + pos * rowHeight, w - left * 2, rowHeight );
-				add(row);
+				row.setRect( 0, /*top + */pos * rowHeight, w - left * 2, rowHeight );
+				row.setPos(panel.innerWidth()/2-row.width()/2,row.top());
+				ranks.add(row);
 				
 				pos++;
 			}
 
-			if (Rankings.INSTANCE.totalNumber >= Rankings.TABLE_SIZE) {
-				RenderedText label = renderText( Messages.get(this, "total") + " ", 8 );
-				label.hardlight( 0xCCCCCC );
-				add( label );
+			ranks.setSize(panel.innerWidth(),(int)Math.ceil(pos*rowHeight));
+			pane.setRect(panel.x+panel.marginLeft(),panel.y+panel.marginTop(),panel.innerWidth(),panel.innerHeight());
 
-				RenderedText won = renderText( Integer.toString( Rankings.INSTANCE.wonNumber ), 8 );
-				won.hardlight( Window.SHPX_COLOR );
-				add( won );
+			RenderedText label = renderText( Messages.get(this, "total") + " ", 8 );
+			label.hardlight( 0xCCCCCC );
+			add( label );
 
-				RenderedText total = renderText( "/" + Rankings.INSTANCE.totalNumber, 8 );
-				total.hardlight( 0xCCCCCC );
-				total.x = (w - total.width()) / 2;
-				total.y = top + pos * rowHeight + GAP;
-				add( total );
+			RenderedText won = renderText( Integer.toString( Rankings.INSTANCE.wonNumber ), 8 );
+			won.hardlight( Window.SHPX_COLOR );
+			add( won );
 
-				float tw = label.width() + won.width() + total.width();
-				label.x = (w - tw) / 2;
-				won.x = label.x + label.width();
-				total.x = won.x + won.width();
-				label.y = won.y = total.y = h - label.height() - GAP;
+			RenderedText total = renderText( "/" + Rankings.INSTANCE.totalNumber, 8 );
+			total.hardlight( 0xCCCCCC );
+			total.x = (w - total.width()) / 2;
+			total.y = top + pos * rowHeight + GAP;
+			add( total );
 
-				align(label);
-				align(total);
-				align(won);
+			float tw = label.width() + won.width() + total.width();
+			label.x = (w - tw) / 2;
+			won.x = label.x + label.width();
+			total.x = won.x + won.width();
+			label.y = won.y = total.y = h - label.height() - GAP;
 
-			}
+			align(label);
+			align(total);
+			align(won);
 
 		} else {
 
@@ -187,15 +193,15 @@ public class RankingsScene extends PixelScene {
 				flare.color( rec.win ? ColorMath.interpolate(FLARE_WIN,0xFF0000, (Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1)) : ColorMath.interpolate(FLARE_LOSE,0xFF0000, (Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1)) );
 //				flare.tint(0xFFFFFF);
 //				ColorMath.interpolate(FLARE_WIN,0xFFFFFF, Challenges.score(rec.challenges)/Challenges.score(Challenges.MAX_VALUE));
-				System.out.println((Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1));
-				System.out.println(rec.challenges);
-				System.out.println(Challenges.score(rec.challenges)-1);
-				System.out.println(Challenges.score(Challenges.MAX_VALUE)-1);
+//				System.out.println((Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1));
+//				System.out.println(rec.challenges);
+//				System.out.println(Challenges.score(rec.challenges)-1);
+//				System.out.println(Challenges.score(Challenges.MAX_VALUE)-1);
 //				flare.color( rec.win ? FLARE_WIN : FLARE_LOSE );
 				addToBack( flare );
 			}
 
-			if (pos != Rankings.TABLE_SIZE-1) {
+			if (pos != -1) {
 				position.text(Integer.toString(pos + 1));
 			} else
 				position.text(" ");

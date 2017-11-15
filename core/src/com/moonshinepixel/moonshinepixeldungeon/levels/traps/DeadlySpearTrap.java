@@ -48,8 +48,10 @@ public class DeadlySpearTrap extends ActingTrap {
 			Level.set(pos, Terrain.TRAP);
 			active = true;
 			GameScene.updateMap(pos);
-			if (Actor.findChar(pos)!=null){
+			if (Actor.findChar(pos)!=null)
+			if(!Actor.findChar(pos).flying){
 				trigger();
+				activate();
 			}
 			actor.spend(Actor.TICK);
 		} else {
@@ -69,8 +71,9 @@ public class DeadlySpearTrap extends ActingTrap {
 		//this trap is not disarmed by being triggered
 		reveal();
 		Level.set(pos, Terrain.TRAP);
-		activate();
+//		activate();
 	}
+
 
 	@Override
 	public Trap hide() {

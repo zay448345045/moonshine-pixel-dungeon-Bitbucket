@@ -31,6 +31,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.MindVision;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroClass;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Yog;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Ghost;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Imp;
@@ -232,6 +233,9 @@ public class Dungeon {
 	}
 	
 	public static Level newLevel() {
+		for(int i = 0 ;i<50;i++) {
+			fail(Hero.class);
+		}
 		
 		Dungeon.level = null;
 		Actor.clear();

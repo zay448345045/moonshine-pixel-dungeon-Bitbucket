@@ -23,15 +23,18 @@ package com.moonshinepixel.moonshinepixeldungeon.windows;
 import com.moonshinepixel.moonshinepixeldungeon.Badges;
 import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.Unlocks;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.MoonshopScene;
+import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.StartScene;
 import com.moonshinepixel.moonshinepixeldungeon.utils.HeroNames;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
+import com.watabou.noosa.RenderedText;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.Callback;
 
@@ -57,7 +60,7 @@ public class WndRunSettings extends WndTabbed {
 	private ChallengesTab challenges;
 	private Camera CAM;
 	private ScrollPane list;
-	private boolean editable = Badges.isUnlocked( Badges.Badge.VICTORY ) || (MoonshinePixelDungeon.devOptions()&1)!=0;
+	private boolean editable = Unlocks.isUnlocked(Unlocks.CHALLENGES);
 //	private boolean editable=true;
 
 	private static int last_index = 0;
@@ -260,28 +263,35 @@ public class WndRunSettings extends WndTabbed {
 			super();
 			System.out.println(devModeNum);
 			float bottom = 0;
-			final CheckBox dev1 = new CheckBox(Messages.get(this, "dev1")){
-				@Override
-				protected void onClick() {
-					super.onClick();
-					if (checked()){
-						devModeNum|=1;
-						editable=true;
-					} else {
-						devModeNum ^= 1;
-						editable=Badges.isUnlocked( Badges.Badge.VICTORY );
-					}
-					for (CheckBox cb : challenges.boxes){
-						cb.enable(editable);
-					}
-					System.out.println(devModeNum);
-				}
-			};
-			dev1.checked((devModeNum&1)!=0);
-			dev1.setRect(0,bottom,WIDTH,BTN_HEIGHT);
-			add(dev1);
 
-			bottom+=BTN_HEIGHT+GAP_SML;
+//			final CheckBox dev1 = new CheckBox(Messages.get(this, "dev1")){
+//				@Override
+//				protected void onClick() {
+//					super.onClick();
+//					if (checked()){
+//						devModeNum|=1;
+//						editable=true;
+//					} else {
+//						devModeNum ^= 1;
+//						editable=Badges.isUnlocked( Badges.Badge.VICTORY );
+//					}
+//					for (CheckBox cb : challenges.boxes){
+//						cb.enable(editable);
+//					}
+//					System.out.println(devModeNum);
+//				}
+//			};
+//			dev1.checked((devModeNum&1)!=0);
+//			dev1.setRect(0,bottom,WIDTH,BTN_HEIGHT);
+//			add(dev1);
+
+			RenderedTextMultiline title = PixelScene.renderMultiline(Messages.get(this, "title"),9);
+			title.maxWidth(WIDTH);
+			title.setRect(0,0,WIDTH,SLIDER_HEIGHT);
+			add(title);
+			bottom=title.bottom()+GAP_TINY;
+
+//			bottom+=BTN_HEIGHT+GAP_SML;
 			CheckBox dev2 = new CheckBox(Messages.get(this, "dev2")){
 				@Override
 				protected void onClick() {
@@ -296,7 +306,8 @@ public class WndRunSettings extends WndTabbed {
 			};
 			dev2.checked((devModeNum&2)!=0);
 			dev2.setRect(0,bottom,WIDTH,BTN_HEIGHT);
-			dev2.enable(MoonshinePixelDungeon.devlevel()>1);
+			dev2.enable(Unlocks.isUnlocked(Unlocks.TOMSTART));
+			dev2.lock(!Unlocks.isUnlocked(Unlocks.TOMSTART));
 			add(dev2);
 
 			bottom+=BTN_HEIGHT+GAP_SML;
@@ -314,7 +325,8 @@ public class WndRunSettings extends WndTabbed {
 			};
 			dev3.checked((devModeNum&4)!=0);
 			dev3.setRect(0,bottom,WIDTH,BTN_HEIGHT);
-			dev3.enable(MoonshinePixelDungeon.devlevel()>2);
+			dev3.enable(Unlocks.isUnlocked(Unlocks.INVULNERABILITY));
+			dev3.lock(!Unlocks.isUnlocked(Unlocks.INVULNERABILITY));
 			add(dev3);
 		}
 	}
@@ -403,6 +415,7 @@ public class WndRunSettings extends WndTabbed {
 
 			icon( Icons.get( Icons.UNCHECKED ) );
 			enable(editable);
+			lock(!editable);
 		}
 		protected void up(){
 			if (editable) if (this.active)

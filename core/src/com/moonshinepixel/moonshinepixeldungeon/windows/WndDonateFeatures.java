@@ -37,7 +37,7 @@ public class WndDonateFeatures extends Window {
         add(renaming);
         top = renaming.bottom() + GAP_SML;
 
-        CheckBox goldUiCheckbox = new CheckBox("Golden UI"){
+        CheckBox goldUiCheckbox = new CheckBox(Unlocks.GOLDHUD.dispName()){
             boolean firstcheck = true;
             @Override
             public void checked(boolean value) {
@@ -50,11 +50,11 @@ public class WndDonateFeatures extends Window {
             }
         };
         goldUiCheckbox.setRect(0,top,WIDTH,BTN_HEIGHT);
-//        add(goldUiCheckbox);
+        add(goldUiCheckbox);
         goldUiCheckbox.lock(!Unlocks.isUnlocked(Unlocks.GOLDHUD));
 //        goldUiCheckbox.lock(true);
         goldUiCheckbox.checked(MoonshinePixelDungeon.hudType()==1);
-//        top+=goldUiCheckbox.height()+GAP_TINY;
+        top+=goldUiCheckbox.height()+GAP_TINY;
         goldUiCheckbox.enable(Unlocks.isUnlocked(Unlocks.GOLDHUD));
 //        goldUiCheckbox.enable(false);
 

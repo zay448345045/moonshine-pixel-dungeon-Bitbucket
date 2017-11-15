@@ -143,7 +143,7 @@ public class StatusPane extends Component {
 		shieldedHP = new Image( Assets.SHLD_BAR );
 		add(shieldedHP);
 
-		hp = new Image( Assets.HP_BAR );
+		hp = Dungeon.devoptions==0||Dungeon.devoptions==1?new Image( Assets.HP_BAR ):new Image( Assets.HP_BAR_C );
 		add( hp );
 
 		exp = new Image( Assets.XP_BAR );

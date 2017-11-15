@@ -22,6 +22,7 @@ package com.moonshinepixel.moonshinepixeldungeon.windows;
 
 import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.ui.CheckBox;
 import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 
 public class WndChallenges extends Window {
 
-	private static final int WIDTH		= 108;
+	private final int WIDTH		= MoonshinePixelDungeon.landscape()?216:108;	//108
 	private static final int TTL_HEIGHT    = 12;
 	private static final int BTN_HEIGHT    = 18;
 	private static final int GAP        = 1;
@@ -56,22 +57,49 @@ public class WndChallenges extends Window {
 		boxes = new ArrayList<>();
 
 		float pos = TTL_HEIGHT;
-		for (int i = 0; i < Challenges.NAME_IDS.length; i++) {
+		if (!MoonshinePixelDungeon.landscape()) {
+			for (int i = 0; i < Challenges.NAME_IDS.length; i++) {
 
-			CheckBox cb = new CheckBox( Messages.get(Challenges.class, Challenges.NAME_IDS[i]) );
-			cb.checked( (checked & Challenges.MASKS[i]) != 0 );
-			cb.active = editable;
+				CheckBox cb = new CheckBox(Messages.get(Challenges.class, Challenges.NAME_IDS[i]));
+				cb.checked((checked & Challenges.MASKS[i]) != 0);
+				cb.active = editable;
 
-			if (i > 0) {
-				pos += GAP;
+				if (i > 0) {
+					pos += GAP;
+				}
+				cb.setRect(0, pos, WIDTH, BTN_HEIGHT);
+				pos = cb.bottom();
+
+				add(cb);
+				boxes.add(cb);
 			}
-			cb.setRect( 0, pos, WIDTH, BTN_HEIGHT );
-			pos = cb.bottom();
+		} else {
+			float pos2 = TTL_HEIGHT;
+			for (int i = 0; i < Challenges.NAME_IDS.length; i++) {
+				int row = i-1<Challenges.NAME_IDS.length/2?0:1;
+				CheckBox cb = new CheckBox( Messages.get(Challenges.class, Challenges.NAME_IDS[i]) );
+				cb.checked( (checked & Challenges.MASKS[i]) != 0 );
+				cb.active = editable;
 
-			add( cb );
-			boxes.add( cb );
+				if (i > 0 && i-1!=Challenges.NAME_IDS.length/2) {
+					if (row==0) {
+						pos += GAP;
+					} else{
+						pos2 += GAP;
+					}
+				}
+				cb.setRect( WIDTH/2*row, row==0?pos:pos2, WIDTH/2, BTN_HEIGHT );
+
+				if (row==0) {
+					pos = cb.bottom();
+				} else {
+					pos2 = cb.bottom();
+				}
+
+				add( cb );
+				boxes.add( cb );
+			}
 		}
-
 		resize( WIDTH, (int)pos );
 	}
 

@@ -49,7 +49,13 @@ public class Levitation extends FlavourBuff {
 		Dungeon.level.press( target.pos, target );
 		super.detach();
 	}
-	
+
+	@Override
+	public void afterDetach() {
+		super.afterDetach();
+		target.updateFlying();
+	}
+
 	@Override
 	public int icon() {
 		return BuffIndicator.LEVITATION;

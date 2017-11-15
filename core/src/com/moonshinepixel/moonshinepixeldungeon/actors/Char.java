@@ -21,6 +21,8 @@
 package com.moonshinepixel.moonshinepixeldungeon.actors;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
@@ -305,6 +307,14 @@ public abstract class Char extends Actor {
 		if (src instanceof Hero)if(((Hero)src).buff(Transformation.class) != null){
 			((Hero)src).buff(Transformation.class).agressive=true;
 		}
+
+		if(Dungeon.isChallenged(Challenges.ARROWHEAD)){
+			if (this instanceof Hero){
+				dmg*=2;
+			} else {
+				dmg*=1.5f;
+			}
+		}
 		
 		Class<?> srcClass = src.getClass();
 		if (immunities().contains( srcClass )) {
@@ -351,7 +361,11 @@ public abstract class Char extends Actor {
 	
 	public void die( Object src ) {
 		destroy();
-		sprite.die();
+		try {
+			sprite.die();
+		} catch (Exception e){
+			MoonshinePixelDungeon.reportException(e);
+		}
 	}
 	
 	public boolean isAlive() {
