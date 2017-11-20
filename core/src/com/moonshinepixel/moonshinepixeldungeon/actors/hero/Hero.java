@@ -1436,7 +1436,7 @@ public class Hero extends Char {
 
 		if (sprite != null) {
 			String msg = buff.heroMessage();
-			if (msg != null){
+			if (msg != null&&!Dungeon.isChallenged(Challenges.ANALGESIA)){
 				GLog.w(msg);
 			}
 

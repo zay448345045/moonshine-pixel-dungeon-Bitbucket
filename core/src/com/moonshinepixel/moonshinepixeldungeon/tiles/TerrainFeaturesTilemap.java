@@ -69,7 +69,7 @@ public class TerrainFeaturesTilemap extends DungeonTilemap {
 
 		if (trapsObjects.get(pos)!=null){
 		    Trap trap = trapsObjects.get(pos).trap;
-		    System.out.println();
+		    //System.out.println();
             return trap.color + trap.shape * 16;
         }
 

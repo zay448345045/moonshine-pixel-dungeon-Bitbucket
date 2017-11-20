@@ -37,6 +37,8 @@ import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.HeroSprite;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RedButton;
+import com.moonshinepixel.moonshinepixeldungeon.utils.DungeonSeed;
+import com.moonshinepixel.moonshinepixeldungeon.utils.TextInput;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
@@ -74,6 +76,7 @@ public class WndRanking extends WndTabbed {
 					Badges.loadGlobal();
 					Rankings.INSTANCE.loadGameData( rec );
 					Dungeon.challenges = rec.challenges;
+					Dungeon.seed = rec.seed;
 
 				} catch ( Exception e ) {
 					error = Messages.get(WndRanking.class, "error");
@@ -168,7 +171,7 @@ public class WndRanking extends WndTabbed {
 			add( title );
 			
 			float pos = title.bottom();
-//			System.out.println(Dungeon.challenges);
+//			//System.out.println(Dungeon.challenges);
 			if (Dungeon.challenges > 0) {
 				RedButton btnCatalogus = new RedButton( Messages.get(this, "challenges") ) {
 					@Override
@@ -177,11 +180,33 @@ public class WndRanking extends WndTabbed {
 					}
 				};
 //				btnCatalogus.setRect( 0, pos, btnCatalogus.reqWidth() + 2, btnCatalogus.reqHeight() + 2 );
-				btnCatalogus.setRect( 0, pos, WIDTH-2, btnCatalogus.reqHeight() + 2 );
-				btnCatalogus.setPos(WIDTH/2-btnCatalogus.width()/2,pos);
+				btnCatalogus.setRect( 0, pos, (WIDTH-2)/2, btnCatalogus.reqHeight() + 2 );
+				btnCatalogus.setPos(1,pos);
 				add( btnCatalogus );
 
-				pos = btnCatalogus.bottom();
+				RedButton btnSeed = new RedButton( Messages.get(this, "seed") ) {
+					@Override
+					protected void onClick() {
+						TextInput.getTextInput(null,Messages.get(StatsTab.class,"seed"), DungeonSeed.convertToCode(Dungeon.seed),"");
+					}
+				};
+				btnSeed.setRect( btnCatalogus.right(), pos, (WIDTH-2)/2, btnSeed.reqHeight() + 2 );
+				btnSeed.setPos( btnCatalogus.right(),pos);
+				add( btnSeed );
+
+				pos = btnSeed.bottom();
+			} else {
+				RedButton btnSeed = new RedButton( Messages.get(this, "seed") ) {
+					@Override
+					protected void onClick() {
+						TextInput.getTextInput(null,Messages.get(StatsTab.class,"seed"),DungeonSeed.convertToCode(Dungeon.seed),"");
+					}
+				};
+				btnSeed.setRect( 0, pos, WIDTH-2, btnSeed.reqHeight() + 2 );
+				btnSeed.setPos(WIDTH/2-btnSeed.width()/2,pos);
+				add( btnSeed );
+
+				pos = btnSeed.bottom();
 			}
 
 			pos += GAP + GAP;

@@ -31,6 +31,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.bags.Bag;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.Potion;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.Scroll;
 import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
+import com.moonshinepixel.moonshinepixeldungeon.utils.DungeonSeed;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -69,13 +70,13 @@ public enum Rankings {
 		rec.herolevel	= Dungeon.hero.lvl;
 		rec.depth		= Dungeon.fakedepth[Dungeon.depth];
 		rec.challenges	= Dungeon.challenges;
-//		System.out.println("pet_"+rec.challenges);
-//		System.out.println("pet_cause_"+rec.cause);
+//		//System.out.println("pet_"+rec.challenges);
+//		//System.out.println("pet_cause_"+rec.cause);
 		rec.score	= score( win );
 
 		INSTANCE.saveGameData(rec);
 
-		System.out.println(Dungeon.challenges);
+		//System.out.println(Dungeon.challenges);
 
 		rec.gameID = UUID.randomUUID().toString();
 		
@@ -155,6 +156,7 @@ public enum Rankings {
 		Ring.saveSelectively(handler, belongings.backpack.items);
 		rec.gameData.put( HANDLERS, handler);
 
+		rec.seed=Dungeon.seed;
 		//restore items now that we're done saving
 		belongings.backpack.items = allItems;
 	}
@@ -179,11 +181,12 @@ public enum Rankings {
 
 		Dungeon.challenges = rec.challenges;
 
-		System.out.println(rec.challenges);
+		//System.out.println(rec.challenges);
 
 		Statistics.restoreFromBundle(data.getBundle(STATS));
 		
-		Dungeon.challenges = 0;
+		Dungeon.challenges = rec.challenges;
+		Dungeon.seed = rec.seed;
 
 	}
 
@@ -261,6 +264,7 @@ public enum Rankings {
 		private static final String ID      = "gameID";
 		private static final String CHALLENGES= "challenges";
 		private static final String NAME	= "name";
+		private static final String SEED	= "seed";
 
 		public Class cause;
 		public boolean win;
@@ -271,6 +275,7 @@ public enum Rankings {
 		public int herolevel;
 		public int depth;
 		public int challenges;
+		public long seed;
 
 		public Bundle gameData;
 		public String gameID;
@@ -311,8 +316,13 @@ public enum Rankings {
 
 			depth = bundle.getInt( DEPTH );
 			challenges = bundle.getInt( CHALLENGES );
-//			System.out.println("got_"+challenges);
-//			System.out.println("got_"+heroClass);
+			if(bundle.contains(SEED)) {
+				seed = bundle.getLong(SEED);
+			} else {
+				seed = DungeonSeed.convertFromCode("NODATAERR");
+			}
+//			//System.out.println("got_"+challenges);
+//			//System.out.println("got_"+heroClass);
 			herolevel = bundle.getInt( LEVEL );
 			name = bundle.getString( NAME );
 		}
@@ -331,8 +341,9 @@ public enum Rankings {
 			bundle.put( DEPTH, depth );
 			bundle.put( CHALLENGES, challenges );
 			bundle.put( NAME, name);
-//			System.out.println("put_"+challenges);
-//			System.out.println("put_"+heroClass);
+			bundle.put( SEED, seed);
+//			//System.out.println("put_"+challenges);
+//			//System.out.println("put_"+heroClass);
 
 			if (gameData != null) bundle.put( DATA, gameData );
 			bundle.put( ID, gameID );

@@ -25,11 +25,8 @@ import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Icons;
-import com.moonshinepixel.moonshinepixeldungeon.ui.RenderedTextMultiline;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
-import com.moonshinepixel.moonshinepixeldungeon.ui.Archs;
-import com.moonshinepixel.moonshinepixeldungeon.ui.ExitButton;
+import com.moonshinepixel.moonshinepixeldungeon.ui.*;
+import com.moonshinepixel.moonshinepixeldungeon.windows.WndTitledMessage;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
@@ -43,8 +40,16 @@ public class AboutScene extends PixelScene {
 	private static final String TXT_SHPX =
 			"Based on Evan's Shattered Pixel Dungeon\n" +
 					"Code: juh9870\n" +
-					"Graphics: SadSaltan\n" +
-					"Special thanks to russian PD community";
+					"Graphics: SadSaltan\n";
+
+
+	private static final String CREDITS =
+			"" +
+			"_Miaomix_ and _c21_ for reporting major bugs and typos\n" +
+			"_Aqualon_ for helping with translating some texts to english\n" +
+			"_aldoge2_ for helping with guns logic\n" +
+			"_GudRatio_ for giving idea about sleeping mobs\n" +
+			"russian PD community for helping me with ideas";
 
 	private static final String LNK_SHPX = "vk.com/moonpd (ru)";
 
@@ -88,12 +93,22 @@ public class AboutScene extends PixelScene {
 		shpxtext.setPos((colWidth - shpxtext.width()) / 2, shpxtitle.y + shpxtitle.height() + 12);
 		align(shpxtext);
 
+		RedButton credits = new RedButton("CREDITS",8){
+			@Override
+			protected void onClick() {
+				super.onClick();
+				AboutScene.this.add(new WndTitledMessage(Icons.get(Icons.INFO),"Special thanks to:",CREDITS));
+			}
+		};
+		credits.setRect((colWidth - shpxtext.width()/2) / 2,shpxtext.bottom() + 6,shpxtext.width()/2,10);
+		add(credits);
+
 		RenderedTextMultiline shpxlink = renderMultiline( LNK_SHPX, 8 );
 		shpxlink.maxWidth(shpxtext.maxWidth());
 		shpxlink.hardlight( Window.SHPX_COLOR );
 		add( shpxlink );
 
-		shpxlink.setPos((colWidth - shpxlink.width()) / 2, shpxtext.bottom() + 6);
+		shpxlink.setPos((colWidth - shpxlink.width()) / 2, credits.bottom() + 6);
 		align(shpxlink);
 
 		TouchArea shpxhotArea = new TouchArea( shpxlink.left(), shpxlink.top(), shpxlink.width(), shpxlink.height() ) {

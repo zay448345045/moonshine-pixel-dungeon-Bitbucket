@@ -21,7 +21,9 @@
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
 import com.badlogic.gdx.Input;
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.Chrome;
+import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;

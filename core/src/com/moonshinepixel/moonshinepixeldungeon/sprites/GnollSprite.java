@@ -43,7 +43,12 @@ public class GnollSprite extends MobSprite {
 		
 		die = new Animation( 12, false );
 		die.frames( frames, 8, 9, 10 );
-		
+
+		sleep = new Animation(1,true);
+		sleep.frames( frames, 12,13);
+
+		sleepStatusRaise =-6;
+
 		play( idle );
 	}
 }

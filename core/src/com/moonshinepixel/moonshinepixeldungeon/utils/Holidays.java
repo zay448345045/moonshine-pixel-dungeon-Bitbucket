@@ -37,7 +37,7 @@ public enum Holidays {
     }
 
     public static Holidays getHoliday(){
-        System.out.println(curHoliday);
+        //System.out.println(curHoliday);
         return curHoliday;
     }
 }

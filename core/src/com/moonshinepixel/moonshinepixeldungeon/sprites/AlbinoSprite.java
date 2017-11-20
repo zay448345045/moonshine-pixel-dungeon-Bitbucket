@@ -33,16 +33,19 @@ public class AlbinoSprite extends MobSprite {
 		TextureFilm frames = new TextureFilm( texture, 16, 15 );
 		
 		idle = new Animation( 2, true );
-		idle.frames( frames, 16, 16, 16, 17 );
+		idle.frames( frames, 18, 18, 18, 19 );
 		
 		run = new Animation( 10, true );
-		run.frames( frames, 22, 23, 24, 25, 26 );
+		run.frames( frames, 24, 25, 26, 27, 28 );
 		
 		attack = new Animation( 15, false );
-		attack.frames( frames, 18, 19, 20, 21 );
+		attack.frames( frames, 20, 21, 22, 23 );
 		
 		die = new Animation( 10, false );
-		die.frames( frames, 27, 28, 29, 30 );
+		die.frames( frames, 29, 30, 31, 32 );
+
+		sleep = new Animation(1,true);
+		sleep.frames( frames, 34,35);
 		
 		play( idle );
 	}

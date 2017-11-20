@@ -38,7 +38,7 @@ public class TrapsRoom extends SpecialRoom {
 
 	public void paint( Level level ) {
 
-		System.out.println("Traps generated!");
+		//System.out.println("Traps generated!");
 		 
 		Painter.fill( level, this, Terrain.WALL );
 

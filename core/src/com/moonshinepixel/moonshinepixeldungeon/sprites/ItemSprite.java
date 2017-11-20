@@ -223,7 +223,7 @@ public class ItemSprite extends MovieClip {
 ////			newPixmap.setColor(new Color(0,0,0,1));
 ////			newPixmap.fill();
 //			txt.drawPixmap(newPixmap,0,0,16,16,(int)(frame.left*txt.getWidth()),(int)(frame.top*txt.getHeight()),16,16);
-//			System.out.println(frame.left*txt.getWidth()+"|"+frame.top*txt.getHeight());
+//			//System.out.println(frame.left*txt.getWidth()+"|"+frame.top*txt.getHeight());
 ////			txt.drawPixmap(newPixmap,0,0);
 //
 //			texture(txt);

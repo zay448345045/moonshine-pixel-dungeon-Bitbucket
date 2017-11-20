@@ -30,6 +30,7 @@ import com.moonshinepixel.moonshinepixeldungeon.scenes.MoonshopScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.StartScene;
+import com.moonshinepixel.moonshinepixeldungeon.utils.DungeonSeed;
 import com.moonshinepixel.moonshinepixeldungeon.utils.HeroNames;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -258,10 +259,12 @@ public class WndRunSettings extends WndTabbed {
 	}
 
 	private class DevTab extends Group{
+
+		public TextField tf;
 		public int devModeNum = MoonshinePixelDungeon.devOptions();
 		public DevTab() {
 			super();
-			System.out.println(devModeNum);
+			//System.out.println(devModeNum);
 			float bottom = 0;
 
 //			final CheckBox dev1 = new CheckBox(Messages.get(this, "dev1")){
@@ -278,7 +281,7 @@ public class WndRunSettings extends WndTabbed {
 //					for (CheckBox cb : challenges.boxes){
 //						cb.enable(editable);
 //					}
-//					System.out.println(devModeNum);
+//					//System.out.println(devModeNum);
 //				}
 //			};
 //			dev1.checked((devModeNum&1)!=0);
@@ -287,7 +290,7 @@ public class WndRunSettings extends WndTabbed {
 
 			RenderedTextMultiline title = PixelScene.renderMultiline(Messages.get(this, "title"),9);
 			title.maxWidth(WIDTH);
-			title.setRect(0,0,WIDTH,SLIDER_HEIGHT);
+			title.setRect(0,0,WIDTH,SLIDER_HEIGHT*1.5f);
 			add(title);
 			bottom=title.bottom()+GAP_TINY;
 
@@ -301,7 +304,7 @@ public class WndRunSettings extends WndTabbed {
 					} else {
 						devModeNum ^= 2;
 					}
-					System.out.println(devModeNum);
+					//System.out.println(devModeNum);
 				}
 			};
 			dev2.checked((devModeNum&2)!=0);
@@ -320,7 +323,7 @@ public class WndRunSettings extends WndTabbed {
 					} else {
 						devModeNum ^= 4;
 					}
-					System.out.println(devModeNum);
+					//System.out.println(devModeNum);
 				}
 			};
 			dev3.checked((devModeNum&4)!=0);
@@ -328,6 +331,39 @@ public class WndRunSettings extends WndTabbed {
 			dev3.enable(Unlocks.isUnlocked(Unlocks.INVULNERABILITY));
 			dev3.lock(!Unlocks.isUnlocked(Unlocks.INVULNERABILITY));
 			add(dev3);
+
+			bottom=dev3.bottom()+GAP_SML;
+
+			CheckBox seed = new CheckBox(Messages.get(this,"seed1")){
+				@Override
+				protected void onClick() {
+					super.onClick();
+					if (checked()){
+						MoonshinePixelDungeon.customSeed(true);
+						tf.enable(true);
+					} else {
+						MoonshinePixelDungeon.customSeed(false);
+						tf.enable(false);
+					}
+				}
+			};
+			seed.checked(MoonshinePixelDungeon.customSeed());
+			seed.setRect(0,bottom,WIDTH,BTN_HEIGHT);
+			add(seed);
+
+			bottom=seed.bottom()+GAP_TINY;
+
+			tf = new TextField(Messages.get(this,"seed2"),MoonshinePixelDungeon.seed()){
+				@Override
+				public void onTextChange() {
+					super.onTextChange();
+					MoonshinePixelDungeon.seed(text());
+					text(MoonshinePixelDungeon.seed());
+				}
+			};
+			tf.enable(MoonshinePixelDungeon.customSeed());
+			tf.setRect(0,bottom,WIDTH,SLIDER_HEIGHT);
+			add(tf);
 		}
 	}
 
@@ -350,10 +386,6 @@ public class WndRunSettings extends WndTabbed {
 				pos += 1;
 				cb.setRect( 0, pos, WIDTH, BTN_HEIGHT );
 				pos = cb.bottom();
-//				if (i+1==Challenges.NAME_IDS.length){
-//				    cb.enable(false);
-//				    cb.active=false;
-//                }
 
 				challenges.add( cb );
 				boxes.add( cb );
@@ -365,18 +397,10 @@ public class WndRunSettings extends WndTabbed {
 			camera.y -= yOffset * camera.zoom;
 			camera.scroll.set( chrome.x, chrome.y );
 			challenges.setRect(0,0,WIDTH,pos);
-//			add(challenges);
 			list = new ScrollPane( challenges ){
 				ChallengessCheckBox lastClicked;
 			@Override
 			public void onClick( float x, float y ) {
-//				for (ChallengessCheckBox item : boxes) {
-//					if (lastClicked==item) {
-//						item.onClick(x, y);
-//					} else {
-//						lastClicked.up();
-//					}
-//				}
 				if (lastClicked!=null) {
 					lastClicked.click();
 					lastClicked=null;
@@ -404,7 +428,6 @@ public class WndRunSettings extends WndTabbed {
 			};
 			add( list );
 			list.setRect(-GAP_SML,-GAP_LRG,WIDTH,HEIGHT);
-//			resize( WIDTH, lastY*10);
 		}
 
 	}

@@ -52,6 +52,11 @@ public class GnollTricksterSprite extends MobSprite {
 		die = new MovieClip.Animation( 12, false );
 		die.frames( frames, 29, 30, 31 );
 
+		sleep = new Animation(1,true);
+		sleep.frames( frames, 33,34);
+
+		sleepStatusRaise =-6;
+
 		play( idle );
 	}
 

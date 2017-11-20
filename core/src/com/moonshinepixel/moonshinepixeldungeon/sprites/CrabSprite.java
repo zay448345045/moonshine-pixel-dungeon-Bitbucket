@@ -44,6 +44,11 @@ public class CrabSprite extends MobSprite {
 		die = new Animation( 12, false );
 		die.frames( frames, 10, 11, 12, 13 );
 
+		sleep = new Animation(1,true);
+		sleep.frames( frames, 15,16);
+
+		sleepStatusRaise =-4;
+
 		play( idle );
 	}
 

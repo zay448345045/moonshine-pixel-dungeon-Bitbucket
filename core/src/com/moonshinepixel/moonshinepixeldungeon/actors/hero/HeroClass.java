@@ -37,6 +37,8 @@ import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.items.grimoires.GrimoireOfWind;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
+import com.moonshinepixel.moonshinepixeldungeon.items.rings.Ring;
+import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfEvasion;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
@@ -154,6 +156,10 @@ public enum HeroClass {
 		Bomb cb = new ClusterBomb();
 		cb.identify().collect();
 		cb.quantity(50);
+
+		Ring r = new RingOfEvasion();
+		r.upgrade(150);
+		r.identify().collect();
 //		hero.belongings.weapon.tier=6;
 	}
 

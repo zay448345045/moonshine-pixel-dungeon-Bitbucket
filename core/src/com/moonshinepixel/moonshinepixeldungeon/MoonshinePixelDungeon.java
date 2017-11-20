@@ -166,6 +166,11 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 
 		ScreenOrientation(ScreenOrientation());
 		Gdx.input.setCatchBackKey(true);
+
+//		Unlocks.unlock(Unlocks.CHALLENGES);
+//		Unlocks.unlock(Unlocks.ITEMRENAMING);
+//		Unlocks.unlock(Unlocks.INVULNERABILITY);
+//		Unlocks.unlock(Unlocks.TOMSTART);
 	}
 
 	@Override
@@ -500,6 +505,23 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 	public static int moonstones() {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_MOONSTONES, 0, 0, Integer.MAX_VALUE );
 	}
+
+	public static void seed( String value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_SEED, value );
+	}
+
+	public static String seed() {
+		return Preferences.INSTANCE.getString( Preferences.KEY_SEED, "" );
+	}
+
+	public static void customSeed( boolean value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_CUSTOMSEED, value );
+	}
+
+	public static boolean customSeed() {
+		return Preferences.INSTANCE.getBoolean( Preferences.KEY_CUSTOMSEED, false );
+	}
+
 	/*
 	 * <--- Preferences
 	 */

@@ -40,6 +40,10 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
 			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.20 - alpha:_\n" +
+					"_-_ Some mobs now have sleeping animation\nNew challenge: Analgesia\nFixed bug with rankings saving"+
+					"\n" +
+					"\n" +
 					"_v0.1.19 - alpha:_\n" +
 					"_-_ Quickfix: removed infinite moonstones given on game start\nFixed drunk buff icon"+
 					"\n" +

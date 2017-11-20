@@ -214,7 +214,7 @@ public class InterlevelScene extends PixelScene {
 			level = Dungeon.newLevel();
 			if (Dungeon.isChallenged(Challenges.COUNTDOWN))
 				if (!Statistics.amuletObtained)
-					Buff.prolong(Dungeon.hero,Countdown.class,Challenges.countdownTurns());
+					Buff.affect(Dungeon.hero,Countdown.class,Challenges.countdownTurns());
 		} else {
 			Dungeon.depth++;
 			level = Dungeon.loadLevel( Dungeon.hero.heroClass );
@@ -232,7 +232,7 @@ public class InterlevelScene extends PixelScene {
 			level = Dungeon.newLevel();
 			if (Dungeon.isChallenged(Challenges.COUNTDOWN))
 				if (!Statistics.amuletObtained)
-					Buff.prolong(Dungeon.hero,Countdown.class,Challenges.countdownTurns());
+					Buff.affect(Dungeon.hero,Countdown.class,Challenges.countdownTurns());
 		} else {
 			Dungeon.depth++;
 			level = Dungeon.loadLevel( Dungeon.hero.heroClass );
@@ -256,7 +256,7 @@ public class InterlevelScene extends PixelScene {
 
 		if (Statistics.amuletObtained && !Dungeon.returnedDepth[Dungeon.depth]) {
 			if (Dungeon.isChallenged(Challenges.COUNTDOWN))
-				Buff.prolong(Dungeon.hero, Countdown.class, Challenges.countdownTurns());
+				Buff.affect(Dungeon.hero, Countdown.class, Challenges.countdownTurns());
 		}
 		if (Statistics.amuletObtained){
 			Dungeon.returnedDepth[Dungeon.depth]=true;

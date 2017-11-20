@@ -27,9 +27,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.TriggerBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.triggers.VineTrigger;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Rat;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.StoneSnake;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.*;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DeadlySpearTrap;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
@@ -44,6 +42,8 @@ public class TestLevel extends Level {
 	{
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
+
+		viewDistance=64;
 	}
 	
 	@Override
@@ -114,17 +114,27 @@ public class TestLevel extends Level {
 
 	@Override
 	protected void createMobs() {
-		Mob rat = new Rat();
-		do{
-			rat.pos= Random.Int(map.length);
-		} while (!getPassable(rat.pos));
-		Mob rat2 = new Rat();
-		do{
-			rat2.pos= Random.Int(map.length);
-		} while (!getPassable(rat.pos));
-		mobs.add(rat);
-		mobs.add(rat2);
+		Mob[] mobss = new Mob[]{
+				new Rat(),
+				new Albino(),
+				new FetidRat(),
+				new Gnoll(),
+				new GnollTrickster(),
+				new Bomberman(),
+				new Crab(),
+				new GreatCrab(),
+				new Brute(),
+				new Shielded(),
+				new Bat()
+		};
 
+		for(Mob m : mobss){
+			do{
+				m.pos=Random.Int(length);
+			} while (!getPassable(m.pos));
+			mobs.add(m);
+			m.state=m.SLEEPING;
+		}
 
 		TriggerBlob.place((SIZE / 2 + 1) * (width() + 1), this, VineTrigger.class);
 	}

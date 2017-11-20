@@ -30,7 +30,7 @@ public class LayeredImage {
             try {
                 return drawImage();
             } catch (LayersNotFoundException e){
-                System.out.println(e);
+                //System.out.println(e);
                 return null;
             }
         }

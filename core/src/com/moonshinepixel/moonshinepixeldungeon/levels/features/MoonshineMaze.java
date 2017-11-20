@@ -59,20 +59,20 @@ public class MoonshineMaze {
 		for (int i = 0; i < y; i++) {
 			// draw the north edge
 			for (int j = 0; j < x; j++) {
-				System.out.print((maze[j][i] & 1) == 0 ? "+---" : "+   ");
+				//System.out.print((maze[j][i] & 1) == 0 ? "+---" : "+   ");
 			}
-			System.out.println("+");
+			//System.out.println("+");
 			// draw the west edge
 			for (int j = 0; j < x; j++) {
-				System.out.print((maze[j][i] & 8) == 0 ? "|   " : "    ");
+				//System.out.print((maze[j][i] & 8) == 0 ? "|   " : "    ");
 			}
-			System.out.println("|");
+			//System.out.println("|");
 		}
 		// draw the bottom line
 		for (int j = 0; j < x; j++) {
-			System.out.print("+---");
+			//System.out.print("+---");
 		}
-		System.out.println("+");
+		//System.out.println("+");
 	}
 
 	public boolean[][] array(){
@@ -97,7 +97,7 @@ public class MoonshineMaze {
 		}
 		out+="X";
 
-//		System.out.println(out);
+//		//System.out.println(out);
 		String[] chArr = out.split("");
 		int dY = 0;
 		int dX = 0;
@@ -159,12 +159,12 @@ public class MoonshineMaze {
 //		MoonshineMaze maze = new MoonshineMaze(8,8);
 //		maze.display();
 		boolean[][] arr = maze.array();
-		System.out.print("\n\n\n");
+		//System.out.print("\n\n\n");
 		for (int i = 0; i<arr.length;i++){
 			for (int j = 0; j<arr[0].length;j++){
-				System.out.print(arr[i][j]+"|");
+				//System.out.print(arr[i][j]+"|");
 			}
-			System.out.print("\n");
+			//System.out.print("\n");
 		}
 	}
 }

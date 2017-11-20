@@ -43,6 +43,9 @@ public class RatSprite extends MobSprite {
 		
 		die = new Animation( 10, false );
 		die.frames( frames, 11, 12, 13, 14 );
+
+		sleep = new Animation(1,true);
+		sleep.frames( frames, 16,17);
 		
 		play( idle );
 	}

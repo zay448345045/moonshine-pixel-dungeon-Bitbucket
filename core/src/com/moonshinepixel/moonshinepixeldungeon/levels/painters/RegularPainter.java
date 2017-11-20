@@ -24,6 +24,7 @@ package com.moonshinepixel.moonshinepixeldungeon.levels.painters;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
+import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.StatueRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.standard.EmptyRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.Trap;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
@@ -108,7 +109,7 @@ public abstract class RegularPainter extends Painter {
 			placeDoors( r );
 			r.paint( level );
 		}
-		
+
 		for (Room r : rooms) {
 			paintDoors( level, r );
 		}

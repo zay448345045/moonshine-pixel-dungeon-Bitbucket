@@ -106,7 +106,7 @@ public class Bomberman extends Mob implements Callback {
 //			damage(HP,new Bomb());
 //			new Bomb().explode(pos);
 //			for (int c : PathFinder.NEIGHBOURS8){
-//				System.out.println(c);
+//				//System.out.println(c);
 //			}
 //			int targ = PathFinder.NEIGHBOURS8[Random.Int(PathFinder.NEIGHBOURS8.length)];
 //			new Bomb().explode(enemy.pos+targ);

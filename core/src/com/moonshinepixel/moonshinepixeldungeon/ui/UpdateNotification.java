@@ -89,7 +89,7 @@ public class UpdateNotification extends Component {
 
 						latestVersion = Integer.parseInt(inforeader.readLine());
 
-						System.out.println(latestVersion + "|" + currentVersion);
+						//System.out.println(latestVersion + "|" + currentVersion);
 						if (latestVersion > currentVersion) {
 							updateAvailable = true;
 							updateMessage();
@@ -125,7 +125,7 @@ public class UpdateNotification extends Component {
 							updateInfo+="\n"+updateInfoArr[i];
 						}
 
-//						System.out.println(patchInfo + "|" + updateInfo);
+//						//System.out.println(patchInfo + "|" + updateInfo);
 						latestMessage = latestIsUpdate ? latestUpdateMessage : latestVersionMessage;
 
 						updateMessage();

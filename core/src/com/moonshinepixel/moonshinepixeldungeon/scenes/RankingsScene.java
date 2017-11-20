@@ -190,13 +190,13 @@ public class RankingsScene extends PixelScene {
 			if (latest) {
 				flare = new Flare( 6, 24 );
 				flare.angularSpeed = 90;
-				flare.color( rec.win ? ColorMath.interpolate(FLARE_WIN,0xFF0000, (Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1)) : ColorMath.interpolate(FLARE_LOSE,0xFF0000, (Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1)) );
+				flare.color( rec.win ? ColorMath.interpolate(FLARE_WIN,0xFF0000, (Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE))) : ColorMath.interpolate(FLARE_LOSE,0xFF0000, (Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1)) );
 //				flare.tint(0xFFFFFF);
 //				ColorMath.interpolate(FLARE_WIN,0xFFFFFF, Challenges.score(rec.challenges)/Challenges.score(Challenges.MAX_VALUE));
-//				System.out.println((Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1));
-//				System.out.println(rec.challenges);
-//				System.out.println(Challenges.score(rec.challenges)-1);
-//				System.out.println(Challenges.score(Challenges.MAX_VALUE)-1);
+//				//System.out.println((Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1));
+//				//System.out.println(rec.challenges);
+//				//System.out.println(Challenges.score(rec.challenges)-1);
+//				//System.out.println(Challenges.score(Challenges.MAX_VALUE)-1);
 //				flare.color( rec.win ? FLARE_WIN : FLARE_LOSE );
 				addToBack( flare );
 			}

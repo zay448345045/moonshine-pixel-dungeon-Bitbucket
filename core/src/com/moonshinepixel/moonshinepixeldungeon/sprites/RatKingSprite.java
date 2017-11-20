@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.sprites;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.moonshinepixel.moonshinepixeldungeon.utils.Holidays;
 import com.watabou.noosa.TextureFilm;
 
 import java.util.Calendar;
@@ -34,7 +35,7 @@ public class RatKingSprite extends MobSprite {
 
 		final Calendar calendar = Calendar.getInstance();
 		//once a year the rat king feels a bit festive!
-		festive = (calendar.get(Calendar.MONTH) == 11 && calendar.get(Calendar.WEEK_OF_MONTH) > 2);
+		festive= Holidays.getHoliday()==Holidays.XMAS;
 
 		final int c = festive ? 8 : 0;
 		
@@ -53,6 +54,9 @@ public class RatKingSprite extends MobSprite {
 		
 		die = new Animation( 10, false );
 		die.frames( frames, c+0 );
+
+		sleep = new Animation(1,true);
+		sleep.frames( frames, c+8,c+9);
 		
 		play( idle );
 	}

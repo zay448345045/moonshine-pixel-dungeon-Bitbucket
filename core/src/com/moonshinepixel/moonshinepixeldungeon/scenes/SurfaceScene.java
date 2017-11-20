@@ -391,7 +391,7 @@ public class SurfaceScene extends PixelScene {
 		
 		public Avatar(HeroClass cl, Hero.Gender gender) {
 			super( Assets.ALLAVATARS );
-			System.out.println(Dungeon.hero.gender);
+			//System.out.println(Dungeon.hero.gender);
 			frame( new TextureFilm( texture, WIDTH, HEIGHT ).get( gender== Hero.Gender.MALE?cl.ordinal():cl.ordinal()+5 ) );
 		}
 	}

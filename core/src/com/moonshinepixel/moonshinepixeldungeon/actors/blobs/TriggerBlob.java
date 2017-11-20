@@ -57,7 +57,7 @@ public class TriggerBlob extends Blob {
 					volume += off[cell];
 				}
 				if (cur[cell]>0) {
-					System.out.println(triggers[cell]);
+					//System.out.println(triggers[cell]);
 					Char ch = Actor.findChar(cell);
 					Trigger tr;
 					try {
@@ -93,14 +93,14 @@ public class TriggerBlob extends Blob {
 	@SuppressWarnings("unchecked")
 	public static TriggerBlob place( int cell, Level level, Class<? extends Trigger> trigger ) {
 		try {
-			System.out.println("place_start");
+			//System.out.println("place_start");
 			TriggerBlob gas = (TriggerBlob)Blob.seed(cell,100,TriggerBlob.class,level);
 
 			gas.seed( level, cell, trigger );
 
-			System.out.println("place_finished");
+			//System.out.println("place_finished");
 
-			System.out.println(gas.triggers[cell]);
+			//System.out.println(gas.triggers[cell]);
 			return gas;
 
 		} catch (Exception e) {

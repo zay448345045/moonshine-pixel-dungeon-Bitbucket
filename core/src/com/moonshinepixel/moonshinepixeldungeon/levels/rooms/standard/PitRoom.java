@@ -93,15 +93,15 @@ public class PitRoom extends StandardRoom {
 					}
 				}
 			}
-			System.out.println("");
+			//System.out.println("");
 			try {
 				do {
 					Point targ = Random.element(cells);
 					Painter.set(level, targ, platform);
-					System.out.println(targ.x+"|"+targ.y);
+					//System.out.println(targ.x+"|"+targ.y);
 				} while (Random.Int(100) > 50);
 			} catch (NullPointerException e){
-				System.out.println("fail");
+				//System.out.println("fail");
 			}
 
 			size-=2;

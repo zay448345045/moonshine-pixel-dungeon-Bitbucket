@@ -21,10 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.sprites;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.CurareDart;
 import com.watabou.noosa.TextureFilm;
-import com.watabou.utils.Callback;
 
 public class BombergnollSprite extends MobSprite {
 
@@ -50,6 +47,11 @@ public class BombergnollSprite extends MobSprite {
 
 		die = new Animation( 12, false );
 		die.frames( frames, 50, 51, 52 );
+
+		sleep = new Animation(1,true);
+		sleep.frames( frames, 54,55);
+
+		sleepStatusRaise =-6;
 
 		play( idle );
 	}

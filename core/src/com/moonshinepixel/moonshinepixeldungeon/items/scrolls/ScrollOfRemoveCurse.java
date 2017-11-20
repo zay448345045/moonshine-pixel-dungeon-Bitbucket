@@ -97,10 +97,11 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 				}
 			}
 		}
-		
-		if (procced) {
-			hero.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
-		}
+
+		if (hero!=null)
+			if (procced) {
+				hero.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
+			}
 		
 		return procced;
 	}

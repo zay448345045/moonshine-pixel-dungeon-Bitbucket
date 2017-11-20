@@ -163,7 +163,7 @@ public class BambooSpear extends MeleeWeapon {
 					detach();
 					return true;
 			}
-			System.out.println(growLevel);
+			//System.out.println(growLevel);
 			return spear.act();
 		}
 

@@ -126,7 +126,7 @@ public abstract class BulletGun extends Gun {
         int cell = bolt.collisionPos;
         Char ch = Actor.findChar( cell );
         if (attach!=null) {
-            System.out.println(this.getClass()+"-120");
+            //System.out.println(this.getClass()+"-120");
             if (ch != null) {
                 if (hit(Item.curUser, ch)) {
                     _ammo.shot(bolt, ammo);

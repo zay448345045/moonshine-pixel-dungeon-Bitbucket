@@ -22,6 +22,7 @@
 package com.watabou.noosa;
 
 import com.watabou.glwrap.Matrix;
+import com.watabou.utils.ColorMath;
 import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 
@@ -236,7 +237,7 @@ public class Visual extends Gizmo {
 	public void color( int color ) {
 		color( ((color >> 16) & 0xFF) / 255f, ((color >> 8) & 0xFF) / 255f, (color & 0xFF) / 255f );
 	}
-	
+
 	public void hardlight( float r, float g, float b ) {
 		ra = ga = ba = 0;
 		rm = r;

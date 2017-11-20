@@ -35,8 +35,9 @@ public class Challenges {
 	public static final int HORDE				= 1024;
 	public static final int COUNTDOWN			= 2048;
 	public static final int ARROWHEAD			= 4096;
+	public static final int ANALGESIA			= 8192;
 
-	public static final int MAX_VALUE           = 8191;
+	public static final int MAX_VALUE           = 16383;
 
 	public static final String[] NAME_IDS = {
 			"no_food",
@@ -51,7 +52,8 @@ public class Challenges {
 			"blackjack",
 			"horde",
 			"countdown",
-			"arrowhead"
+			"arrowhead",
+			"analgesia"
 	};
 
 	public static final float[] SCORE_MODIFIERS = {
@@ -67,11 +69,12 @@ public class Challenges {
 			1.1f,
 			1.2f,
 			1.1f,
-			1.2f
+			1.2f,
+			1.1f
 	};
 
 	public static final int[] MASKS = {
-			NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, AMNESIA, CURSE, BLACKJACK, HORDE, COUNTDOWN, ARROWHEAD
+			NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, AMNESIA, CURSE, BLACKJACK, HORDE, COUNTDOWN, ARROWHEAD, ANALGESIA
 	};
 
 	public static float score(int challenges){

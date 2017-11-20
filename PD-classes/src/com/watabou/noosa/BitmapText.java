@@ -299,9 +299,9 @@ public class BitmapText extends Visual {
 			for (int i=0; i < length; i++) {
 
 				char ch = chars.charAt( i );
-				System.out.println(ch+"="+separator);
+				//System.out.println(ch+"="+separator);
 				if(ch == '≤' || ch=='≠'){
-					System.out.println();
+					//System.out.println();
 				}
 				if (ch == ' ') {
 					continue;
@@ -388,7 +388,7 @@ public class BitmapText extends Visual {
 				}
 			}
 			for (char c:ch2){
-				System.out.print(c);
+				//System.out.print(c);
 			}
 		}
 	}

@@ -64,20 +64,22 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	private static final float FLASH_INTERVAL	= 0.05f;
 
 	//the amount the sprite is raised from flat when viewed in a raised perspective
-	protected float perspectiveRaise    = 6 / 16f; //6 pixels
+	protected 	float 	perspectiveRaise    = 6 / 16f; //6 pixels
+	public 		float 	sleepStatusRaise 	= 0;
 
 	//the width and height of the shadow are a percentage of sprite size
 	//offset is the number of pixels the shadow is moved down or up (handy for some animations)
-	public boolean renderShadow  = false;
-	protected float shadowWidth     = 1.2f;
-	protected float shadowHeight    = 0.25f;
-	protected float shadowOffset    = 0.25f;
+	public 		boolean renderShadow  	= false;
+	protected 	float 	shadowWidth     = 1.2f;
+	protected 	float 	shadowHeight    = 0.25f;
+	protected 	float 	shadowOffset    = 0.25f;
 
 	public enum State {
 		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, SHADOWED, NOSPRITE
 	}
 	
 	protected Animation idle;
+	protected Animation sleep;
 	protected Animation run;
 	protected Animation attack;
 	protected Animation operate;
@@ -158,7 +160,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 			}
 		}
 	}
-	
+
 	public void idle() {
 		play( idle );
 	}
@@ -209,6 +211,13 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	public void zap( int cell ) {
 		turnTo( ch.pos, cell );
 		play( zap );
+	}
+
+	public void sleep(){
+		if (sleep == null) {
+			sleep=idle.clone();
+		}
+		play(sleep);
 	}
 	
 	public void turnTo( int from, int to ) {
@@ -454,12 +463,15 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 			emo = new EmoIcon.Sleep( this );
 			emo.visible = visible;
 		}
-		idle();
+		sleep();
 	}
 	
 	public void hideSleep() {
 		if (emo instanceof EmoIcon.Sleep) {
 			emo.killAndErase();
+		}
+		if (curAnim!=null&&curAnim.equals(sleep)){
+			play(idle);
 		}
 	}
 	

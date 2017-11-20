@@ -366,7 +366,7 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		int i=0;
 		for (Bundlable door2 : conDoors){
 			Door door = (Door)door2;
-			System.out.println(conrooms[i]);
+			//System.out.println(conrooms[i]);
 
 			connected.put(level.room(conrooms[i]),door);
 			i++;

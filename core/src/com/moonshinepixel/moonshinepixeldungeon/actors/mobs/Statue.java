@@ -23,6 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Poison;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
+import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.Journal;
@@ -53,8 +54,11 @@ public class Statue extends Mob {
 		
 		do {
 			weapon = (Weapon) Generator.random( Generator.Category.WEAPON );
-		} while (!(weapon instanceof MeleeWeapon) || weapon.cursed);
-		
+		} while (!(weapon instanceof MeleeWeapon));
+
+		if (((MeleeWeapon) weapon).cursed){
+			ScrollOfRemoveCurse.uncurse(null,weapon);
+		}
 		weapon.identify();
 		weapon.enchant( Weapon.Enchantment.random() );
 		

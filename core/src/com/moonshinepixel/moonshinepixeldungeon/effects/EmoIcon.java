@@ -31,7 +31,9 @@ public class EmoIcon extends Image {
 
 	protected float maxSize = 2;
 	protected float timeScale = 1;
-	
+
+	protected float yRaise = 0;
+
 	protected boolean growing	= true;
 	
 	protected CharSprite owner;
@@ -61,7 +63,7 @@ public class EmoIcon extends Image {
 			}
 			
 			x = owner.x + owner.width - width / 2;
-			y = owner.y - height;
+			y = owner.y - height - yRaise;
 		}
 	}
 	
@@ -80,7 +82,9 @@ public class EmoIcon extends Image {
 			scale.set( Random.Float( 1, maxSize ) );
 
 			x = owner.x + owner.width - width / 2;
-			y = owner.y - height;
+			y = owner.y - height - owner.sleepStatusRaise;
+
+			yRaise = owner.sleepStatusRaise;
 		}
 	}
 	

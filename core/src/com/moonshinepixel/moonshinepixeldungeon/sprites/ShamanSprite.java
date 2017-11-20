@@ -55,7 +55,7 @@ public class ShamanSprite extends MobSprite {
 	public void zap( int pos ) {
 
 		if (ch instanceof Shaman) {
-			System.out.println(parent);
+			//System.out.println(parent);
 			parent.add(new Lightning(ch.pos, pos, (Shaman) ch));
 		} else {
 			parent.add(new Lightning(ch.pos, pos, new Callback() {

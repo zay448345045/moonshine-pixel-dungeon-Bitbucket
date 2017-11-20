@@ -48,6 +48,7 @@ import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.StartScene;
 import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
+import com.moonshinepixel.moonshinepixeldungeon.ui.Runes;
 import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 import com.moonshinepixel.moonshinepixeldungeon.utils.DungeonSeed;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndResurrect;
@@ -170,7 +171,11 @@ public class Dungeon {
 
 	public static int version;
 
+	public static int rune;
+
 	public static long seed;
+
+	public static boolean customseed;
 
 	public static Hero.Gender gender = Hero.Gender.MALE; //Yep, this is sexism)
 	
@@ -181,7 +186,10 @@ public class Dungeon {
 		devoptions = MoonshinePixelDungeon.devOptions();
         Arrays.fill(visitedDepth, false);
         Arrays.fill(returnedDepth, false);
-		seed = DungeonSeed.randomSeed();
+		seed = DungeonSeed.seed();
+		customseed=MoonshinePixelDungeon.customSeed();
+
+		rune = Runes.random();
 
 		Actor.clear();
 		Actor.resetNextID();
@@ -203,7 +211,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 
 		storyline=MoonshinePixelDungeon.storyline();
-		depth = storyline==0?0:30;
+		depth = storyline==0?0:MoonshinePixelDungeon.previewmode?26:30;
 		gold = 0;
 
 		droppedItems = new SparseArray<ArrayList<Item>>();
@@ -233,9 +241,7 @@ public class Dungeon {
 	}
 	
 	public static Level newLevel() {
-		for(int i = 0 ;i<50;i++) {
-			fail(Hero.class);
-		}
+
 		
 		Dungeon.level = null;
 		Actor.clear();
@@ -485,6 +491,8 @@ public class Dungeon {
 	private static final String CHAPTERS	= "chapters";
 	private static final String QUESTS		= "quests";
 	private static final String BADGES		= "badges";
+	private static final String ISSEED		= "customseed";
+	private static final String RUNE		= "rune";
 
 	public static String gameFile( HeroClass cl ) {
 		switch (cl) {
@@ -531,6 +539,8 @@ public class Dungeon {
 			bundle.put( STORYLINE, storyline );
 			bundle.put( VISITEDDEPTH, visitedDepth );
 			bundle.put( RETURNEDDEPTH, returnedDepth );
+			bundle.put( ISSEED, customseed );
+			bundle.put( RUNE, rune );
 
 			for (int d : droppedItems.keyArray()) {
 				bundle.put(Messages.format(DROPPED, d), droppedItems.get(d));
@@ -623,7 +633,7 @@ public class Dungeon {
 
 		version = bundle.getInt( VERSION );
 
-		seed = bundle.contains( SEED ) ? bundle.getLong( SEED ) : DungeonSeed.randomSeed();
+		seed = bundle.contains( SEED ) ? bundle.getLong( SEED ) : DungeonSeed.seed();
 
 		Generator.reset();
 
@@ -642,6 +652,8 @@ public class Dungeon {
 		Scroll.restore( bundle );
 		Potion.restore( bundle );
 		Ring.restore( bundle );
+
+		rune=bundle.contains(RUNE)?bundle.getInt(RUNE):Runes.random();
 
 		quickslot.restorePlaceholders( bundle );
 		
@@ -690,6 +702,7 @@ public class Dungeon {
         storyline = bundle.getInt( STORYLINE );
 		visitedDepth = bundle.getBooleanArray(VISITEDDEPTH);
 		returnedDepth = bundle.getBooleanArray(RETURNEDDEPTH);
+		customseed = MoonshinePixelDungeon.customSeed() || bundle.getBoolean(ISSEED);
 
 		Statistics.restoreFromBundle( bundle );
 		Journal.restoreFromBundle( bundle );
@@ -752,7 +765,7 @@ public class Dungeon {
 
 	public static void fail( Class cause ) {
 		if (hero.belongings.getItem( Ankh.class ) == null) {
-			if (devoptions==0 || devoptions==1) {
+			if (!cheated()) {
 				Rankings.INSTANCE.submit(false, cause);
 			}
 		}
@@ -762,7 +775,7 @@ public class Dungeon {
 
 		hero.belongings.identify();
 
-		if (devoptions==0 || devoptions==1) {
+		if (!cheated()) {
 			if (challenges != 0) {
 				Badges.validateChampion();
 			}
@@ -903,5 +916,10 @@ public class Dungeon {
 	public static boolean hasPatch(int from, int to){
 		boolean[] passable = BArray.or(Level.getPassable(),Level.getAvoid(),null);
 		return PathFinder.buildDistanceMap(from,to,passable);
+	}
+
+	public static boolean cheated(){
+		System.out.println(devoptions+"|"+customseed);
+		return devoptions>1||customseed;
 	}
 }

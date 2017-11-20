@@ -20,12 +20,45 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.utils;
 
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.watabou.utils.Random;
 
 //This class defines the parameters for seeds in ShatteredPD and contains a few convenience methods
 public class DungeonSeed {
 
 	private static long TOTAL_SEEDS = 5429503678976L; //26^9 possible seeds
+
+	public static long seed(){
+		if (MoonshinePixelDungeon.customSeed()) {
+			try{
+				return Long.parseLong(MoonshinePixelDungeon.seed());
+			} catch (NumberFormatException f) {
+				try {
+					try {
+						return convertFromCode(MoonshinePixelDungeon.seed());
+					} catch (IllegalArgumentException g) {
+						return convertFromText(MoonshinePixelDungeon.seed());
+					}
+				} catch (Exception e) {
+					return randomSeed();
+				}
+			}
+		} else {
+			return randomSeed();
+		}
+	}
+
+	public static String stringToCode(String str) {
+		try{
+			return Long.parseLong(str)+"";
+		} catch (NumberFormatException e) {
+			try {
+				return convertToCode(convertFromCode(str));
+			} catch (IllegalArgumentException f) {
+				return convertToCode(convertFromText(str));
+			}
+		}
+	}
 
 	public static long randomSeed(){
 		return Random.Long( TOTAL_SEEDS );
@@ -94,5 +127,4 @@ public class DungeonSeed {
 		total %= TOTAL_SEEDS;
 		return total;
 	}
-
 }

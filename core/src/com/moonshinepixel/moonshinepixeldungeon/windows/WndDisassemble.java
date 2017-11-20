@@ -70,7 +70,7 @@ public class WndDisassemble extends Window {
 		super();
 
 		subBag = Dungeon.hero.belongings.getItem(GunslingerSubbag.class);
-		System.out.println(subBag);
+		//System.out.println(subBag);
 
 		IconTitle titlebar = new IconTitle();
 		titlebar.icon( new ItemSprite((new Scrap().image()),null) );
@@ -94,7 +94,7 @@ public class WndDisassemble extends Window {
 			if (subBag.lastItem!=null){
 				Item itm = hero.belongings.getItem(subBag.lastItem.getClass());
 				if (itm!=null) {
-					System.out.println(subBag.lastItem);
+					//System.out.println(subBag.lastItem);
 					btnItem1.item(subBag.lastItem);
 					btnPressed = btnItem1;
 				}
@@ -158,7 +158,7 @@ public class WndDisassemble extends Window {
 				if (btnItem1.item != null) {
 					if (subBag!=null) {
 						subBag.lastItem = item;
-						System.out.println(subBag.lastItem);
+						//System.out.println(subBag.lastItem);
 					}
 					btnReforge.enable( true );
 					btnReforgeAll.enable( item.quantity()>1 );

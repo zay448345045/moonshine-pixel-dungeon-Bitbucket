@@ -101,14 +101,14 @@ public class RedButton extends Button<GameAction> {
 			chain1.x = x;
 			chain1.y = y+bg.innerBottom();
 			chain1.angle=-GameMath.diagonalAngle(width,height-bg.marginTop());
-			System.out.println("ANGLE: "+chain1.angle);
+			//System.out.println("ANGLE: "+chain1.angle);
 			chain1.size((int) GameMath.diagonal(width,height-bg.marginTop()),(int)chain1.height);
 		}
 		if(chain2!=null) {
 			chain2.x = x;
 			chain2.y = y;
 			chain2.angle=GameMath.diagonalAngle(width,height-bg.marginTop());
-			System.out.println("ANGLE: "+chain1.angle);
+			//System.out.println("ANGLE: "+chain1.angle);
 			chain2.size((int) GameMath.diagonal(width,height-bg.marginTop()),(int)chain2.height);
 		}
 		if(lock!=null) {

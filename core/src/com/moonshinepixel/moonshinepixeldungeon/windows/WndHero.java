@@ -20,13 +20,10 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
-import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
-import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.Statistics;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
@@ -73,12 +70,17 @@ public class WndHero extends WndTabbed {
 				stats.visible = stats.active = selected;
 			};
 		} );
-		add( new LabeledTab( Messages.get(this, "buffs") ) {
+		LabeledTab buffsTab = new LabeledTab( Messages.get(this, "buffs") ) {
 			protected void select( boolean value ) {
 				super.select( value );
 				buffs.visible = buffs.active = selected;
 			};
-		} );
+		};
+		add( buffsTab );
+
+		if(Dungeon.isChallenged(Challenges.ANALGESIA)){
+			buffsTab.setEnabled(false);
+		}
 
 		resize( WIDTH, (int)Math.max( stats.height(), buffs.height() ) );
 
@@ -128,8 +130,12 @@ public class WndHero extends WndTabbed {
 			pos = title.bottom() + 2*GAP;
 
 			statSlot( Messages.get(this, "str"), hero.STR() );
-			if (hero.SHLD > 0) statSlot( Messages.get(this, "health"), hero.HP + "+" + hero.SHLD + "/" + hero.HT );
-			else statSlot( Messages.get(this, "health"), (hero.HP) + "/" + hero.HT );
+			if (!Dungeon.isChallenged(Challenges.ANALGESIA)) {
+				if (hero.SHLD > 0) statSlot(Messages.get(this, "health"), hero.HP + "+" + hero.SHLD + "/" + hero.HT);
+				else statSlot(Messages.get(this, "health"), (hero.HP) + "/" + hero.HT);
+			} else {
+				statSlot(Messages.get(this, "health"),"??/??");
+			}
 			statSlot( Messages.get(this, "exp"), hero.exp + "/" + hero.maxExp() );
 
 			pos += GAP;

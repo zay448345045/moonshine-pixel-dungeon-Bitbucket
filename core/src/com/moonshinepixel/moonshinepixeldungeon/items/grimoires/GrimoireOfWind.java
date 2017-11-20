@@ -59,7 +59,7 @@ public class GrimoireOfWind extends ElementalGrimoire {
 
     @Override
     public int buffLevel() {
-        System.out.println(level()<5?1:level()<9?2:3);
+        //System.out.println(level()<5?1:level()<9?2:3);
         return level()<5?1:level()<9?2:3;
     }
 

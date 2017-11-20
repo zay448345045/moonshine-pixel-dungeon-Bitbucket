@@ -254,7 +254,7 @@ public class StoneSnake extends Mob {
                 tail[i]=new Tail();
                 ((Tail)tail[i]).snakepart=true;
                 tailID[i]=tail[i].id();
-                System.out.println(i+"|"+tailID[i]);
+                //System.out.println(i+"|"+tailID[i]);
                 GameScene.add( tail[i] );
             }
             allignTail(tailID, this);
@@ -267,8 +267,8 @@ public class StoneSnake extends Mob {
             }
         }
         private void allignTail(int[] tail,Mob head){
-            System.out.println(0+"|"+tail[0]);
-            System.out.println(0+"|"+Actor.findById(tail[0]));
+            //System.out.println(0+"|"+tail[0]);
+            //System.out.println(0+"|"+Actor.findById(tail[0]));
             ((Mob)Actor.findById(tail[0])).pos=findNear(head.pos);
 //            ((Mob)Actor.findById(tail[0])).diactivate();
             for (int i = 1; i< tail.length; i++){

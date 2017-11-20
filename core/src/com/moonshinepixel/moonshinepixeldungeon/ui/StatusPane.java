@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.ui;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
@@ -126,7 +127,7 @@ public class StatusPane extends Component {
 			try {
 				avatar = Dungeon.hero.spriteClass.newInstance();
 //				avatar = new SlimeSprite().avatar();
-				System.out.println(Dungeon.hero.spriteClass);
+				//System.out.println(Dungeon.hero.spriteClass);
 			} catch (Exception e){
 				MoonshinePixelDungeon.reportException(e);
 			}
@@ -143,7 +144,10 @@ public class StatusPane extends Component {
 		shieldedHP = new Image( Assets.SHLD_BAR );
 		add(shieldedHP);
 
-		hp = Dungeon.devoptions==0||Dungeon.devoptions==1?new Image( Assets.HP_BAR ):new Image( Assets.HP_BAR_C );
+		hp = new Image( Assets.HP_BAR );
+		if (Dungeon.isChallenged(Challenges.ANALGESIA)) {
+			hp.brightness(0);
+		}
 		add( hp );
 
 		exp = new Image( Assets.XP_BAR );
@@ -153,7 +157,7 @@ public class StatusPane extends Component {
 		add( bossHP );
 
 		level = new BitmapText( PixelScene.pixelFont);
-		level.hardlight( 0xFFEBA4 );
+		level.hardlight( Dungeon.cheated()?0xFF0000:0xFFEBA4 );
 		add( level );
 
 		depth = new BitmapText( Dungeon.showDepth[Dungeon.depth], PixelScene.pixelFont);
@@ -197,6 +201,7 @@ public class StatusPane extends Component {
 		danger.setPos( width - danger.width(), 20 );
 
 		buffs.setPos( 31, 9 );
+		buffs.visible=!Dungeon.isChallenged(Challenges.ANALGESIA);
 
 		btnJournal.setPos( width - 42, 1 );
 
@@ -210,7 +215,6 @@ public class StatusPane extends Component {
 		float health = Dungeon.hero.HP;
 		float shield = Dungeon.hero.SHLD;
 		float max = Dungeon.hero.HT;
-
 		if (!Dungeon.hero.isAlive()) {
 			avatar.tint(0x000000, 0.5f);
 		} else if ((health/max) < 0.3f) {
@@ -221,6 +225,10 @@ public class StatusPane extends Component {
 			avatar.resetColor();
 		}
 
+		if (Dungeon.isChallenged(Challenges.ANALGESIA)) {
+			health = max;
+			shield = 0;
+		}
 		hp.scale.x = Math.max( 0, (health-shield)/max);
 		shieldedHP.scale.x = health/max;
 		rawShielding.scale.x = shield/max;
@@ -394,6 +402,7 @@ public class StatusPane extends Component {
 	private static class MenuButton extends Button {
 
 		private Image image;
+		private Image rune;
 
 		public MenuButton() {
 			super();
@@ -407,24 +416,52 @@ public class StatusPane extends Component {
 		protected void createChildren() {
 			super.createChildren();
 
+			rune=Runes.get(Dungeon.rune);
+
 			switch (MoonshinePixelDungeon.buttonType()){
 				case 0:
 					image = new Image( Assets.MENU, 17, 2, 12, 11 );
 					break;
 				case 1:
 					image = new Image( Assets.MENU, 49, 18, 12, 11 );
+					rune.color(0x555950);
 					break;
 				case 2:
 					image = new Image( Assets.MENU, 17, 18, 12, 11 );
+					rune.color(0x000000);
 					break;
 				case 3:
 					image = new Image( Assets.MENU, 17, 34, 12, 11 );
+					rune.color(0x666666);
 					break;
 				case 4:
 					image = new Image( Assets.MENU, 17, 50, 12, 11 );
+					rune.color(0x000000);
+					rune.alpha(0.8f);
 					break;
 			}
 			add( image );
+			add( rune );
+		}
+
+		protected void resetRune(){
+			rune.resetColor();
+			rune.alpha(1);
+			switch (MoonshinePixelDungeon.buttonType()){
+				case 1:
+					rune.color(0x555950);
+					break;
+				case 2:
+					rune.color(0x000000);
+					break;
+				case 3:
+					rune.color(0x666666);
+					break;
+				case 4:
+					rune.color(0x000000);
+					rune.alpha(0.8f);
+					break;
+			}
 		}
 
 		@Override
@@ -433,17 +470,22 @@ public class StatusPane extends Component {
 
 			image.x = x + 2;
 			image.y = y + 2;
+
+			rune.x=image.x+3.5f;
+			rune.y=image.y+2;
 		}
 
 		@Override
 		protected void onTouchDown() {
 			image.brightness( 1.5f );
+			rune.tint(0x80FFFFFF);
 			Sample.INSTANCE.play( Assets.SND_CLICK );
 		}
 
 		@Override
 		protected void onTouchUp() {
 			image.resetColor();
+			resetRune();
 		}
 
 		@Override

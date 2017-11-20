@@ -37,6 +37,7 @@ public class Assets {
 	public static final String STATUS	= "status_pane.png";
 	public static final String STATUSG	= "status_pane_gold.png";
 	public static final String MENU		= "menu_button.png";
+	public static final String RUNES	= "runes.png";
 	public static final String HP_BAR	= "hp_bar.png";
 	public static final String HP_BAR_C	= "hp_bar_cheat.png";
 	public static final String SHLD_BAR = "shield_bar.png";

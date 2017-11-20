@@ -31,7 +31,7 @@ public class MazeGenerator {
         this.sx = ((int)Math.floor((sy-1)/2))*2+1;
         maze = new int[this.x][this.y];
         out = new int[(sx+dx)*(sy+dy)];
-        System.out.println("MazeGen-"+out.length);
+        //System.out.println("MazeGen-"+out.length);
         generateMaze(0, 0);
     }
     public MazeGenerator(int sx, int sy){
@@ -43,29 +43,29 @@ public class MazeGenerator {
         for (int i = 0; i < y; i++) {
             // draw the north edge
             for (int j = 0; j < x; j++) {
-                //System.out.print((maze[j][i] & 1) == 0 ? "XX" : "XO");
+                ////System.out.print((maze[j][i] & 1) == 0 ? "XX" : "XO");
                 outp+=((maze[j][i] & 1) == 0 ? "XX" : "XO");
             }
-            //System.out.println("X");
+            ////System.out.println("X");
             outp+=("X");
             outp+=sx<rx?"X":"";
             for (int j =0; j<dx; j++) outp+="X";
             // draw the west edge
             for (int j = 0; j < x; j++) {
-                //System.out.print((maze[j][i] & 8) == 0 ? "XO" : "OO");
+                ////System.out.print((maze[j][i] & 8) == 0 ? "XO" : "OO");
                 outp+=((maze[j][i] & 8) == 0 ? "XO" : "OO");
             }
-            //System.out.println("X");
+            ////System.out.println("X");
             outp+=("X");
             outp+=sx<rx?"X":"";
             for (int j =0; j<dx; j++) outp+="X";
         }
         // draw the bottom line
         for (int j = 0; j < x; j++) {
-            //System.out.print("XX");
+            ////System.out.print("XX");
             outp+=("XX");
         }
-        //System.out.println("X");
+        ////System.out.println("X");
         outp+=("X");
 
         String[] outs = outp.split("");
@@ -79,12 +79,12 @@ public class MazeGenerator {
                     break;
             }
         }
-        //System.out.println(out);
+        ////System.out.println(out);
         for(int i=0; i<out.length;i++){
             out[i]=out[i]==0?4:out[i];
-            System.out.print((i%(rx+dx)==0?"\n":"")+out[i]);
+            //System.out.print((i%(rx+dx)==0?"\n":"")+out[i]);
         }
-        System.out.println("\n\n\n"+sx+"|"+rx);
+        //System.out.println("\n\n\n"+sx+"|"+rx);
         return out;
     }
 

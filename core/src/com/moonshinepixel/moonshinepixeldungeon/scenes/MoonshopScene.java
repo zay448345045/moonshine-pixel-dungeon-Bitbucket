@@ -93,7 +93,7 @@ public class MoonshopScene extends PixelScene {
 		stones.setPos(moon.x+moon.width+2,pn1.y+9);
 		align(stones);
 		add(stones);
-		System.out.println(stones.width()+"|"+stones.height());
+		//System.out.println(stones.width()+"|"+stones.height());
 
 		ScrollPane list = new ScrollPane( new Component() );
 		add( list );

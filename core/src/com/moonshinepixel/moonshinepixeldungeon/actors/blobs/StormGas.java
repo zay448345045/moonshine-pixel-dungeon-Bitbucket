@@ -67,7 +67,7 @@ public class StormGas extends Blob implements Hero.Doom {
                     }
                     Object[] dumm = cells.toArray();
                     Integer[] targs = Arrays.copyOf(dumm,dumm.length,Integer[].class);
-                    System.out.println(targs.length);
+                    //System.out.println(targs.length);
                     if (targs.length>0){
                         targ=Random.element(targs);
                     } else {
