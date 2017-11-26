@@ -211,7 +211,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 
 		storyline=MoonshinePixelDungeon.storyline();
-		depth = storyline==0?0:MoonshinePixelDungeon.previewmode?26:30;
+		depth = storyline==0?0:MoonshinePixelDungeon.previewmode?30:30;
 		gold = 0;
 
 		droppedItems = new SparseArray<ArrayList<Item>>();

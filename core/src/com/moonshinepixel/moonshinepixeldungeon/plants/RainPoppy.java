@@ -25,7 +25,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.food.Blandfruit;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
 
-public class PotionOfStormPlant extends Plant {
+public class RainPoppy extends Plant {
 
 	{
 		image = 14;
@@ -38,9 +38,9 @@ public class PotionOfStormPlant extends Plant {
 
 	public static class Seed extends Plant.Seed {
 		{
-			image = ItemSpriteSheet.SEED_POTIONOFSTORM;
+			image = ItemSpriteSheet.SEED_RAINPOPPY;
 
-			plantClass = PotionOfStormPlant.class;
+			plantClass = RainPoppy.class;
 			alchemyClass = PotionOfStorm.class;
 		}
 

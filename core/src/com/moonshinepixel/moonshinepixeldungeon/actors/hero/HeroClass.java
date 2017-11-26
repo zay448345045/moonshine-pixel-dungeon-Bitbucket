@@ -21,20 +21,14 @@
 package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 
 import com.moonshinepixel.moonshinepixeldungeon.*;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Yog;
 import com.moonshinepixel.moonshinepixeldungeon.items.*;
-import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.EtherealChains;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.MasterThievesArmband;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.AshBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ClusterBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
-import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
-import com.moonshinepixel.moonshinepixeldungeon.items.grimoires.GrimoireOfWind;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.Ring;
@@ -42,14 +36,11 @@ import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfEvasion;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Sacrificial;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Dart;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.BleedingBullet;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GrippingTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfHealing;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfMindVision;
@@ -57,13 +48,11 @@ import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfMagicMissile;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.ClothArmor;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.CloakOfShadows;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Fadeleaf;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
+import com.moonshinepixel.moonshinepixeldungeon.plants.RainPoppy;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Sungrass;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundle;
-
-import javax.rmi.CORBA.Tie;
 
 public enum HeroClass {
 
@@ -161,6 +150,9 @@ public enum HeroClass {
 		r.upgrade(150);
 		r.identify().collect();
 //		hero.belongings.weapon.tier=6;
+
+		Plant.Seed sed = new RainPoppy.Seed();
+		sed.collect();
 	}
 
 	private static void initCommon( Hero hero ) {

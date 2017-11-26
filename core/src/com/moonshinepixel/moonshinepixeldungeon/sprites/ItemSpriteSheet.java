@@ -441,6 +441,7 @@ public class ItemSpriteSheet {
 	public static final int SEED_EARTHROOT  = SEEDS+9;
 	public static final int SEED_FADELEAF   = SEEDS+10;
 	public static final int SEED_BLANDFRUIT = SEEDS+11;
+	public static final int SEED_RAINPOPPY  = SEEDS+12;
 	static{
 		for (int i = SEEDS; i < SEEDS+16; i++)
 			assignItemRect(i, 10, 10);
