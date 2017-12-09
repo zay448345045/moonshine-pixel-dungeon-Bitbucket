@@ -22,7 +22,6 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.buffs;
 
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
-import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.ui.BuffIndicator;

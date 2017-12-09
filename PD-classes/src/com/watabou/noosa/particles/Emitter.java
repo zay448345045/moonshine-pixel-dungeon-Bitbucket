@@ -158,11 +158,18 @@ public class Emitter extends Group {
 	}
 	
 	abstract public static class Factory {
-		
+
+		protected int color;
+
 		abstract public void emit( Emitter emitter, int index, float x, float y );
 		
 		public boolean lightMode() {
 			return false;
+		}
+
+		public Factory color(int color){
+			this.color=color;
+			return this;
 		}
 	}
 }

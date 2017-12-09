@@ -31,7 +31,6 @@ import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.items.ItemStatusHandler;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.HeroSprite;
 import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;

@@ -21,24 +21,26 @@
 package com.moonshinepixel.moonshinepixeldungeon.items;
 
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
-import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroClass;
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroSubClass;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.CursingTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.CharSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
 
 import java.util.ArrayList;
 
 public class DewVial extends Item {
 
-	private static final int MAX_VOLUME	= 10;
+	private static final int MAX_VOLUME	= 20;
 
 	private static final String AC_DRINK	= "DRINK";
+	private static final String AC_CURSE	= "CURSE";
 
 	private static final float TIME_TO_DRINK = 1f;
 
@@ -74,6 +76,9 @@ public class DewVial extends Item {
 		if (volume > 0) {
 			actions.add( AC_DRINK );
 		}
+		if (volume == 13) {
+			actions.add( AC_CURSE );
+		}
 		return actions;
 	}
 
@@ -86,20 +91,24 @@ public class DewVial extends Item {
 
 			if (volume > 0) {
 
-				int value = 1 + (Dungeon.fakedepth[Dungeon.depth] - 1) / 5;
-				if (hero.heroClass == HeroClass.HUNTRESS) {
-					value++;
-				}
-				value *= volume;
-				value = (int)Math.max(volume*volume*.01*hero.HT, value);
-				int effect = Math.min( hero.HT - hero.HP, value );
+				//20 drops for a full heal normally, 15 for the warden
+				float dropHealPercent = hero.subClass == HeroSubClass.WARDEN ? 0.0667f : 0.05f;
+				float missingHealthPercent = 1f - (hero.HP / (float)hero.HT);
+
+				//trimming off 0.01 drops helps with floating point errors
+				int dropsNeeded = (int)Math.ceil((missingHealthPercent / dropHealPercent) - 0.01f);
+				dropsNeeded = (int) GameMath.gate(1, dropsNeeded, volume);
+
+				int heal = Math.round( hero.HT * dropHealPercent * dropsNeeded );
+
+				int effect = Math.min( hero.HT - hero.HP, heal );
 				if (effect > 0) {
 					hero.HP += effect;
-					hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), volume > 5 ? 2 : 1 );
+					hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 + dropsNeeded/5 );
 					hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "value", effect) );
 				}
 
-				volume = 0;
+				volume -= dropsNeeded;
 
 				hero.spend( TIME_TO_DRINK );
 				hero.busy();
@@ -114,6 +123,9 @@ public class DewVial extends Item {
 				GLog.w( Messages.get(this, "empty") );
 			}
 
+		} else if (action.equals(AC_CURSE)){
+			CursingTrap.curse(curUser);
+			volume=0;
 		}
 	}
 
@@ -135,7 +147,8 @@ public class DewVial extends Item {
 
 	public void collectDew( Dewdrop dew ) {
 
-		GLog.i( Messages.get(this, "collected") );
+		if (volume<MAX_VOLUME)
+			GLog.i( Messages.get(this, "collected") );
 		volume += dew.quantity;
 		if (volume >= MAX_VOLUME) {
 			volume = MAX_VOLUME;
@@ -155,9 +168,4 @@ public class DewVial extends Item {
 		return Messages.format( TXT_STATUS, volume, MAX_VOLUME );
 	}
 
-
-	@Override
-	public int price(boolean levelKnown, boolean cursedKnown) {
-		return 50;
-	}
 }

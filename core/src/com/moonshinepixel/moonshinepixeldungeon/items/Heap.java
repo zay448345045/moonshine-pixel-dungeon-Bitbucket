@@ -29,6 +29,7 @@ import com.moonshinepixel.moonshinepixeldungeon.effects.particles.FlameParticle;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.MysteryMeat;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfExperience;
+import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
@@ -227,6 +228,8 @@ public class Heap implements Bundlable {
 		if (type != Type.HEAP) {
 			return;
 		}
+
+		if (Level.water[pos]) return;
 		
 		boolean burnt = false;
 		boolean evaporated = false;

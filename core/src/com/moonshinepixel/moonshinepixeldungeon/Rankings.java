@@ -120,6 +120,9 @@ public enum Rankings {
 	public void saveGameData(Record rec){
 		rec.gameData = new Bundle();
 
+		rec.version=Dungeon.version;
+		rec.versionName=MoonshinePixelDungeon.version;
+
 		Belongings belongings = Dungeon.hero.belongings;
 
 		//save the hero and belongings
@@ -265,6 +268,8 @@ public enum Rankings {
 		private static final String CHALLENGES= "challenges";
 		private static final String NAME	= "name";
 		private static final String SEED	= "seed";
+		private static final String VERSION	= "ver";
+		private static final String VERSIONC= "verc";
 
 		public Class cause;
 		public boolean win;
@@ -281,6 +286,8 @@ public enum Rankings {
 		public String gameID;
 
 		public int score;
+		public int version;
+		public String versionName;
 
 		public String desc(){
 			if (cause == null) {
@@ -325,6 +332,16 @@ public enum Rankings {
 //			//System.out.println("got_"+heroClass);
 			herolevel = bundle.getInt( LEVEL );
 			name = bundle.getString( NAME );
+			if (bundle.contains(VERSIONC)){
+				version=bundle.getInt(VERSIONC);
+			} else {
+				version=-1;
+			}
+			if (bundle.contains(VERSION)){
+				versionName=bundle.getString(VERSION);
+			} else {
+				versionName="Unknown";
+			}
 		}
 
 		@Override
@@ -342,6 +359,8 @@ public enum Rankings {
 			bundle.put( CHALLENGES, challenges );
 			bundle.put( NAME, name);
 			bundle.put( SEED, seed);
+			bundle.put( VERSION, versionName);
+			bundle.put( VERSIONC, version);
 //			//System.out.println("put_"+challenges);
 //			//System.out.println("put_"+heroClass);
 

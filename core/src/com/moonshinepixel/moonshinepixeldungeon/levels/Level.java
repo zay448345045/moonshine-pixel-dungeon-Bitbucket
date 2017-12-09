@@ -641,18 +641,22 @@ public abstract class Level implements Bundlable {
 							mob.beckon( Dungeon.hero.pos );
 						}
 					}
+					Dungeon.observe();
 				}
-				spend( Dungeon.level.feeling == Feeling.DARK || Statistics.amuletObtained ? TIME_TO_RESPAWN / 2 : TIME_TO_RESPAWN );
+				spend( Dungeon.isChallenged(Challenges.RAPID)?.1f:Dungeon.level.feeling == Feeling.DARK || Statistics.amuletObtained ? TIME_TO_RESPAWN / 2 : TIME_TO_RESPAWN );
 				return true;
 			}
 		};
 	}
-	
+
 	public int randomRespawnCell() {
+		return randomRespawnCell(true);
+	}
+	public int randomRespawnCell(boolean notvisible) {
 		int cell;
 		do {
 			cell = Random.Int( length() );
-		} while (!passable[cell] || Dungeon.visible[cell] || Actor.findChar( cell ) != null);
+		} while (!passable[cell] || (Dungeon.visible[cell]&&notvisible) || Actor.findChar( cell ) != null);
 		return cell;
 	}
 	

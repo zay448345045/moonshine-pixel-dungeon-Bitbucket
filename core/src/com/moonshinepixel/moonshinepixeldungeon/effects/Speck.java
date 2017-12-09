@@ -66,6 +66,7 @@ public class Speck extends Image {
 	public static final int CONFUSION	= 115;
 	public static final int RED_LIGHT   = 116;
 	public static final int STORM		= 117;
+	public static final int RAIN		= 118;
 
 	private static final int SIZE = 7;
 	
@@ -109,6 +110,7 @@ public class Speck extends Image {
 		case JET:
 		case TOXIC:
 		case STORM:
+		case RAIN:
 		case VENOM:
 		case PARALYSIS:
 		case FLAMABLE:
@@ -312,6 +314,13 @@ public class Speck extends Image {
 			lifespan = Random.Float( 1f, 3f );
 			break;
 
+		case RAIN:
+			hardlight( 0xddfcff );
+			angularSpeed = -30;
+			angle = Random.Float( 360 );
+			lifespan = Random.Float( 1f, 2f );
+			break;
+
 		case SMOKE:
 			hardlight( 0x000000 );
 			angularSpeed = -30;
@@ -443,6 +452,7 @@ public class Speck extends Image {
 			case FLAMABLE:
 			case SMOKE:
 			case STORM:
+			case RAIN:
 			case CONFUSION:
 			case DUST:
 				am = (float)Math.sqrt( (p < 0.5f ? p : 1 - p) * 0.5f );

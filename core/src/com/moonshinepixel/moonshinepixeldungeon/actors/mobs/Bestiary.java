@@ -21,6 +21,8 @@
 package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
+import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.watabou.utils.Random;
 
@@ -41,7 +43,7 @@ public class Bestiary {
 		@SuppressWarnings("unchecked")
 		Class<? extends Mob> cl = (Class<? extends Mob>)mobClass( depth );
 		
-		if (Random.Int( 30 ) == 0) {
+		if (Random.Int(Dungeon.isChallenged(Challenges.BESTIARY)?2:30) == 0) {
 			if (cl == Rat.class) {
 				cl = Albino.class;
 			} else if (cl == Thief.class) {
@@ -56,7 +58,7 @@ public class Bestiary {
 				cl = Caustic.class;
 			}
 		}
-		if (Random.Int(10)==0){
+		if (Random.Int(Dungeon.isChallenged(Challenges.BESTIARY)?4:10)==0){
 			if (cl==Gnoll.class){
 				cl=Bomberman.class;
 			}
@@ -180,6 +182,11 @@ public class Bestiary {
 		case 25:
 			chances = new float[]{ 1 };
 			classes = new Class<?>[]{ Yog.class };
+			break;
+
+		case 27:
+			chances = new float[]{ 1 };
+			classes = new Class<?>[]{ Rat.class };
 			break;
 
 		case 31:

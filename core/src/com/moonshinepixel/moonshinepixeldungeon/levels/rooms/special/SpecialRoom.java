@@ -129,7 +129,7 @@ public class SpecialRoom extends Room {
 			
 			return new PitRoom();
 			
-		} else if (Dungeon.depth >= guaranteedWellDepth) {
+		} else if (Dungeon.fakedepth[Dungeon.depth] >= guaranteedWellDepth) {
 			useType( MagicWellRoom.class );
 			
 			MagicWellRoom r = new MagicWellRoom();
@@ -137,7 +137,11 @@ public class SpecialRoom extends Room {
 			guaranteedWellDepth = Integer.MAX_VALUE;
 			return r;
 		
-		} else {
+		}
+		else if (Dungeon.depth==31){
+			return new TrapsRoom();
+		}
+		else{
 			
 			if (Dungeon.bossLevel(Dungeon.depth + 1)){
 				floorSpecials.remove(WeakFloorRoom.class);

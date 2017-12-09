@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels.traps;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Bestiary;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -56,6 +57,8 @@ public class SummoningTrap extends Trap {
 			}
 		}
 
+		if (Dungeon.isChallenged(Challenges.HORDE))nMobs*=Challenges.hiveMobsMod();
+
 		ArrayList<Integer> candidates = new ArrayList<>();
 
 		for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
@@ -66,22 +69,31 @@ public class SummoningTrap extends Trap {
 		}
 
 		ArrayList<Integer> respawnPoints = new ArrayList<>();
-
 		while (nMobs > 0 && candidates.size() > 0) {
 			int index = Random.index( candidates );
 
 			respawnPoints.add( candidates.remove( index ) );
 			nMobs--;
 		}
+		int tries=100;
+		while(nMobs>0&&tries>0){
+			tries--;
+			int c = Dungeon.level.randomRespawnCell(false);
+			if (respawnPoints.contains(c)) continue;
+			respawnPoints.add(c);
+			nMobs--;
+		}
 
 		ArrayList<Mob> mobs = new ArrayList<>();
 
 		for (Integer point : respawnPoints) {
-			Mob mob = Bestiary.mob( Dungeon.depth );
-			mob.state = mob.WANDERING;
-			mob.pos = point;
-			GameScene.add( mob, DELAY );
-			mobs.add( mob );
+			try {
+				Mob mob = Bestiary.mob(Dungeon.depth);
+				mob.state = mob.WANDERING;
+				mob.pos = point;
+				GameScene.add(mob, DELAY);
+				mobs.add(mob);
+			} catch (Exception e){}
 		}
 
 		//important to process the visuals and pressing of cells last, so spawned mobs have a chance to occupy cells first

@@ -40,8 +40,16 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
 			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.22 - alpha:_\n" +
+					"_-_ Added 4 new Challenges: _Plan overfulfilment_, _Mutagen_, _Resurrection_ and _Extreme caution_\nPorted _Potion of Healing_ and _Dew Vial_ logic from newest Shattered PD\nAdded new Plant - _Rain Poppy_ used to brew _Potion of Storm_\nFixed bugs with upgrading cursed weapon, armor, etc.\nFixed Disassembling Rings to scrap with Gunslinger's Subbag"+
+					"\n" +
+					"\n" +
+					"_v0.1.21 - alpha:_\n" +
+					"_-_ Skipped"+
+					"\n" +
+					"\n" +
 					"_v0.1.20 - alpha:_\n" +
-					"_-_ Some mobs now have sleeping animation\nNew challenge: Analgesia\nFixed bug with rankings saving"+
+					"_-_ Some mobs now have sleeping animation\nNew challenge: _Analgesia_\nFixed bug with rankings saving"+
 					"\n" +
 					"\n" +
 					"_v0.1.19 - alpha:_\n" +

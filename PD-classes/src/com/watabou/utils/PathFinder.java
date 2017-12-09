@@ -387,6 +387,8 @@ public class PathFinder {
 
 	public static int xy2pos(float x, float y){
 		return ((int)y)*width+((int)x);
+	}public static int xy2pos(Point point){
+		return xy2pos(point.x,point.y);
 	}
 	public static int pos2x(int pos){
 		return pos%width;

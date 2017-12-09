@@ -27,8 +27,6 @@ import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.EverlastingFire;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ParalyticGas;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.SmokeGas;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Light;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
@@ -41,7 +39,6 @@ import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.EmptyItem;
 import com.moonshinepixel.moonshinepixeldungeon.items.keys.SkeletonKey;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FireTrap;
 import com.moonshinepixel.moonshinepixeldungeon.mechanics.Ballistica;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
@@ -210,7 +207,7 @@ public class VolcanoBossLevel extends Level {
 	}
 	
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		int cell = entrance + PathFinder.NEIGHBOURS8[Random.Int(8)];
 		while (!getPassable(cell)){
 			cell = entrance + PathFinder.NEIGHBOURS8[Random.Int(8)];

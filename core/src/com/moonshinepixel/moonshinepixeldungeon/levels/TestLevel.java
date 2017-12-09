@@ -29,7 +29,9 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.triggers.VineTrigge
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.*;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DarkVenomTrap;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DeadlySpearTrap;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.SummoningTrap;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
@@ -67,10 +69,10 @@ public class TestLevel extends Level {
 							map[width() * i + 1] =
 									map[width() * i + SIZE] =
 											Terrain.TRAP;
-			setTrap(new DeadlySpearTrap(),width() + i).reveal();
-			setTrap(new DeadlySpearTrap(),width() * SIZE + i).reveal();
-			setTrap(new DeadlySpearTrap(),width() * i + 1).reveal();
-			setTrap(new DeadlySpearTrap(),width() * i + SIZE).reveal();
+			setTrap(new SummoningTrap(),width() + i).reveal();
+			setTrap(new SummoningTrap(),width() * SIZE + i).reveal();
+			setTrap(new SummoningTrap(),width() * i + 1).reveal();
+			setTrap(new SummoningTrap(),width() * i + SIZE).reveal();
 		}
 	}
 
@@ -166,9 +168,9 @@ public class TestLevel extends Level {
 		super.press(cell, ch);
 	}
 
-	@Override
-	public int randomRespawnCell() {
-		return entrance-width();
-	}
+//	@Override
+//	public int randomRespawnCell() {
+//		return entrance-width();
+//	}
 
 }

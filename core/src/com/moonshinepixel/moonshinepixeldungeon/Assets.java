@@ -108,6 +108,7 @@ public class Assets {
 	public static final String MAKER	= "wandmaker.png";
 	public static final String TROLL	= "blacksmith.png";
 	public static final String IMP		= "demon.png";
+	public static final String DOG		= "dog.png";
 	public static final String RATKING	= "ratking.png";
 	public static final String BEE      = "bee.png";
 	public static final String MIMIC    = "mimic.png";

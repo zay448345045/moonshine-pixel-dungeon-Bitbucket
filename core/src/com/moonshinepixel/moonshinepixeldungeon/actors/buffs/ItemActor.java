@@ -26,7 +26,6 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
-import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.ChaliceOfBlood;
 
 public class ItemActor extends Buff {
 

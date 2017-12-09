@@ -35,6 +35,7 @@ import com.watabou.noosa.ui.Button;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.ColorMath;
 import com.watabou.utils.GameMath;
+import com.watabou.utils.PointF;
 
 public class RankingsScene extends PixelScene {
 
@@ -105,8 +106,13 @@ public class RankingsScene extends PixelScene {
 										5 :
 										-5
 								: 0;
-				row.setRect( 0, /*top + */pos * rowHeight, w - left * 2, rowHeight );
-				row.setPos(panel.innerWidth()/2-row.width()/2,row.top());
+				if (MoonshinePixelDungeon.landscape()) {
+					row.setRect(0, /*top + */pos * rowHeight, w - left * 2, rowHeight);
+					row.setPos(panel.innerWidth() / 2 - row.width() / 2, row.top());
+				} else {
+					row.setRect(0, 2+pos * rowHeight, (panel.innerWidth()-pane.thumbWidth()*2)*.85f, rowHeight/2);
+					row.setPos(0, row.top());
+				}
 				ranks.add(row);
 				
 				pos++;
@@ -191,13 +197,6 @@ public class RankingsScene extends PixelScene {
 				flare = new Flare( 6, 24 );
 				flare.angularSpeed = 90;
 				flare.color( rec.win ? ColorMath.interpolate(FLARE_WIN,0xFF0000, (Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE))) : ColorMath.interpolate(FLARE_LOSE,0xFF0000, (Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1)) );
-//				flare.tint(0xFFFFFF);
-//				ColorMath.interpolate(FLARE_WIN,0xFFFFFF, Challenges.score(rec.challenges)/Challenges.score(Challenges.MAX_VALUE));
-//				//System.out.println((Challenges.score(rec.challenges)-1)/(Challenges.score(Challenges.MAX_VALUE)-1));
-//				//System.out.println(rec.challenges);
-//				//System.out.println(Challenges.score(rec.challenges)-1);
-//				//System.out.println(Challenges.score(Challenges.MAX_VALUE)-1);
-//				flare.color( rec.win ? FLARE_WIN : FLARE_LOSE );
 				addToBack( flare );
 			}
 
@@ -208,8 +207,6 @@ public class RankingsScene extends PixelScene {
 			position.measure();
 
 			desc.text( Messages.titleCase(rec.desc()) );
-
-			//desc.measure();
 
 			int odd = pos % 2;
 
@@ -250,6 +247,8 @@ public class RankingsScene extends PixelScene {
 
 			super.createChildren();
 
+			int size = MoonshinePixelDungeon.landscape()?7:6;
+
 			shield = new ItemSprite( ItemSpriteSheet.TOMB, null );
 			add( shield );
 
@@ -257,7 +256,7 @@ public class RankingsScene extends PixelScene {
 			position.alpha(0.8f);
 			add( position );
 
-			desc = renderMultiline( 7 );
+			desc = renderMultiline( size );
 			add( desc );
 
 			depth = new BitmapText(pixelFont);
@@ -278,7 +277,7 @@ public class RankingsScene extends PixelScene {
 			super.layout();
 
 			shield.x = x;
-			shield.y = y + (height - shield.height) / 2f;
+			shield.y = y + (height - shield.height()) / 2f;
 			align(shield);
 
 			position.x = shield.x + (shield.width - position.width()) / 2f;

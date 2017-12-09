@@ -21,7 +21,9 @@
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Bestiary;
+import com.moonshinepixel.moonshinepixeldungeon.levels.builders.BranchesBuilder;
 import com.moonshinepixel.moonshinepixeldungeon.levels.builders.Builder;
+import com.moonshinepixel.moonshinepixeldungeon.levels.builders.LineBuilder;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.BlackjackShopRoom;
 import com.moonshinepixel.moonshinepixeldungeon.Bones;
@@ -51,6 +53,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.traps.ExplosiveTrap;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.WornTrap;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndTradeItem;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -99,7 +102,7 @@ public abstract class RegularLevel extends Level {
 		initRooms.add ( roomEntrance = new EntranceRoom());
 		initRooms.add( roomExit = new ExitRoom());
 		
-		int standards = standardRooms();
+		int standards = standardRooms()*(Dungeon.isChallenged(Challenges.SPROUT)?4:1);
 		for (int i = 0; i < standards; i++) {
 			StandardRoom s;
 			do {
@@ -132,10 +135,14 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	protected Builder builder(){
-		return new LoopBuilder()
-				.setLoopShape( 2 ,
+		return new Builder[]{
+				new LoopBuilder()
+						.setLoopShape( 2 ,
 						Random.Float(0.55f, 0.85f),
-						Random.Float(0f, 0.5f));
+						Random.Float(0f, 0.5f)),
+				new BranchesBuilder(),
+				new LineBuilder()
+		}[Random.chances(new float[]{2f,Dungeon.isChallenged(Challenges.SPROUT)?4:1f,Dungeon.isChallenged(Challenges.SPROUT)?0:.25f})];
 	}
 	
 	protected abstract Painter painter();
@@ -176,7 +183,7 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	protected int nTraps() {
-		return Random.NormalIntRange( 1, 3+(Dungeon.fakedepth[Dungeon.depth]/3) );
+		return (Random.NormalIntRange( 1, 3+(Dungeon.fakedepth[Dungeon.depth]/3) )*(Dungeon.isChallenged(Challenges.SPROUT)?4:1)*(Dungeon.isChallenged(Challenges.TRAPS)?1:4));
 	}
 	
 	protected Class<?>[] trapClasses(){
@@ -205,7 +212,7 @@ public abstract class RegularLevel extends Level {
 	protected void createMobs() {
 		float mod = Dungeon.isChallenged(Challenges.HORDE)?Challenges.hiveMobsMod():Challenges.noHiveMobsMod();
 		//on floor 1, 10 rats are created so the player can get level 2.
-		int mobsToSpawn = Dungeon.depth == 1 ? (int)(10) : nMobs();
+		int mobsToSpawn = Dungeon.depth == 1 ? (int)((Dungeon.isChallenged(Challenges.SPROUT)?20:10)*(Dungeon.isChallenged(Challenges.HORDE)?1.5f:1)) : nMobs();
 		
 		ArrayList<Room> stdRooms = new ArrayList<>();
 		for (Room room : rooms) {
@@ -226,8 +233,11 @@ public abstract class RegularLevel extends Level {
 				stdRoomIter = stdRooms.iterator();
 			Room roomToSpawn = stdRoomIter.next();
 			
-			Mob mob = Bestiary.mob( Dungeon.depth );
-			mob.pos = pointToCell(roomToSpawn.random());
+			Mob mob = Dungeon.isChallenged(Challenges.BESTIARY)?Bestiary.mutable(Dungeon.depth):Bestiary.mob( Dungeon.depth );
+			Point p=roomToSpawn.randomMobCell();
+			if (p!=null)
+				mob.pos = pointToCell(p);
+			else continue;
 			
 			if (findMob(mob.pos) == null && getPassable(mob.pos)) {
 				mobsToSpawn--;
@@ -235,8 +245,11 @@ public abstract class RegularLevel extends Level {
 				
 				//TODO: perhaps externalize this logic into a method. Do I want to make mobs more likely to clump deeper down?
 				if (mobsToSpawn > 0 && Random.Int(4) == 0){
-					mob = Bestiary.mob( Dungeon.depth );
-					mob.pos = pointToCell(roomToSpawn.random());
+					mob = Dungeon.isChallenged(Challenges.BESTIARY)?Bestiary.mutable(Dungeon.depth):Bestiary.mob( Dungeon.depth );
+					p=roomToSpawn.randomMobCell();
+					if (p!=null)
+						mob.pos = pointToCell(p);
+					else continue;
 					
 					if (findMob(mob.pos)  == null && getPassable(mob.pos)) {
 						mobsToSpawn--;
@@ -257,7 +270,7 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		int count = 0;
 		int cell = -1;
 		
@@ -271,8 +284,11 @@ public abstract class RegularLevel extends Level {
 			if (room == null || room == roomEntrance) {
 				continue;
 			}
-			
-			cell = pointToCell(room.random());
+			try {
+				cell = pointToCell(room.randomMobCell());
+			} catch (Exception e){
+				return randomRespawnCell();
+			}
 			if (!Dungeon.visible[cell]
 					&& Actor.findChar( cell ) == null
 					&& getPassable(cell)

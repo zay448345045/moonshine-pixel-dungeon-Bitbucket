@@ -45,7 +45,7 @@ public class AboutScene extends PixelScene {
 
 	private static final String CREDITS =
 			"" +
-			"_Miaomix_ and _c21_ for reporting major bugs and typos\n" +
+			"_Miaomix_, _Allors_ and _c21_ for reporting major bugs and typos\n" +
 			"_Aqualon_ for helping with translating some texts to english\n" +
 			"_aldoge2_ for helping with guns logic\n" +
 			"_GudRatio_ for giving idea about sleeping mobs\n" +

@@ -20,19 +20,18 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
-import com.moonshinepixel.moonshinepixeldungeon.Rankings;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Clipboard;
+import com.moonshinepixel.moonshinepixeldungeon.*;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.ui.BadgesList;
 import com.moonshinepixel.moonshinepixeldungeon.ui.ScrollPane;
-import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.Statistics;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Belongings;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.ui.Icons;
 import com.moonshinepixel.moonshinepixeldungeon.ui.ItemSlot;
 import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
-import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.moonshinepixel.moonshinepixeldungeon.Badges;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.HeroSprite;
@@ -52,10 +51,12 @@ import java.util.Locale;
 public class WndRanking extends WndTabbed {
 	
 	private static final int WIDTH			= 115;
-	private static final int HEIGHT			= 160;
+	private int HEIGHT						= 160;
 	
 	private Thread thread;
 	private int score = 0;
+	private int version = 0;
+	private String versionName = "";
 	private int challenges = 0;
 	private String error = null;
 	
@@ -90,6 +91,8 @@ public class WndRanking extends WndTabbed {
 		busy.angularSpeed = 720;
 		busy.x = (WIDTH - busy.width) / 2;
 		busy.y = (HEIGHT - busy.height) / 2;
+		version=rec.version;
+		versionName=rec.versionName;
 		add( busy );
 	}
 	
@@ -149,12 +152,10 @@ public class WndRanking extends WndTabbed {
 	
 	private class StatsTab extends Group {
 		
-		private int GAP	= 3;
+		private float GAP	= MoonshinePixelDungeon.landscape()?1.5f:3;
 		
 		public StatsTab() {
 			super();
-			
-//			if (Dungeon.challenges > 0) GAP--;
 			
 			String heroClass = Dungeon.hero.className();
 			
@@ -171,6 +172,7 @@ public class WndRanking extends WndTabbed {
 			add( title );
 			
 			float pos = title.bottom();
+			float extend = title.bottom();
 //			//System.out.println(Dungeon.challenges);
 			if (Dungeon.challenges > 0) {
 				RedButton btnCatalogus = new RedButton( Messages.get(this, "challenges") ) {
@@ -199,7 +201,16 @@ public class WndRanking extends WndTabbed {
 				RedButton btnSeed = new RedButton( Messages.get(this, "seed") ) {
 					@Override
 					protected void onClick() {
-						TextInput.getTextInput(null,Messages.get(StatsTab.class,"seed"),DungeonSeed.convertToCode(Dungeon.seed),"");
+						try {
+							TextInput.getTextInput(null, Messages.get(StatsTab.class, "seed"), DungeonSeed.convertToCode(Dungeon.seed), "");
+						} catch (Exception e){
+							try {
+								Gdx.app.getClipboard().setContents(DungeonSeed.convertToCode(Dungeon.seed));
+								WndRanking.this.add(new WndTitledMessage(Icons.get(Icons.INFO), "Copied", "Seed " + DungeonSeed.convertToCode(Dungeon.seed) + " copied to clipboard"));
+							} catch (Exception f){
+								WndRanking.this.add(new WndTitledMessage(Icons.get(Icons.INFO), "Seed", "Seed: " + DungeonSeed.convertToCode(Dungeon.seed)));
+							}
+						}
 					}
 				};
 				btnSeed.setRect( 0, pos, WIDTH-2, btnSeed.reqHeight() + 2 );
@@ -233,15 +244,20 @@ public class WndRanking extends WndTabbed {
 			pos += GAP;
 
 			pos = statSlot( this, Messages.get(this, "score"), Integer.toString( score ), pos );
+			pos = statSlot( this, Messages.get(this, "version"), versionName, pos );
+
+			pos += GAP;
+			resize(WIDTH,HEIGHT=(int)pos);
 		}
 		
 		private float statSlot( Group parent, String label, String value, float pos ) {
-			
-			RenderedText txt = PixelScene.renderText( label, 7 );
+
+			int size = MoonshinePixelDungeon.landscape()?5:7;
+			RenderedText txt = PixelScene.renderText( label, size );
 			txt.y = pos;
 			parent.add( txt );
 			
-			txt = PixelScene.renderText( value, 7 );
+			txt = PixelScene.renderText( value, size );
 			txt.x = WIDTH * 0.65f;
 			txt.y = pos;
 			PixelScene.align(txt);

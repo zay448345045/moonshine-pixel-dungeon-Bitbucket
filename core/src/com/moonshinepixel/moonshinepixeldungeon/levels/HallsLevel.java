@@ -27,26 +27,9 @@ import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.items.Torch;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.HallsPainter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.*;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.BlazingTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.CursingTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DisarmingTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DisintegrationTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DistortionTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.ExplosiveTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FlockTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FrostTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GrimTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GrippingTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GuardianTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.LightningTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.SpearTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.SummoningTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.TeleportationTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.VenomTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.WeakeningTrap;
 import com.moonshinepixel.moonshinepixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
@@ -105,7 +88,7 @@ public class HallsLevel extends RegularLevel {
 		return new Class[]{ BlazingTrap.class, DisintegrationTrap.class, FrostTrap.class, SpearTrap.class, VenomTrap.class,
 				ExplosiveTrap.class, GrippingTrap.class, LightningTrap.class, OozeTrap.class, WeakeningTrap.class,
 				CursingTrap.class, FlockTrap.class, GrimTrap.class, GuardianTrap.class, SummoningTrap.class, TeleportationTrap.class,
-				DisarmingTrap.class, DistortionTrap.class/*, WarpingTrap.class*/};
+				DisarmingTrap.class, DistortionTrap.class, DarkVenomTrap.class/*, WarpingTrap.class*/};
 	}
 
 	@Override
@@ -113,7 +96,7 @@ public class HallsLevel extends RegularLevel {
 		return new float[]{ 8, 8, 8, 8, 8,
 				4, 4, 4, 4, 4,
 				2, 2, 2, 2, 2, 2,
-				1, 1/*, 1*/ };
+				1, 1, 2/*, 1*/ };
 	}
 	
 	@Override

@@ -161,7 +161,7 @@ public class HallsBossLevel extends Level {
 	}
 	
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		int pos = entrance == -1 ? stairs : entrance;
 		int cell = pos + PathFinder.NEIGHBOURS8[Random.Int(8)];
 		while (!getPassable(cell)){

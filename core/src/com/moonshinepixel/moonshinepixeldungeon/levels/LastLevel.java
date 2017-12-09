@@ -127,7 +127,7 @@ public class LastLevel extends Level {
 	}
 
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		int cell = entrance + PathFinder.NEIGHBOURS8[Random.Int(8)];
 		while (!getPassable(cell)){
 			cell = entrance + PathFinder.NEIGHBOURS8[Random.Int(8)];

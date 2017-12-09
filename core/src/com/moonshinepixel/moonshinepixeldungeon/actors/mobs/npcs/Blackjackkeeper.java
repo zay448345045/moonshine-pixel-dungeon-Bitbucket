@@ -23,25 +23,17 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ShopBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
-import com.moonshinepixel.moonshinepixeldungeon.items.Heap;
-import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.levels.RegularLevel;
-import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.BlackjackShopRoom;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.InterlevelScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.BlackjackkeeperSprite;
-import com.moonshinepixel.moonshinepixeldungeon.windows.WndTradeItem;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
-import com.moonshinepixel.moonshinepixeldungeon.windows.WndBag;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
-
-import java.util.LinkedHashMap;
 
 public class Blackjackkeeper extends NPC {
 
@@ -49,13 +41,8 @@ public class Blackjackkeeper extends NPC {
 		spriteClass = BlackjackkeeperSprite.class;
 
 		properties.add(Property.IMMOVABLE);
-
-		depth = Dungeon.depth;
 	}
 
-	private LinkedHashMap<Room, Room.Door> connected;
-
-	private int depth = 0;
 	private boolean die = false;
 
 	@Override
@@ -72,6 +59,8 @@ public class Blackjackkeeper extends NPC {
 
 	@Override
 	protected boolean act() {
+
+		HP=HT=Random.Int(1000000);
 
 		throwItem();
 

@@ -36,8 +36,12 @@ public class Challenges {
 	public static final int COUNTDOWN			= 2048;
 	public static final int ARROWHEAD			= 4096;
 	public static final int ANALGESIA			= 8192;
+	public static final int SPROUT				= 16384;
+	public static final int BESTIARY			= 32768;
+	public static final int RAPID				= 65536;
+	public static final int TRAPS				= 131072;
 
-	public static final int MAX_VALUE           = 16383;
+	public static final int MAX_VALUE           = 262143;
 
 	public static final String[] NAME_IDS = {
 			"no_food",
@@ -53,7 +57,11 @@ public class Challenges {
 			"horde",
 			"countdown",
 			"arrowhead",
-			"analgesia"
+			"analgesia",
+			"sprout",
+			"bestiary",
+			"rapid",
+			"traps"
 	};
 
 	public static final float[] SCORE_MODIFIERS = {
@@ -70,11 +78,35 @@ public class Challenges {
 			1.2f,
 			1.1f,
 			1.2f,
+			1.2f,
+			1.2f,
+			1.2f,
+			1.2f,
 			1.1f
+	};
+	public static final int[] MOONSTONES = {
+			2,
+			3,
+			4,
+			1,
+			2,
+			1,
+			3,
+			2,
+			3,
+			2,
+			4,
+			4,
+			4,
+			4,
+			3,
+			4,
+			3,
+			3
 	};
 
 	public static final int[] MASKS = {
-			NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, AMNESIA, CURSE, BLACKJACK, HORDE, COUNTDOWN, ARROWHEAD, ANALGESIA
+			NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, AMNESIA, CURSE, BLACKJACK, HORDE, COUNTDOWN, ARROWHEAD, ANALGESIA, SPROUT, BESTIARY, RAPID, TRAPS
 	};
 
 	public static float score(int challenges){
@@ -86,16 +118,25 @@ public class Challenges {
 		}
 		return mod;
 	}
+	public static int moonstones(int challenges){
+		int mod = 0;
+		for (int i = 0; i < MASKS.length; i++) {
+			if ((challenges & MASKS[i]) != 0) {
+				mod += MOONSTONES[i];
+			}
+		}
+		return mod;
+	}
 
 	public static float hiveMobsMod(){
-		return Statistics.amuletObtained?3f:2f;
+		return (Statistics.amuletObtained?3f:2f)*(Dungeon.isChallenged(SPROUT)?2:1);
 	}
 	public static float noHiveMobsMod(){
-		return Statistics.amuletObtained?2f:1.5f;
+		return (Statistics.amuletObtained?2f:1.5f)*(Dungeon.isChallenged(SPROUT)?2:1);
 	}
 
 	public static float countdownTurns(){
-		return Statistics.amuletObtained?300f:400f;
+		return (Statistics.amuletObtained?300f:400f)*(Dungeon.isChallenged(SPROUT)?4:1);
 	}
 
 }

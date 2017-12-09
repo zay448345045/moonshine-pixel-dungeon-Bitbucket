@@ -20,7 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FlockTrap;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.CavesPainter;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
@@ -28,23 +28,6 @@ import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.ConfusionTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.ExplosiveTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FireTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FlashingTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FrostTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GrippingTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GuardianTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.LightningTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.OozeTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.ParalyticTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.PitfallTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.PoisonTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.RockfallTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.SpearTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.SummoningTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.TeleportationTrap;
-import com.moonshinepixel.moonshinepixeldungeon.levels.traps.VenomTrap;
 import com.moonshinepixel.moonshinepixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
@@ -102,7 +85,7 @@ public class CavesLevel extends RegularLevel {
 	protected Class<?>[] trapClasses() {
 		return new Class[]{ FireTrap.class, FrostTrap.class, PoisonTrap.class, SpearTrap.class, VenomTrap.class,
 				ExplosiveTrap.class, FlashingTrap.class, GrippingTrap.class, ParalyticTrap.class, LightningTrap.class, RockfallTrap.class, OozeTrap.class,
-				ConfusionTrap.class, FlockTrap.class, GuardianTrap.class, PitfallTrap.class, SummoningTrap.class, TeleportationTrap.class/*,
+				ConfusionTrap.class, FlockTrap.class, GuardianTrap.class, PitfallTrap.class, SummoningTrap.class, TeleportationTrap.class, DarkVenomTrap.class/*,
 				WarpingTrap.class*/};
 	}
 
@@ -110,7 +93,7 @@ public class CavesLevel extends RegularLevel {
 	protected float[] trapChances() {
 		return new float[]{ 8, 8, 8, 8, 8,
 				4, 4, 4, 4, 4, 4, 4,
-				2, 2, 2, 2, 2, 2/*,
+				2, 2, 2, 2, 2, 2, 2/*,
 				1*/ };
 	}
 	

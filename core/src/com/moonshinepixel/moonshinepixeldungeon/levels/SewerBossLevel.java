@@ -140,7 +140,7 @@ public class SewerBossLevel extends SewerLevel {
 	}
 
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		int pos;
 		do {
 			pos = pointToCell(roomEntrance.random());

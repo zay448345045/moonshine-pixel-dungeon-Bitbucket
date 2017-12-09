@@ -30,6 +30,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
+import com.moonshinepixel.moonshinepixeldungeon.items.potions.Potion;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.Ring;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfEvasion;
@@ -105,54 +106,51 @@ public enum HeroClass {
 
 	private static void initDev( Hero hero ){
 //		hero.earnExp(150);
-		hero.STR=26;
-		WeaponKit ak = new WeaponKit();
-		ak.collect();
-		ak = new WeaponKit();
-		ak.collect();
-		ak = new WeaponKit();
-		ak.collect();
+//		hero.STR=26;
+//		hero.earnExp(1024);
+//		WeaponKit ak = new WeaponKit();
+//		ak.collect();
+//		ak = new WeaponKit();
+//		ak.collect();
+//		ak = new WeaponKit();
+//		ak.collect();
 
 		ScrollOfMagicMapping somm = new ScrollOfMagicMapping();
-		somm.quantity(10);
+		somm.quantity(1);
 		somm.identify().collect();
-		Plant.Seed seed = new Sungrass.Seed();
-		seed.collect();
 
-		MasterThievesArmband ab = new MasterThievesArmband();
-		ab.identify().collect();
-		ab.upgrade(10);
-		ab.setCharge(5);
-
-		PotionOfStorm pos = new PotionOfStorm();
-		pos.identify().collect();
-		pos.quantity(10);
-
-		Weapon sc = new WarHammer();
-		sc.identify().collect();
-		sc.tier=6;
-		sc.enchant(new Shocking());
-		sc.rename("Mjölnir");
-
-		Moonshine ms = new Moonshine();
-		ms.identify().collect();
-		ms.quantity(10);
-
+//		Moonshine ms = new Moonshine();
+//		ms.identify().collect();
+//		ms.quantity(10);
+//
 		Bomb sb = new ShrapnelBomb();
 		sb.identify().collect();
 		sb.quantity(50);
-
+//
 		Bomb cb = new ClusterBomb();
 		cb.identify().collect();
 		cb.quantity(50);
-
+//
 		Ring r = new RingOfEvasion();
 		r.upgrade(150);
 		r.identify().collect();
 //		hero.belongings.weapon.tier=6;
+//
+//		Plant.Seed sed = new RainPoppy.Seed();
+//		sed.collect();
+//		sed.quantity(20);
+//
+//		DewVial dv = new DewVial();
+//		dv.collect();
+//		dv.collectDew(new Dewdrop().quantity(13));
+//
+		Scroll sou = new ScrollOfPsionicBlast();
+		sou.quantity(10);
+		sou.identify().collect();
 
-		Plant.Seed sed = new RainPoppy.Seed();
-		sed.collect();
+		Potion poh = new PotionOfMindVision();
+		poh.identify().collect();
+		poh.quantity(1);
 	}
 
 	private static void initCommon( Hero hero ) {
@@ -305,6 +303,8 @@ public enum HeroClass {
 
         Dungeon.quickslot.setSlot(0, pistol);
         Dungeon.quickslot.setSlot(1, bomb);
+
+		new ScrollOfRage().setKnown();
     }
 	
 	public String title() {

@@ -129,35 +129,36 @@ public abstract class StandardRoom extends Room {
 		rooms.add(GrassyGraveRoom.class);
 		rooms.add(StripedRoom.class);
 		rooms.add(StudyRoom.class);
-		rooms.add(SpearRoom.class);
+		rooms.add(WoodCircleRoom.class);
 
 		rooms.add(PitRoom.class);
 		rooms.add(MazeRoom.class);
 	}
-	
+
 	private static float[][] chances = new float[100][];
 	static {
-		Arrays.fill(chances, new float[]{11,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f});
-//		chances[1] =  new float[]{22,  10, 0, 0, 0, 0,  1, 0, 1, 0, 1, 0, 1, 1};
-		chances[1] =  new float[]{22,  10, 0, 0, 0, 0,  1, 0, 1, 0, 1, 0, 1, 1, 0,  0, 0};
-		chances[2] =  new float[]{22,  10, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
+		float mod = MoonshinePixelDungeon.previewmode?100:1;
+		Arrays.fill(chances, new float[]{11,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1, 1, .25f, 0,  0.25f, 0.25f});
+//		chances[1] =  new float[]{1,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0};
+		chances[1] =  new float[]{22,  8, 0, 0, 0, 0,  1, 0, 1, 0, 1, 0, 1, 1, 1.5f,  0, 0};
+		chances[2] =  new float[]{22,  8, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, 1.5f,  0.25f, 0.25f};
 		chances[4] =  chances[3] = chances[2];
-		chances[5] =  new float[]{1,   0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0,  0.25f, 0.25f};
+		chances[5] =  new float[]{5,   1, 1, 1, 1, 1,   0, 0, 0, 0, 0, 0, 0, 0, 0,  0.25f, 0.25f};
 		
-		chances[6] =  new float[]{22,  0, 10, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
+		chances[6] =  new float[]{22,  0, 10, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, .25f*mod,  0.25f, 0.25f};
 		chances[10] = chances[9] = chances[8] = chances[7] = chances[6];
 		
-		chances[11] = new float[]{22,  0, 0, 10, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
+		chances[11] = new float[]{22,  0, 0, 10, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, .25f*mod,  0.25f, 0.25f};
 		chances[15] = chances[14] = chances[13] = chances[12] = chances[11];
 		
-		chances[16] = new float[]{22,  10, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
+		chances[16] = new float[]{22,  10, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1, .25f*mod,  0.25f, 0.25f};
 		chances[20] = chances[19] = chances[18] = chances[17] = chances[16];
 		
 		chances[21] = chances[5];
 		
-		chances[22] = new float[]{22,  0, 0, 0, 0, 10,  1, 1, 1, 1, 1, 1, 1, 1, 1,  0.25f, 0.25f};
+		chances[22] = new float[]{22,  0, 0, 0, 0, 10,  1, 1, 1, 1, 1, 1, 1, 1, .25f*mod,  0.25f, 0.25f};
 		chances[26] = chances[25] = chances[24] = chances[23] = chances[22];
-		chances[31] = new float[]{22,  0, 5, 0, 0, 5,  1, 1, 1, 1, 1, 1, 1, 1, 1,  0f, 0.5f};
+		chances[31] = new float[]{22,  0, 5, 0, 0, 5,  1, 1, 1, 1, 1, 1, 1, 1, .25f*mod,  0f, 0.5f};
 		chances[35] = chances[34] = chances[33] = chances[32] = chances[31];
 
 

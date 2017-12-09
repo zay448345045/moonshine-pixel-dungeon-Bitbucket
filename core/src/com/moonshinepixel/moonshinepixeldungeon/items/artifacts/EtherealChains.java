@@ -26,7 +26,6 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Cripple;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.LockedFloor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Chains;
-import com.moonshinepixel.moonshinepixeldungeon.effects.Hook;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Pushing;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;

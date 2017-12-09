@@ -2,7 +2,6 @@ package com.moonshinepixel.moonshinepixeldungeon.levels.traps;
 
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
-import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 
 public abstract class ActingTrap extends Trap {

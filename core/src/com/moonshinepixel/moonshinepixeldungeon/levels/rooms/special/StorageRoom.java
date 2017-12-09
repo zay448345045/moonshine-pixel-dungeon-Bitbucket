@@ -56,7 +56,7 @@ public class StorageRoom extends SpecialRoom {
 		}
 		
 		entrance().set( Room.Door.Type.BARRICADE );
-		level.addItemToSpawn(Random.oneOf(new PotionOfLiquidFlame(), new Bomb()));
+		level.addItemToSpawn(Random.oneOf(new PotionOfLiquidFlame(), new Bomb(), new Bomb()));
 	}
 	
 	private static Item prize(Level level ) {

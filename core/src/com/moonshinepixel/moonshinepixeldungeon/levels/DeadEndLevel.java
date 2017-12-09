@@ -84,7 +84,7 @@ public class DeadEndLevel extends Level {
 	}
 	
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		return entrance-width();
 	}
 

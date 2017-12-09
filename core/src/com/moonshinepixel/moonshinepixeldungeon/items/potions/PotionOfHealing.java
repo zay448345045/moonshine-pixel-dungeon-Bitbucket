@@ -20,16 +20,12 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.items.potions;
 
+import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Bleeding;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Poison;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Weakness;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Cripple;
 
 public class PotionOfHealing extends Potion {
 
@@ -38,22 +34,33 @@ public class PotionOfHealing extends Potion {
 
 		bones = true;
 	}
-	
+
 	@Override
 	public void apply( Hero hero ) {
 		setKnown();
-		heal( Dungeon.hero );
+		//starts out healing 30 hp, equalizes with hero health total at level 11
+		Buff.affect( hero, Healing.class ).setHeal((int)(0.8f*hero.HT + 14), 0.333f, 0);
+		cure( hero );
 		GLog.p( Messages.get(this, "heal") );
 	}
-	
+
+	public static void cure( Hero hero ) {
+		Buff.detach(hero, Poison.class);
+		Buff.detach(hero, Cripple.class);
+		Buff.detach(hero, Weakness.class);
+		Buff.detach(hero, Bleeding.class);
+
+		hero.HTPENALTY=0;
+		hero.updateHT(false);
+	}
+
+
 	public static void heal( Hero hero ) {
-		
+
 		hero.HP = hero.HT;
-		Buff.detach( hero, Poison.class );
-		Buff.detach( hero, Cripple.class );
-		Buff.detach( hero, Weakness.class );
-		Buff.detach( hero, Bleeding.class );
-		
+
+		cure(hero);
+
 		hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 4 );
 	}
 

@@ -52,7 +52,7 @@ public class MassGraveRoom extends SpecialRoom {
 
 		Room.Door entrance = entrance();
 		entrance.set(Room.Door.Type.BARRICADE);
-		level.addItemToSpawn(Random.oneOf(new PotionOfLiquidFlame(), new Bomb()));
+		level.addItemToSpawn(Random.oneOf(new PotionOfLiquidFlame(), new Bomb(), new Bomb()));
 
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.EMPTY_SP);

@@ -25,6 +25,7 @@ import com.watabou.input.NoosaInputProcessor;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.TouchArea;
+import com.watabou.noosa.Visual;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
@@ -76,6 +77,10 @@ public class ScrollPane extends Component {
 		add( thumb );
 	}
 
+	public float thumbWidth(){
+		return 2;
+	}
+
 	@Override
 	protected void layout() {
 
@@ -98,7 +103,7 @@ public class ScrollPane extends Component {
 
 		thumb.visible = height < content.height();
 		if (thumb.visible) {
-			thumb.scale.set( 2, height * height / content.height() );
+			thumb.scale.set( thumbWidth(), height * height / content.height() );
 			thumb.x = right() - thumb.width();
 			thumb.y = y;
 		}

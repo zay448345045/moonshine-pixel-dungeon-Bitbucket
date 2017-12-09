@@ -183,6 +183,7 @@ public class Blacksmith extends NPC {
 			first = item1;
 			second = item2;
 		}
+		int tier = Math.max(item1.tier,item2.tier);
 
 		Sample.INSTANCE.play( Assets.SND_EVOKE );
 		ScrollOfUpgrade.upgrade( Dungeon.hero );
@@ -194,6 +195,7 @@ public class Blacksmith extends NPC {
 		first.level(first.level()+1); //prevents on-upgrade effects like enchant/glyph removal
 		Dungeon.hero.spendAndNext( 2f );
 		Badges.validateItemLevelAquired( first );
+		first.tier=tier;
 		
 		if (second.isEquipped( Dungeon.hero )) {
 			((EquipableItem)second).doUnequip( Dungeon.hero, false );

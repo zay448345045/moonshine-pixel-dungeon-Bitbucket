@@ -6,7 +6,6 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.ui.BuffIndicator;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 

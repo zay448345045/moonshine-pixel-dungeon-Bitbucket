@@ -26,7 +26,6 @@ import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroSubClass;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
@@ -58,7 +57,9 @@ public abstract class Char extends Actor {
 	public int HT;
 	public int HP;
 	public int SHLD;
-	
+
+	public int HTPENALTY;
+
 	protected float baseSpeed	= 1;
 	protected PathFinder.Path path;
 
@@ -97,7 +98,16 @@ public abstract class Char extends Actor {
 	private static final String TAG_SHLD    = "SHLD";
 	private static final String BUFFS		= "buffs";
 	private static final String NAME		= "name";
+	private static final String HTPEN		= "htpenalty";
 
+	public void updateHT(){
+		updateHT(true);
+	}
+
+	public void updateHT(boolean changeHP){
+		HT=Math.max(HT,1);
+		HP=Math.min(HP,HT);
+	}
 	public void updateFlying(){
 		flying=defFlying;
 		if (buff(Transformation.class)!=null) flying=buff(Transformation.class).mob.flying;
@@ -116,6 +126,7 @@ public abstract class Char extends Actor {
 		bundle.put( TAG_SHLD, SHLD );
 		bundle.put( BUFFS, buffs );
 		bundle.put( NAME, name );
+		bundle.put( HTPEN, HTPENALTY );
 	}
 	
 	@Override
@@ -127,6 +138,7 @@ public abstract class Char extends Actor {
 		oldPos = bundle.getInt( OLDPOS );
 		HP = bundle.getInt( TAG_HP );
 		HT = bundle.getInt( TAG_HT );
+		HTPENALTY = bundle.getInt( HTPEN );
 		SHLD = bundle.getInt( TAG_SHLD );
 
 		if (bundle.contains(NAME)){
@@ -199,7 +211,7 @@ public abstract class Char extends Actor {
 			//TODO: consider revisiting this and shaking in more cases.
 			float shake = 0f;
 			if (enemy == Dungeon.hero)
-				shake = effectiveDamage / (enemy.HT / 4);
+				shake = effectiveDamage / Math.max((enemy.HT / 4),1);
 
 			if (shake > 1f)
 				Camera.main.shake( GameMath.gate( 1, shake, 5), 0.3f );
@@ -373,7 +385,7 @@ public abstract class Char extends Actor {
 	}
 	
 	@Override
-	public void spend( float time ) {
+	public void spend(float time) {
 		
 		float timeScale = 1f;
 		if (buff( Slow.class ) != null) {

@@ -25,6 +25,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
 
 //A builder that creates only branches, very simple and very random
 public class BranchesBuilder extends RegularBuilder {
@@ -44,18 +45,36 @@ public class BranchesBuilder extends RegularBuilder {
 		entrance.setPos(0, 0);
 		branchable.add(entrance);
 
-		if (shop != null){
-			placeRoom(branchable, entrance, shop, Random.Float(360f));
+		float a = Random.Float(360f);
+
+		if (shop != null) {
+			float angle;
+			int tries = 10;
+			do {
+				angle = placeRoom(branchable, entrance, shop, a+Random.Float(90f));
+				tries--;
+			} while (angle == -1 && tries >= 0);
+			if (angle == -1) return null;
 		}
-		if (bjshop != null){
-			placeRoom(branchable, entrance, bjshop, Random.Float(360f));
+
+		if (bjshop != null) {
+			a=360-a;
+			float angle;
+			int tries = 10;
+			do {
+				angle = placeRoom(branchable, entrance, bjshop, a+Random.Float(90f));
+				tries--;
+			} while (angle == -1 && tries >= 0);
+			if (angle == -1) return null;
 		}
 		
 		ArrayList<Room> roomsToBranch = new ArrayList<>();
 		roomsToBranch.addAll(multiConnections);
 		if (exit != null) roomsToBranch.add(exit);
 		roomsToBranch.addAll(singleConnections);
-		createBranches(rooms, branchable, roomsToBranch, branchTunnelChances);
+		if (!createBranches(rooms, branchable, roomsToBranch, branchTunnelChances)){
+			return null;
+		}
 		
 		findNeighbours(rooms);
 		

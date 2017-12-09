@@ -145,7 +145,7 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		return new Point( Random.IntRange( left + m, right - m ),
 				Random.IntRange( top + m, bottom - m ));
 	}
-	
+
 	//a point is only considered to be inside if it is within the 1 tile perimeter
 	public boolean inside( Point p ) {
 		return p.x > left && p.y > top && p.x < right && p.y < bottom;
@@ -290,7 +290,26 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 	public boolean canPlaceTrap(Point p){
 		return inside(p);
 	}
-	
+
+	public boolean canPlaceMob(Point p){
+		return inside(p);
+	}
+
+	public Point randomMobCell(){
+
+		HashSet<Point> cells = new HashSet<>();
+		for(Point p:getPoints()){
+			if (canPlaceMob(p)){
+				cells.add(p);
+			}
+		}
+		if (cells.size()>0){
+			return Random.element(cells);
+		} else {
+			return null;
+		}
+	}
+
 	public final ArrayList<Point> trapPlaceablePoints(){
 		ArrayList<Point> points = new ArrayList<>();
 		for (int i = left; i <= right; i++) {
@@ -395,8 +414,7 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		if (bundle.contains( "type" ))
 			legacyType = bundle.getString( "type" );
 	}
-	
-	//Note that currently connections and neighbours are not preserved on load
+
 	public void onLevelLoad( Level level ){
 		//does nothing by default
 	}
@@ -404,7 +422,7 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 	public static class Door extends Point implements Bundlable {
 		
 		public enum Type {
-			EMPTY, TUNNEL, REGULAR, UNLOCKED, HIDDEN, BARRICADE, LOCKED
+			EMPTY, TUNNEL, REGULAR, UNLOCKED, HIDDEN, BARRICADE, LOCKED,
 		}
 		public Type type = Type.EMPTY;
 

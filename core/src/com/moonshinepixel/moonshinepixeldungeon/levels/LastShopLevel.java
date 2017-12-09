@@ -119,7 +119,7 @@ public class LastShopLevel extends RegularLevel {
 	}
 	
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		return pointToCell( roomEntrance.random() );
 	}
 	

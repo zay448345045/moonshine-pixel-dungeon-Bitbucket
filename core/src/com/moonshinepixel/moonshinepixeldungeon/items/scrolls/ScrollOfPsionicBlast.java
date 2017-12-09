@@ -56,7 +56,9 @@ public class ScrollOfPsionicBlast extends Scroll {
 			}
 		}
 
-		curUser.damage(Math.max(curUser.HT/5, curUser.HP/2), this);
+		int dmg = Math.max(curUser.HT/5, curUser.HP/2);
+		if (curUser.HP>curUser.HT*0.9f) dmg = (int)(curUser.HP/2.5f);
+		curUser.damage(dmg, this);
 		Buff.prolong( curUser, Paralysis.class, Random.Int( 4, 6 ) );
 		Buff.prolong( curUser, Blindness.class, Random.Int( 6, 9 ) );
 		Dungeon.observe();

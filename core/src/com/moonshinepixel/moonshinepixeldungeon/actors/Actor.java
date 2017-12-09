@@ -46,7 +46,7 @@ public abstract class Actor implements Bundlable {
 
 	protected abstract boolean act();
 	
-	protected void spend( float time ) {
+	public void spend(float time) {
 		this.time += time;
 	}
 

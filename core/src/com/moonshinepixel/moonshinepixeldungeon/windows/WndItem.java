@@ -74,7 +74,7 @@ public class WndItem extends Window {
 		if (Dungeon.hero.isAlive() && options) {
 			ArrayList<RedButton> line = new ArrayList<>();
 			for (final String action:item.actions( Dungeon.hero )) {
-				
+				final boolean red = action.contains("_R");
 				RedButton btn = new RedButton( Messages.get(item, "ac_" + action), 8 ) {
 					@Override
 					protected void onClick() {
@@ -96,6 +96,8 @@ public class WndItem extends Window {
 
 				if (action.equals(item.defaultAction)) {
 					btn.textColor( TITLE_COLOR );
+				} else if(Messages.contain(item, "ac_" + action+".color")){
+					btn.textColor( Integer.parseInt(Messages.get(item, "ac_" + action+".color"),16) );
 				}
 
 				x += btn.width();

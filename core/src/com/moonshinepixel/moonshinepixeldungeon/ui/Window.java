@@ -45,7 +45,7 @@ public class Window extends Group implements Signal.Listener<NoosaInputProcessor
 	protected NinePatch chrome;
 	
 	public static final int TITLE_COLOR = 0xFFFF44;
-	public static final int SHPX_COLOR = 0x540075;
+	public static final int SHPX_COLOR = 0x770099;
 
 	public static final int WIDTH		    = 112;
 	public static final int HEIGHT         = 138;

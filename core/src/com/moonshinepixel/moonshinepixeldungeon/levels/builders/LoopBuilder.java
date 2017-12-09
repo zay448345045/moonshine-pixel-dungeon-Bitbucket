@@ -126,22 +126,25 @@ public class LoopBuilder extends RegularBuilder {
 			rooms.add(c);
 			prev = c;
 		}
-		
+
+		float a = Random.Float(360f);
+
 		if (shop != null) {
 			float angle;
 			int tries = 10;
 			do {
-				angle = placeRoom(loop, entrance, shop, Random.Float(360f));
+				angle = placeRoom(loop, entrance, shop, a+Random.Float(90f));
 				tries--;
 			} while (angle == -1 && tries >= 0);
 			if (angle == -1) return null;
 		}
 
 		if (bjshop != null) {
+			a=360-a;
 			float angle;
 			int tries = 10;
 			do {
-				angle = placeRoom(loop, entrance, bjshop, Random.Float(360f));
+				angle = placeRoom(loop, entrance, bjshop, a+Random.Float(90f));
 				tries--;
 			} while (angle == -1 && tries >= 0);
 			if (angle == -1) return null;

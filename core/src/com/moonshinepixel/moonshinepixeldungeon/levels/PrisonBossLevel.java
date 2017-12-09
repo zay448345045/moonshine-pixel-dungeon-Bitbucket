@@ -186,7 +186,7 @@ public class PrisonBossLevel extends Level {
 	}
 
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		return 5+2*32 + PathFinder.NEIGHBOURS8[Random.Int(8)]; //random cell adjacent to the entrance.
 	}
 	

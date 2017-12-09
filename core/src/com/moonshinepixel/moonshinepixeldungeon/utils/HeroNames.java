@@ -73,26 +73,20 @@ public enum HeroNames {
     }
 
     public static boolean hasTitle(String name){
-        String[] alltitles = GameArrays.concat(titles,specTitles,String.class);
-        //System.out.println(name);
+        String[] alltitles = GameArrays.concat(titles,specTitles);
         for (String title:alltitles){
-            //System.out.println(title);
             if (name.contains(title.replaceAll("%s",""))){
                 return true;
             }
-            //System.out.println(false+"\n");
         }
         return false;
     }
     public static String getTitle(String name){
-        String[] alltitles = GameArrays.concat(titles,specTitles,String.class);
-        //System.out.println(name);
+        String[] alltitles = GameArrays.concat(titles,specTitles);
         for (String title:alltitles){
-            //System.out.println(title);
             if (name.contains(title.replaceAll("%s",""))){
                 return title;
             }
-            //System.out.println(false+"\n");
         }
         return null;
     }
@@ -108,9 +102,7 @@ public enum HeroNames {
         specNames=Messages.get(HeroNames.class,"specnames").split("_");
         specTitles = new String[0];
         for (String key : specNames){
-            specTitles=GameArrays.concat(specTitles,Messages.get(HeroNames.class,key).split("_"),String.class);
+            specTitles=GameArrays.concat(specTitles,Messages.get(HeroNames.class,key).split("_"));
         }
-        //System.out.println(Messages.get(HeroNames.class,"titles"));
-        //System.out.println(specNames[0]);
     }
 }

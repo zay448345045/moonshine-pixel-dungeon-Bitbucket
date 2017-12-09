@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Ghost;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Ripple;
 import com.moonshinepixel.moonshinepixeldungeon.items.DewVial;
@@ -85,7 +86,7 @@ public class SewerLevel extends RegularLevel {
 	
 	@Override
 	protected Class<?>[] trapClasses() {
-		return Dungeon.depth == 1 ?
+		return Dungeon.depth == 1 && !Dungeon.isChallenged(Challenges.TRAPS) ?
 				new Class<?>[]{WornTrap.class} :
 				new Class<?>[]{ChillingTrap.class, ToxicTrap.class, WornTrap.class,
 						AlarmTrap.class, OozeTrap.class,
@@ -94,7 +95,7 @@ public class SewerLevel extends RegularLevel {
 
 	@Override
 	protected float[] trapChances() {
-		return Dungeon.depth == 1 ?
+		return Dungeon.depth == 1 && !Dungeon.isChallenged(Challenges.TRAPS) ?
 				new float[]{1} :
 				new float[]{4, 4, 4,
 						2, 2,

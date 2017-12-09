@@ -130,6 +130,14 @@ public class Messages {
 		}
 	}
 
+	public static boolean contain(Object o, String k){
+		return contain(o.getClass(),k);
+	}
+
+	public static boolean contain(Class c, String k){
+		return !get(c,k).contains("!!!NO TEXT FOUND!!!");
+	}
+
 
 
 	/**

@@ -73,7 +73,7 @@ public class CorridorLevel extends Level {
 	}
 	
 	@Override
-	public int randomRespawnCell() {
+	public int randomRespawnCell(boolean notvisible) {
 		return entrance;
 	}
 

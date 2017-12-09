@@ -18,39 +18,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package com.moonshinepixel.moonshinepixeldungeon.plants;
+package com.moonshinepixel.moonshinepixeldungeon.levels.traps;
 
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.RainClouds;
-import com.moonshinepixel.moonshinepixeldungeon.items.food.Blandfruit;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
-import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Darkness;
+import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ToxicGas;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
-import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
-import com.watabou.utils.PathFinder;
 
-import java.util.HashSet;
-
-public class RainPoppy extends Plant {
+public class DarkVenomTrap extends Trap{
 
 	{
-		image = 14;
+		color = GREY;
+		shape = WAVES;
+	}
+
+	@Override
+	public Trap hide() {
+		//cannot hide this trap
+		return reveal();
 	}
 
 	@Override
 	public void activate() {
-		GameScene.add(Blob.seed(pos,40, RainClouds.class));
-	}
 
-	public static class Seed extends Plant.Seed {
-		{
-			image = ItemSpriteSheet.SEED_RAINPOPPY;
-
-			plantClass = RainPoppy.class;
-			alchemyClass = PotionOfStorm.class;
-		}
+		GameScene.add( Blob.seed( pos, 300 + 20 * Dungeon.fakedepth[Dungeon.depth], Darkness.class ) );
 
 	}
 }

@@ -21,6 +21,7 @@
 
 package com.moonshinepixel.moonshinepixeldungeon.levels.painters;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
@@ -331,8 +332,8 @@ public abstract class RegularPainter extends Painter {
 			}
 		}
 		
-		//no more than one trap every 5 valid tiles.
-		nTraps = Math.min(nTraps, validCells.size()/5);
+		//no more than one trap every 5 valid tiles (2 with traps challenge).
+		nTraps = Math.min(nTraps, validCells.size()/(Dungeon.isChallenged(Challenges.TRAPS)?2:5));
 		
 		for (int i = 0; i < nTraps; i++) {
 			

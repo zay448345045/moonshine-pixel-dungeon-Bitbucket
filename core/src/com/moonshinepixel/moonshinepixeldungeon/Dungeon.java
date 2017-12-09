@@ -319,24 +319,6 @@ public class Dungeon {
 		case 34:
 			level = new GardenLevel();
 			break;
-		case 35:
-			level = new VolcanoBossLevel();
-			break;
-//		case 31:
-//			level= new MazeLevel();
-//			break;
-//        case 32:
-//			level= new MazeLevel();
-//			break;
-//        case 33:
-//			level= new MazeLevel();
-//			break;
-//        case 34:
-//			level= new MazeLevel();
-//			break;
-//        case 35:
-//			level= new MazeBossLevel();
-//			break;
 		default:
 			level = new DeadEndLevel();
 			Statistics.deepestFloor--;
@@ -771,11 +753,12 @@ public class Dungeon {
 		}
 	}
 
-	public static void win( Class cause ) {
+	public static void win( Class cause, boolean surface ) {
 
 		hero.belongings.identify();
 
 		if (!cheated()) {
+			MoonshinePixelDungeon.moonstones(MoonshinePixelDungeon.moonstones()+(Challenges.moonstones(challenges)*(surface?2:1)));
 			if (challenges != 0) {
 				Badges.validateChampion();
 			}

@@ -651,7 +651,9 @@ public abstract class Mob extends Char {
 		int bonus = RingOfWealth.getBonus(Dungeon.hero, RingOfWealth.Wealth.class);
 		lootChance *= Math.pow(1.15, bonus);
 
-		MoonshinePixelDungeon.moonstones(MoonshinePixelDungeon.moonstones()+stonesreward);
+		if (!Dungeon.cheated()) {
+			MoonshinePixelDungeon.moonstones(MoonshinePixelDungeon.moonstones() + stonesreward);
+		}
 
 		if (stonesreward>0){
 			GLog.h( Messages.get(Mob.class, "stones",stonesreward) );
@@ -665,6 +667,12 @@ public abstract class Mob extends Char {
 		
 		if (Dungeon.hero.isAlive() && !Dungeon.visible[pos]) {
 			GLog.i( Messages.get(this, "died") );
+		}
+
+		Actor respawner = Dungeon.level.respawner();
+		if (respawner!=null&&Dungeon.isChallenged(Challenges.RAPID)){
+			if (respawner.cooldown()>0)respawner.enable();
+			respawner.spend(-1);
 		}
 	}
 	

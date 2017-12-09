@@ -20,10 +20,10 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs;
 
-import com.moonshinepixel.moonshinepixeldungeon.QuickSlot;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ShopBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.AngryShopKeeper;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.ShopThief;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
@@ -98,7 +98,7 @@ public class Shopkeeper extends NPC {
 		GameScene.add(ask);
 		ask.state = ask.HUNTING;
 		ask.sprite.turnTo(pos, Dungeon.hero.pos);
-		yell(Messages.get(this,"thief"));
+		yell(Messages.get(this,"thief",Dungeon.gender==Hero.Gender.MALE?"him":"her"));
 		QuickSlotButton.target(ask);
 //		CellEmitter.get( pos ).burst( ElmoParticle.FACTORY, 6 );
 	}

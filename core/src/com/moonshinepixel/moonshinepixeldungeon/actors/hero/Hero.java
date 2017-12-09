@@ -176,11 +176,7 @@ public class Hero extends Char {
 
 		return weakened ? STR - 2 : STR;
 	}
-
-	public void updateHT(){
-		updateHT(true);
-	}
-
+	@Override
 	public void updateHT(boolean changeHP){
 		int lastHT=HT;
 		int ht = 20;
@@ -199,6 +195,8 @@ public class Hero extends Char {
 		if (trans!=null && trans.mob!=null){
 			ht=trans.mob.HT;
 		}
+
+		ht-=HTPENALTY;
 
 		ht=Math.max(1,ht);
 		HT=ht;
@@ -937,7 +935,7 @@ public class Hero extends Char {
 					GameScene.show( new WndMessage( Messages.get(this, "leave") ) );
 					ready();
 				} else {
-					Dungeon.win( Amulet.class );
+					Dungeon.win( Amulet.class, true );
 					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
 					Game.switchScene( SurfaceScene.class );
 				}
@@ -948,7 +946,7 @@ public class Hero extends Char {
 					GameScene.show( new WndMessage( Messages.get(this, "leave") ) );
 					ready();
 				} else {
-					Dungeon.win( Amulet.class );
+					Dungeon.win( Amulet.class, true );
 					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
 					Game.switchScene( SurfaceScene.class );
 				}

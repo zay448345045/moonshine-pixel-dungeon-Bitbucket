@@ -34,9 +34,9 @@ import java.util.ArrayList;
 public class WndChallenges extends Window {
 
 	private final int WIDTH		= MoonshinePixelDungeon.landscape()?216:108;	//108
-	private static final int TTL_HEIGHT    = 12;
-	private static final int BTN_HEIGHT    = 18;
-	private static final int GAP        = 1;
+	private final int TTL_HEIGHT    = MoonshinePixelDungeon.landscape()?18:10;
+	private final int BTN_HEIGHT    = MoonshinePixelDungeon.landscape()?18:12;
+	private final int GAP        = 1;
 
 	private boolean editable;
 	private ArrayList<CheckBox> boxes;
@@ -47,7 +47,7 @@ public class WndChallenges extends Window {
 
 		this.editable = editable;
 
-		RenderedText title = PixelScene.renderText( Messages.get(this, "title"), 9 );
+		RenderedText title = PixelScene.renderText( Messages.get(this, "title"), MoonshinePixelDungeon.landscape()?9:7 );
 		title.hardlight( TITLE_COLOR );
 		title.x = (WIDTH - title.width()) / 2;
 		title.y = (TTL_HEIGHT - title.height()) / 2;
@@ -60,7 +60,7 @@ public class WndChallenges extends Window {
 		if (!MoonshinePixelDungeon.landscape()) {
 			for (int i = 0; i < Challenges.NAME_IDS.length; i++) {
 
-				CheckBox cb = new CheckBox(Messages.get(Challenges.class, Challenges.NAME_IDS[i]));
+				CheckBox cb = new CheckBox(Messages.get(Challenges.class, Challenges.NAME_IDS[i]), MoonshinePixelDungeon.landscape()?9:7);
 				cb.checked((checked & Challenges.MASKS[i]) != 0);
 				cb.active = editable;
 

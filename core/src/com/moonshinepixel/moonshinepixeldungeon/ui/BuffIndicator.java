@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.ui;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
@@ -188,7 +189,7 @@ public class BuffIndicator extends Component {
 
 		@Override
 		protected void onClick() {
-			if (buff.icon() != NONE)
+			if (buff.icon() != NONE && !Dungeon.isChallenged(Challenges.ANALGESIA))
 				GameScene.show(new WndInfoBuff(buff));
 		}
 	}

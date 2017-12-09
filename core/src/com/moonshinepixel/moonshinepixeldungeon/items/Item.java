@@ -28,6 +28,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.SnipersMark;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Transformation;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
+import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
@@ -305,8 +306,10 @@ public class Item implements Bundlable {
 	}
 	
 	public Item upgrade() {
-		
-		cursed = false;
+
+		if (cursed) {
+			ScrollOfRemoveCurse.uncurse(null, this);
+		}
 		level(level()>0?level():-level());
 		this.level++;
 
@@ -454,6 +457,10 @@ public class Item implements Bundlable {
 	public Item quantity( int value ) {
 		quantity = value;
 		return this;
+	}
+
+	public Heap drop(int cell){
+		return Dungeon.level.drop(this, cell);
 	}
 
 	public int price(boolean levelKnown, boolean cursedKnown) {
@@ -618,6 +625,11 @@ public class Item implements Bundlable {
 	};
 
 	public void invAct(){
-
+		if (cursed&&level>0){
+			level(-level);
+		}
+		if (!cursed&&level<0){
+			level(-level);
+		}
 	}
 }

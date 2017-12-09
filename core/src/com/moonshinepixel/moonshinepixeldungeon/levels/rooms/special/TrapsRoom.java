@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
@@ -122,19 +123,24 @@ public class TrapsRoom extends SpecialRoom {
 		}
 		
 		//1 floor set higher in probability, never cursed
-		do {
-			if (Random.Int(2) == 0) {
-				prize = Generator.randomWeapon((Dungeon.depth / 5) + 1);
-			} else {
-				prize = Generator.randomArmor((Dungeon.depth / 5) + 1);
-			}
-		} while (prize.cursed);
+		if (Random.Int(2) == 0) {
+			prize = Generator.randomWeapon((Dungeon.depth / 5) + 1);
+		} else {
+			prize = Generator.randomArmor((Dungeon.depth / 5) + 1);
+		}
+		if (!Dungeon.isChallenged(Challenges.CURSE)){
+			prize.cursed=false;
+		}
+		boolean curse = prize.cursed;
 
 		//33% chance for an extra update.
 		if (!(prize instanceof MissileWeapon) && Random.Int(3) == 0){
 			prize.upgrade();
 		}
-		
+		if (curse){
+			prize.cursed=true;
+		}
+		prize.invAct();
 		return prize;
 	}
 
@@ -147,12 +153,12 @@ public class TrapsRoom extends SpecialRoom {
 			//caves
 			{BlazingTrap.class, VenomTrap.class, ExplosiveTrap.class},
 			//city
-			{SummoningTrap.class, VenomTrap.class, DisintegrationTrap.class},
+			{SummoningTrap.class, VenomTrap.class, DisintegrationTrap.class, DarkVenomTrap.class},
 			//halls, muahahahaha
-			{GrimTrap.class},
+			{GrimTrap.class, DarkVenomTrap.class},
 			//special levels (26-30)
             {WornTrap.class},
-            //maze(Unused)
-            {WornTrap.class}
+            //garden
+            {ToxicTrap.class, TeleportationTrap.class, FlockTrap.class}
 	};
 }

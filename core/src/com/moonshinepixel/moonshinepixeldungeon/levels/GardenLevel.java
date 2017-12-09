@@ -30,6 +30,9 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Ghost;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Ripple;
 import com.moonshinepixel.moonshinepixeldungeon.items.DewVial;
+import com.moonshinepixel.moonshinepixeldungeon.levels.builders.BranchesBuilder;
+import com.moonshinepixel.moonshinepixeldungeon.levels.builders.Builder;
+import com.moonshinepixel.moonshinepixeldungeon.levels.builders.LineBuilder;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.SewerPainter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.*;
@@ -47,8 +50,8 @@ import com.watabou.utils.Random;
 public class GardenLevel extends RegularLevel {
 
 	{
-		color1 = 0x48763c;
-		color2 = 0x59994a;
+		color1 = 0x8f7e35;
+		color2 = 0x7b6932;
 	}
 
 	@Override
@@ -83,18 +86,14 @@ public class GardenLevel extends RegularLevel {
 
 	@Override
 	protected Class<?>[] trapClasses() {
-		return Dungeon.depth == 1 ?
-				new Class<?>[]{WornTrap.class} :
-				new Class<?>[]{ChillingTrap.class, ToxicTrap.class, WornTrap.class,
+		return new Class<?>[]{ChillingTrap.class, ToxicTrap.class, WornTrap.class,
 						AlarmTrap.class, OozeTrap.class,
 						FlockTrap.class, SummoningTrap.class, TeleportationTrap.class, };
 }
 
 	@Override
 	protected float[] trapChances() {
-		return Dungeon.depth == 1 ?
-				new float[]{1} :
-				new float[]{4, 4, 4,
+		return new float[]{4, 4, 4,
 						2, 2,
 						1, 1, 1};
 	}

@@ -23,6 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.windows;
 import com.moonshinepixel.moonshinepixeldungeon.Chrome;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.moonshinepixel.moonshinepixeldungeon.items.EquipableItem;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
@@ -171,6 +172,7 @@ public class WndDisassemble extends Window {
 		disassemble(item,false);
 	}
 	public void disassemble(Item item, boolean all){
+		if (item.cursed)return;
 	    Scrap scrap = new Scrap();
 	    int overAllQuanity = 0;
 	    int repeats = all?item.quantity():1;
@@ -178,21 +180,21 @@ public class WndDisassemble extends Window {
 			int quanity = 0;
 			if (item instanceof MeleeWeapon) {
 				MeleeWeapon w = (MeleeWeapon) item;
-				quanity += Random.NormalIntRange((w.tier + 2) / 2, w.tier + 2);
+				quanity += Random.IntRange((w.tier + 2) / 2, w.tier + 2);
 				if (w == Dungeon.hero.belongings.weapon) {
-					Dungeon.hero.belongings.weapon = null;
+					w.doUnequip(Dungeon.hero,false,true);
 					Dungeon.quickslot.clearItem(w);
 					w.updateQuickslot();
 				}
 			}
 			if (item instanceof BulletGun) {
 				BulletGun b = (BulletGun) item;
-				quanity += Random.NormalIntRange((b.tier() + 2) / 2, b.tier() + 2);
+				quanity += Random.IntRange((b.tier() + 2) / 2, b.tier() + 2);
 				if (b.attachment != null) {
-					quanity += Random.NormalIntRange(1, 2);
+					quanity += Random.IntRange(1, 2);
 				}
 				if (b == Dungeon.hero.belongings.weapon) {
-					Dungeon.hero.belongings.weapon = null;
+					b.doUnequip(Dungeon.hero,false,true);
 					Dungeon.quickslot.clearItem(b);
 					b.updateQuickslot();
 				}
@@ -219,7 +221,7 @@ public class WndDisassemble extends Window {
 				}
 				if (w == Dungeon.hero.belongings.weapon) {
 					if (w.quantity() <= 1) {
-						Dungeon.hero.belongings.weapon = null;
+						w.doUnequip(Dungeon.hero,false,true);
 						Dungeon.quickslot.clearItem(w);
 						w.updateQuickslot();
 					} else {
@@ -230,9 +232,9 @@ public class WndDisassemble extends Window {
 			}
 			if (item instanceof Armor) {
 				Armor a = (Armor) item;
-				quanity += Random.NormalIntRange((a.tier + 2) / 2, a.tier + 2);
+				quanity += Random.IntRange((a.tier + 2) / 2, a.tier + 2);
 				if (a == Dungeon.hero.belongings.armor) {
-					Dungeon.hero.belongings.armor = null;
+					((Armor) item).doUnequip(Dungeon.hero,false,true);
 					Dungeon.quickslot.clearItem(a);
 					a.updateQuickslot();
 				}
@@ -248,7 +250,7 @@ public class WndDisassemble extends Window {
 				quanity += 1;
 			}
 			if (item.isUpgradable() && item.level() > 0) {
-				quanity += Random.NormalIntRange(1, Math.max((int) (item.level() * 0.75f), 1));
+				quanity += Random.IntRange(1, Math.max((int) (item.level() * 0.75f), 1));
 			}
 			if (item.cursed) {
 				quanity /= 2;
@@ -261,6 +263,10 @@ public class WndDisassemble extends Window {
 				}
 			}
 			item.detach(Dungeon.hero.belongings.backpack);
+			if (item==Dungeon.hero.belongings.misc1)
+				((EquipableItem)item).doUnequip(Dungeon.hero,false,true);
+			if (item==Dungeon.hero.belongings.misc2)
+				((EquipableItem)item).doUnequip(Dungeon.hero,false,true);
 			overAllQuanity+=quanity;
 
 		}

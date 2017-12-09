@@ -86,7 +86,7 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 				}
 			}
 			if (item instanceof Ring && item.level() <= 0){
-				item.upgrade(1 - item.level());
+				item.level(-item.level());
 			}
 			if (item instanceof Bag){
 				for (Item bagItem : ((Bag)item).items){

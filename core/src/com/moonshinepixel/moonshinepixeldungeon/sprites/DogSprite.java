@@ -18,28 +18,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package com.moonshinepixel.moonshinepixeldungeon.items.bags;
+package com.moonshinepixel.moonshinepixeldungeon.sprites;
 
-import com.moonshinepixel.moonshinepixeldungeon.items.Item;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
+import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.watabou.noosa.TextureFilm;
 
-public class SeedPouch extends Bag {
+public class DogSprite extends MobSprite {
 
-	{
-		image = ItemSpriteSheet.POUCH;
+	public DogSprite() {
+		super();
 		
-		size = 13;
+		texture( Assets.RAT );
+		
+		TextureFilm frames = new TextureFilm( texture, 16, 15 );
+		
+		idle = new Animation( 1, true );
+		idle.frames( frames, 0 );
+		
+		run = new Animation( 10, true );
+		run.frames( frames, 1, 2, 3, 4 );
+		
+		attack = new Animation( 9, false );
+		attack.frames( frames, 5, 6, 7 );
+		
+		die = new Animation( 1, false );
+		die.frames( frames, 0 );
+		
+		play( idle );
 	}
-	
-	@Override
-	public boolean grab( Item item ) {
-		return item instanceof Plant.Seed;
-	}
-	
-	@Override
-	public int price(boolean levelKnown, boolean cursedKnown) {
-		return 30;
-	}
-
 }

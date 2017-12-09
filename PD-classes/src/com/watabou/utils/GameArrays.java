@@ -56,14 +56,16 @@ public class GameArrays {
         }
         return -1;
     }
-    public static<T> T[] concat(T[] a, T[] b, Class<T> cl) {
+    public static<T> T[] concat(T[] a, T[] b) {
+        Class cl = a.getClass().getComponentType();
         int aLen = a.length;
         int bLen = b.length;
-        T[] c= (T[]) Array.newInstance(cl,aLen+bLen);/*new Object[aLen+bLen];*/
+        T[] c= (T[]) Array.newInstance(cl,aLen+bLen);
         System.arraycopy(a, 0, c, 0, aLen);
         System.arraycopy(b, 0, c, aLen, bLen);
         return c;
     }
+
     public static Object wrap(Object src) {
         try {
             int length = src.getClass().isArray() ? getLength(src) : 0;
