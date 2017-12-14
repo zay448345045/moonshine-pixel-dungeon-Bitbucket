@@ -21,30 +21,15 @@
 package com.moonshinepixel.moonshinepixeldungeon.items.food;
 
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.EarthImbue;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.FireImbue;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.ToxicImbue;
+import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
+import com.moonshinepixel.moonshinepixeldungeon.items.potions.*;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Hunger;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.Potion;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfExperience;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfFrost;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfHealing;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfInvisibility;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfLevitation;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfLiquidFlame;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfMindVision;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfParalyticGas;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfPurity;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStrength;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfToxicGas;
 import com.watabou.utils.Bundle;
 
 public class Blandfruit extends Food {
@@ -103,6 +88,9 @@ public class Blandfruit extends Food {
 			} else if (potionAttrib instanceof PotionOfParalyticGas) {
 				GLog.i(Messages.get(this, "para_msg"));
 				Buff.affect(hero, EarthImbue.class, EarthImbue.DURATION);
+			} else if (potionAttrib instanceof PotionOfStorm) {
+				GLog.i(Messages.get(this, "water_msg"));
+				Buff.affect(hero, WaterHealing.class).set(20);
 			} else {
 				potionAttrib.apply(hero);
 			}
@@ -172,6 +160,9 @@ public class Blandfruit extends Food {
 		} else if (potionAttrib instanceof PotionOfExperience) {
 			name = Messages.get(this, "starfruit");
 			potionGlow = new ItemSprite.Glowing( 0xA79400 );
+		} else if (potionAttrib instanceof PotionOfStorm) {
+			name = Messages.get(this, "rainfruit");
+			potionGlow = new ItemSprite.Glowing( 0x4286f4 );
 		}
 
 		return this;
@@ -186,6 +177,7 @@ public class Blandfruit extends Food {
 				potionAttrib instanceof PotionOfParalyticGas ||
 				potionAttrib instanceof PotionOfFrost ||
 				potionAttrib instanceof PotionOfLevitation ||
+				potionAttrib instanceof PotionOfStorm ||
 				potionAttrib instanceof PotionOfPurity) {
 			potionAttrib.cast(user, dst);
 			detach( user.belongings.backpack );

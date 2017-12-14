@@ -27,6 +27,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.MasterThievesArm
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ClusterBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
+import com.moonshinepixel.moonshinepixeldungeon.items.food.Blandfruit;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
@@ -151,6 +152,11 @@ public enum HeroClass {
 		Potion poh = new PotionOfMindVision();
 		poh.identify().collect();
 		poh.quantity(1);
+
+		Blandfruit bf = new Blandfruit();
+		bf.imbuePotion(new PotionOfStorm());
+		bf.quantity(10);
+		bf.collect();
 	}
 
 	private static void initCommon( Hero hero ) {

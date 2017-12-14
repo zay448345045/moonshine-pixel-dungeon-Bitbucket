@@ -25,8 +25,7 @@ import com.moonshinepixel.moonshinepixeldungeon.effects.EmoIcon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.FloatingText;
 import com.moonshinepixel.moonshinepixeldungeon.effects.IceBlock;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
-import com.moonshinepixel.moonshinepixeldungeon.effects.particles.FlameParticle;
-import com.moonshinepixel.moonshinepixeldungeon.effects.particles.SmokeParticle;
+import com.moonshinepixel.moonshinepixeldungeon.effects.particles.*;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
@@ -35,8 +34,6 @@ import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Splash;
 import com.moonshinepixel.moonshinepixeldungeon.effects.TorchHalo;
-import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ShadowParticle;
-import com.moonshinepixel.moonshinepixeldungeon.effects.particles.SnowParticle;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.tiles.DungeonTilemap;
 import com.watabou.glwrap.Matrix;
@@ -75,7 +72,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected 	float 	shadowOffset    = 0.25f;
 
 	public enum State {
-		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, SHADOWED, NOSPRITE, HEALING
+		BURNING, LEVITATING, INVISIBLE, PARALYSED, FROZEN, ILLUMINATED, CHILLED, DARKENED, MARKED, SHADOWED, NOSPRITE, HEALING, WET
 	}
 	
 	protected Animation idle;
@@ -95,7 +92,8 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Emitter marked;
 	protected Emitter levitation;
 	protected Emitter healing;
-	
+	protected Emitter wet;
+
 	protected IceBlock iceBlock;
 	protected DarkBlock darkBlock;
 	protected TorchHalo halo;
@@ -359,6 +357,10 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 			case HEALING:
 				healing = emitter();
 				healing.pour(Speck.factory(Speck.HEALING), 0.5f);
+			case WET:
+				wet = emitter();
+				wet.pour(FlowParticle.FACTORY, 0.3f);
+				break;
 		}
 	}
 	
@@ -420,6 +422,12 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				if (healing != null) {
 					healing.on = false;
 					healing = null;
+				}
+				break;
+			case WET:
+				if (wet != null){
+					wet.on = false;
+					wet = null;
 				}
 				break;
 		}

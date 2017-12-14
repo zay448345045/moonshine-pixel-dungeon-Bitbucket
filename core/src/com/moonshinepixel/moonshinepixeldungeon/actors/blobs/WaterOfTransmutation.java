@@ -101,7 +101,12 @@ public class WaterOfTransmutation extends WellWater {
 	private Weapon changeWeapon(MeleeWeapon w ) {
 		
 		Weapon n;
-		Generator.Category c = Generator.wepTiers[w.tier-1];
+		Generator.Category c;
+		try {
+			c = Generator.wepTiers[w.getClass().newInstance().tier - 1];
+		} catch (Exception e){
+			c = Generator.wepTiers[0];
+		}
 
 		do {
 			try {

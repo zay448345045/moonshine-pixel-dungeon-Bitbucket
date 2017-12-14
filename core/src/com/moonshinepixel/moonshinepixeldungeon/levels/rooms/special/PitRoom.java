@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
 import com.moonshinepixel.moonshinepixeldungeon.items.Heap;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
@@ -98,6 +99,7 @@ public class PitRoom extends SpecialRoom {
 	public boolean canPlaceTrap(Point p) {
 		//the player is already weak after landing, and will likely need to kite the ghost.
 		//having traps here just seems unfair
-		return false;
+		//Moonshine: But with Traps challenge traps can appear there
+		return Dungeon.isChallenged(Challenges.TRAPS);
 	}
 }

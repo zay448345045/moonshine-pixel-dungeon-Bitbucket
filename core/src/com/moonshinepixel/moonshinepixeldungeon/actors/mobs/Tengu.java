@@ -167,7 +167,6 @@ public class Tengu extends Mob {
 }
 
 	private void jump() {
-
 		for (int i=0; i < 4; i++) {
 			int trapPos;
 			do {
@@ -260,6 +259,7 @@ public class Tengu extends Mob {
 
 		@Override
 		public boolean act(boolean enemyInFOV, boolean justAlerted) {
+			if (Random.Int(20)==0)jump();
 			enemySeen = enemyInFOV;
 			if (enemyInFOV && !isCharmedBy( enemy ) && canAttack( enemy )) {
 
@@ -271,6 +271,7 @@ public class Tengu extends Mob {
 					target = enemy.pos;
 				} else {
 					chooseEnemy();
+					if (!canAttack(enemy)&&Random.Int(5)==0)jump();
 					target = enemy.pos;
 				}
 

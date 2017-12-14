@@ -28,6 +28,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.TriggerBlob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.triggers.VineTrigger;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.*;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.RatKing;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DarkVenomTrap;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.DeadlySpearTrap;
@@ -117,17 +118,18 @@ public class TestLevel extends Level {
 	@Override
 	protected void createMobs() {
 		Mob[] mobss = new Mob[]{
-				new Rat(),
-				new Albino(),
-				new FetidRat(),
-				new Gnoll(),
-				new GnollTrickster(),
-				new Bomberman(),
-				new Crab(),
-				new GreatCrab(),
-				new Brute(),
-				new Shielded(),
-				new Bat()
+//				new Rat(),
+//				new Albino(),
+//				new FetidRat(),
+//				new Gnoll(),
+//				new GnollTrickster(),
+//				new Bomberman(),
+//				new Crab(),
+//				new GreatCrab(),
+//				new Brute(),
+//				new Shielded(),
+//				new Bat()
+				new RatKing()
 		};
 
 		for(Mob m : mobss){

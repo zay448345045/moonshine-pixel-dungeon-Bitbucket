@@ -20,7 +20,10 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
+import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Bestiary;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
 import com.moonshinepixel.moonshinepixeldungeon.levels.builders.BranchesBuilder;
 import com.moonshinepixel.moonshinepixeldungeon.levels.builders.Builder;
 import com.moonshinepixel.moonshinepixeldungeon.levels.builders.LineBuilder;
@@ -53,6 +56,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.traps.ExplosiveTrap;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.WornTrap;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndTradeItem;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
@@ -183,7 +187,7 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	protected int nTraps() {
-		return (Random.NormalIntRange( 1, 3+(Dungeon.fakedepth[Dungeon.depth]/3) )*(Dungeon.isChallenged(Challenges.SPROUT)?4:1)*(Dungeon.isChallenged(Challenges.TRAPS)?1:4));
+		return (Random.NormalIntRange( 1, 3+(Dungeon.fakedepth[Dungeon.depth]/3) )*(Dungeon.isChallenged(Challenges.SPROUT)?4:1)*(Dungeon.isChallenged(Challenges.TRAPS)?4:1));
 	}
 	
 	protected Class<?>[] trapClasses(){
@@ -491,5 +495,36 @@ public abstract class RegularLevel extends Level {
 			r.onLevelLoad( this );
 		}
 	}
-	
+
+
+	@Override
+	public void press(int cell, Char ch) {
+		super.press(cell, ch);
+		if (ch==Dungeon.hero&&Dungeon.isChallenged(Challenges.LOCKED)){
+			Room r = room(cell);
+			if (r!=null&&!(r instanceof BlackjackShopRoom)&&!r.sealed&&r.inside(new Point(PathFinder.pos2x(cell),PathFinder.pos2y(cell)))){
+				loop: for(Point p:r.getPoints()){
+					int c = pointToCell(p);
+					Char chr=Char.findChar(c);
+					if (chr!=null&&chr instanceof Mob && !(chr instanceof NPC)&&r.inside(new Point(PathFinder.pos2x(chr.pos),PathFinder.pos2y(chr.pos)))){
+						if (ch.invisible<=0)
+							r.seal();
+						break loop;
+					}
+				}
+			} else if (r!=null&&!(r instanceof BlackjackShopRoom)&&r.sealed&&r.inside(new Point(PathFinder.pos2x(cell),PathFinder.pos2y(cell)))){
+				boolean unseal = true;
+				loop: for(Point p:r.getPoints()){
+					int c = pointToCell(p);
+					Char chr=Char.findChar(c);
+					if (chr!=null&&chr instanceof Mob && !(chr instanceof NPC)&&r.inside(new Point(PathFinder.pos2x(chr.pos),PathFinder.pos2y(chr.pos)))){
+						unseal=false;
+						break loop;
+					}
+				}
+				if (unseal)
+					r.unseal();
+			}
+		}
+	}
 }

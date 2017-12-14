@@ -201,9 +201,9 @@ public class WndRanking extends WndTabbed {
 				RedButton btnSeed = new RedButton( Messages.get(this, "seed") ) {
 					@Override
 					protected void onClick() {
-						try {
+						if (!MoonshinePixelDungeon.isAndroid()){
 							TextInput.getTextInput(null, Messages.get(StatsTab.class, "seed"), DungeonSeed.convertToCode(Dungeon.seed), "");
-						} catch (Exception e){
+						} else {
 							try {
 								Gdx.app.getClipboard().setContents(DungeonSeed.convertToCode(Dungeon.seed));
 								WndRanking.this.add(new WndTitledMessage(Icons.get(Icons.INFO), "Copied", "Seed " + DungeonSeed.convertToCode(Dungeon.seed) + " copied to clipboard"));

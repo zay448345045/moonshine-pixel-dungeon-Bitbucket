@@ -22,8 +22,13 @@
 package com.moonshinepixel.moonshinepixeldungeon.levels.rooms;
 
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
+import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
+import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
+import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.levels.RegularLevel;
+import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
+import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Graph;
@@ -43,7 +48,8 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 	
 	public int distance;
 	public int price = 1;
-	
+	public boolean sealed = false;
+
 	public Room(){
 		super();
 	}
@@ -123,6 +129,35 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 			resize(Random.NormalIntRange(minW, maxW) - 1,
 					Random.NormalIntRange(minH, maxH) - 1);
 			return true;
+		}
+	}
+
+	public void seal(){
+		if (!sealed) {
+			for (Door door : connected.values()) {
+				int cell = door.x + door.y * Dungeon.level.width();
+				door.tile = Dungeon.level.map[cell];
+				Dungeon.level.map[cell] = Terrain.WALL;
+				if (Dungeon.level.map[cell] != door.tile && (Terrain.flags[door.tile]&Terrain.SECRET)==0)
+					CellEmitter.get(cell - Dungeon.level.width()).start(Speck.factory(Speck.ROCK), 0.07f, 10);
+			}
+			GameScene.updateMap();
+			Dungeon.level.buildFlagMaps();
+			sealed = true;
+		}
+	}
+	public void unseal(){
+		if (sealed) {
+			sealed = false;
+			for (Door door : connected.values()) {
+				int cell = door.x + door.y * Dungeon.level.width();
+				int lasttile = Dungeon.level.map[cell];
+				Dungeon.level.map[cell] = door.tile;
+				if (Dungeon.level.map[cell] != lasttile && (Terrain.flags[door.tile]&Terrain.SECRET)==0)
+					CellEmitter.get(cell).start(ElmoParticle.FACTORY, 0.01f, 10);
+			}
+			GameScene.updateMap();
+			Dungeon.level.buildFlagMaps();
 		}
 	}
 	
@@ -357,6 +392,7 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		bundle.put( "top", top );
 		bundle.put( "right", right );
 		bundle.put( "bottom", bottom );
+		bundle.put( "seal", sealed );
 		int[] rooms = new int[connected.keySet().size()];
 		int[] neigbours = new int[this.neigbours.size()];
 		Iterator<? extends Room> iter = connected.keySet().iterator();
@@ -385,7 +421,6 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		int i=0;
 		for (Bundlable door2 : conDoors){
 			Door door = (Door)door2;
-			//System.out.println(conrooms[i]);
 
 			connected.put(level.room(conrooms[i]),door);
 			i++;
@@ -402,15 +437,10 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		top = bundle.getInt( "top" );
 		right = bundle.getInt( "right" );
 		bottom = bundle.getInt( "bottom" );
+		sealed = bundle.getBoolean( "seal" );
 		conrooms = bundle.getIntArray("connected");
 		conDoors = bundle.getCollection("connectedvals");
 		neigboursArr = bundle.getIntArray("neigbours");
-//		neigbours = bundle.get("neigbours");
-//		Iterator<? extends Room> romsIter = conRooms.iterator();
-//		Iterator<? extends Door> doorsIter = conDoors.iterator();
-//		while (romsIter.hasNext() && doorsIter.hasNext()){
-//			connected.put(romsIter.next(),doorsIter.next());
-//		}
 		if (bundle.contains( "type" ))
 			legacyType = bundle.getString( "type" );
 	}
@@ -425,6 +455,8 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 			EMPTY, TUNNEL, REGULAR, UNLOCKED, HIDDEN, BARRICADE, LOCKED,
 		}
 		public Type type = Type.EMPTY;
+
+		public int tile=Terrain.EMPTY;
 
 		public Door(){ super(0,0); }
 
@@ -447,6 +479,7 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 			bundle.put("type", type);
 			bundle.put("x", x);
 			bundle.put("y", y);
+			bundle.put("tile", tile);
 		}
 
 		@Override
@@ -454,6 +487,7 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 			type = bundle.getEnum("type", Type.class);
 			x = bundle.getInt("x");
 			y = bundle.getInt("y");
+			tile = bundle.getInt("tile");
 		}
 	}
 }

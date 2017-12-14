@@ -37,7 +37,7 @@ public class RatKingSprite extends MobSprite {
 		//once a year the rat king feels a bit festive!
 		festive= Holidays.getHoliday()==Holidays.XMAS;
 
-		final int c = festive ? 8 : 0;
+		final int c = festive ? 10 : 0;
 		
 		texture( Assets.RATKING );
 		

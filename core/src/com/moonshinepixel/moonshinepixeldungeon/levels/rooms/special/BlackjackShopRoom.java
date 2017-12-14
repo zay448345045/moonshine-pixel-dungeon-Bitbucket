@@ -84,7 +84,7 @@ public class BlackjackShopRoom extends SpecialRoom {
 		level.mobs.add( shopkeeper );
 
 	}
-
+	@Override
 	public void seal(){
 		for (Door door : connected.values()) {
 			int cell = door.x + door.y* Dungeon.level.width();
@@ -99,6 +99,7 @@ public class BlackjackShopRoom extends SpecialRoom {
 		Dungeon.observe();
 	}
 
+	@Override
 	public void unseal(){
 		Painter.fill( Dungeon.level, this, 1, Terrain.EMPTY );
 		for (int i = left; i < right; i++) {

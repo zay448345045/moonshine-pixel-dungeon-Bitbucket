@@ -27,6 +27,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Blindness;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Bestiary;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.WindParticle;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
@@ -219,6 +220,7 @@ public abstract class Level implements Bundlable {
 	public boolean locked = false;
 
 	public HashSet<Mob> mobs;
+	public HashSet<Mob> initMobs;
 	public SparseArray<Heap> heaps;
 	public HashMap<Class<? extends Blob>,Blob> blobs;
 	public SparseArray<Plant> plants;
@@ -251,12 +253,12 @@ public abstract class Level implements Bundlable {
 	private static final String CUSTOM_TILES= "customTiles";
 	private static final String CUSTOM_WALLS= "customWalls";
 	private static final String MOBS		= "mobs";
+	private static final String INITMOBS	= "initmobs";
 	private static final String BLOBS		= "blobs";
 	private static final String FEELING		= "feeling";
 	//return false if border or outside of map
 	public boolean isMap(int cell){
-		if (cell<width || cell>length-width || cell%width==0 || cell%width==width-1) return false;
-		return true;
+		return cell >= width && cell <= length - width && cell % width != 0 && cell % width != width - 1;
 	}
 
 	public float time = 400;
@@ -347,6 +349,7 @@ public abstract class Level implements Bundlable {
 		cleanWalls();
 		
 		createMobs();
+		indexMobs();
 		createItems();
 
 		Random.seed();
@@ -385,9 +388,20 @@ public abstract class Level implements Bundlable {
 		for (Mob mob : mobs.toArray( new Mob[0] )) {
 			if (!mob.reset()) {
 				mobs.remove( mob );
+				initMobs.remove( mob );
 			}
 		}
 		createMobs();
+		indexMobs();
+	}
+
+	private void indexMobs(){
+		initMobs = new HashSet<>();
+		for (Mob m:mobs){
+			if (!(m instanceof NPC)) {
+				initMobs.add(m);
+			}
+		}
 	}
 	
 	@Override
@@ -406,6 +420,7 @@ public abstract class Level implements Bundlable {
 			setSize( 32, 32); //default sizes
 		
 		mobs = new HashSet<>();
+		initMobs = new HashSet<>();
 		heaps = new SparseArray<>();
 		blobs = new HashMap<>();
 		plants = new SparseArray<>();
@@ -502,6 +517,13 @@ public abstract class Level implements Bundlable {
 				mobs.add( mob );
 			}
 		}
+		collection = bundle.getCollection( INITMOBS );
+		for (Bundlable m : collection) {
+			Mob mob = (Mob)m;
+			if (mob != null) {
+				initMobs.add( mob );
+			}
+		}
 		
 		collection = bundle.getCollection( BLOBS );
 		for (Bundlable b : collection) {
@@ -544,6 +566,7 @@ public abstract class Level implements Bundlable {
 		bundle.put( CUSTOM_TILES, customTiles );
 		bundle.put( CUSTOM_WALLS, customWalls );
 		bundle.put( MOBS, mobs );
+		bundle.put( INITMOBS, initMobs );
 		bundle.put( BLOBS, blobs.values() );
 		bundle.put( FEELING, feeling );
 	}
@@ -1240,5 +1263,14 @@ public abstract class Level implements Bundlable {
 			default:
 				return Messages.get(Level.class, "default_desc");
 		}
+	}
+
+	public boolean cleared(){
+		for (Mob m : initMobs.toArray(new Mob[0])){
+			if (!mobs.contains(m)) {
+				initMobs.remove(m);
+			}
+		}
+		return initMobs.isEmpty();
 	}
 }

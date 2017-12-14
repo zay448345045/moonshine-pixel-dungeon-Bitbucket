@@ -166,30 +166,30 @@ public abstract class RegularPainter extends Painter {
 			
 			switch (d.type) {
 				case EMPTY:
-					l.map[door] = Terrain.EMPTY;
+					l.map[door] = d.tile = Terrain.EMPTY;
 					break;
 				case TUNNEL:
-					l.map[door] =  l.tunnelTile();
+					l.map[door] = d.tile =  l.tunnelTile();
 					break;
 				case REGULAR:
 					if (Dungeon.depth <= 1) {
-						l.map[door] = Terrain.DOOR;
+						l.map[door] = d.tile = Terrain.DOOR;
 					} else {
-						boolean secret = (Dungeon.depth < 6 ? Random.Int( 12 - Dungeon.depth ) : Random.Int( 6 )) == 0;
-						l.map[door] = secret ? Terrain.SECRET_DOOR : Terrain.DOOR;
+						boolean secret = (Dungeon.fakedepth[Dungeon.depth] < 6 ? Random.Int( 12 - Dungeon.fakedepth[Dungeon.depth] ) : Random.Int( 6 )) == 0;
+						l.map[door] = d.tile = secret ? Terrain.SECRET_DOOR : Terrain.DOOR;
 					}
 					break;
 				case UNLOCKED:
-					l.map[door] = Terrain.DOOR;
+					l.map[door] = d.tile = Terrain.DOOR;
 					break;
 				case HIDDEN:
-					l.map[door] = Terrain.SECRET_DOOR;
+					l.map[door] = d.tile = Terrain.SECRET_DOOR;
 					break;
 				case BARRICADE:
-					l.map[door] = Terrain.BARRICADE;
+					l.map[door] = d.tile = Terrain.BARRICADE;
 					break;
 				case LOCKED:
-					l.map[door] = Terrain.LOCKED_DOOR;
+					l.map[door] = d.tile = Terrain.LOCKED_DOOR;
 					break;
 			}
 		}
@@ -332,8 +332,8 @@ public abstract class RegularPainter extends Painter {
 			}
 		}
 		
-		//no more than one trap every 5 valid tiles (2 with traps challenge).
-		nTraps = Math.min(nTraps, validCells.size()/(Dungeon.isChallenged(Challenges.TRAPS)?2:5));
+		//no more than one trap every 5 valid tiles (1 with traps challenge).
+		nTraps = Math.min(nTraps, validCells.size()/(Dungeon.isChallenged(Challenges.TRAPS)?1:5));
 		
 		for (int i = 0; i < nTraps; i++) {
 			

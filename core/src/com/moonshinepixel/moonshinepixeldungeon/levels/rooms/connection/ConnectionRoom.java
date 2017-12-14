@@ -21,6 +21,7 @@
 
 package com.moonshinepixel.moonshinepixeldungeon.levels.rooms.connection;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
@@ -55,7 +56,7 @@ public abstract class ConnectionRoom extends Room {
 	@Override
 	public boolean canPlaceTrap(Point p) {
 		//traps cannot appear in connection rooms on floor 1
-		return super.canPlaceTrap(p) && Dungeon.depth > 1;
+		return super.canPlaceTrap(p) && (Dungeon.fakedepth[Dungeon.depth] > 1||Dungeon.isChallenged(Challenges.TRAPS));
 	}
 	
 	//FIXME this is a very messy way of handing variable connection rooms

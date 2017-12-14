@@ -39,10 +39,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfFireblast;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfTransfusion;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.BleedingBullet;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Sorrowmoss;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Stormvine;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Sungrass;
+import com.moonshinepixel.moonshinepixeldungeon.plants.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Ghost;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.LeatherArmor;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfBlastWave;
@@ -51,9 +48,6 @@ import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfMagicMissile;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.IncendiaryDart;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Shuriken;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Fadeleaf;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Firebloom;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Icecap;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.ClothArmor;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.MailArmor;
@@ -110,12 +104,6 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Tamahawk;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.Ammo;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.ArmorPiercingBullet;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
-import com.moonshinepixel.moonshinepixeldungeon.plants.BlandfruitBush;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Blindweed;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Dreamfoil;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Earthroot;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Rotberry;
-import com.moonshinepixel.moonshinepixeldungeon.plants.Starflower;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.Random;
@@ -411,8 +399,10 @@ public class Generator {
 			BlandfruitBush.Seed.class,
 			Dreamfoil.Seed.class,
 			Stormvine.Seed.class,
-			Starflower.Seed.class};
-		Category.SEED.probs = new float[]{ 12, 12, 12, 12, 12, 12, 12, 0, 4, 12, 12, 1 };
+			Starflower.Seed.class,
+			RainPoppy.Seed.class
+		};
+		Category.SEED.probs = new float[]{ 12, 12, 12, 12, 12, 12, 12, 0, 4, 12, 12, 1, 12 };
 	}
 	
 	public static void reset() {

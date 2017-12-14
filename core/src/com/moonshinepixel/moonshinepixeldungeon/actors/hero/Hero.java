@@ -35,11 +35,12 @@ import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfFuror;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfMight;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
+import com.moonshinepixel.moonshinepixeldungeon.levels.traps.LightningTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Sungrass;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.HeroSprite;
-import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
+import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
@@ -66,9 +67,6 @@ import com.moonshinepixel.moonshinepixeldungeon.plants.Earthroot;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.InterlevelScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.SurfaceScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.CharSprite;
-import com.moonshinepixel.moonshinepixeldungeon.ui.AttackIndicator;
-import com.moonshinepixel.moonshinepixeldungeon.ui.BuffIndicator;
-import com.moonshinepixel.moonshinepixeldungeon.ui.StatusPane;
 import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndMessage;
@@ -184,6 +182,7 @@ public class Hero extends Char {
 
 		ht+=potionOfMightBonus;
 
+
 		if (belongings.misc1 instanceof RingOfMight){
 			ht+=belongings.misc1.level()*5;
 		}
@@ -197,6 +196,8 @@ public class Hero extends Char {
 		}
 
 		ht-=HTPENALTY;
+
+//		if (buff(WaterHealing.class)!=null)ht*=1.1f;
 
 		ht=Math.max(1,ht);
 		HT=ht;
@@ -351,6 +352,7 @@ public class Hero extends Char {
 	public int defenseSkill( Char enemy ) {
 		
 		int bonus = RingOfEvasion.getBonus(this, RingOfEvasion.Evasion.class);
+		if (buff(WaterHealing.class)!=null)bonus++;
 
 		float evasion = (float)Math.pow( 1.125, bonus );
 		if (paralysed > 0) {
@@ -901,7 +903,13 @@ public class Hero extends Char {
 	private boolean actDescend( HeroAction.Descend action ) {
 		int stairs = action.dst;
 		if (pos == stairs && pos == Dungeon.level.exit) {
-			
+
+			if (!Dungeon.level.cleared()&&Dungeon.isChallenged(Challenges.EXTERMINATION)) {
+				GameScene.scene.add(new WndMessage(Messages.get(this, "locked", Dungeon.level.initMobs.size())));
+				ready();
+				return false;
+			}
+
 			curAction = null;
 
 			Buff buff = buff(TimekeepersHourglass.timeFreeze.class);
@@ -951,7 +959,13 @@ public class Hero extends Char {
 					Game.switchScene( SurfaceScene.class );
 				}
 			} else {
-				
+
+				if (!Dungeon.level.cleared()&&Dungeon.isChallenged(Challenges.EXTERMINATION)) {
+					GameScene.scene.add(new WndMessage(Messages.get(this, "locked", Dungeon.level.initMobs.size())));
+					ready();
+					return false;
+				}
+
 				curAction = null;
 				
 				Hunger hunger = buff( Hunger.class );
@@ -1803,7 +1817,13 @@ public class Hero extends Char {
 	@Override
 	public HashSet<Class<?>> resistances() {
 		RingOfElements.Resistance r = buff( RingOfElements.Resistance.class );
-		return r == null ? super.resistances() : r.resistances();
+		HashSet<Class<?>> res = new HashSet<>();
+		res.addAll(super.resistances());
+		res.addAll(r.resistances());
+		if (buff(WaterHealing.class)!=null){
+			res.add(LightningTrap.LIGHTNING.getClass());
+		}
+		return res;
 	}
 	
 	@Override

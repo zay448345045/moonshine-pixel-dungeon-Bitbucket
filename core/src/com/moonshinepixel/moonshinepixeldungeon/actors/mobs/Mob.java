@@ -28,12 +28,16 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Sleep;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Terror;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Wound;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
 import com.moonshinepixel.moonshinepixeldungeon.items.SoulVial;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfAccuracy;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
+import com.moonshinepixel.moonshinepixeldungeon.levels.RegularLevel;
+import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
+import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.BlackjackShopRoom;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.CharSprite;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
@@ -48,10 +52,7 @@ import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Corruption;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Hunger;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.SoulMark;
-import com.watabou.utils.Bundle;
-import com.watabou.utils.GameMath;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
+import com.watabou.utils.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -596,13 +597,33 @@ public abstract class Mob extends Char {
 	
 	@Override
 	public void destroy() {
-		
+
+		boolean clear = Dungeon.level.cleared();
+
 		super.destroy();
-		
+
 		Dungeon.level.mobs.remove( this );
-		
+
+		if (Dungeon.level instanceof RegularLevel&&Dungeon.isChallenged(Challenges.LOCKED)){
+			RegularLevel lvl = (RegularLevel)Dungeon.level;
+			Room r = lvl.room(pos);
+			boolean unseal = true;
+			if (r!=null&&!(r instanceof BlackjackShopRoom)&&r.sealed&&r.inside(new Point(PathFinder.pos2x(pos),PathFinder.pos2y(pos)))){
+				iter: for(Point p:r.getPoints()){
+					int c = lvl.pointToCell(p);
+					Char chr=Char.findChar(c);
+					if (chr!=null&&chr instanceof Mob && !(chr instanceof NPC)&&r.inside(new Point(PathFinder.pos2x(chr.pos),PathFinder.pos2y(chr.pos)))){
+						unseal=false;
+						break iter;
+					}
+				}
+				if (unseal){
+					r.unseal();
+				}
+			}
+		}
+
 		if (Dungeon.hero.isAlive()) {
-			
 			if (hostile) {
 				Statistics.enemiesSlain++;
 				Badges.validateMonstersSlain();
@@ -632,6 +653,9 @@ public abstract class Mob extends Char {
                     }
                 }
             }
+            if (clear!=Dungeon.level.cleared()){
+            	GLog.h(Messages.get(this,"cleared"));
+			}
 		}
 	}
 

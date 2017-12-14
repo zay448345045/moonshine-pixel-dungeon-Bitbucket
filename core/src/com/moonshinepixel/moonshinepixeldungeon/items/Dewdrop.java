@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.items;
 
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Hunger;
+import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.WaterHealing;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
@@ -39,31 +40,35 @@ public class Dewdrop extends Item {
 		
 		stackable = true;
 	}
-	
+
 	@Override
 	public boolean doPickUp( Hero hero ) {
-		
+
 		DewVial vial = hero.belongings.getItem( DewVial.class );
 
-		if (vial == null) {
+		if (vial != null && !vial.isFull()){
 
-			int value = 1 + (Dungeon.fakedepth[Dungeon.depth] - 1) / 5;
-			if (hero.subClass == HeroSubClass.WARDEN) {
-				value+=2;
-			}
+			vial.collectDew( this );
 
-			int effect = Math.min( hero.HT - hero.HP, value * quantity );
+		} else {
+
+			//20 drops for a full heal normally, 15 for the warden
+			float healthPercent = hero.subClass == HeroSubClass.WARDEN ? 0.0667f : 0.05f;
+			healthPercent*=hero.buff(WaterHealing.class)!=null?2:1;
+			int heal = Math.round( hero.HT * healthPercent * quantity );
+
+			int effect = Math.min( hero.HT - hero.HP, heal );
 			if (effect > 0) {
 				hero.HP += effect;
 				hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
 				hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "value", effect) );
 			} else {
+				GLog.i( Messages.get(this, "already_full") );
+				return false;
 			}
 
-		} else {
-			vial.collectDew( this );
 		}
-		
+
 		Sample.INSTANCE.play( Assets.SND_DEWDROP );
 		hero.spendAndNext( TIME_TO_PICK_UP );
 
@@ -71,7 +76,6 @@ public class Dewdrop extends Item {
 	}
 
 	@Override
-	//max of one dew in a stack
 	public Dewdrop quantity(int value) {
 		return (Dewdrop) super.quantity(value);
 	}
