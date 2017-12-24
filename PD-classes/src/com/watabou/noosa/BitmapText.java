@@ -299,10 +299,8 @@ public class BitmapText extends Visual {
 			for (int i=0; i < length; i++) {
 
 				char ch = chars.charAt( i );
-				//System.out.println(ch+"="+separator);
-				if(ch == '≤' || ch=='≠'){
-					//System.out.println();
-				}
+				if(ch=='х'&&height==44)
+					System.out.println("");
 				if (ch == ' ') {
 					continue;
 				} else {
