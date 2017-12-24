@@ -196,7 +196,8 @@ public class Blacksmith extends NPC {
 		Dungeon.hero.spendAndNext( 2f );
 		Badges.validateItemLevelAquired( first );
 		first.tier=tier;
-		
+		first.durability=1;
+
 		if (second.isEquipped( Dungeon.hero )) {
 			((EquipableItem)second).doUnequip( Dungeon.hero, false );
 		}

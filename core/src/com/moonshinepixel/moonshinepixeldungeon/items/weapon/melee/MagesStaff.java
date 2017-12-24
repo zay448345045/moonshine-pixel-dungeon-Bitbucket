@@ -265,6 +265,8 @@ public class MagesStaff extends MeleeWeapon {
 			info += "\n\n" + Messages.get(this, "has_wand", Messages.get(wand, "name")) + " " + wand.statsDesc();
 		}
 
+		info+=(broken()?"\n"+Messages.get(Item.class,"brokendesc"):"");
+
 		return info;
 	}
 

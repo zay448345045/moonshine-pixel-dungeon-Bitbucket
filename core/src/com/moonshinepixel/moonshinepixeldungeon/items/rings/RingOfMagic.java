@@ -23,7 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.items.rings;
 public class RingOfMagic extends Ring {
 	
 	@Override
-	protected RingBuff buff( ) {
+    public RingBuff buff() {
 		return new Magic();
 	}
 	

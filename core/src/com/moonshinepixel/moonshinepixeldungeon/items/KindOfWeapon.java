@@ -95,7 +95,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	}
 
 	public int min(){
-		int min=min(level());
+		int min=min(broken()?0:level());
 		if (suffix!=null){
 			min=(int)(min*suffix.modifiers()[0]);
 		}
@@ -103,7 +103,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	}
 
 	public int max(){
-		int max=max(level());
+		int max=max(broken()?0:level());
 		if (suffix!=null){
 			max=(int)(max*suffix.modifiers()[1]);
 		}

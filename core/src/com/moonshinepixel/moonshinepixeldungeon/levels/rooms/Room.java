@@ -22,6 +22,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.levels.rooms;
 
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
@@ -399,7 +400,10 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		for (int i = 0; i< rooms.length; i++){
 			if (iter.hasNext()){
 				Room room = iter.next();
+				if (room!=null)
 				rooms[i]=room.center().x+room.center().y* Dungeon.level.width();
+				else rooms[i]=-1;
+
 			}
 		}
 		for (int i = 0; i < neigbours.length; i++){
@@ -416,19 +420,21 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 			bundle.put( "type", legacyType );
 	}
 
-	public void postRestore(RegularLevel level){
+	public void postRestore(Level level){
+		if (level.version< MoonshinePixelDungeon.v0_1_25)unseal();
 		connected = new LinkedHashMap<>();
-		int i=0;
-		for (Bundlable door2 : conDoors){
-			Door door = (Door)door2;
+		int i = 0;
+		for (Bundlable door2 : conDoors) {
+			Door door = (Door) door2;
 
-			connected.put(level.room(conrooms[i]),door);
+			connected.put(level.room(conrooms[i]), door);
 			i++;
 		}
 		neigbours = new ArrayList<>();
-		for (i = 0;  i<neigboursArr.length; i++){
+		for (i = 0; i < neigboursArr.length; i++) {
 			neigbours.add(level.room(neigboursArr[i]));
 		}
+
 	}
 
 	@Override

@@ -40,6 +40,14 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
 			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.25 - alpha:_\n" +
+					"_-_ Added new Challenge: _Rust_\nPorted _Ring of Wealth_ and _Wand of Corruption_ from newest Shattered PD\nFixed some crashes\nAdded new enchantment - _Greedy_"+
+					"\n" +
+					"\n" +
+					"_v0.1.24 - alpha:_\n" +
+					"_-_ Bugfix"+
+					"\n" +
+					"\n" +
 					"_v0.1.23 - alpha:_\n" +
 					"_-_ Added 2 new Challenges: _Extermination_ and _Facie ad faciem_\nRain poppy seeds can now spawn when trampling grass\nFixed Rat Kins sleep animation\nFixed Map seed button in rankings window\nSlightly changed Tengu bossfight"+
 					"\n" +

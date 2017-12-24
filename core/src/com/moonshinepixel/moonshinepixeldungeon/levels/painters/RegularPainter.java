@@ -304,9 +304,11 @@ public abstract class RegularPainter extends Painter {
 			
 			int count = 1;
 			for (int n : PathFinder.NEIGHBOURS8) {
-				if (grass[i + n]) {
-					count++;
-				}
+				try {
+					if (grass[i + n]) {
+						count++;
+					}
+				} catch (Exception ignored){}
 			}
 			l.map[i] = (Random.Float() < count / 12f) ? Terrain.HIGH_GRASS : Terrain.GRASS;
 		}

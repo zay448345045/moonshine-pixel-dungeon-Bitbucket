@@ -49,9 +49,10 @@ import java.util.Locale;
 
 public class MoonshinePixelDungeon extends Game<GameAction> {
 	
-	//old shat
+	//old moonsh
 	public static final int v0_0_0  = 41;
-	
+	public static final int v0_1_25  = 65;
+
 	public MoonshinePixelDungeon(final PDPlatformSupport<GameAction> platformSupport) {
 		super(WelcomeScene.class, platformSupport);
 

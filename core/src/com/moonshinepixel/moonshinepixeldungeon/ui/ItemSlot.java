@@ -56,6 +56,8 @@ public class ItemSlot extends Button<GameAction> {
 	protected BitmapText topRight;
 	protected BitmapText bottomRight;
 	protected Image      bottomRightIcon;
+	protected HealthBar  health;
+	protected float 	 healthLvl = Float.NaN;
 	protected boolean    iconVisible = true;
 	
 	private static final String TXT_STRENGTH	= ":%d";
@@ -112,12 +114,17 @@ public class ItemSlot extends Button<GameAction> {
 		
 		bottomRight = new BitmapText( PixelScene.pixelFont);
 		add( bottomRight );
+		health = new HealthBar();
+		add( health );
 	}
 	
 	@Override
 	protected void layout() {
 		super.layout();
-		
+
+//		health.visible = !Float.isNaN( healthLvl );
+		health.visible=false;
+
 		icon.x = x + (width - icon.width) / 2f;
 		icon.y = y + (height - icon.height) / 2f;
 		PixelScene.align(icon);
@@ -145,16 +152,14 @@ public class ItemSlot extends Button<GameAction> {
 			bottomRightIcon.y = y + (height - bottomRightIcon.height());
 			PixelScene.align(bottomRightIcon);
 		}
+
+		if (health.visible) {
+			health.setRect(4,bottom()-4, width-8,1 );
+		}
 	}
 	
 	public void item( Item item ) {
 		if (this.item == item) {
-			if (item != null) {
-				icon.isDouble=item.isDouble;
-				icon.frame(item.image());
-			} else {
-				icon.isDouble=false;
-			}
 			updateText();
 			return;
 		}
@@ -179,6 +184,12 @@ public class ItemSlot extends Button<GameAction> {
 	}
 
 	private void updateText(){
+
+		healthLvl=Float.NaN;
+		if (item!=null&&item.isIdentified()) {
+			if (item.durability < 1) health.level(healthLvl = item.durability);
+			if (item.broken())health.level(healthLvl=0);
+		}
 
 		if (bottomRightIcon != null){
 			remove(bottomRightIcon);
@@ -232,7 +243,7 @@ public class ItemSlot extends Button<GameAction> {
 		if (level != 0) {
 			bottomRight.text( item.levelKnown ? Messages.format( TXT_LEVEL, level ) : TXT_CURSED );
 			bottomRight.measure();
-			bottomRight.hardlight( level > 0 ? UPGRADED : DEGRADED );
+			bottomRight.hardlight( item.broken()?Item.BROKEN_COLOR : level > 0 ? UPGRADED : DEGRADED );
 		} else if (item instanceof Scroll || item instanceof Potion) {
 			bottomRight.text( null );
 
@@ -266,6 +277,7 @@ public class ItemSlot extends Button<GameAction> {
 		topLeft.alpha( alpha );
 		topRight.alpha( alpha );
 		bottomRight.alpha( alpha );
+		health.alpha( alpha );
 		if (bottomRightIcon != null) bottomRightIcon.alpha( alpha );
 	}
 

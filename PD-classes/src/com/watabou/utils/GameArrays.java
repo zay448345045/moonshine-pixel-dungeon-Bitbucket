@@ -58,6 +58,7 @@ public class GameArrays {
     }
     public static<T> T[] concat(T[] a, T[] b) {
         Class cl = a.getClass().getComponentType();
+
         int aLen = a.length;
         int bLen = b.length;
         T[] c= (T[]) Array.newInstance(cl,aLen+bLen);
@@ -79,6 +80,21 @@ public class GameArrays {
             throw new ClassCastException("Object to wrap must be an array of primitives with no 0 dimensions");
         }
     }
+
+    public static Object simplify(Object src){
+        try {
+            int length = src.getClass().isArray() ? getLength(src) : 0;
+            if (length == 0)
+                return src;
+            Object dest = newInstance(typeCastBack(simplify(get(src, 0))), length);
+            for (int i = 0; i < length; i++)
+                set(dest, i, simplify(get(src, i)));
+            return dest;
+        } catch (Exception e) {
+            throw new ClassCastException("Object to simplify must be an array of non-primitives with no 0 dimensions");
+        }
+    }
+
     private static Class<?> typeCastTo(Object obj) {
         Class<?> type = obj.getClass();
         if(type.equals(boolean.class)) return Boolean.class;
@@ -90,6 +106,19 @@ public class GameArrays {
         if(type.equals(long.class)) return Long.class;
         if(type.equals(short.class)) return Short.class;
         if(type.equals(void.class)) return Void.class;
+        return type;
+    }
+    private static Class<?> typeCastBack(Object obj) {
+        Class<?> type = obj.getClass();
+        if(type.equals(Boolean.class)) return boolean.class;
+        if(type.equals(Byte.class)) return byte.class;
+        if(type.equals(Character.class)) return char.class;
+        if(type.equals(Double.class)) return double.class;
+        if(type.equals(Float.class)) return float.class;
+        if(type.equals(Integer.class)) return int.class;
+        if(type.equals(Long.class)) return long.class;
+        if(type.equals(Short.class)) return short.class;
+        if(type.equals(Void.class)) return void.class;
         return type;
     }
 }

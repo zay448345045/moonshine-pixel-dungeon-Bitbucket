@@ -35,7 +35,7 @@ import java.util.HashSet;
 public class RingOfElements extends Ring {
 	
 	@Override
-	protected RingBuff buff( ) {
+    public RingBuff buff() {
 		return new Resistance();
 	}
 

@@ -42,8 +42,9 @@ public class Challenges {
 	public static final int TRAPS				= 131072;
 	public static final int EXTERMINATION		= 262144;
 	public static final int LOCKED				= 524288;
+	public static final int RUST				= 1048576;
 
-	public static final int MAX_VALUE           = 1048576;
+	public static final int MAX_VALUE           = 2097151;
 
 	public static final String[] NAME_IDS = {
 			"no_food",
@@ -65,7 +66,8 @@ public class Challenges {
 			"rapid",
 			"traps",
 			"extermination",
-			"roomlock"
+			"roomlock",
+			"rust"
 	};
 
 	public static final float[] SCORE_MODIFIERS = {
@@ -88,7 +90,8 @@ public class Challenges {
 			1.2f,
 			1.1f,
 			1.15f,
-			1.15f
+			1.15f,
+			1.2f
 	};
 	public static final int[] MOONSTONES = {
 			2,
@@ -110,11 +113,12 @@ public class Challenges {
 			3,
 			3,
 			3,
-			3
+			3,
+			4
 	};
 
 	public static final int[] MASKS = {
-			NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, AMNESIA, CURSE, BLACKJACK, HORDE, COUNTDOWN, ARROWHEAD, ANALGESIA, SPROUT, BESTIARY, RAPID, TRAPS, EXTERMINATION, LOCKED
+			NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, AMNESIA, CURSE, BLACKJACK, HORDE, COUNTDOWN, ARROWHEAD, ANALGESIA, SPROUT, BESTIARY, RAPID, TRAPS, EXTERMINATION, LOCKED, RUST
 	};
 
 	public static float score(int challenges){

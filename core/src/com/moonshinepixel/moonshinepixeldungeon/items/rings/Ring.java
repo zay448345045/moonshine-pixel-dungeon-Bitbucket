@@ -38,6 +38,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Ring extends KindofMisc {
 
@@ -251,8 +252,11 @@ public class Ring extends KindofMisc {
 	}
 
 	public static int getBonus(Char target, Class<?extends RingBuff> type){
+		return getBonus(target.buffs(type));
+	}
+	public static int getBonus(HashSet<? extends RingBuff> buffs){
 		int bonus = 0;
-		for (RingBuff buff : target.buffs(type)) {
+		for (RingBuff buff : buffs) {
 			bonus += buff.level();
 		}
 		return bonus;
@@ -280,14 +284,16 @@ public class Ring extends KindofMisc {
 				GLog.w( Messages.get(Ring.class, "identify", Ring.this.toString()) );
 				Badges.validateItemLevelAquired( Ring.this );
 			}
-			
+
+			if (Random.Int(2)==0)Ring.this.damage(.001f);
+
 			spend( TICK );
 			
 			return true;
 		}
 
 		public int level(){
-			return Ring.this.level();
+			return broken()?0:Ring.this.level();
 		}
 
 	}

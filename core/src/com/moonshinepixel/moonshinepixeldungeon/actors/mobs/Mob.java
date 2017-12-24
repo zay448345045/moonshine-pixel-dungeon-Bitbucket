@@ -29,6 +29,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Sleep;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Terror;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
+import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Wound;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
@@ -54,6 +55,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Hunger;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.SoulMark;
 import com.watabou.utils.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -85,8 +87,8 @@ public abstract class Mob extends Char {
 
 	protected int stonesreward = 0;
 
-	protected int EXP = 1;
-	protected int maxLvl = Hero.MAX_LEVEL;
+	public int EXP = 1;
+	public int maxLvl = Hero.MAX_LEVEL;
 	
 	protected Char enemy;
 	protected boolean enemySeen;
@@ -200,6 +202,9 @@ public abstract class Mob extends Char {
 		}
 		
 		enemy = chooseEnemy();
+		if (enemy==Dungeon.hero&&Dungeon.level.alerted&&Dungeon.isChallenged(Challenges.SWARM_INTELLIGENCE)){
+			Dungeon.level.alertAll();
+		}
 		
 		boolean enemyInFOV = enemy != null && enemy.isAlive() && Level.fieldOfView[enemy.pos] && enemy.invisible <= 0;
 
@@ -590,6 +595,8 @@ public abstract class Mob extends Char {
 			state = WANDERING;
 		}
 		alerted = true;
+		if (src==Dungeon.hero&&Dungeon.isChallenged(Challenges.SWARM_INTELLIGENCE))
+			Dungeon.level.alertAll();
 		
 		super.damage( dmg, src );
 	}
@@ -672,8 +679,7 @@ public abstract class Mob extends Char {
 		super.die( cause );
 
 		float lootChance = this.lootChance;
-		int bonus = RingOfWealth.getBonus(Dungeon.hero, RingOfWealth.Wealth.class);
-		lootChance *= Math.pow(1.15, bonus);
+		lootChance *= RingOfWealth.dropChanceMultiplier( Dungeon.hero );
 
 		if (!Dungeon.cheated()) {
 			MoonshinePixelDungeon.moonstones(MoonshinePixelDungeon.moonstones() + stonesreward);
@@ -691,6 +697,17 @@ public abstract class Mob extends Char {
 		
 		if (Dungeon.hero.isAlive() && !Dungeon.visible[pos]) {
 			GLog.i( Messages.get(this, "died") );
+		}
+
+		if (hostile && !ally && Dungeon.hero.lvl <= maxLvl + 2){
+			int rolls = 1;
+			if (properties.contains(Property.BOSS))             rolls = 15;
+			else if (properties.contains(Property.MINIBOSS))    rolls = 5;
+			ArrayList<Item> bonus = RingOfWealth.tryRareDrop(Dungeon.hero, rolls);
+			if (bonus != null){
+				for (Item b : bonus) Dungeon.level.drop( b , pos ).sprite.drop();
+				new Flare(8, 32).color(0xFFFF00, true).show(sprite, 2f);
+			}
 		}
 
 		Actor respawner = Dungeon.level.respawner();
@@ -741,7 +758,8 @@ public abstract class Mob extends Char {
 	}
 	
 	public void notice() {
-		sprite.showAlert();
+		if (sprite!=null)
+			sprite.showAlert();
 	}
 	
 	public void yell( String str ) {
@@ -778,6 +796,7 @@ public abstract class Mob extends Char {
 							mob.beckon( target );
 						}
 					}
+					Dungeon.level.alerted=true;
 				}
 
 				spend( TIME_TO_WAKE_UP );
@@ -804,7 +823,7 @@ public abstract class Mob extends Char {
 
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
-			if (enemyInFOV && (justAlerted || Random.Int( distance( enemy ) / 2 + enemy.stealth() ) == 0)) {
+			if (enemyInFOV && (justAlerted || Random.Int( distance( enemy ) / 2 + enemy.stealth() ) == 0 || Dungeon.level.alerted)) {
 
 				enemySeen = true;
 
@@ -882,7 +901,7 @@ public abstract class Mob extends Char {
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
 			enemySeen = enemyInFOV;
 			//loses target when 0-dist rolls a 6 or greater.
-			if (enemy == null || !enemyInFOV && 1 + Random.Int(Dungeon.level.distance(pos, target)) >= 6){
+			if (enemy == null || (!enemyInFOV && 1 + Random.Int(Dungeon.level.distance(pos, target)) >= 6 && !Dungeon.isChallenged(Challenges.SWARM_INTELLIGENCE))){
 				target = -1;
 			} else {
 				target = enemy.pos;

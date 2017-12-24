@@ -65,7 +65,13 @@ public class Statue extends Mob {
 		HP = HT = 15 + Dungeon.fakedepth[Dungeon.depth] * 5;
 		defenseSkill = 4 + Dungeon.fakedepth[Dungeon.depth];
 	}
-	
+
+	@Override
+	public void onKill(Char enemy) {
+		super.onKill(enemy);
+		if (weapon!=null&&weapon.enchantment!=null)weapon.enchantment.onKill(weapon,this,enemy);
+	}
+
 	private static final String WEAPON	= "weapon";
 	
 	@Override

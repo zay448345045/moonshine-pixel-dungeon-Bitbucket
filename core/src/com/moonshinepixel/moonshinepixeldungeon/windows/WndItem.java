@@ -62,6 +62,7 @@ public class WndItem extends Window {
 		} else if (item.levelKnown && item.level() < 0) {
 			titlebar.color( ItemSlot.DEGRADED );
 		}
+		if (item.broken())titlebar.color(Item.BROKEN_COLOR);
 		
 		RenderedTextMultiline info = PixelScene.renderMultiline( item.info(), 6 );
 		info.maxWidth(width);
@@ -74,7 +75,6 @@ public class WndItem extends Window {
 		if (Dungeon.hero.isAlive() && options) {
 			ArrayList<RedButton> line = new ArrayList<>();
 			for (final String action:item.actions( Dungeon.hero )) {
-				final boolean red = action.contains("_R");
 				RedButton btn = new RedButton( Messages.get(item, "ac_" + action), 8 ) {
 					@Override
 					protected void onClick() {

@@ -21,7 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.messages.traps.TrapObject;
+import com.moonshinepixel.moonshinepixeldungeon.traps.TrapObject;
 import com.moonshinepixel.moonshinepixeldungeon.tiles.TerrainFeaturesTilemap;
 
 public class WndInfoTrapObj extends WndTitledMessage {

@@ -130,7 +130,7 @@ public abstract class Gun extends Weapon {
 
     @Override
     public int proc(Char attacker, Char defender, int damage ) {
-
+		if (Random.Int(2)==0)damage(.02f);
         return damage;
     }
 
@@ -293,6 +293,7 @@ public abstract class Gun extends Weapon {
 		if (cursed && cursedKnown)
 			desc += "\n\n" + Messages.get(Gun.class, "cursed");
 
+		desc+=(broken()?"\n"+Messages.get(Item.class,"brokendesc"):"");
 		return desc;
 	}
 
@@ -385,7 +386,8 @@ public abstract class Gun extends Weapon {
 
 	public void wandUsed() {
 		usagesToKnow -= cursed ? 1 : chargesPerCast();
-//		curCharges -= cursed ? 1 : chargesPerCast();
+
+		if (Random.Int(2)==0)damage(.05f);
 
 		if (!isIdentified() && usagesToKnow <= 0) {
 			identify();
@@ -605,13 +607,13 @@ public abstract class Gun extends Weapon {
 	};
 
     public int minWnd(){
-        return minWnd(level());
+        return minWnd(broken()?0:level());
     }
 
     public abstract int minWnd(int lvl);
 
     public int maxWnd(){
-        return maxWnd(level());
+        return maxWnd(broken()?0:level());
     }
 
     public abstract int maxWnd(int lvl);

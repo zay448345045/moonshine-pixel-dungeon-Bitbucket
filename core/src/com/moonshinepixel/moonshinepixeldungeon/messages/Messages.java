@@ -78,15 +78,18 @@ public class Messages {
 		strings = new HashMap<>();
 		Messages.lang = lang;
 		Locale locale = new Locale(lang.code());
-
 		for (String file : prop_files) {
 			ResourceBundle bundle = ResourceBundle.getBundle( file, locale );
 			Enumeration<String> keys = bundle.getKeys();
 			while (keys.hasMoreElements()) {
-				String key = keys.nextElement();
-				String value = bundle.getString(key);
+				try {
+					String key = keys.nextElement();
+					String value = new String(bundle.getString(key).getBytes("ISO-8859-1"), "UTF-8");
 
-				strings.put(key, value);
+					strings.put(key, value);
+				} catch (Exception ignored){
+
+				}
 			}
 		}
 

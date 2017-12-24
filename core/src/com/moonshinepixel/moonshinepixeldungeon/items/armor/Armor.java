@@ -268,7 +268,9 @@ public class Armor extends EquipableItem {
 	}
 	
 	public int proc( Char attacker, Char defender, int damage ) {
-		
+
+		if(Random.Int(2)==0)damage(.02f);
+
 		if (glyph != null) {
 			damage = glyph.proc( this, attacker, defender, damage );
 		}
@@ -326,7 +328,8 @@ public class Armor extends EquipableItem {
 		} else if (seal != null) {
 			info += "\n\n" + Messages.get(Armor.class, "seal_attached");
 		}
-		
+
+		info+=(broken()?"\n"+Messages.get(Item.class,"brokendesc"):"");
 		return info;
 	}
 

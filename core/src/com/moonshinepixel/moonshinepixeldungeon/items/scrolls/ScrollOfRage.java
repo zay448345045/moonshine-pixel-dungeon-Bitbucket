@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.items.scrolls;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Amok;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Invisibility;
@@ -58,6 +59,10 @@ public class ScrollOfRage extends Scroll {
 					heap.destroy();
 				}
 			}
+		}
+
+		if (Dungeon.isChallenged(Challenges.SWARM_INTELLIGENCE)){
+			Dungeon.level.alerted=true;
 		}
 
 		GLog.w( Messages.get(this, "roar") );

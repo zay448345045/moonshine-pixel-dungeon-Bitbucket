@@ -65,6 +65,7 @@ public class GiantShuriken extends MeleeWeapon {
     public boolean doEquip(Hero hero) {
 	    if (super.doEquip(hero)) {
             defaultAction = AC_THROWBIG;
+            Dungeon.quickslot.replaceSimilar(this);
             updateQuickslot();
             return true;
         } else return false;
@@ -74,8 +75,6 @@ public class GiantShuriken extends MeleeWeapon {
     public boolean doUnequip(Hero hero, boolean collect, boolean single) {
         if(super.doUnequip(hero, collect, single)){
             defaultAction=null;
-            Dungeon.quickslot.clearItem(this);
-            updateQuickslot();
             return true;
         } else return false;
     }
@@ -104,32 +103,19 @@ public class GiantShuriken extends MeleeWeapon {
                 public void call() {
                     Char enemy = Actor.findChar(targ);
                     if (enemy!=null){
-                        if (Item.curUser.hit(Item.curUser,enemy,false)){
-                            int dmg = curWep.damageRoll(Item.curUser)- Item.curUser.drRoll();
-                            if (curWep.enchantment!=null){
-                                dmg=curWep.enchantment.proc(curWep, Item.curUser,enemy,dmg);
-                            }
-                            if (curWep.suffix!=null){
-                                dmg=curWep.suffix.proc(curWep, Item.curUser,enemy,dmg);
-                            }
-                            enemy.damage(dmg, Item.curUser);
-                            enemy.sprite.bloodBurstA( Item.curUser.sprite.center(), dmg );
-                            enemy.sprite.flash();
-//                            if (curWep.enchantment!=null){
-//                                curWep.enchantment.proc(curWep, Item.curUser,enemy,dmg);
-//                            }
-//                            if (curWep.suffix!=null){
-//                                curWep.suffix.proc(curWep, Item.curUser,enemy,dmg);
-//                            }
-                            if (!enemy.isAlive() && Dungeon.visible[enemy.pos]) {
-                                GLog.i( Messages.capitalize(Messages.get(Char.class, "defeat", enemy.name)) );
-                            }
-                        }
+                        curUser.attack(enemy);
+                    }
+                    if (targ==ball.collisionPos){
+                        Dungeon.level.drop(curWep,ball.collisionPos);
+                        doUnequip(Dungeon.hero, false);
+                        GameScene.selectItem( itemSelector, WndBag.Mode.WEAPONSLOTABLE, Messages.get(GiantShuriken.class, "selector") );
+                        Dungeon.quickslot.convertToPlaceholder(GiantShuriken.this);
+                        updateQuickslot();
                     }
                 }
             };
             Char enemy = Actor.findChar( cell );
-            Item proto = new EmptyItem();
+            Item proto = targ==ball.collisionPos?GiantShuriken.this:new EmptyItem();
             if (enemy!=null){
                 ((MissileSprite) Item.curUser.sprite.parent.recycle( MissileSprite.class )).
                         reset( Item.curUser.pos, enemy.pos, proto, call );
@@ -138,30 +124,8 @@ public class GiantShuriken extends MeleeWeapon {
                         reset(Item.curUser.pos, cell, proto, call);
             }
         }
-
-        Callback call2 = new Callback() {
-            @Override
-            public void call() {
-                    Dungeon.level.drop(curWep,ball.collisionPos);
-                    Item.curUser.spendAndNext(1f);
-                    GameScene.selectItem( itemSelector, WndBag.Mode.WEAPONSLOTABLE, Messages.get(GiantShuriken.class, "selector") );
-            }
-        };
-
-        Item proto = this;
-        int targ = ball.collisionPos;
-        Char enemy = Actor.findChar( targ );
-        if (enemy!=null){
-            ((MissileSprite) Item.curUser.sprite.parent.recycle( MissileSprite.class )).
-                    reset( Item.curUser.pos, enemy.pos, proto, call2 );
-        } else {
-            ((MissileSprite) Item.curUser.sprite.parent.recycle(MissileSprite.class)).
-                    reset(Item.curUser.pos, targ, proto, call2);
-        }
         Item.curUser.sprite.zap(ball.collisionPos);
         Item.curUser.busy();
-        updateQuickslot();
-        Dungeon.quickslot.clearItem(this);
 
     }
 
@@ -170,11 +134,6 @@ public class GiantShuriken extends MeleeWeapon {
         public void onSelect( Integer target ) {
             if (target != null) {
                 ((GiantShuriken) Item.curItem).throwme( Item.curUser, target );
-                if (Dungeon.hero.belongings.weapon== Item.curItem){
-                    Dungeon.hero.belongings.weapon=null;
-                } else {
-                    Item.curItem.detach(Dungeon.hero.belongings.backpack);
-                }
             }
         }
         @Override
@@ -190,6 +149,7 @@ public class GiantShuriken extends MeleeWeapon {
             protected void onSelect( int index ) {
                 switch (index) {
                     case 0:
+                        curUser.next();
                         break;
                     case 1:
                         GameScene.selectItem( itemSelector, WndBag.Mode.WEAPONSLOTABLE, Messages.get(GiantShuriken.class, "selector") );
@@ -205,7 +165,8 @@ public class GiantShuriken extends MeleeWeapon {
         public void onSelect(Item item) {
             if (item != null){
                 Weapon wep = (Weapon)item;
-                wep.doEquip(Dungeon.hero);
+                wep.doEquip(curUser);
+                curUser.spendAndNext(-TIME_TO_EQUIP);
             } else {
                 ((GiantShuriken) Item.curItem).confirmCancelation();
             }

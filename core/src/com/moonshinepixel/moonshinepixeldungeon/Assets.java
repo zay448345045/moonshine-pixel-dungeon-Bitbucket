@@ -203,4 +203,12 @@ public class Assets {
 	public static final String SND_BEE      = "snd_bee.mp3";
 	public static final String SND_DEGRADE  = "snd_degrade.mp3";
 	public static final String SND_MIMIC    = "snd_mimic.mp3";
+
+	public static final String MAP_PRISONBOSS_1  = "levels/tengu/stage1.png";
+	public static final String MAP_PRISONBOSS_2  = "levels/tengu/stage2.png";
+	public static final String MAP_PRISONBOSS_3  = "levels/tengu/stage3.png";
+	public static final String MAP_PRISONBOSS_4  = "levels/tengu/stage4.png";
+	public static final String MAP_GARDENBOSS_1	 = "levels/garden_boss1.png";
+	public static final String MAP_GARDENBOSS_2	 = "levels/garden_boss2.png";
+	public static final String MAP_GARDENBOSS_3	 = "levels/garden_boss3.png";
 }

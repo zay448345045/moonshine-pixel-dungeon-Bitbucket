@@ -154,6 +154,10 @@ public abstract class Char extends Actor {
 		}
 	}
 
+	public void onKill(Char enemy){
+
+	}
+
 	public boolean attack( Char enemy ) {
 		return attack(enemy,false);
 	}
@@ -226,14 +230,17 @@ public abstract class Char extends Actor {
 			enemy.sprite.bloodBurstA( sprite.center(), effectiveDamage );
 			enemy.sprite.flash();
 
-			if (!enemy.isAlive() && visibleFight) {
-				if (enemy == Dungeon.hero) {
+			if (!enemy.isAlive()) {
+				onKill(enemy);
+				if (visibleFight) {
+					if (enemy == Dungeon.hero) {
 
-					Dungeon.fail( getClass() );
-					GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name)) );
-					
-				} else if (this == Dungeon.hero) {
-					GLog.i( Messages.capitalize(Messages.get(Char.class, "defeat", enemy.name)) );
+						Dungeon.fail(getClass());
+						GLog.n(Messages.capitalize(Messages.get(Char.class, "kill", name)));
+
+					} else if (this == Dungeon.hero) {
+						GLog.i(Messages.capitalize(Messages.get(Char.class, "defeat", enemy.name)));
+					}
 				}
 			}
 			
@@ -318,6 +325,10 @@ public abstract class Char extends Actor {
 		}
 		if (src instanceof Hero)if(((Hero)src).buff(Transformation.class) != null){
 			((Hero)src).buff(Transformation.class).agressive=true;
+		}
+
+		if (this.buff(Doom.class) != null){
+			dmg *= 2;
 		}
 
 		if(Dungeon.isChallenged(Challenges.ARROWHEAD)){

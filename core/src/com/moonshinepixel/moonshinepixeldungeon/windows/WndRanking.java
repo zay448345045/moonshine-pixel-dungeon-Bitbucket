@@ -386,6 +386,7 @@ public class WndRanking extends WndTabbed {
 			String str = Messages.titleCase( item.name() );
 			name.text( str );
 			if(item.hasName())name.hardlight( Window.SHPX_COLOR );
+			if(item.broken())name.hardlight( Item.BROKEN_COLOR );
 			if (name.width() > width - name.x) {
 				do {
 					str = str.substring( 0, str.length() - 1 );

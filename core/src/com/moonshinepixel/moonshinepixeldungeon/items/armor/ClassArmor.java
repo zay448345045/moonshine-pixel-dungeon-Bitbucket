@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.items.armor;
 
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Invisibility;
 import com.moonshinepixel.moonshinepixeldungeon.items.BrokenSeal;
@@ -157,4 +158,9 @@ abstract public class ClassArmor extends Armor {
 		return 0;
 	}
 
+	@Override
+	public Item damage(float durability) {
+		return this;
+		//Class armor have infinity durability
+	}
 }

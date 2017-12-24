@@ -82,6 +82,8 @@ public class ScrollOfTeleportation extends Scroll {
 	public static void appear( Char ch, int pos ) {
 			ch.sprite.interruptMotion();
 
+			if (Dungeon.level.room(ch.pos)!=null)Dungeon.level.room(ch.pos).unseal();
+
 			ch.move(pos);
 			ch.sprite.place(pos);
 

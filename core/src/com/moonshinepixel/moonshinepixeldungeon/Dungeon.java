@@ -211,7 +211,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 
 		storyline=MoonshinePixelDungeon.storyline();
-		depth = storyline==0?0:MoonshinePixelDungeon.previewmode?26:30;
+		depth = storyline==0?0:MoonshinePixelDungeon.previewmode?34:30;
 		gold = 0;
 
 		droppedItems = new SparseArray<ArrayList<Item>>();
@@ -319,6 +319,9 @@ public class Dungeon {
 		case 34:
 			level = new GardenLevel();
 			break;
+		case 35:
+			level = new GardenBossLevel();
+			break;
 		default:
 			level = new DeadEndLevel();
 			Statistics.deepestFloor--;
@@ -381,7 +384,7 @@ public class Dungeon {
 		hero.pos = pos != -1 ? pos : level.exit;
 		
 		Light light = hero.buff( Light.class );
-		hero.viewDistance = light == null ? level.viewDistance : Math.max( Light.DISTANCE, level.viewDistance );
+		hero.viewDistance = light == null || !level.lightaffected ? level.viewDistance : Math.max( Light.DISTANCE, level.viewDistance );
 		
 		hero.curAction = hero.lastAction = null;
 		
@@ -776,7 +779,7 @@ public class Dungeon {
             return;
         }
         level.updateFieldOfView(hero, visible);
-		if (Dungeon.isChallenged(Challenges.AMNESIA)){
+		if (level.amnesia()){
             level.visited = visible;
         }
 		if (hero.buff(MindVision.class) != null || hero.buff(Awareness.class) != null) {

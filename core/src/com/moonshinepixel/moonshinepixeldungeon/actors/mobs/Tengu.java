@@ -124,6 +124,10 @@ public class Tengu extends Mob {
 		} else if (beforeHitHP / hpBracket != HP / hpBracket) {
 			jump();
 		}
+		//When you can attack him but he cn't attack you Tengu jumps
+		else if (enemy!=null&&!canAttack(enemy)){
+			jump();
+		}
 	}
 
 	@Override
@@ -183,7 +187,7 @@ public class Tengu extends Mob {
 		if (enemy == null) enemy = chooseEnemy();
 
 		int newPos;
-		int iters = 1000;
+		int iters = 0;
 		//if we're in phase 1, want to warp around within the room
 		if (HP > HT/2) {
 			do {
@@ -259,7 +263,7 @@ public class Tengu extends Mob {
 
 		@Override
 		public boolean act(boolean enemyInFOV, boolean justAlerted) {
-			if (Random.Int(20)==0)jump();
+			if (Random.Int(40)==0)jump();
 			enemySeen = enemyInFOV;
 			if (enemyInFOV && !isCharmedBy( enemy ) && canAttack( enemy )) {
 
@@ -271,7 +275,7 @@ public class Tengu extends Mob {
 					target = enemy.pos;
 				} else {
 					chooseEnemy();
-					if (!canAttack(enemy)&&Random.Int(5)==0)jump();
+					if (!canAttack(enemy)&&Random.Int(20)==0)jump();
 					target = enemy.pos;
 				}
 

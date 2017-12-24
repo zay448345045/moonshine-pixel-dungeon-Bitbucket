@@ -96,6 +96,7 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 					}
 				}
 			}
+			if (item!=null&&item.durability<1)item.durability=1;
 		}
 
 		if (hero!=null)

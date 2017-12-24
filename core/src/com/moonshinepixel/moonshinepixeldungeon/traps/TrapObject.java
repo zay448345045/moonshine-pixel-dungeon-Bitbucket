@@ -1,4 +1,4 @@
-package com.moonshinepixel.moonshinepixeldungeon.messages.traps;
+package com.moonshinepixel.moonshinepixeldungeon.traps;
 
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.Trap;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;

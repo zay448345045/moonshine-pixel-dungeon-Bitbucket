@@ -43,6 +43,9 @@ import java.util.HashSet;
 
 public class Scythe extends MeleeWeapon {
 
+    private boolean secondUse = false;
+    private float   dmgMod = 1f;
+
     private String AC_MOW = "MOW";
 
 	{
@@ -56,72 +59,33 @@ public class Scythe extends MeleeWeapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-        HashSet<Char> targets = new HashSet();
-//        for (int pf : PathFinder.NEIGHBOURS8){
-//            int cell = attacker.pos+pf;
-//            Char ch = Actor.findChar(cell);
-//            if(ch!=null){
-//                if (Dungeon.level.adjacent(ch.pos,defender.pos)){
-//                    targets.add(ch);
-//                }
-//            }
-//            if (Dungeon.level.map[cell] == Terrain.HIGH_GRASS){
-////                HighGrass.trample(Dungeon.level,cell,null);
-//            }
-//        }
-        HashSet<Char> posTargs = new HashSet();
-        PathFinder.buildDistanceMap(attacker.pos, BArray.or(Level.getPassable(),Level.getAvoid(),null));
-        for (Mob ch :Dungeon.level.mobs ){
-            if (!(ch == attacker )&&!( ch == defender )&&PathFinder.distance[ch.pos]<=reachFactor(attacker instanceof Hero?(Hero)attacker:null)&&!(attacker==Dungeon.hero&&ch.ally==true)) {
-                posTargs.add(ch);
-            }
-        }
-        if((enchantment instanceof Projecting)) {
-            PathFinder.buildDistanceMap(defender.pos, BArray.or(Level.getPassable(), Level.getAvoid(), null));
-            for (Char ch : posTargs) {
-                if (PathFinder.distance[ch.pos] <= reachFactor(attacker instanceof Hero ? (Hero) attacker : null)) {
-                    targets.add(ch);
+	    if (!secondUse) {
+            secondUse=true;
+            HashSet<Char> targets = new HashSet();
+            HashSet<Char> posTargs = new HashSet();
+            PathFinder.buildDistanceMap(attacker.pos, BArray.or(Level.getPassable(), Level.getAvoid(), null));
+            for (Mob ch : Dungeon.level.mobs) {
+                if (!(ch == attacker) && !(ch == defender) && Dungeon.level.adjacent(attacker.pos,ch.pos) && Dungeon.level.adjacent4(defender.pos,ch.pos) && !(attacker == Dungeon.hero && ch.ally)) {
+                    posTargs.add(ch);
                 }
             }
-        } else {
-            targets=posTargs;
-        }
-        float dmgMod = 1-targets.size()*(75/8/100);
-        for (Char enemy : targets){
-            boolean visibleFight=Dungeon.visible[attacker.pos] || Dungeon.visible[defender.pos];
-            if (attacker.hit(attacker,enemy,false)){
-                int dmg = attacker.damageRoll();
-
-                dmg *= dmgMod;
-
-                if (enchantment != null) {
-                    dmg = enchantment.proc( this, attacker, defender, dmg );
-                }
-
-                int effectiveDamage = Math.max( dmg - defender.drRoll(), 0 );
-                defender.defenseProc(attacker,effectiveDamage);
-                if (attacker.buff(FireImbue.class) != null)
-                    attacker.buff(FireImbue.class).proc(enemy);
-                if (attacker.buff(EarthImbue.class) != null)
-                    attacker.buff(EarthImbue.class).proc(enemy);
-
-                enemy.sprite.bloodBurstA( attacker.sprite.center(), effectiveDamage );
-                enemy.sprite.flash();
-                enemy.damage(effectiveDamage,attacker);
-
-                if (!enemy.isAlive() && visibleFight) {
-                    if (enemy == Dungeon.hero) {
-
-                        Dungeon.fail( getClass() );
-                        GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name)) );
-
-                    } else if (attacker == Dungeon.hero) {
-                        GLog.i( Messages.capitalize(Messages.get(Char.class, "defeat", enemy.name)) );
+            if ((enchantment instanceof Projecting)) {
+                PathFinder.buildDistanceMap(defender.pos, BArray.or(Level.getPassable(), Level.getAvoid(), null));
+                for (Char ch : posTargs) {
+                    if (PathFinder.distance[ch.pos] <= reachFactor(attacker instanceof Hero ? (Hero) attacker : null)) {
+                        targets.add(ch);
                     }
                 }
+            } else {
+                targets = posTargs;
             }
+            dmgMod = 1 - targets.size() * (75 / 8 / 100);
+            for (Char enemy : targets) {
+                attacker.attack(enemy);
+            }
+            secondUse=false;
         }
-        damage*=dmgMod;
+        damage *= dmgMod;
 		return super.proc(attacker, defender, damage);
 	}
 

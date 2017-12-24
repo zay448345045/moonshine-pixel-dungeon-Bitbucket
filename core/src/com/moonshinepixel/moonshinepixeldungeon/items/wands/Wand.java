@@ -179,6 +179,7 @@ public abstract class Wand extends Item {
 		if (cursed && cursedKnown)
 			desc += "\n\n" + Messages.get(Wand.class, "cursed");
 
+		desc+=(broken()?"\n"+Messages.get(Item.class,"brokendesc"):"");
 		return desc;
 	}
 
@@ -229,7 +230,7 @@ public abstract class Wand extends Item {
 	}
 	
 	public void updateLevel() {
-		maxCharges = Math.min( initialCharges() + level(), 10 );
+		maxCharges = Math.min( initialCharges() + (broken()?0:level()), 10 );
 		curCharges = Math.min( curCharges, maxCharges );
 	}
 	

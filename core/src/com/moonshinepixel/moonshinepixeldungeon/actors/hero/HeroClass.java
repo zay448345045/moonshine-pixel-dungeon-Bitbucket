@@ -31,10 +31,10 @@ import com.moonshinepixel.moonshinepixeldungeon.items.food.Blandfruit;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.items.guns.*;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.Potion;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfStorm;
+import com.moonshinepixel.moonshinepixeldungeon.items.potions.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.Ring;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfEvasion;
+import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfWealth;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
@@ -44,8 +44,6 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Boomerang;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.Dart;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.GrippingTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfHealing;
-import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfMindVision;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfMagicMissile;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.ClothArmor;
@@ -107,56 +105,26 @@ public enum HeroClass {
 
 	private static void initDev( Hero hero ){
 //		hero.earnExp(150);
-//		hero.STR=26;
+		hero.STR=26;
 //		hero.earnExp(1024);
-//		WeaponKit ak = new WeaponKit();
-//		ak.collect();
-//		ak = new WeaponKit();
-//		ak.collect();
-//		ak = new WeaponKit();
-//		ak.collect();
 
-		ScrollOfMagicMapping somm = new ScrollOfMagicMapping();
-		somm.quantity(1);
-		somm.identify().collect();
-
-//		Moonshine ms = new Moonshine();
-//		ms.identify().collect();
-//		ms.quantity(10);
-//
-		Bomb sb = new ShrapnelBomb();
-		sb.identify().collect();
-		sb.quantity(50);
-//
-		Bomb cb = new ClusterBomb();
-		cb.identify().collect();
-		cb.quantity(50);
-//
-		Ring r = new RingOfEvasion();
-		r.upgrade(150);
-		r.identify().collect();
-//		hero.belongings.weapon.tier=6;
-//
-//		Plant.Seed sed = new RainPoppy.Seed();
-//		sed.collect();
-//		sed.quantity(20);
-//
-//		DewVial dv = new DewVial();
-//		dv.collect();
-//		dv.collectDew(new Dewdrop().quantity(13));
-//
-		Scroll sou = new ScrollOfPsionicBlast();
-		sou.quantity(10);
-		sou.identify().collect();
-
-		Potion poh = new PotionOfMindVision();
-		poh.identify().collect();
-		poh.quantity(1);
-
-		Blandfruit bf = new Blandfruit();
-		bf.imbuePotion(new PotionOfStorm());
-		bf.quantity(10);
-		bf.collect();
+		Item[] collectables = new Item[]{
+				new GiantShuriken(),
+				new Mace().random(),
+				new HandAxe().random(),
+				((Weapon)new Scythe().upgrade(3)).enchant(new Greedy()),
+				new ScrollOfMagicMapping().quantity(10),
+				new ShrapnelBomb().quantity(50),
+				new ClusterBomb().quantity(50),
+				new RingOfWealth().upgrade(150),
+				new ScrollOfRage().quantity(10),
+				new ScrollOfUpgrade().quantity(10),
+				new PotionOfInvisibility().quantity(10),
+				new PotionOfStrength().quantity(10),
+		};
+		for(Item itm:collectables){
+			itm.identify().collect();
+		}
 	}
 
 	private static void initCommon( Hero hero ) {

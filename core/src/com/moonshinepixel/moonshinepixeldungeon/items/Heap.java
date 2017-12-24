@@ -24,11 +24,13 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.moonshinepixel.moonshinepixeldungeon.Badges;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.FlameParticle;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.MysteryMeat;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfExperience;
+import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfWealth;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
@@ -65,6 +67,7 @@ import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -150,6 +153,11 @@ public class Heap implements Bundlable {
 
 		if (type != Type.MIMIC) {
 			type = Type.HEAP;
+			ArrayList<Item> bonus = RingOfWealth.tryRareDrop(hero, 1);
+			if (bonus != null){
+				items.addAll(0, bonus);
+				new Flare(8, 32).color(0xFFFF00, true).show(sprite, 2f);
+			}
 			sprite.link();
 			sprite.drop();
 		}

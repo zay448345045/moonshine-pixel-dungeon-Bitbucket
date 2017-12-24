@@ -23,7 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.IntMap;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Yog;
+import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.windows.*;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
@@ -39,7 +39,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.RegularLevel;
 import com.moonshinepixel.moonshinepixeldungeon.levels.features.Chasm;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.Trap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.messages.traps.TrapObject;
+import com.moonshinepixel.moonshinepixeldungeon.traps.TrapObject;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.CharSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.DiscardedItemSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
@@ -83,6 +83,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 import java.io.IOException;
@@ -774,6 +775,18 @@ public class GameScene extends PixelScene {
 			updateFog( cell );
 		}
 	}
+	public static void updateMap(Room room) {
+		for (Point p : room.getPoints()) {
+			int cell = Dungeon.level.pointToCell(p);
+			if (scene != null) {
+				scene.tiles.updateMapCell(cell);
+				scene.visualGrid.updateMapCell(cell);
+				scene.terrainFeatures.updateMapCell(cell);
+				scene.walls.updateMapCell(cell);
+				updateFog(cell);
+			}
+		}
+	}
 
 	public static void plantSeed( int cell ) {
 		if (scene != null) {
@@ -812,7 +825,7 @@ public class GameScene extends PixelScene {
 		if (scene != null) {
 			//update in a 3x3 grid to account for neighbours which might also be affected
 			if (Dungeon.level.insideMap(cell)) {
-				for (int i : PathFinder.NEIGHBOURS9) {
+				for (int i : PathFinder.NEIGHBOURS9.clone()) {
 					scene.fog.updateFogCell( cell + i );
 					scene.wallBlocking.updateMapCell( cell + i );
 				}

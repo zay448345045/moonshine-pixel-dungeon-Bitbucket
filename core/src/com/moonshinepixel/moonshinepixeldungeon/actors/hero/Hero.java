@@ -1818,8 +1818,14 @@ public class Hero extends Char {
 	public HashSet<Class<?>> resistances() {
 		RingOfElements.Resistance r = buff( RingOfElements.Resistance.class );
 		HashSet<Class<?>> res = new HashSet<>();
-		res.addAll(super.resistances());
-		res.addAll(r.resistances());
+		try {
+			res.addAll(super.resistances());
+		} catch (Exception e){
+
+		}
+		if(r!=null) {
+			res.addAll(r.resistances());
+		}
 		if (buff(WaterHealing.class)!=null){
 			res.add(LightningTrap.LIGHTNING.getClass());
 		}
@@ -1848,6 +1854,12 @@ public class Hero extends Char {
 
 	public static interface Doom {
 		public void onDeath();
+	}
+
+	@Override
+	public void onKill(Char enemy) {
+		super.onKill(enemy);
+		if(belongings.weapon instanceof Weapon&&((Weapon) belongings.weapon).enchantment!=null)((Weapon) belongings.weapon).enchantment.onKill((Weapon) belongings.weapon,this,enemy);
 	}
 
 	public int getSouls(){

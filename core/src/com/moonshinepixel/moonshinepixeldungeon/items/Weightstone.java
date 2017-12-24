@@ -95,6 +95,8 @@ public class Weightstone extends Item {
 			GLog.p( Messages.get(this, "heavy") );
 		}
 
+		weapon.durability=1;
+
 		curUser.sprite.operate( curUser.pos );
 		Sample.INSTANCE.play( Assets.SND_MISS );
 

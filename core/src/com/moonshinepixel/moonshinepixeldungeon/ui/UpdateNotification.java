@@ -52,6 +52,7 @@ public class UpdateNotification extends Component {
 	private static boolean checking = false;
 	private static String latestMessage;
 	private static String updateURL;
+	private static String googleplayURL;
 	private static String patchInfo;
 	private static String updateInfo;
 
@@ -113,6 +114,7 @@ public class UpdateNotification extends Component {
 
 						patchInfo = inforeader.readLine();
 						updateInfo = inforeader.readLine();
+						googleplayURL = inforeader.readLine();
 
 						String[] patchInfArr = patchInfo.split("/n");
 						patchInfo=patchInfArr[0];
@@ -297,7 +299,7 @@ public class UpdateNotification extends Component {
 		@Override
 		protected void onSelect(int index) {
 			if (index == 0) {
-				Gdx.net.openURI("http://" + updateURL);
+				Gdx.net.openURI("http://" + (MoonshinePixelDungeon.isAndroid()?googleplayURL:updateURL));
 				Game.instance.finish();
 			}
 		}

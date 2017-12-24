@@ -34,25 +34,13 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Annoying;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Exhausting;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Fragile;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Wayward;
+import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Sacrificial;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.curses.Displacing;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Blazing;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Chilling;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Dazzling;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Eldritch;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Grim;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Lucky;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Projecting;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Shocking;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Stunning;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Unstable;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Vampiric;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Venomous;
-import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Vorpal;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Bundlable;
@@ -98,6 +86,8 @@ abstract public class Weapon extends KindOfWeapon {
 	
 	@Override
 	public int proc(Char attacker, Char defender, int damage ) {
+
+		if(Random.Int(2)==0)damage(.02f);
 
 		if (enchantment != null) {
 			damage = enchantment.proc( this, attacker, defender, damage );
@@ -246,6 +236,10 @@ abstract public class Weapon extends KindOfWeapon {
 		if (Random.Int(10) == 0)
 			enchant();
 
+        if (Dungeon.isChallenged(Challenges.RUST)){
+        	damage(Random.Float(0,.75f));
+		}
+
 		return this;
 	}
 	
@@ -285,18 +279,22 @@ abstract public class Weapon extends KindOfWeapon {
 
 		private static final Class<?>[] enchants = new Class<?>[]{
 			Blazing.class, Venomous.class, Vorpal.class, Shocking.class,
-			Chilling.class, Eldritch.class, Lucky.class, Projecting.class, Unstable.class, Dazzling.class,
+			Chilling.class, Eldritch.class, Lucky.class, Projecting.class, Unstable.class, Dazzling.class, Greedy.class,
 			Grim.class, Stunning.class, Vampiric.class,};
 		private static final float[] chances= new float[]{
 			10, 10, 10, 10,
-			5, 5, 5, 5, 5, 5,
-			2, 2, 2 };
+			5, 5, 5, 5, 5, 5, 5,
+			2, 2, 2, };
 
 		private static final Class<?>[] curses = new Class<?>[]{
 				Annoying.class, Displacing.class, Exhausting.class, Fragile.class, Sacrificial.class, Wayward.class
 		};
 			
 		public abstract int proc( Weapon weapon, Char attacker, Char defender, int damage );
+
+		public void onKill( Weapon weapon, Char attacker, Char defender){
+
+		}
 
 		public String name() {
 			if (!curse())

@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
+import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
@@ -50,8 +51,9 @@ public class IconTitle extends Component {
 		ItemSprite icon = new ItemSprite();
 		icon( icon );
 		label( Messages.titleCase( item.toString() ) );
-		color( Window.SHPX_COLOR);
+		color( item.broken()?Item.BROKEN_COLOR:Window.SHPX_COLOR);
 		icon.view( item );
+		if (item.durability<1)health(item.durability);
 	}
 
 	public IconTitle( Image icon, String label ) {

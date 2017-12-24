@@ -322,7 +322,7 @@ public class VolcanoBossLevel extends Level {
 												public void call() {
 													Camera.main.target = Dungeon.hero.sprite;
 													Light light = Dungeon.hero.buff(Light.class);
-													Dungeon.hero.viewDistance = light == null ? viewDistance : Math.max(Light.DISTANCE, viewDistance);
+													Dungeon.hero.viewDistance = light == null || !level.lightaffected? viewDistance : Math.max(Light.DISTANCE, viewDistance);
 													Dungeon.observe();
 													GameScene.updateFog();
 													Dungeon.hero.spendAndNext(1);

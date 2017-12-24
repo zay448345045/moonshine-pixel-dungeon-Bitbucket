@@ -21,8 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.items;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.moonshinepixel.moonshinepixeldungeon.Badges;
-import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.SnipersMark;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Transformation;
@@ -34,8 +33,6 @@ import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.MissileSprite;
 import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
-import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Combo;
 import com.moonshinepixel.moonshinepixeldungeon.items.bags.Bag;
@@ -59,7 +56,9 @@ public class Item implements Bundlable {
 
 	protected static final String TXT_TO_STRING_LVL		= "%s %+d";
 	protected static final String TXT_TO_STRING_X		= "%s x%d";
-	
+
+	public static final int 	  BROKEN_COLOR			= 0xff9900;
+
 	protected static final float TIME_TO_THROW		= 1.0f;
 	protected static final float TIME_TO_PICK_UP	= 1.0f;
 	protected static final float TIME_TO_DROP		= 0.5f;
@@ -79,6 +78,8 @@ public class Item implements Bundlable {
 	protected int quantity = 1;
 
 	public int tier = 0;
+
+	public float durability = 1f;
 
 	private int level = 0;
 
@@ -312,6 +313,7 @@ public class Item implements Bundlable {
 		}
 		level(level()>0?level():-level());
 		this.level++;
+		durability=1;
 
 		updateQuickslot();
 		
@@ -413,11 +415,13 @@ public class Item implements Bundlable {
 	}
 	
 	public String name() {
+    	String nm = broken()?Messages.get(Item.class,"brokename"):"";
     	if(givenName.equals("")) {
-			return name;
+			nm += name;
 		} else{
-    		return givenName;
+    		nm += givenName;
 		}
+		return nm;
 	}
 
 	public void rename(String name){
@@ -504,6 +508,7 @@ public class Item implements Bundlable {
 	private static final String QUICKSLOT		= "quickslotpos";
 	private static final String TIER 			= "tier";
 	private static final String GIVENNAME 		= "givenname";
+	private static final String DURABILITY 		= "durability";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -514,7 +519,7 @@ public class Item implements Bundlable {
 		bundle.put( CURSED, cursed );
 		bundle.put( CURSED_KNOWN, cursedKnown );
 		bundle.put( TIER, tier );
-		bundle.put( GIVENNAME, givenName );
+		bundle.put( DURABILITY, durability );
 		if (Dungeon.quickslot.contains(this)) {
 			bundle.put( QUICKSLOT, Dungeon.quickslot.getSlot(this) );
 		}
@@ -529,6 +534,8 @@ public class Item implements Bundlable {
 		knownTurns=bundle.getInt(TURNS_KNOWN);
 
 		givenName = bundle.getString(GIVENNAME);
+
+		durability=bundle.getFloat(DURABILITY);
 
 		if (bundle.contains(TIER)) {
 			tier = bundle.getInt(TIER);
@@ -631,5 +638,20 @@ public class Item implements Bundlable {
 		if (!cursed&&level<0){
 			level(-level);
 		}
+	}
+
+	public Item damage(float durability){
+		if (Dungeon.isChallenged(Challenges.RUST)) {
+			if (cursed)return this;
+			if (this.durability > 0) {
+				this.durability = Math.max(this.durability - durability, 0);
+				if (this.durability <= 0) GLog.n(Messages.get(Item.class, "broken"), name());
+			}
+		}
+		return this;
+	}
+
+	public boolean broken(){
+		return durability<=0;
 	}
 }

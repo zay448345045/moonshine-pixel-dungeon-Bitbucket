@@ -32,6 +32,7 @@ import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.effects.BannerSprites;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RedButton;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RenderedTextMultiline;
+import com.moonshinepixel.moonshinepixeldungeon.utils.ImageToMap;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndError;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -191,7 +192,7 @@ public class WelcomeScene extends PixelScene {
 				 message += "\n" + Messages.get(this, "patch_bugfixes");
 				 message += "\n" + Messages.get(this, "patch_content");
 //				message += "\n" + Messages.get(this, "patch_translations");
-//				message += "\n" + Messages.get(this, "patch_balance");
+				message += "\n" + Messages.get(this, "patch_balance");
 //				 message += "\n" + Messages.get(this, "patch_balance_big");
 //				message += "\n" + Messages.get(this, "no_save");
 //				message += "\n" + "Old androids saves are no longer openable, also wiped old android ranking";

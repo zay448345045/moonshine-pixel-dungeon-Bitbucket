@@ -52,19 +52,18 @@ public class HealthBar extends Component {
 	
 	@Override
 	protected void layout() {
-		
+		float h = height==1?1:HEIGHT;
 		Bg.x = Shld.x = Hp.x = x;
 		Bg.y = Shld.y = Hp.y = y;
 		
-		Bg.size( width, HEIGHT );
+		Bg.size( width, h );
 		
 		//logic here rounds up to the nearest pixel
 		float pixelWidth = width;
 		if (camera() != null) pixelWidth *= camera().zoom;
-		Shld.size( width * (float)Math.ceil(shield * pixelWidth)/pixelWidth, HEIGHT );
-		Hp.size( width * (float)Math.ceil(health * pixelWidth)/pixelWidth, HEIGHT );
-		
-		height = HEIGHT;
+		Shld.size( width * (float)Math.ceil(shield * pixelWidth)/pixelWidth, h );
+		Hp.size( width * (float)Math.ceil(health * pixelWidth)/pixelWidth, h );
+		height = h;
 	}
 	
 	public void level( float value ) {
@@ -75,6 +74,12 @@ public class HealthBar extends Component {
 		this.health = health;
 		this.shield = shield;
 		layout();
+	}
+
+	public void alpha(float alpha){
+		Bg.alpha(alpha);
+		Shld.alpha(alpha);
+		Hp.alpha(alpha);
 	}
 
 	public void level(Char c){

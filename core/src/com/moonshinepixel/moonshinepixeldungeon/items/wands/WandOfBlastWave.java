@@ -108,9 +108,9 @@ public class WandOfBlastWave extends DamageWand {
 
 
 	public static void throwChar(final Char ch, final Ballistica trajectory, int power) {
-	throwChar(ch, trajectory, power, true);
+		throwChar(ch, trajectory, power, true,null);
 	}
-	public static void throwChar(final Char ch, final Ballistica trajectory, int power, boolean dealDmg){
+	public static void throwChar(final Char ch, final Ballistica trajectory, int power, boolean dealDmg, final Callback cb){
 		int dist = Math.min(trajectory.dist, power);
 
 		if (ch.properties().contains(Char.Property.BOSS))
@@ -145,6 +145,7 @@ public class WandOfBlastWave extends DamageWand {
 				if (ch == Dungeon.hero){
 					Dungeon.observe();
 				}
+				cb.call();
 			}
 		}), -1);
 	}

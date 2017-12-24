@@ -51,11 +51,11 @@ public class WndInfoItem extends Window {
 			} else if (item.levelKnown && item.level() < 0) {
 				color = ItemSlot.DEGRADED;
 			}
-			fillFields( item.image(), item.glowing(), color, item.toString(), item.info(), item.hasName() );
+			fillFields( item.image(), item.glowing(), color, item.toString(), item.info(), item.hasName(), item.broken() );
 			
 		} else {
 
-			fillFields( heap.image(), heap.glowing(), TITLE_COLOR, heap.toString(), heap.info(), heap.peek().hasName() );
+			fillFields( heap.image(), heap.glowing(), TITLE_COLOR, heap.toString(), heap.info(), heap.peek().hasName(), heap.peek().broken() );
 
 		}
 	}
@@ -71,10 +71,10 @@ public class WndInfoItem extends Window {
 			color = ItemSlot.DEGRADED;
 		}
 		
-		fillFields( item.image(), item.glowing(), color, item.toString(), item.info(), item.hasName() );
+		fillFields( item.image(), item.glowing(), color, item.toString(), item.info(), item.hasName(), item.broken() );
 	}
 	
-	private void fillFields( int image, ItemSprite.Glowing glowing, int titleColor, String title, String info, boolean named ) {
+	private void fillFields( int image, ItemSprite.Glowing glowing, int titleColor, String title, String info, boolean named, boolean broken ) {
 
 		int width = MoonshinePixelDungeon.landscape() ? WIDTH_L : WIDTH_P;
 

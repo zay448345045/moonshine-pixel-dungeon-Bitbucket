@@ -42,8 +42,7 @@ public class Lucky extends Weapon.Enchantment {
 			for (int i = 0; i < (level / 2) + 1; i++) {
 				rolls.add(attacker.damageRoll()-defender.drRoll());
 			}
-			damage = GameArrays.findMaxInt(rolls);
-
+			damage = GameArrays.findMax(rolls);
 		}
 		return damage;
 	}

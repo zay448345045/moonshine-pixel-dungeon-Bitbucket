@@ -88,6 +88,7 @@ public class WeaponKit extends Item {
 		GLog.w( Messages.get(this, "upgraded", wep.name()) );
 
 		wep.tier++;
+		wep.durability=1;
 		
 		curUser.sprite.operate( curUser.pos );
 		Sample.INSTANCE.play( Assets.SND_EVOKE );

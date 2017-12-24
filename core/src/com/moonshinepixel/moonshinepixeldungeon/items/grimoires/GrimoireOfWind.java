@@ -74,7 +74,7 @@ public class GrimoireOfWind extends ElementalGrimoire {
             if (cell!=null){
                 Sample.INSTANCE.play(Assets.SND_ZAP);
                 Ballistica leap = new Ballistica(curUser.pos,cell,Ballistica.STOP_CHARS|Ballistica.STOP_TERRAIN|Ballistica.STOP_TARGET);
-                WandOfBlastWave.throwChar(curUser,leap,utilityLevel()*2>leap.path.size()?leap.path.size():utilityLevel()*2, false);
+                WandOfBlastWave.throwChar(curUser,leap,utilityLevel()*2>leap.path.size()?leap.path.size():utilityLevel()*2, false,null);
                 curUser.spend(1);
                 cd[0]+=4;
             }

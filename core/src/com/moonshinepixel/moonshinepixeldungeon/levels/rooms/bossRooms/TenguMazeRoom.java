@@ -18,13 +18,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package com.moonshinepixel.moonshinepixeldungeon.levels.rooms;
+package com.moonshinepixel.moonshinepixeldungeon.levels.rooms.bossRooms;
 
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.features.MoonshineMaze;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.features.Maze;
+import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 
 //TODO figure out where this should go, tunnel room type perhaps?
 public class TenguMazeRoom extends Room {

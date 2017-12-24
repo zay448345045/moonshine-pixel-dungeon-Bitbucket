@@ -303,7 +303,7 @@ public class Badges {
 			badge = Badge.GOLD_COLLECTED_4;
 			local.add( badge );
 		}
-		
+
 		displayBadge( badge );
 	}
 	
@@ -915,29 +915,35 @@ public class Badges {
 		if (badge == null) {
 			return;
 		}
-		
-		if (global.contains( badge )) {
-			
-			if (!badge.meta) {
-				GLog.h( Messages.get(Badges.class, "endorsed", badge.desc()) );
-			}
-			
-		} else {
-			
-			global.add( badge );
-			saveNeeded = true;
-			
-			if (badge.meta) {
-				GLog.h( Messages.get(Badges.class, "new_super", badge.desc()) );
+		try {
+			System.out.println(global);
+			if (global.contains(badge)) {
+
+				if (!badge.meta) {
+					GLog.h(Messages.get(Badges.class, "endorsed", badge.desc()));
+				}
+
 			} else {
-				GLog.h( Messages.get(Badges.class, "new", badge.desc()) );
+
+				global.add(badge);
+				saveNeeded = true;
+
+				if (badge.meta) {
+					GLog.h(Messages.get(Badges.class, "new_super", badge.desc()));
+				} else {
+					GLog.h(Messages.get(Badges.class, "new", badge.desc()));
+				}
+				PixelScene.showBadge(badge);
 			}
-			PixelScene.showBadge( badge );
-		}
+		} catch (Exception e){MoonshinePixelDungeon.reportException(e);}
 	}
 	
 	public static boolean isUnlocked( Badge badge ) {
-		return global.contains( badge );
+		try {
+			return global.contains(badge);
+		} catch (Exception e){
+			return false;
+		}
 	}
 	
 	public static void disown( Badge badge ) {

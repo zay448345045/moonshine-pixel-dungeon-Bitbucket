@@ -22,7 +22,7 @@ package com.moonshinepixel.moonshinepixeldungeon.tiles;
 
 import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.Trap;
-import com.moonshinepixel.moonshinepixeldungeon.messages.traps.TrapObject;
+import com.moonshinepixel.moonshinepixeldungeon.traps.TrapObject;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;

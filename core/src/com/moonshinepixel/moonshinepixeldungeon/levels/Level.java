@@ -34,9 +34,10 @@ import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.levels.features.HighGrass;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
+import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.Trap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.messages.traps.TrapObject;
+import com.moonshinepixel.moonshinepixeldungeon.traps.TrapObject;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Plant;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
@@ -195,6 +196,9 @@ public abstract class Level implements Bundlable {
 	public boolean[] mapped;
 
 	public int viewDistance = Dungeon.isChallenged( Challenges.DARKNESS ) ? 4 : 8;
+	public boolean lightaffected = true;
+
+	public boolean alerted = false;
 
 	//FIXME should not be static!
 	public static boolean[] fieldOfView;
@@ -256,6 +260,7 @@ public abstract class Level implements Bundlable {
 	private static final String INITMOBS	= "initmobs";
 	private static final String BLOBS		= "blobs";
 	private static final String FEELING		= "feeling";
+	private static final String ALERTED		= "alerted";
 	//return false if border or outside of map
 	public boolean isMap(int cell){
 		return cell >= width && cell <= length - width && cell % width != 0 && cell % width != width - 1;
@@ -271,7 +276,7 @@ public abstract class Level implements Bundlable {
 			addItemToSpawn( Generator.random( Generator.Category.FOOD ) );
 			addItemToSpawn( Generator.random( Generator.Category.AMMO ) );
 
-			int bonus = RingOfWealth.getBonus(Dungeon.hero, RingOfWealth.Wealth.class);
+			int bonus = 1;
 
 			if (Dungeon.posNeeded()) {
 				if (Random.Float() > Math.pow(0.925, bonus))
@@ -409,7 +414,7 @@ public abstract class Level implements Bundlable {
 
 		version = bundle.getInt( VERSION );
 		
-		//saves from before 0.4.0 are not supported
+		//saves from before 0.0.0 are not supported
 		if (version < MoonshinePixelDungeon.v0_0_0){
 			throw new RuntimeException("old save");
 		}
@@ -429,6 +434,7 @@ public abstract class Level implements Bundlable {
 		traps = new SparseArray<>();
 		customTiles = new HashSet<>();
 		customWalls = new HashSet<>();
+		alerted=bundle.getBoolean(ALERTED);
 		
 		map		= bundle.getIntArray( MAP );
 
@@ -439,6 +445,8 @@ public abstract class Level implements Bundlable {
 		exit		= bundle.getInt( EXIT );
 
 		locked      = bundle.getBoolean( LOCKED );
+
+		viewDistance=bundle.getInt("los");
 
 		
 		Collection<Bundlable> collection = bundle.getCollection( HEAPS );
@@ -569,6 +577,8 @@ public abstract class Level implements Bundlable {
 		bundle.put( INITMOBS, initMobs );
 		bundle.put( BLOBS, blobs.values() );
 		bundle.put( FEELING, feeling );
+		bundle.put( ALERTED, alerted );
+		bundle.put( "los", viewDistance );
 	}
 	
 	public int tunnelTile() {
@@ -1122,12 +1132,16 @@ public abstract class Level implements Bundlable {
 					}
 				}
 			}
-			if (c.buff( Awareness.class ) != null) {
-				for (Heap heap : heaps.values()) {
-					int p = heap.pos;
-					for (int i : PathFinder.NEIGHBOURS9)
-						fieldOfView[p+i] = true;
+			try {
+				if (c.buff(Awareness.class) != null) {
+					for (Heap heap : heaps.values()) {
+						int p = heap.pos;
+						for (int i : PathFinder.NEIGHBOURS9)
+							fieldOfView[p + i] = true;
+					}
 				}
+			} catch (Exception e){
+				MoonshinePixelDungeon.reportException(e);
 			}
 		}
 
@@ -1149,6 +1163,9 @@ public abstract class Level implements Bundlable {
 	
 	public boolean adjacent( int a, int b ) {
 		return distance( a, b ) == 1;
+	}
+	public boolean adjacent4( int a, int b ) {
+		return Math.abs(a-b)==1||Math.abs(a-b)==width;
 	}
 
 	//returns true if the input is a valid tile within the level
@@ -1265,6 +1282,13 @@ public abstract class Level implements Bundlable {
 		}
 	}
 
+	public void alertAll(){
+		for (Mob mob : Dungeon.level.mobs) {
+				mob.beckon( Dungeon.hero.pos );
+		}
+		alerted=true;
+	}
+
 	public boolean cleared(){
 		for (Mob m : initMobs.toArray(new Mob[0])){
 			if (!mobs.contains(m)) {
@@ -1272,5 +1296,13 @@ public abstract class Level implements Bundlable {
 			}
 		}
 		return initMobs.isEmpty();
+	}
+
+	public Room room(int pos ) {
+		return null;
+	}
+
+	public boolean amnesia(){
+		return Dungeon.isChallenged(Challenges.AMNESIA);
 	}
 }

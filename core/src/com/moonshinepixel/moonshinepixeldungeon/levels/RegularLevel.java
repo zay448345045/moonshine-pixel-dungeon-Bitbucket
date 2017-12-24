@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
+import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Bestiary;
@@ -29,16 +30,12 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.builders.Builder;
 import com.moonshinepixel.moonshinepixeldungeon.levels.builders.LineBuilder;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.BlackjackShopRoom;
-import com.moonshinepixel.moonshinepixeldungeon.Bones;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfWealth;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.PitRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.ShopRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.special.SpecialRoom;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.FireTrap;
-import com.moonshinepixel.moonshinepixeldungeon.Badges;
-import com.moonshinepixel.moonshinepixeldungeon.Challenges;
-import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
@@ -418,7 +415,8 @@ public abstract class RegularLevel extends Level {
 		}
 		return null;
 	}
-	
+
+	@Override
 	public Room room( int pos ) {
 		for (Room room : rooms) {
 			if (room.inside( cellToPoint(pos) )) {
@@ -494,6 +492,8 @@ public abstract class RegularLevel extends Level {
 		for (Room r: rooms){
 			r.onLevelLoad( this );
 		}
+
+		if (version< MoonshinePixelDungeon.v0_1_25)version=MoonshinePixelDungeon.version();
 	}
 
 

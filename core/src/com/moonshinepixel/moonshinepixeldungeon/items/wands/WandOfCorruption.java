@@ -20,15 +20,20 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.items.wands;
 
+import com.moonshinepixel.moonshinepixeldungeon.Badges;
+import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
+import com.moonshinepixel.moonshinepixeldungeon.Statistics;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Amok;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
+import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.*;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
+import com.moonshinepixel.moonshinepixeldungeon.sprites.CharSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Corruption;
 import com.moonshinepixel.moonshinepixeldungeon.effects.MagicMissile;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.MagesStaff;
 import com.moonshinepixel.moonshinepixeldungeon.mechanics.Ballistica;
@@ -36,58 +41,168 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
+import java.util.HashMap;
+
+//TODO final balancing decisions here
 public class WandOfCorruption extends Wand {
 
 	{
 		image = ItemSpriteSheet.WAND_CORRUPTION;
 	}
 
+	//Note that some debuffs here have a 0% chance to be applied.
+	// This is because the wand of corruption considers them to be a certain level of harmful
+	// for the purposes of reducing resistance, but does not actually apply them itself
+
+	private static final float MINOR_DEBUFF_WEAKEN = 4 / 5f;
+	private static final HashMap<Class<? extends Buff>, Float> MINOR_DEBUFFS = new HashMap<>();
+
+	static {
+		MINOR_DEBUFFS.put(Weakness.class, 2f);
+		MINOR_DEBUFFS.put(Cripple.class, 1f);
+		MINOR_DEBUFFS.put(Blindness.class, 1f);
+		MINOR_DEBUFFS.put(Terror.class, 1f);
+
+		MINOR_DEBUFFS.put(Chill.class, 0f);
+		MINOR_DEBUFFS.put(Ooze.class, 0f);
+		MINOR_DEBUFFS.put(Roots.class, 0f);
+		MINOR_DEBUFFS.put(Vertigo.class, 0f);
+		MINOR_DEBUFFS.put(Drowsy.class, 0f);
+		MINOR_DEBUFFS.put(Bleeding.class, 0f);
+		MINOR_DEBUFFS.put(Burning.class, 0f);
+		MINOR_DEBUFFS.put(Poison.class, 0f);
+	}
+
+	private static final float MAJOR_DEBUFF_WEAKEN = 2 / 3f;
+	private static final HashMap<Class<? extends Buff>, Float> MAJOR_DEBUFFS = new HashMap<>();
+
+	static {
+		MAJOR_DEBUFFS.put(Amok.class, 3f);
+		MAJOR_DEBUFFS.put(Slow.class, 2f);
+		MAJOR_DEBUFFS.put(Paralysis.class, 1f);
+
+		MAJOR_DEBUFFS.put(Charm.class, 0f);
+		MAJOR_DEBUFFS.put(MagicalSleep.class, 0f);
+		MAJOR_DEBUFFS.put(SoulMark.class, 0f);
+		MAJOR_DEBUFFS.put(Venom.class, 0f);
+		MAJOR_DEBUFFS.put(Frost.class, 0f);
+		MAJOR_DEBUFFS.put(Doom.class, 0f);
+	}
+
 	@Override
 	protected void onZap(Ballistica bolt) {
 		Char ch = Actor.findChar(bolt.collisionPos);
 
-		if (ch != null){
+		if (ch != null) {
 
-			if(ch.buff(Corruption.class) != null){
-				GLog.w( Messages.get(this, "already_corrupted") );
+			if (!(ch instanceof Mob) || ch instanceof NPC) {
 				return;
 			}
 
-			if (ch.properties().contains(Char.Property.BOSS) || ch.properties().contains(Char.Property.MINIBOSS)){
-				GLog.w( Messages.get(this, "boss") );
-				return;
+			Mob enemy = (Mob) ch;
+
+			float corruptingPower = 2 + level();
+
+			//base enemy resistance is usually based on their exp, but in special cases it is based on other criteria
+			float enemyResist = 1 + enemy.EXP;
+			if (ch instanceof Mimic || ch instanceof Statue) {
+				enemyResist = 1 + Dungeon.depth;
+			} else if (ch instanceof Piranha || ch instanceof Bee) {
+				enemyResist = 1 + Dungeon.depth / 2f;
+			} else if (ch instanceof Wraith) {
+				//this is so low because wraiths are always at max hp
+				enemyResist = 1 + Dungeon.depth / 5f;
+			} else if (ch instanceof Yog.BurningFist || ch instanceof Yog.RottingFist) {
+				enemyResist = 1 + 30;
+			} else if (ch instanceof Yog.Larva || ch instanceof King.Undead) {
+				enemyResist = 1 + 5;
+			} else if (ch instanceof Swarm) {
+				//child swarms don't give exp, so we force this here.
+				enemyResist = 1 + 3;
 			}
 
-			int basePower = 10 + 2*level();
-			int mobPower = Random.IntRange(0, ch.HT) + ch.HP*2;
-			for ( Buff buff : ch.buffs()){
-				if (buff.type == Buff.buffType.NEGATIVE){
-					mobPower *= 0.67;
-					break;
+			//100% health: 3x resist   75%: 2.1x resist   50%: 1.5x resist   25%: 1.1x resist
+			enemyResist *= 1 + 2 * Math.pow(enemy.HP / (float) enemy.HT, 2);
+
+			//debuffs placed on the enemy reduce their resistance
+			for (Buff buff : enemy.buffs()) {
+				if (MAJOR_DEBUFFS.containsKey(buff.getClass())) enemyResist *= MAJOR_DEBUFF_WEAKEN;
+				else if (MINOR_DEBUFFS.containsKey(buff.getClass())) enemyResist *= MINOR_DEBUFF_WEAKEN;
+				else if (buff.type == Buff.buffType.NEGATIVE) enemyResist *= MINOR_DEBUFF_WEAKEN;
+			}
+
+			//cannot re-corrupt or doom an enemy, so give them a major debuff instead
+			if (enemy.buff(Corruption.class) != null || enemy.buff(Doom.class) != null) {
+				enemyResist = corruptingPower * .99f;
+			}
+
+			if (corruptingPower > enemyResist) {
+				corruptEnemy(enemy);
+			} else {
+				float debuffChance = corruptingPower / enemyResist;
+				if (Random.Float() < debuffChance) {
+					debuffEnemy(enemy, MAJOR_DEBUFFS);
+				} else {
+					debuffEnemy(enemy, MINOR_DEBUFFS);
 				}
 			}
 
-			int extraCharges = 0;
-			//try to use extra charges to overpower the mob
-			while (basePower <= mobPower){
-				extraCharges++;
-				basePower += 5 + level();
+			processSoulMark(ch, chargesPerCast());
+
+		} else {
+			Dungeon.level.press(bolt.collisionPos, null);
+		}
+	}
+
+	private void debuffEnemy(Mob enemy, HashMap<Class<? extends Buff>, Float> category) {
+		HashMap<Class<? extends Buff>, Float> debuffs = new HashMap<>(category);
+		for (Buff existing : enemy.buffs()) {
+			if (debuffs.containsKey(existing.getClass())) {
+				debuffs.put(existing.getClass(), 0f);
 			}
+		}
 
-			//if we fail, lose all charges, remember we have 1 left to lose from using the wand.
-			if (extraCharges >= curCharges){
-				curCharges = 1;
-				GLog.w( Messages.get(this, "fail") );
-				return;
+		//all buffs with a > 0 chance are flavor buffs
+		Class<? extends FlavourBuff> debuffCls = (Class<? extends FlavourBuff>) Random.chances(debuffs);
+
+		if (debuffCls != null) {
+			Buff.append(enemy, debuffCls, 6 + level() * 3);
+		} else {
+			//if no debuff can be applied (all are present), then go up one tier
+			if (category == MINOR_DEBUFFS) debuffEnemy(enemy, MAJOR_DEBUFFS);
+			else if (category == MAJOR_DEBUFFS) corruptEnemy(enemy);
+		}
+	}
+
+	private void corruptEnemy(Mob enemy) {
+		//cannot re-corrupt or doom an enemy, so give them a major debuff instead
+		if (enemy.buff(Corruption.class) != null || enemy.buff(Doom.class) != null) {
+			GLog.w(Messages.get(this, "already_corrupted"));
+			return;
+		}
+
+		if (!enemy.properties().contains(Char.Property.BOSS) &&
+				!enemy.properties().contains(Char.Property.MINIBOSS) &&
+				!enemy.immunities().contains(Corruption.class)) {
+			enemy.HP = enemy.HT;
+			for (Buff buff : enemy.buffs()) {
+				if (buff.type == Buff.buffType.NEGATIVE
+						&& !(buff instanceof SoulMark)) {
+					buff.detach();
+				}
 			}
+			Buff.affect(enemy, Corruption.class);
 
-			//otherwise corrupt the mob & spend charges
-			Buff.append(ch, Corruption.class);
-			ch.HP = ch.HT;
-			curCharges -= extraCharges;
-			usagesToKnow -= extraCharges;
-
-			processSoulMark(ch, extraCharges+chargesPerCast());
+			Statistics.enemiesSlain++;
+			Badges.validateMonstersSlain();
+			Statistics.qualifiedForNoKilling = false;
+			if (enemy.EXP > 0 && curUser.lvl <= enemy.maxLvl) {
+				curUser.sprite.showStatus(CharSprite.POSITIVE, Messages.get(enemy, "exp", enemy.EXP));
+				curUser.earnExp(enemy.EXP);
+			}
+			//TODO perhaps enemies should also drop loot here
+		} else {
+			Buff.affect(enemy, Doom.class);
 		}
 	}
 
@@ -96,29 +211,28 @@ public class WandOfCorruption extends Wand {
 		// lvl 0 - 25%
 		// lvl 1 - 40%
 		// lvl 2 - 50%
-		if (Random.Int( level() + 4 ) >= 3){
-			Buff.prolong( defender, Amok.class, 3+level());
+		if (Random.Int(level() + 4) >= 3) {
+			Buff.prolong(defender, Amok.class, 4 + level() * 2);
 		}
 	}
 
 	@Override
 	protected void fx(Ballistica bolt, Callback callback) {
-		MagicMissile.boltFromChar( curUser.sprite.parent,
+		MagicMissile.boltFromChar(curUser.sprite.parent,
 				MagicMissile.SHADOW,
 				curUser.sprite,
 				bolt.collisionPos,
 				callback);
-		Sample.INSTANCE.play( Assets.SND_ZAP );
+		Sample.INSTANCE.play(Assets.SND_ZAP);
 	}
 
 	@Override
 	public void staffFx(MagesStaff.StaffParticle particle) {
-		particle.color( 0 );
+		particle.color(0);
 		particle.am = 0.6f;
 		particle.setLifespan(2f);
 		particle.speed.set(0, 5);
-		particle.setSize( 0.5f, 2f);
+		particle.setSize(0.5f, 2f);
 		particle.shuffleXY(1f);
 	}
-
 }

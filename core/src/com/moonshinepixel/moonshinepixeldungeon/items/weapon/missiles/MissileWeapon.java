@@ -160,7 +160,13 @@ abstract public class MissileWeapon extends Weapon {
 		}
 
 		info += "\n\n" + Messages.get(MissileWeapon.class, "distance");
-		
+
+		info+=(broken()?"\n"+Messages.get(Item.class,"brokendesc"):"");
 		return info;
+	}
+
+	@Override
+	public Item damage(float durability) {
+		return getClass().equals(Boomerang.class)?super.damage(durability):this;
 	}
 }
