@@ -37,6 +37,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfEvasion;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfWealth;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
+import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfCorruption;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.melee.*;
@@ -105,15 +106,15 @@ public enum HeroClass {
 
 	private static void initDev( Hero hero ){
 //		hero.earnExp(150);
-		hero.STR=26;
+//		hero.STR=26;
 //		hero.earnExp(1024);
 
 		Item[] collectables = new Item[]{
 				new GiantShuriken(),
 				new Mace().random(),
 				new HandAxe().random(),
-				((Weapon)new Scythe().upgrade(3)).enchant(new Greedy()),
-				new ScrollOfMagicMapping().quantity(10),
+				new ScrollOfRecharging().quantity(10),
+				new WandOfCorruption().upgrade(0),
 				new ShrapnelBomb().quantity(50),
 				new ClusterBomb().quantity(50),
 				new RingOfWealth().upgrade(150),

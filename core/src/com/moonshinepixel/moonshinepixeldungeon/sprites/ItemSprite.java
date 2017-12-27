@@ -79,7 +79,6 @@ public class ItemSprite extends MovieClip {
 	
 	public ItemSprite( Item item ) {
 		super(Assets.ITEMS);
-		isDouble=item.isDouble;
 
 		view (item);
 	}

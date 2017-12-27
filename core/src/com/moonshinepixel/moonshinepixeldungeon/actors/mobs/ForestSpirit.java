@@ -100,10 +100,25 @@ public class ForestSpirit extends Mob {
 	}
 
 	@Override
-	public boolean doAttack(Char enemy) {
+	public boolean doAttack(final Char enemy) {
 		if (enemy == Dungeon.hero)
 			Dungeon.hero.resting = false;
-		sprite.attack( enemy.pos );
+		boolean complete = true;
+		if (Random.Int(5)==0){
+			complete=false;
+			int oppositeHero = enemy.pos + (enemy.pos - pos);
+			Ballistica trajectory = new Ballistica(enemy.pos, oppositeHero, Ballistica.MAGIC_BOLT);
+
+			WandOfBlastWave.throwChar(enemy, trajectory, 5, true, new Callback() {
+				@Override
+				public void call() {
+					onAttackComplete();
+					((GardenBossLevel)Dungeon.level).draw((GardenBossRoom) Dungeon.level.room(enemy.pos));
+				}
+			});
+		}
+
+		((ForestSpiritSprite)sprite).attack( enemy.pos, complete );
 		spend( attackDelay() );
 		return true;
 	}
@@ -164,17 +179,6 @@ public class ForestSpirit extends Mob {
 	@Override
 	public int attackProc(final Char enemy, int damage) {
 		damage = super.attackProc(enemy, damage);
-		if (Random.Int(5)==0){
-			int oppositeHero = enemy.pos + (enemy.pos - pos);
-			Ballistica trajectory = new Ballistica(enemy.pos, oppositeHero, Ballistica.MAGIC_BOLT);
-
-			WandOfBlastWave.throwChar(enemy, trajectory, 5, true, new Callback() {
-				@Override
-				public void call() {
-					((GardenBossLevel)Dungeon.level).draw((GardenBossRoom) Dungeon.level.room(enemy.pos));
-				}
-			});
-		}
 		return damage;
 	}
 

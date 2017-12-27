@@ -138,7 +138,7 @@ public class GardenLevel extends RegularLevel {
 	@Override
 	public void press(int cell, Char ch) {
 		super.press(cell, ch);
-		if (ch instanceof Hero && Random.Int(35)==0){
+		if (ch instanceof Hero && Random.Int(100)==0){
 			Actor.add(TriggerBlob.place(cell, this, VineTrigger.class));
 		}
 	}

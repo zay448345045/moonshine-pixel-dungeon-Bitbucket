@@ -208,6 +208,7 @@ public class WandOfCorruption extends Wand {
 
 	@Override
 	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage) {
+//		Buff.affect(attacker, Doom.class);
 		// lvl 0 - 25%
 		// lvl 1 - 40%
 		// lvl 2 - 50%

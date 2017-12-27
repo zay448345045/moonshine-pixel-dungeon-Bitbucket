@@ -114,8 +114,8 @@ public class ItemSlot extends Button<GameAction> {
 		
 		bottomRight = new BitmapText( PixelScene.pixelFont);
 		add( bottomRight );
-		health = new HealthBar();
-		add( health );
+//		health = new HealthBar();
+//		add( health );
 	}
 	
 	@Override
@@ -123,7 +123,7 @@ public class ItemSlot extends Button<GameAction> {
 		super.layout();
 
 //		health.visible = !Float.isNaN( healthLvl );
-		health.visible=false;
+//		health.visible=false;
 
 		icon.x = x + (width - icon.width) / 2f;
 		icon.y = y + (height - icon.height) / 2f;
@@ -153,9 +153,9 @@ public class ItemSlot extends Button<GameAction> {
 			PixelScene.align(bottomRightIcon);
 		}
 
-		if (health.visible) {
-			health.setRect(4,bottom()-4, width-8,1 );
-		}
+//		if (health.visible) {
+//			health.setRect(4,bottom()-4, width-8,1 );
+//		}
 	}
 	
 	public void item( Item item ) {
@@ -185,11 +185,11 @@ public class ItemSlot extends Button<GameAction> {
 
 	private void updateText(){
 
-		healthLvl=Float.NaN;
-		if (item!=null&&item.isIdentified()) {
-			if (item.durability < 1) health.level(healthLvl = item.durability);
-			if (item.broken())health.level(healthLvl=0);
-		}
+//		healthLvl=Float.NaN;
+//		if (item!=null&&item.isIdentified()) {
+//			if (item.durability < 1) health.level(healthLvl = item.durability);
+//			if (item.broken())health.level(healthLvl=0);
+//		}
 
 		if (bottomRightIcon != null){
 			remove(bottomRightIcon);
@@ -277,7 +277,7 @@ public class ItemSlot extends Button<GameAction> {
 		topLeft.alpha( alpha );
 		topRight.alpha( alpha );
 		bottomRight.alpha( alpha );
-		health.alpha( alpha );
+//		health.alpha( alpha );
 		if (bottomRightIcon != null) bottomRightIcon.alpha( alpha );
 	}
 

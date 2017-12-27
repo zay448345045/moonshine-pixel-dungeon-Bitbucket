@@ -281,7 +281,8 @@ public class Ring extends KindofMisc {
 			
 			if (!isIdentified() && --ticksToKnow <= 0) {
 				identify();
-				GLog.w( Messages.get(Ring.class, "identify", Ring.this.toString()) );
+				if (!Dungeon.isChallenged(Challenges.AMNESIA))
+					GLog.w( Messages.get(Ring.class, "identify", Ring.this.toString()) );
 				Badges.validateItemLevelAquired( Ring.this );
 			}
 

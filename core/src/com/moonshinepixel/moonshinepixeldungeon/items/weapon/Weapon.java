@@ -99,7 +99,8 @@ abstract public class Weapon extends KindOfWeapon {
 		if (!levelKnown) {
 			if (--hitsToKnow <= 0) {
 				levelKnown = true;
-				GLog.i( Messages.get(Weapon.class, "identify") );
+				if (!Dungeon.isChallenged(Challenges.AMNESIA))
+					GLog.i( Messages.get(Weapon.class, "identify") );
 				Badges.validateItemLevelAquired( this );
 			}
 		}

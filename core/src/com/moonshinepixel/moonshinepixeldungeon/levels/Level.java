@@ -445,8 +445,11 @@ public abstract class Level implements Bundlable {
 		exit		= bundle.getInt( EXIT );
 
 		locked      = bundle.getBoolean( LOCKED );
+		if (bundle.contains("los")) {
+			int vd  = bundle.getInt("los");
+			if (vd!=0)viewDistance=vd;
+		}
 
-		viewDistance=bundle.getInt("los");
 
 		
 		Collection<Bundlable> collection = bundle.getCollection( HEAPS );
@@ -525,11 +528,13 @@ public abstract class Level implements Bundlable {
 				mobs.add( mob );
 			}
 		}
-		collection = bundle.getCollection( INITMOBS );
-		for (Bundlable m : collection) {
-			Mob mob = (Mob)m;
-			if (mob != null) {
-				initMobs.add( mob );
+		if (bundle.contains(INITMOBS)) {
+			collection = bundle.getCollection(INITMOBS);
+			for (Bundlable m : collection) {
+				Mob mob = (Mob) m;
+				if (mob != null) {
+					initMobs.add(mob);
+				}
 			}
 		}
 		

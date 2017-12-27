@@ -115,6 +115,7 @@ public class Belongings implements Iterable<Item> {
 		misc1 = (KindofMisc)bundle.get(MISC1);
 		if (misc1 != null) {
 			misc1.activate( owner );
+
 		}
 		
 		misc2 = (KindofMisc)bundle.get(MISC2);

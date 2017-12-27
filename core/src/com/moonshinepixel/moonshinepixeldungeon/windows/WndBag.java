@@ -336,6 +336,26 @@ public class WndBag extends WndTabbed {
 		public boolean isEquipped( Hero hero ) {
 			return true;
 		}
+
+		@Override
+		public boolean isUpgradable() {
+			return false;
+		}
+
+		@Override
+		public void invAct() {
+			super.invAct();
+			detachAll(Dungeon.hero.belongings.backpack);
+		}
+
+		@Override
+		public boolean doPickUp(Hero hero) {
+			if(super.doPickUp(hero)){
+				detachAll(hero.belongings.backpack);
+				return true;
+			}
+			return false;
+		}
 	}
 	
 	private class ItemButton extends ItemSlot {
@@ -390,7 +410,7 @@ public class WndBag extends WndTabbed {
 					bg.ba = 0.2f;
 				}
 				
-				if (item.name() == null) {
+				if (item.name() == null || item instanceof Placeholder) {
 					enable( false );
 				} else {
 					enable(
@@ -428,6 +448,7 @@ public class WndBag extends WndTabbed {
 							Armor a = (Armor) item;
 							enable(a.hasCurseGlyph());
 						}
+							enable(item.broken()||active);
 					}
 					if (mode == Mode.GUNAMMO && item instanceof Ammo)
 					    if (((Ammo)item).getAmmoType()!=((Gun)Dungeon.hero.belongings.weapon).ammoType())

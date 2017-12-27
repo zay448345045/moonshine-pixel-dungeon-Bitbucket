@@ -58,6 +58,11 @@ public class ForestSpiritSprite extends MobSprite {
 
 	@Override
 	public void attack( int cell ) {
+		attack(cell,true);
+	}
+
+	public void attack(int cell, final boolean complete){
+
 		MagicMissile.boltFromChar( parent,
 				MagicMissile.FORCE,
 				this,
@@ -66,7 +71,8 @@ public class ForestSpiritSprite extends MobSprite {
 					@Override
 					public void call() {
 						try {
-							ch.onAttackComplete();
+							if (complete)
+								ch.onAttackComplete();
 						}catch (Exception e){
 
 						}

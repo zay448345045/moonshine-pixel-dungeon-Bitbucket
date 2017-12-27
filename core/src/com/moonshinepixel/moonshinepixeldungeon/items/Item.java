@@ -96,8 +96,6 @@ public class Item implements Bundlable {
 	// whether an item can be included in heroes remains
 	public boolean bones = false;
 
-	public boolean isDouble = false;
-
 	public boolean renameable = false;
 	
 	private static Comparator<Item> itemComparator = new Comparator<Item>() {
@@ -535,7 +533,10 @@ public class Item implements Bundlable {
 
 		givenName = bundle.getString(GIVENNAME);
 
-		durability=bundle.getFloat(DURABILITY);
+		if(bundle.contains(DURABILITY))
+			durability=bundle.getFloat(DURABILITY);
+		else durability=1;
+		if (!Dungeon.isChallenged(Challenges.RUST))durability=1;
 
 		if (bundle.contains(TIER)) {
 			tier = bundle.getInt(TIER);
