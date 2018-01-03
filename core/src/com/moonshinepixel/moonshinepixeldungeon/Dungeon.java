@@ -112,6 +112,8 @@ public class Dungeon {
 	public static int challenges;
 	public static int devoptions;
 
+	public static String dynastyID="";
+
 	public static Hero hero;
 	public static Level level;
 
@@ -478,6 +480,7 @@ public class Dungeon {
 	private static final String BADGES		= "badges";
 	private static final String ISSEED		= "customseed";
 	private static final String RUNE		= "rune";
+	private static final String DYNASTY		= "dynasty";
 
 	public static String gameFile( HeroClass cl ) {
 		switch (cl) {
@@ -526,6 +529,7 @@ public class Dungeon {
 			bundle.put( RETURNEDDEPTH, returnedDepth );
 			bundle.put( ISSEED, customseed );
 			bundle.put( RUNE, rune );
+			bundle.put( DYNASTY, dynastyID );
 
 			for (int d : droppedItems.keyArray()) {
 				bundle.put(Messages.format(DROPPED, d), droppedItems.get(d));
@@ -619,6 +623,8 @@ public class Dungeon {
 		version = bundle.getInt( VERSION );
 
 		seed = bundle.contains( SEED ) ? bundle.getLong( SEED ) : DungeonSeed.seed();
+
+		dynastyID = bundle.contains( DYNASTY )?bundle.getString(DYNASTY):"";
 
 		Generator.reset();
 

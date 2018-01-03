@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.Bones;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
@@ -50,8 +51,11 @@ public class CavesBossLevel extends Level {
 	{
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
-		
-		viewDistance = 6;
+	}
+
+	@Override
+	public int defaultViewDistance() {
+		return Dungeon.isChallenged( Challenges.DARKNESS ) ? 3 : 6;
 	}
 
 	private static final int WIDTH = 32;

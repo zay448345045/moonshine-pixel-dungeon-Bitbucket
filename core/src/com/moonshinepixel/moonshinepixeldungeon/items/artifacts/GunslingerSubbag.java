@@ -2,19 +2,17 @@ package com.moonshinepixel.moonshinepixeldungeon.items.artifacts;
 
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.items.EquipableItem;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
+import com.moonshinepixel.moonshinepixeldungeon.items.bombs.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.craftingitems.Scrap;
+import com.moonshinepixel.moonshinepixeldungeon.plants.Blindweed;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSpriteSheet;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroSubClass;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.AshBomb;
-import com.moonshinepixel.moonshinepixeldungeon.items.bombs.IncendiaryBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bullets.Bullet;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
@@ -146,6 +144,10 @@ public class GunslingerSubbag extends Artifact {
             item2.detach(Dungeon.hero.belongings.backpack);
             result = new IncendiaryBomb();
             succes=Messages.get(this, "succesfire", item1.name(), item2.name(), result.name());
+        } else if (item2.getClass()== Blindweed.Seed.class){
+            item2.detach(Dungeon.hero.belongings.backpack);
+            result = new StunBomb();
+            succes=Messages.get(this, "successtun", item1.name(), item2.name(), result.name());
         } else if (item2.getClass()== Scrap.class){
                 item2.detach(Dungeon.hero.belongings.backpack);
                 result = new AshBomb();

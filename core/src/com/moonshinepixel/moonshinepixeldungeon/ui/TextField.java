@@ -30,7 +30,7 @@ import com.watabou.noosa.ui.Component;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PointF;
 
-public class TextField extends RedButton {
+public abstract class TextField extends RedButton {
 
 	private NinePatch white;
 
@@ -77,11 +77,9 @@ public class TextField extends RedButton {
 		}
 	}
 
-	public void onTextChange(){
-	}
+	public abstract void onTextChange();
 
-	public void onTextCancel(){
-	}
+	public abstract void onTextCancel();
 
 	@Override
 	public void text(String value) {

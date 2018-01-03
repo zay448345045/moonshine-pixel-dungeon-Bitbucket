@@ -247,7 +247,7 @@ public class WndRanking extends WndTabbed {
 			pos = statSlot( this, Messages.get(this, "version"), versionName, pos );
 
 			pos += GAP;
-			resize(WIDTH,HEIGHT=(int)pos);
+			resize(WIDTH,HEIGHT=(pos>HEIGHT?(int)pos:HEIGHT));
 		}
 		
 		private float statSlot( Group parent, String label, String value, float pos ) {

@@ -264,29 +264,8 @@ public class WndRunSettings extends WndTabbed {
 		public int devModeNum = MoonshinePixelDungeon.devOptions();
 		public DevTab() {
 			super();
-			//System.out.println(devModeNum);
 			float bottom = 0;
 
-//			final CheckBox dev1 = new CheckBox(Messages.get(this, "dev1")){
-//				@Override
-//				protected void onClick() {
-//					super.onClick();
-//					if (checked()){
-//						devModeNum|=1;
-//						editable=true;
-//					} else {
-//						devModeNum ^= 1;
-//						editable=Badges.isUnlocked( Badges.Badge.VICTORY );
-//					}
-//					for (CheckBox cb : challenges.boxes){
-//						cb.enable(editable);
-//					}
-//					//System.out.println(devModeNum);
-//				}
-//			};
-//			dev1.checked((devModeNum&1)!=0);
-//			dev1.setRect(0,bottom,WIDTH,BTN_HEIGHT);
-//			add(dev1);
 
 			RenderedTextMultiline title = PixelScene.renderMultiline(Messages.get(this, "title"),9);
 			title.maxWidth(WIDTH);
@@ -356,9 +335,12 @@ public class WndRunSettings extends WndTabbed {
 			tf = new TextField(Messages.get(this,"seed2"),MoonshinePixelDungeon.seed()){
 				@Override
 				public void onTextChange() {
-					super.onTextChange();
 					MoonshinePixelDungeon.seed(text());
 					text(MoonshinePixelDungeon.seed());
+				}
+
+				@Override
+				public void onTextCancel() {
 				}
 			};
 			tf.enable(MoonshinePixelDungeon.customSeed());

@@ -32,6 +32,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.potions.Potion;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.Scroll;
 import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
 import com.moonshinepixel.moonshinepixeldungeon.utils.DungeonSeed;
+import com.sun.istack.internal.NotNull;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -39,10 +40,7 @@ import com.watabou.utils.Bundle;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.UUID;
+import java.util.*;
 
 public enum Rankings {
 	
@@ -53,9 +51,35 @@ public enum Rankings {
 	public static final String RANKINGS_FILE = "rankings.dat";
 	
 	public ArrayList<Record> records;
+	public static HashMap<String,Dynasty> dynasties;
 	public int lastRecord;
 	public int totalNumber;
 	public int wonNumber;
+
+
+	public static Dynasty main(){
+		return new Dynasty("","0",INSTANCE.records);
+	}
+
+	public void beginDynasty(String name){
+		Dynasty dyn = dynasty(name);
+		dyn.add(records.get(lastRecord));
+	}
+
+	public static int activeDynasties(){
+		int ad = 0;
+		for (Dynasty d:dynasties.values()){
+			if (d.active)ad++;
+		}
+		return ad;
+	}
+
+	private Dynasty dynasty(String name){
+		String id = UUID.randomUUID().toString();
+		Dynasty din = new Dynasty(name,id);
+		dynasties.put(id,din);
+		return din;
+	}
 
 	public void submit( boolean win, Class cause ) {
 
@@ -70,13 +94,10 @@ public enum Rankings {
 		rec.herolevel	= Dungeon.hero.lvl;
 		rec.depth		= Dungeon.fakedepth[Dungeon.depth];
 		rec.challenges	= Dungeon.challenges;
-//		//System.out.println("pet_"+rec.challenges);
-//		//System.out.println("pet_cause_"+rec.cause);
 		rec.score	= score( win );
 
 		INSTANCE.saveGameData(rec);
 
-		//System.out.println(Dungeon.challenges);
 
 		rec.gameID = UUID.randomUUID().toString();
 		
@@ -85,18 +106,6 @@ public enum Rankings {
 		Collections.sort( records, scoreComparator );
 		
 		lastRecord = records.indexOf( rec );
-		int size = records.size();
-//		while (size > TABLE_SIZE) {
-//
-//			if (lastRecord == size - 1) {
-//				records.remove( size - 2 );
-//				lastRecord--;
-//			} else {
-//				records.remove( size - 1 );
-//			}
-//
-//			size = records.size();
-//		}
 		
 		totalNumber++;
 		if (win) {
@@ -194,6 +203,7 @@ public enum Rankings {
 	}
 
 	private static final String RECORDS	= "records";
+	private static final String DYNASTIES= "dynasties";
 	private static final String LATEST	= "latest";
 	private static final String TOTAL	= "total";
 	private static final String WON     = "won";
@@ -201,6 +211,7 @@ public enum Rankings {
 	public void save() {
 		Bundle bundle = new Bundle();
 		bundle.put( RECORDS, records );
+		bundle.put( DYNASTIES, dynasties.values() );
 		bundle.put( LATEST, lastRecord );
 		bundle.put( TOTAL, totalNumber );
 		bundle.put( WON, wonNumber );
@@ -217,12 +228,13 @@ public enum Rankings {
 	
 	public void load() {
 		
-		if (records != null) {
+		if (records != null&&dynasties!=null) {
 			return;
 		}
 		
 		records = new ArrayList<>();
-		
+		dynasties = new HashMap<>();
+
 		try {
 			InputStream input = Game.instance.openFileInput( RANKINGS_FILE );
 			Bundle bundle = Bundle.read( input );
@@ -231,6 +243,13 @@ public enum Rankings {
 			for (Bundlable record : bundle.getCollection( RECORDS )) {
 				records.add( (Record)record );
 			}
+
+			if (bundle.contains(DYNASTIES)) {
+				for (Bundlable dynasty : bundle.getCollection(DYNASTIES)) {
+					dynasties.put(((Dynasty) dynasty).ID, (Dynasty) dynasty);
+				}
+			}
+
 			lastRecord = bundle.getInt( LATEST );
 			
 			totalNumber = bundle.getInt( TOTAL );
@@ -270,10 +289,12 @@ public enum Rankings {
 		private static final String SEED	= "seed";
 		private static final String VERSION	= "ver";
 		private static final String VERSIONC= "verc";
+		private static final String DYNASTY = "dynasty";
 
 		public Class cause;
 		public boolean win;
 		public String name;
+		public String dynasty="";
 
 		public HeroClass heroClass;
 		public int armorTier;
@@ -304,13 +325,15 @@ public enum Rankings {
 
 		@Override
 		public void restoreFromBundle( Bundle bundle ) {
-			
+
 			if (bundle.contains( CAUSE )) {
 				cause   = bundle.getClass( CAUSE );
 			} else {
 				cause = null;
 			}
-			
+
+			if (bundle.contains(DYNASTY))dynasty=bundle.getString(DYNASTY);
+
 			win		= bundle.getBoolean( WIN );
 			score	= bundle.getInt( SCORE );
 
@@ -328,8 +351,6 @@ public enum Rankings {
 			} else {
 				seed = DungeonSeed.convertFromCode("NODATAERR");
 			}
-//			//System.out.println("got_"+challenges);
-//			//System.out.println("got_"+heroClass);
 			herolevel = bundle.getInt( LEVEL );
 			name = bundle.getString( NAME );
 			if (bundle.contains(VERSIONC)){
@@ -361,11 +382,83 @@ public enum Rankings {
 			bundle.put( SEED, seed);
 			bundle.put( VERSION, versionName);
 			bundle.put( VERSIONC, version);
-//			//System.out.println("put_"+challenges);
-//			//System.out.println("put_"+heroClass);
+			bundle.put( DYNASTY, dynasty);
 
 			if (gameData != null) bundle.put( DATA, gameData );
 			bundle.put( ID, gameID );
+		}
+	}
+
+	public static class Dynasty implements Bundlable {
+
+		public boolean active = false;
+
+		private Dynasty(){
+			this("","0");
+		}
+
+		public Dynasty(@NotNull String name, @NotNull String id){
+			this(name,id,null);
+		}
+
+		public Dynasty(@NotNull String name, @NotNull String id, ArrayList<Record> records){
+			this.name=name;
+			this.ID =id;
+			this.records=records!=null?records:new ArrayList<Record>();
+		}
+
+		private ArrayList<Record> records;
+
+		private String name;
+		private int score=-1;
+		private boolean messy = false;
+		private String ID;
+
+		public int score(){
+			if (score==-1||messy){
+				score=0;
+				messy=false;
+				for (Record r:records)score+=r.score;
+			}
+			return score;
+		}
+
+		public String name() {
+			return name;
+		}
+
+		public Dynasty add(Record r){
+			records.add(r);
+			messy=true;
+			return this;
+		}
+
+		public String id() {
+			return ID;
+		}
+
+		public ArrayList<Record> records() {
+			return (ArrayList<Record>)records.clone();
+		}
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			bundle.put( RECORDS, records );
+			bundle.put( "name", name );
+			bundle.put( "ID", ID);
+			bundle.put( "act", active);
+		}
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			records=new ArrayList<>();
+			for (Bundlable record : bundle.getCollection( RECORDS )) {
+				add( (Record)record );
+			}
+			score();
+			name=bundle.getString("name");
+			ID=bundle.getString("ID");
+			active=bundle.getBoolean("active");
 		}
 	}
 

@@ -27,6 +27,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.MasterThievesArm
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ClusterBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.ShrapnelBomb;
+import com.moonshinepixel.moonshinepixeldungeon.items.bombs.StunBomb;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Blandfruit;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Food;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
@@ -37,6 +38,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfEvasion;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfWealth;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.traps.TrapPlacer;
+import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfBlastWave;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfCorruption;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.Weapon;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.*;
@@ -114,7 +116,8 @@ public enum HeroClass {
 				new Mace().random(),
 				new HandAxe().random(),
 				new ScrollOfRecharging().quantity(10),
-				new WandOfCorruption().upgrade(0),
+				new WandOfBlastWave().upgrade(0),
+				new StunBomb().quantity(10),
 				new ShrapnelBomb().quantity(50),
 				new ClusterBomb().quantity(50),
 				new RingOfWealth().upgrade(150),

@@ -23,10 +23,7 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Amok;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Sleep;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Terror;
+import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.NPC;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
@@ -50,9 +47,6 @@ import com.moonshinepixel.moonshinepixeldungeon.items.grimoires.Grimoire;
 import com.moonshinepixel.moonshinepixeldungeon.items.rings.RingOfWealth;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Corruption;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Hunger;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.SoulMark;
 import com.watabou.utils.*;
 
 import java.util.ArrayList;
@@ -478,7 +472,12 @@ public abstract class Mob extends Char {
 			return false;
 		}
 	}
-	
+
+	public void clearEnemy(){
+		enemy=null;
+		enemySeen=false;
+	}
+
 	protected boolean getFurther( int target ) {
 		int step = Dungeon.flee( this, pos, target,
                 Level.getPassable(),
@@ -823,7 +822,7 @@ public abstract class Mob extends Char {
 
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
-			if (enemyInFOV && (justAlerted || Random.Int( distance( enemy ) / 2 + enemy.stealth() ) == 0 || Dungeon.level.alerted)) {
+			if (enemyInFOV && (justAlerted || Random.Int( (distance( enemy ) / 2 + enemy.stealth())*(buff(Blindness.class)!=null?10:1) ) == 0 || Dungeon.level.alerted)) {
 
 				enemySeen = true;
 

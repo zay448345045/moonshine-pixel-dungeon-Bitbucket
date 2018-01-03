@@ -112,7 +112,11 @@ public class Buff extends Actor {
 
 	public static<T extends FlavourBuff> T append( Char target, Class<T> buffClass, float duration ) {
 		T buff = append( target, buffClass );
-		buff.spend( duration );
+		try {
+			buff.spend(duration);
+		} catch (NullPointerException e){
+			MoonshinePixelDungeon.reportException(e);
+		}
 		return buff;
 	}
 

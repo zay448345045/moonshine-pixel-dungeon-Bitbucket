@@ -46,6 +46,7 @@ public class Window extends Group implements Signal.Listener<NoosaInputProcessor
 	
 	public static final int TITLE_COLOR = 0xFFFF44;
 	public static final int SHPX_COLOR = 0x770099;
+	public static final int GOLD_COLOR = 0xffcc00;
 
 	public static final int WIDTH		    = 112;
 	public static final int HEIGHT         = 138;

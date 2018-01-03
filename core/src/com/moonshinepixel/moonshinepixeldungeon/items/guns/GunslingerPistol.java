@@ -9,6 +9,7 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.missiles.ammo.bulle
 public class GunslingerPistol extends BulletGun {
     {
         image = ItemSpriteSheet.HANDCRAFTGUN;
+//        image = ItemSpriteSheet.BOW;
         this._load.fill(Bullet.class);
         tier=1;
     }

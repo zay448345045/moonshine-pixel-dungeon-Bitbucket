@@ -1,6 +1,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
@@ -34,7 +35,6 @@ public class GardenBossLevel extends Level {
     {
         color1 = 0x8f7e35;
         color2 = 0x7b6932;
-        viewDistance=8;
         lightaffected=false;
     }
 

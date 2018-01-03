@@ -123,6 +123,8 @@ public class ItemSpriteSheet {
 	public static final int SMALLBOMB       = EXPLOSIVES+4;
 	public static final int SMALLBOMB2      = EXPLOSIVES+5;
 	public static final int CLUSTERBOMB     = EXPLOSIVES+6;
+	public static final int DYNAMITE     	= EXPLOSIVES+7;
+	public static final int LIGHTBOMB     	= EXPLOSIVES+8;
 	static {
 		assignItemRect(BOMB,             10, 13);
 		assignItemRect(BOMB2,            10, 13);
@@ -131,6 +133,8 @@ public class ItemSpriteSheet {
 		assignItemRect(SMALLBOMB,        8,  10);
 		assignItemRect(SMALLBOMB2,       8,  10);
 		assignItemRect(CLUSTERBOMB,      12, 16);
+		assignItemRect(DYNAMITE,	     14, 15);
+		assignItemRect(LIGHTBOMB,        10, 13);
 	}
 
 
@@ -141,12 +145,14 @@ public class ItemSpriteSheet {
 	public static final int BLUNDERBUSS = GUNS+2;
 	public static final int FUSIL = GUNS+3;
 	public static final int MORTAIR = GUNS+4;
+	public static final int BOW = GUNS+5;
 	static{
 		assignItemRect(HANDCRAFTGUN, 10, 13);
 		assignItemRect(PISTOL,		 12, 16);
 		assignItemRect(BLUNDERBUSS,	 13, 16);
 		assignItemRect(FUSIL,		 13, 16);
 		assignItemRect(MORTAIR,		 16, 16);
+		assignItemRect(BOW,		 16, 16);
 	}
 
 	private static final int WEP_TIER1      =                               xy(1, 7);   //8 slots
@@ -224,14 +230,14 @@ public class ItemSpriteSheet {
 	public static final int SCYTHE      	= WEP_TIERM1+0;
 	public static final int CLAW        	= WEP_TIERM1+1;
 	public static final int GIGANTSHURIKEN  = WEP_TIERM1+2;
-	public static final int HOOK        	= WEP_TIERM1+6;
-	public static final int BAMBOSPEAR  	= WEP_TIERM1+5;
+	public static final int HOOK        	= WEP_TIERM1+4;
+	public static final int BAMBOSPEAR  	= WEP_TIERM1+3;
 	static {
-		assignItemRect(SCYTHE,  13, 15);
-		assignItemRect(CLAW,  14, 14);
-		assignItemRect(GIGANTSHURIKEN,	16, 16);
-		assignItemRect(HOOK,	14, 16);
-		assignItemRect(BAMBOSPEAR,	16, 16);
+		assignItemRect(SCYTHE,		  		13, 15);
+		assignItemRect(CLAW,  				14, 14);
+		assignItemRect(GIGANTSHURIKEN,		16, 16);
+		assignItemRect(HOOK,				14, 16);
+		assignItemRect(BAMBOSPEAR,			16, 16);
 	}
 
 

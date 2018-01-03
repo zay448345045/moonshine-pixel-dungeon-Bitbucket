@@ -195,7 +195,7 @@ public abstract class Level implements Bundlable {
 	public boolean[] visited;
 	public boolean[] mapped;
 
-	public int viewDistance = Dungeon.isChallenged( Challenges.DARKNESS ) ? 4 : 8;
+	public int viewDistance = defaultViewDistance();
 	public boolean lightaffected = true;
 
 	public boolean alerted = false;
@@ -261,6 +261,11 @@ public abstract class Level implements Bundlable {
 	private static final String BLOBS		= "blobs";
 	private static final String FEELING		= "feeling";
 	private static final String ALERTED		= "alerted";
+
+	public int defaultViewDistance(){
+		return Dungeon.isChallenged( Challenges.DARKNESS ) ? 4 : 8;
+	}
+
 	//return false if border or outside of map
 	public boolean isMap(int cell){
 		return cell >= width && cell <= length - width && cell % width != 0 && cell % width != width - 1;
@@ -445,6 +450,8 @@ public abstract class Level implements Bundlable {
 		exit		= bundle.getInt( EXIT );
 
 		locked      = bundle.getBoolean( LOCKED );
+
+		viewDistance=defaultViewDistance();
 		if (bundle.contains("los")) {
 			int vd  = bundle.getInt("los");
 			if (vd!=0)viewDistance=vd;

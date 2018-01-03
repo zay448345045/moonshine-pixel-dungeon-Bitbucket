@@ -73,7 +73,7 @@ public abstract class Actor implements Bundlable {
 	protected void onRemove() {}
 
 	private static final String TIME    = "time";
-	private static final String ID      = "id";
+	private static final String ID      = "ID";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {

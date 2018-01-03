@@ -24,6 +24,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.items.Torch;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.HallsPainter;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.Painter;
@@ -41,12 +42,18 @@ public class HallsLevel extends RegularLevel {
 
 	{
 		
-		viewDistance = Math.max( 26 - Dungeon.depth, 1 );
+
 		
 		color1 = 0x801500;
 		color2 = 0xa68521;
 	}
-	
+
+	@Override
+	public int defaultViewDistance() {
+		int vd = Math.max( 26 - Dungeon.depth, 1 );
+		return Dungeon.isChallenged( Challenges.DARKNESS ) ? vd/2 : vd;
+	}
+
 	@Override
 	protected int standardRooms() {
 		//8 to 10, average 8.67

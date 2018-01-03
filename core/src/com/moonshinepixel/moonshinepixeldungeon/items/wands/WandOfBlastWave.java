@@ -145,7 +145,8 @@ public class WandOfBlastWave extends DamageWand {
 				if (ch == Dungeon.hero){
 					Dungeon.observe();
 				}
-				cb.call();
+				if (cb!=null)
+					cb.call();
 			}
 		}), -1);
 	}

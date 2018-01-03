@@ -55,6 +55,8 @@ public class SwitchHook extends MeleeWeapon {
 		tier = 2;
 
 		defaultAction=AC_GRAB;
+
+		usesTargeting=true;
 	}
 
 	@Override

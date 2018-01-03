@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.moonshinepixel.moonshinepixeldungeon.levels.painters.CavesPainter;
@@ -42,10 +43,13 @@ public class CavesLevel extends RegularLevel {
 	{
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
-		
-		viewDistance = 6;
 	}
-	
+
+	@Override
+	public int defaultViewDistance() {
+		return Dungeon.isChallenged( Challenges.DARKNESS ) ? 3 : 6;
+	}
+
 	@Override
 	protected ArrayList<Room> initRooms() {
 		return Blacksmith.Quest.spawn(super.initRooms());

@@ -530,6 +530,10 @@ public class WndBag extends WndTabbed {
 				public void onTextChange() {
 					itm.rename(text());
 				}
+
+				@Override
+				public void onTextCancel() {
+				}
 			};
 			name.setRect(0,top,WIDTH,BTN_HEIGHT);
 			add(name);

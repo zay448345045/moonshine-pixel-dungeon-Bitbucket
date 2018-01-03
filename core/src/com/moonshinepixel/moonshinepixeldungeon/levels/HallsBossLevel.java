@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.levels;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Yog;
 import com.moonshinepixel.moonshinepixeldungeon.effects.particles.FlameParticle;
@@ -44,8 +45,12 @@ public class HallsBossLevel extends Level {
 	{
 		color1 = 0x801500;
 		color2 = 0xa68521;
-		
-		viewDistance = 4;
+
+	}
+
+	@Override
+	public int defaultViewDistance() {
+		return Dungeon.isChallenged( Challenges.DARKNESS ) ? 2 : 4;
 	}
 
 	private static final int WIDTH = 32;

@@ -34,8 +34,7 @@ import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.ui.Button;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.ColorMath;
-import com.watabou.utils.GameMath;
-import com.watabou.utils.PointF;
+import  com.moonshinepixel.moonshinepixeldungeon.Rankings.Dynasty;
 
 public class RankingsScene extends PixelScene {
 
@@ -45,6 +44,8 @@ public class RankingsScene extends PixelScene {
 	private static final float MAX_ROW_WIDTH    = 160;
 
 	private static final float GAP	= 4;
+
+	private static Dynasty curDynasty;
 	
 	private Archs archs;
 
@@ -52,7 +53,14 @@ public class RankingsScene extends PixelScene {
 	public void create() {
 		
 		super.create();
-		
+
+		if (curDynasty==null){
+			Rankings.INSTANCE.load();
+			curDynasty=Rankings.main();
+		}
+
+		boolean main = curDynasty.id().equals("0");
+
 		Music.INSTANCE.play( Assets.THEME, true );
 		Music.INSTANCE.volume( MoonshinePixelDungeon.musicVol() / 10f );
 
@@ -67,14 +75,16 @@ public class RankingsScene extends PixelScene {
 		
 		Rankings.INSTANCE.load();
 
-		RenderedText title = renderText( Messages.get(this, "title"), 9);
-		title.hardlight(Window.SHPX_COLOR);
+		RenderedText title = renderText(
+				main?Messages.get(this, "title"):curDynasty.name(),
+				9);
+		title.hardlight(main?Window.SHPX_COLOR:Window.GOLD_COLOR);
 		title.x = (w - title.width()) / 2;
 		title.y = GAP;
 		align(title);
 		add(title);
 		
-		if (Rankings.INSTANCE.records.size() > 0) {
+		if (curDynasty.records().size() > 0) {
 
 			//attempts to give each record as much space as possible, ideally as much space as portrait mode
 //			float rowHeight = GameMath.gate(ROW_HEIGHT_MIN, (uiCamera.height - 26)/Rankings.INSTANCE.records.size(), ROW_HEIGHT_MAX);
@@ -98,8 +108,8 @@ public class RankingsScene extends PixelScene {
 			ranks.clear();
 			add(pane);
 
-			for (Rankings.Record rec : Rankings.INSTANCE.records) {
-				Record row = new Record( pos, pos == Rankings.INSTANCE.lastRecord, rec );
+			for (Rankings.Record rec : curDynasty.records()) {
+				Record row = new Record( pos, pos == Rankings.INSTANCE.lastRecord&&main, rec );
 				float offset =
 						rowHeight <= 14 ?
 								pos %2 == 1?
@@ -125,22 +135,28 @@ public class RankingsScene extends PixelScene {
 			label.hardlight( 0xCCCCCC );
 			add( label );
 
-			RenderedText won = renderText( Integer.toString( Rankings.INSTANCE.wonNumber ), 8 );
+			RenderedText won = renderText( Integer.toString( main?Rankings.INSTANCE.wonNumber:curDynasty.records().size() ), 8 );
 			won.hardlight( Window.SHPX_COLOR );
 			add( won );
 
-			RenderedText total = renderText( "/" + Rankings.INSTANCE.totalNumber, 8 );
+			RenderedText total = renderText( "/" + (main?Rankings.INSTANCE.totalNumber:curDynasty.records().size()), 8 );
 			total.hardlight( 0xCCCCCC );
 			total.x = (w - total.width()) / 2;
 			total.y = top + pos * rowHeight + GAP;
 			add( total );
 
-			float tw = label.width() + won.width() + total.width();
+			RenderedText score = renderText( Messages.get(this,"score")+curDynasty.score(), 8 );
+			score.hardlight( Window.GOLD_COLOR );
+			add( score );
+
+			float tw = label.width() + won.width() + total.width() + GAP + score.width();
 			label.x = (w - tw) / 2;
 			won.x = label.x + label.width();
 			total.x = won.x + won.width();
-			label.y = won.y = total.y = h - label.height() - GAP;
+			score.x = total.x + total.width() + GAP;
+			label.y = won.y = total.y = score.y = h - label.height() - GAP;
 
+			align(score);
 			align(label);
 			align(total);
 			align(won);

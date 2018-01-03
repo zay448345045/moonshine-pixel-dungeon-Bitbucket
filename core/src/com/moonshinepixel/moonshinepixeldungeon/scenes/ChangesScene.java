@@ -40,6 +40,10 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
 			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
 					"\n" +
+					"_v0.1.28 - alpha:_\n" +
+					"_-_ Bugfixes"+
+					"\n" +
+					"\n" +
 					"_v0.1.27 - alpha:_\n" +
 					"_-_ Fixed loading pre-0.1.25 saves\nFixed null-items in inventory\nFixed 0-cell FOV\nFixed all items were broken on save loading\nFixed !!NO_TEXT_FOUND!!! named challenge"+
 					"\n" +
