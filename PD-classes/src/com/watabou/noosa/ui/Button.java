@@ -108,14 +108,18 @@ public class Button<T> extends Component {
 		return false;
 	}
 	protected boolean onKeyUp(NoosaInputProcessor.Key<T> key) {
-		if (active && hotKey != null && key.action.equals(hotKey)) {
-			if (NoosaInputProcessor.modifier) {
-				return onLongClick();
+		try {
+			if (active && hotKey != null && key.action.equals(hotKey)) {
+				if (NoosaInputProcessor.modifier) {
+					return onLongClick();
+				} else {
+					onClick();
+					return true;
+				}
 			} else {
-				onClick();
-				return true;
+				return false;
 			}
-		} else {
+		} catch (Throwable e){
 			return false;
 		}
 	}

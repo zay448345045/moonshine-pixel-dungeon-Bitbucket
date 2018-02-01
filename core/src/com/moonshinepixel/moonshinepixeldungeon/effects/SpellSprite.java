@@ -118,9 +118,8 @@ public class SpellSprite extends Image {
 		super.kill();
 		all.remove( target );
 	}
-	
 	public static void show( Char ch, int index ) {
-		
+
 		if (!ch.sprite.visible) {
 			return;
 		}

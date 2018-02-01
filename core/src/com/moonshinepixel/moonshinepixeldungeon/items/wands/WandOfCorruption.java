@@ -42,6 +42,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 //TODO final balancing decisions here
 public class WandOfCorruption extends Wand {
@@ -185,7 +186,7 @@ public class WandOfCorruption extends Wand {
 				!enemy.properties().contains(Char.Property.MINIBOSS) &&
 				!enemy.immunities().contains(Corruption.class)) {
 			enemy.HP = enemy.HT;
-			for (Buff buff : enemy.buffs()) {
+			for (Buff buff : (HashSet<Buff>)enemy.buffs().clone()) {
 				if (buff.type == Buff.buffType.NEGATIVE
 						&& !(buff instanceof SoulMark)) {
 					buff.detach();

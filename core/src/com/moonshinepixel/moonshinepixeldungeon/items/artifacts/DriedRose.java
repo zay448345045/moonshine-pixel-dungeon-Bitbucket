@@ -424,7 +424,7 @@ public class DriedRose extends Artifact {
 			super.destroy();
 		}
 
-		private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();
+		private static final HashSet<Class> IMMUNITIES = new HashSet<Class>();
 		static {
 			IMMUNITIES.add( ToxicGas.class );
 			IMMUNITIES.add( VenomGas.class );
@@ -433,7 +433,7 @@ public class DriedRose extends Artifact {
 		}
 
 		@Override
-		public HashSet<Class<?>> immunities() {
+		public HashSet<Class> immunities() {
 			return IMMUNITIES;
 		}
 

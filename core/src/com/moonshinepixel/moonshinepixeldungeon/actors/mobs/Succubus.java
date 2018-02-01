@@ -137,23 +137,23 @@ public class Succubus extends Mob {
 		return Random.NormalIntRange(0, 10);
 	}
 	
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();
+	private static final HashSet<Class> RESISTANCES = new HashSet<>();
 	static {
 		RESISTANCES.add( Vampiric.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return RESISTANCES;
 	}
 	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		IMMUNITIES.add( Sleep.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 }

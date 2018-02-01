@@ -33,7 +33,9 @@ public class MobSprite extends CharSprite {
 
 	private static final float FADE_TIME	= 3f;
 	private static final float FALL_TIME	= 1f;
-	
+
+	public boolean nofade = false;
+
 	@Override
 	public void update() {
 		if (ch instanceof Mob) {
@@ -48,7 +50,7 @@ public class MobSprite extends CharSprite {
 		super.onComplete( anim );
 		
 		if (anim == die) {
-			parent.add( new AlphaTweener( this, 0, FADE_TIME ) {
+			parent.add( new AlphaTweener( this, 0, nofade?0:FADE_TIME ) {
 				@Override
 				protected void onComplete() {
 					MobSprite.this.killAndErase();

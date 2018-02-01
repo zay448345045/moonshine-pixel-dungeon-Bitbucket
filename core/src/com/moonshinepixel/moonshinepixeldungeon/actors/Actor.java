@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.actors;
 
+import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.Statistics;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
@@ -185,16 +186,20 @@ public abstract class Actor implements Bundlable {
 			current = null;
 			if (!interrupted) {
 				now = Float.MAX_VALUE;
-				
-				for (Actor actor : all) {
-					
-					//some actors will always go before others if time is equal.
-					if (actor.time < now ||
-							actor.time == now && (current == null || actor.actPriority < current.actPriority)) {
-						now = actor.time;
-						current = actor;
+
+				try {
+					for (Actor actor : all) {
+
+						//some actors will always go before others if time is equal.
+						if (actor.time < now ||
+								actor.time == now && (current == null || actor.actPriority < current.actPriority)) {
+							now = actor.time;
+							current = actor;
+						}
+
 					}
-					
+				} catch (Throwable e){
+					MoonshinePixelDungeon.reportException(e);
 				}
 			}
 

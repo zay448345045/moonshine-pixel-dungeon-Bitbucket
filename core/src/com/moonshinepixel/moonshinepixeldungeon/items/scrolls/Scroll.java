@@ -145,6 +145,8 @@ public abstract class Scroll extends Item {
 					&& hero.buff(UnstableSpellbook.bookRecharge.class).isCursed()
 					&& !(this instanceof ScrollOfRemoveCurse)) {
 				GLog.n( Messages.get(this, "cursed") );
+			} else if (!canread()){
+				GLog.n( Messages.get(this, "blocked") );
 			} else {
 				curUser = hero;
 				curItem = detach( hero.belongings.backpack );
@@ -153,7 +155,11 @@ public abstract class Scroll extends Item {
 			
 		}
 	}
-	
+
+	public boolean canread(){
+		return true;
+	}
+
 	abstract protected void doRead();
 
 	protected void readAnimation() {

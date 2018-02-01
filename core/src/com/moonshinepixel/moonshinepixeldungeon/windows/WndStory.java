@@ -20,6 +20,7 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.Chrome;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
@@ -56,6 +57,15 @@ public class WndStory extends Window {
 		CHAPTERS.put( ID_CAVES, "caves" );
 		CHAPTERS.put( ID_CITY, "city" );
 		CHAPTERS.put( ID_HALLS, "halls" );
+	};
+	private static final SparseArray<String> CHAPTERSA = new SparseArray<String>();
+
+	static {
+		CHAPTERSA.put( ID_SEWERS, "sewers_a" );
+		CHAPTERSA.put( ID_PRISON, "prison_a" );
+		CHAPTERSA.put( ID_CAVES, "caves_a" );
+		CHAPTERSA.put( ID_CITY, "city_a" );
+		CHAPTERSA.put( ID_HALLS, "halls_a" );
 	};
 	
 	private RenderedTextMultiline tf;
@@ -98,7 +108,8 @@ public class WndStory extends Window {
 			return;
 		}
 		
-		String text = Messages.get(WndStory.class, CHAPTERS.get( id ));
+		String text = Messages.get(WndStory.class, (Dungeon.isChallenged(Challenges.AMNESIA)?CHAPTERSA:CHAPTERS).get( id ));
+
 		if (text != null) {
 			WndStory wnd = new WndStory( text );
 			if ((wnd.delay = 0.6f) > 0) {

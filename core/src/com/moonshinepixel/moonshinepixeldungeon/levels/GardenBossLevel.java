@@ -114,57 +114,60 @@ public class GardenBossLevel extends Level {
     }
 
     public GardenBossRoom draw(GardenBossRoom r){
-        r.drawed=true;
-        for (int x=0;x<7;x++){
-            for (int y=0;y<7;y++){
-                Room rr = rooms[x][y];
-                if (rr!=null&&rr!=r){
-                    Painter.fill(this,rr,Terrain.WALL);
-                    rooms[x][y]=null;
+        if (r!=null) {
+            r.drawed = true;
+            for (int x = 0; x < 7; x++) {
+                for (int y = 0; y < 7; y++) {
+                    Room rr = rooms[x][y];
+                    if (rr != null && rr != r) {
+                        Painter.fill(this, rr, Terrain.WALL);
+                        rooms[x][y] = null;
+                    }
                 }
             }
-        }
-        clearEntities(r);
-        HashSet<Point> cells = new HashSet<>();
-        if ((r.dirs&GardenBossRoom.LEFT)!=0){
-            GardenBossRoom nr = setRoom(r.x-1,r.y,r);
-            nr.paint(this);
-            GameScene.updateMap(nr);
-            cells.add(nr.center());
-        }
-        if ((r.dirs&GardenBossRoom.RIGHT)!=0){
-            GardenBossRoom nr = setRoom(r.x+1,r.y,r);
-            nr.paint(this);
-            GameScene.updateMap(nr);
-            cells.add(nr.center());
-        }
-        if ((r.dirs&GardenBossRoom.UP)!=0){
-            GardenBossRoom nr = setRoom(r.x,r.y-1,r);
-            nr.paint(this);
-            GameScene.updateMap(nr);
-            cells.add(nr.center());
-        }
-        if ((r.dirs&GardenBossRoom.DOWN)!=0){
-            GardenBossRoom nr = setRoom(r.x,r.y+1,r);
-            nr.paint(this);
-            GameScene.updateMap(nr);
-            cells.add(nr.center());
-        }
+            clearEntities(r);
+            HashSet<Point> cells = new HashSet<>();
+            if ((r.dirs & GardenBossRoom.LEFT) != 0) {
+                GardenBossRoom nr = setRoom(r.x - 1, r.y, r);
+                nr.paint(this);
+                GameScene.updateMap(nr);
+                cells.add(nr.center());
+            }
+            if ((r.dirs & GardenBossRoom.RIGHT) != 0) {
+                GardenBossRoom nr = setRoom(r.x + 1, r.y, r);
+                nr.paint(this);
+                GameScene.updateMap(nr);
+                cells.add(nr.center());
+            }
+            if ((r.dirs & GardenBossRoom.UP) != 0) {
+                GardenBossRoom nr = setRoom(r.x, r.y - 1, r);
+                nr.paint(this);
+                GameScene.updateMap(nr);
+                cells.add(nr.center());
+            }
+            if ((r.dirs & GardenBossRoom.DOWN) != 0) {
+                GardenBossRoom nr = setRoom(r.x, r.y + 1, r);
+                nr.paint(this);
+                GameScene.updateMap(nr);
+                cells.add(nr.center());
+            }
 
-        if (bosshide&&Random.Int(8)==0){
-            boss.pos=pointToCell(Random.element(cells));
-            GameScene.add(boss);
-            ScrollOfTeleportation.appear(boss,boss.pos);
-            bosshide=false;
-            boss.enable();
-            boss.say();
+            if (bosshide && Random.Int(8) == 0) {
+                boss.pos = pointToCell(Random.element(cells));
+                GameScene.add(boss);
+                ScrollOfTeleportation.appear(boss, boss.pos);
+                bosshide = false;
+                boss.enable();
+                boss.say();
+            }
+            BArray.setFalse(visited);
+            BArray.setFalse(mapped);
+            try {
+                Dungeon.observe();
+            } catch (Exception ignored) {
+            }
+            buildFlagMaps();
         }
-        BArray.setFalse(visited);
-        BArray.setFalse(mapped);
-        try {
-            Dungeon.observe();
-        } catch (Exception ignored){}
-        buildFlagMaps();
         return r;
     }
 
@@ -401,5 +404,15 @@ public class GardenBossLevel extends Level {
     @Override
     protected void createItems() {
 
+    }
+
+    @Override
+    public boolean mapable() {
+        return state!=State.BATTLE;
+    }
+
+    @Override
+    public boolean teleportable() {
+        return state!=State.BATTLE;
     }
 }

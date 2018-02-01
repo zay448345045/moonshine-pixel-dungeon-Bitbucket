@@ -91,13 +91,13 @@ public class Bat extends Mob {
 		return super.createLoot();
 	}
 	
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();
+	private static final HashSet<Class> RESISTANCES = new HashSet<>();
 	static {
 		RESISTANCES.add( Vampiric.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return RESISTANCES;
 	}
 }

@@ -32,7 +32,6 @@ import com.moonshinepixel.moonshinepixeldungeon.items.potions.Potion;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.Scroll;
 import com.moonshinepixel.moonshinepixeldungeon.ui.QuickSlotButton;
 import com.moonshinepixel.moonshinepixeldungeon.utils.DungeonSeed;
-import com.sun.istack.internal.NotNull;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -58,20 +57,42 @@ public enum Rankings {
 
 
 	public static Dynasty main(){
-		return new Dynasty("","0",INSTANCE.records);
+		return new Dynasty("None","",INSTANCE.records);
 	}
 
 	public void beginDynasty(String name){
 		Dynasty dyn = dynasty(name);
+		dyn.active=true;
+		dyn.playing=false;
 		dyn.add(records.get(lastRecord));
+		dyn.challenges=records.get(lastRecord).challenges;
+		save();
 	}
 
-	public static int activeDynasties(){
-		int ad = 0;
+	public static ArrayList<String> activeDynastiesIDS(){
+		ArrayList<String> dyns = new ArrayList<>();
 		for (Dynasty d:dynasties.values()){
-			if (d.active)ad++;
+			if (!d.id().equals(""))
+			dyns.add(d.id());
 		}
-		return ad;
+		return dyns;
+	}
+
+	public static boolean[] playedDynasties(ArrayList<String> dyns){
+		boolean[] ret = new boolean[dyns.size()];
+		for (int i = 0; i<dyns.size(); i++){
+			if (!dyns.get(i).equals(""))
+			ret[i]=dynasties.get(dyns.get(i)).playing;
+		}
+		return ret;
+	}
+
+	public static String[] dynArListToNames(ArrayList<String> dyns){
+		String[] ret = new String[dyns.size()];
+		for (int i = 0; i<dyns.size(); i++){
+			ret[i]=dynasties.get(dyns.get(i)).name;
+		}
+		return ret;
 	}
 
 	private Dynasty dynasty(String name){
@@ -82,10 +103,15 @@ public enum Rankings {
 	}
 
 	public void submit( boolean win, Class cause ) {
-
 		load();
 		
 		Record rec = new Record();
+
+		Dynasty dyn = null;
+		if (!Dungeon.dynastyID.equals("")){
+			dyn=dynasties.get(Dungeon.dynastyID);
+			dyn.add(rec);
+		}
 
 		rec.cause = cause;
 		rec.win		= win;
@@ -94,7 +120,11 @@ public enum Rankings {
 		rec.herolevel	= Dungeon.hero.lvl;
 		rec.depth		= Dungeon.fakedepth[Dungeon.depth];
 		rec.challenges	= Dungeon.challenges;
-		rec.score	= score( win );
+		rec.score	    = score( win );
+
+		if (dyn!=null){
+			rec.score*=Math.pow(1.2,dyn.records().size());
+		}
 
 		INSTANCE.saveGameData(rec);
 
@@ -113,7 +143,7 @@ public enum Rankings {
 		}
 
 		Badges.validateGamesPlayed();
-		
+
 		save();
 	}
 
@@ -266,6 +296,7 @@ public enum Rankings {
 				}
 			}
 
+			dynasties.put("",main());
 		} catch (IOException e) {
 		}
 	}
@@ -392,16 +423,18 @@ public enum Rankings {
 	public static class Dynasty implements Bundlable {
 
 		public boolean active = false;
+		public boolean playing = false;
+		public int 	   challenges = 0;
 
-		private Dynasty(){
-			this("","0");
+		public Dynasty(){
+			this("","");
 		}
 
-		public Dynasty(@NotNull String name, @NotNull String id){
+		public Dynasty( String name,  String id){
 			this(name,id,null);
 		}
 
-		public Dynasty(@NotNull String name, @NotNull String id, ArrayList<Record> records){
+		public Dynasty( String name,  String id, ArrayList<Record> records){
 			this.name=name;
 			this.ID =id;
 			this.records=records!=null?records:new ArrayList<Record>();
@@ -447,6 +480,8 @@ public enum Rankings {
 			bundle.put( "name", name );
 			bundle.put( "ID", ID);
 			bundle.put( "act", active);
+			bundle.put( "pln", playing);
+			bundle.put( "cln", challenges);
 		}
 
 		@Override
@@ -459,6 +494,8 @@ public enum Rankings {
 			name=bundle.getString("name");
 			ID=bundle.getString("ID");
 			active=bundle.getBoolean("active");
+			playing=bundle.getBoolean("pln");
+			challenges=bundle.getInt("cln");
 		}
 	}
 

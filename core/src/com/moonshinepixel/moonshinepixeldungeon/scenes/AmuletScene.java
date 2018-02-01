@@ -61,9 +61,11 @@ public class AmuletScene extends PixelScene {
 		RedButton btnExit = new RedButton( Messages.get(this, "exit") ) {
 			@Override
 			protected void onClick() {
+				boolean cheated = Dungeon.cheated();
 				Dungeon.win( Amulet.class, false );
 				Dungeon.deleteGame( Dungeon.hero.heroClass, true );
-				Game.switchScene( RankingsScene.class );
+				DynastyScene.surface=false;
+				Game.switchScene( cheated?TitleScene.class:DynastyScene.class );
 			}
 		};
 		btnExit.setSize( WIDTH, BTN_HEIGHT );

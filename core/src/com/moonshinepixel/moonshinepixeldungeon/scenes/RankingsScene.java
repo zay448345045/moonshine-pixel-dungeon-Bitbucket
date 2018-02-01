@@ -59,7 +59,7 @@ public class RankingsScene extends PixelScene {
 			curDynasty=Rankings.main();
 		}
 
-		boolean main = curDynasty.id().equals("0");
+		boolean main = curDynasty.id().equals("");
 
 		Music.INSTANCE.play( Assets.THEME, true );
 		Music.INSTANCE.volume( MoonshinePixelDungeon.musicVol() / 10f );

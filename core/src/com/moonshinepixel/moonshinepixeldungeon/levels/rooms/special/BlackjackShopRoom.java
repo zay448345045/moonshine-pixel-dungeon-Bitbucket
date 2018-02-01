@@ -105,8 +105,10 @@ public class BlackjackShopRoom extends SpecialRoom {
 		for (int i = left; i < right; i++) {
 			for (int j = top; j < bottom; j++) {
 				int cell = i + j*Dungeon.level.width();
-				CellEmitter.get(cell).burst(ElmoParticle.FACTORY, 2);
-				Dungeon.level.map[cell]=this.map[cell];
+				if (Dungeon.level.insideMap(cell)) {
+					CellEmitter.get(cell).burst(ElmoParticle.FACTORY, 2);
+					Dungeon.level.map[cell] = this.map[cell];
+				}
 			}
 		}
 		for (Door door : connected.values()) {

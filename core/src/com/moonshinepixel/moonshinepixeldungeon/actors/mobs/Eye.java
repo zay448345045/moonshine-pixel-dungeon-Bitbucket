@@ -222,7 +222,7 @@ public class Eye extends Mob {
 		beamCharged = bundle.getBoolean(BEAM_CHARGED);
 	}
 
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();
+	private static final HashSet<Class> RESISTANCES = new HashSet<>();
 	static {
 		RESISTANCES.add( WandOfDisintegration.class );
 		RESISTANCES.add( Grim.class );
@@ -230,17 +230,17 @@ public class Eye extends Mob {
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return RESISTANCES;
 	}
 	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		IMMUNITIES.add( Terror.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 

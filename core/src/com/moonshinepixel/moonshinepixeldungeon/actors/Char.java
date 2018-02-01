@@ -71,7 +71,11 @@ public abstract class Char extends Actor {
 	
 	public int viewDistance	= 8;
 	public int oldPos;
-	
+
+
+
+	public boolean renderHPBar = true;
+
 	private HashSet<Buff> buffs = new HashSet<>();
 
     public int timeToShootMod(){
@@ -364,11 +368,12 @@ public abstract class Char extends Actor {
 			HP -= (dmg - SHLD);
 			SHLD = 0;
 		}
-		
-		sprite.showStatus( HP > HT / 2 ?
-			CharSprite.WARNING :
-			CharSprite.NEGATIVE,
-			Integer.toString( dmg ) );
+		if (sprite!=null) {
+			sprite.showStatus(HP > HT / 2 ?
+							CharSprite.WARNING :
+							CharSprite.NEGATIVE,
+					Integer.toString(dmg));
+		}
 
 		if (HP < 0) HP = 0;
 
@@ -519,7 +524,11 @@ public abstract class Char extends Actor {
 		}
 		
 		if (this != Dungeon.hero) {
-			sprite.visible = Dungeon.visible[pos];
+			try {
+				sprite.visible = Dungeon.visible[pos];
+			} catch (NullPointerException ignored){
+
+			}
 		}
 	}
 	
@@ -541,13 +550,13 @@ public abstract class Char extends Actor {
 		next();
 	}
 	
-	private static final HashSet<Class<?>> EMPTY = new HashSet<>();
+	private static final HashSet<Class> EMPTY = new HashSet<>();
 	
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return EMPTY;
 	}
 	
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return EMPTY;
 	}
 

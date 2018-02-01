@@ -81,14 +81,15 @@ public class GiantShuriken extends MeleeWeapon {
 
     @Override
     public void execute(Hero hero, String action) {
-	    curItem=this;
-        if (action.equals(AC_THROWBIG) && this.isEquipped(hero)){
+
+        super.execute(hero, action);
+
+        if ( action!=null&&action.equals(AC_THROWBIG) && this.isEquipped(hero)){
             if (!cursed)
                 GameScene.selectCell( ((GiantShuriken) Item.curItem).throwerbig );
             else
                 GLog.w(Messages.get(EquipableItem.class, "unequip_cursed"));
         }
-        super.execute(hero, action);
     }
 
     public void throwme(Hero hero, int target){

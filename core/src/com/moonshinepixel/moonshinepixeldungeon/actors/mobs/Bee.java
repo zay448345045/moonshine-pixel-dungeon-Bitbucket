@@ -125,7 +125,7 @@ public class Bee extends Mob {
 			//find all mobs near the pot
 			HashSet<Char> enemies = new HashSet<>();
 			for (Mob mob : Dungeon.level.mobs)
-				if (!(mob instanceof Bee) && Dungeon.level.distance(mob.pos, potPos) <= 3 && (mob.hostile || mob.ally))
+				if (!(mob instanceof Bee) && Dungeon.level.distance(mob.pos, potPos) <= 3 && (mob.hostile || !mob.ally))
 					enemies.add(mob);
 
 			//pick one, if there are none, check if the hero is near the pot, go for them, otherwise go for nothing.
@@ -143,14 +143,14 @@ public class Bee extends Mob {
 		return super.getCloser( target );
 	}
 	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		IMMUNITIES.add( Poison.class );
 		IMMUNITIES.add( Amok.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 }

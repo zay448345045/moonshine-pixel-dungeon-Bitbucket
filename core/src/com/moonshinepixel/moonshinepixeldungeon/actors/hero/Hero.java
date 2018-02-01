@@ -38,7 +38,7 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.LightningTrap;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Sungrass;
-import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
+import com.moonshinepixel.moonshinepixeldungeon.scenes.*;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.HeroSprite;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
@@ -64,8 +64,6 @@ import com.moonshinepixel.moonshinepixeldungeon.levels.features.Chasm;
 import com.moonshinepixel.moonshinepixeldungeon.levels.features.Door;
 import com.moonshinepixel.moonshinepixeldungeon.levels.features.Sign;
 import com.moonshinepixel.moonshinepixeldungeon.plants.Earthroot;
-import com.moonshinepixel.moonshinepixeldungeon.scenes.InterlevelScene;
-import com.moonshinepixel.moonshinepixeldungeon.scenes.SurfaceScene;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.CharSprite;
 import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
@@ -172,7 +170,7 @@ public class Hero extends Char {
 
 		STR += RingOfMight.getBonus(this, RingOfMight.Might.class);
 
-		return weakened ? STR - 2 : STR;
+		return (buff(Weakness.class) != null) ? STR - 2 : STR;
 	}
 	@Override
 	public void updateHT(boolean changeHP){
@@ -938,25 +936,27 @@ public class Hero extends Char {
 		if (pos == stairs && pos == Dungeon.level.entrance) {
 			
 			if (Dungeon.depth == 1) {
-				
+				boolean cheated = Dungeon.cheated();
 				if (belongings.getItem( Amulet.class ) == null) {
 					GameScene.show( new WndMessage( Messages.get(this, "leave") ) );
 					ready();
 				} else {
 					Dungeon.win( Amulet.class, true );
 					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
-					Game.switchScene( SurfaceScene.class );
+					DynastyScene.surface=true;
+					Game.switchScene( cheated?TitleScene.class:DynastyScene.class );
 				}
 				
 			} else if (Dungeon.depth == 31){
-
+				boolean cheated = Dungeon.cheated();
 				if (belongings.getItem( Amulet.class ) == null) {
 					GameScene.show( new WndMessage( Messages.get(this, "leave") ) );
 					ready();
 				} else {
 					Dungeon.win( Amulet.class, true );
 					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
-					Game.switchScene( SurfaceScene.class );
+					DynastyScene.surface=true;
+					Game.switchScene( cheated?TitleScene.class:DynastyScene.class );
 				}
 			} else {
 
@@ -1156,7 +1156,7 @@ public class Hero extends Char {
 
 		super.damage( dmg, src );
 	}
-	
+
 	private void checkVisibleMobs() {
 		ArrayList<Mob> visible = new ArrayList<>();
 
@@ -1185,7 +1185,7 @@ public class Hero extends Char {
 							!Dungeon.visible[QuickSlotButton.lastTarget.pos])){
 			QuickSlotButton.target(target);
 		}
-		
+
 		if (newMob) {
 			interrupt();
 			resting = false;
@@ -1409,7 +1409,10 @@ public class Hero extends Char {
 		
 		if (levelUp) {
 			try {
-				GLog.p(Messages.get(this, "new_level"), lvl);
+				if(Dungeon.isChallenged(Challenges.AMNESIA)||Dungeon.isChallenged(Challenges.ANALGESIA))
+					GLog.p(Messages.get(this, "new_level_amnesia"), lvl);
+				else
+					GLog.p(Messages.get(this, "new_level"), lvl);
 				sprite.showStatus(CharSprite.POSITIVE, Messages.get(Hero.class, "level_up"));
 				Sample.INSTANCE.play(Assets.SND_LEVELUP);
 			} catch (Exception e){
@@ -1815,30 +1818,28 @@ public class Hero extends Char {
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		RingOfElements.Resistance r = buff( RingOfElements.Resistance.class );
-		HashSet<Class<?>> res = new HashSet<>();
+		HashSet<Class> res = new HashSet<>();
 		try {
 			res.addAll(super.resistances());
 		} catch (Exception e){
 
 		}
-		if(r!=null) {
-			res.addAll(r.resistances());
-		}
 		if (buff(WaterHealing.class)!=null){
 			res.add(LightningTrap.LIGHTNING.getClass());
 		}
+		res.addAll(RingOfElements.resistances( this ));
 		return res;
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		if (buff(Transformation.class)!=null){
 			return buff(Transformation.class).mob.immunities();
 		}
 
-		HashSet<Class<?>> immunities = new HashSet<Class<?>>();
+		HashSet<Class> immunities = new HashSet<Class>();
 		for (Buff buff : buffs()){
 			for (Class<?> immunity : buff.immunities)
 				immunities.add(immunity);

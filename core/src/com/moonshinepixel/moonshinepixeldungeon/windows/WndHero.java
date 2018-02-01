@@ -119,9 +119,9 @@ public class WndHero extends WndTabbed {
 				}
 			}
 			if (hero.givenName().equals(hero.className()))
-				title.label( Messages.get(this, "title", hero.lvl, hero.className() ).toUpperCase( Locale.ENGLISH ) );
+				title.label( Messages.get(this, "title", Dungeon.isChallenged(Challenges.AMNESIA)||Dungeon.isChallenged(Challenges.ANALGESIA)?"??":hero.lvl, hero.className() ).toUpperCase( Locale.ENGLISH ) );
 			else {
-				title.label(hero.givenName()+( "\n" + Messages.get(this, "title", hero.lvl, hero.className())).toUpperCase(Locale.ENGLISH));
+				title.label(hero.givenName()+( "\n" + Messages.get(this, "title", Dungeon.isChallenged(Challenges.AMNESIA)||Dungeon.isChallenged(Challenges.ANALGESIA)?"??":hero.lvl, hero.className())).toUpperCase(Locale.ENGLISH));
 			}
 			title.color(Window.SHPX_COLOR);
 			title.setRect( 0, 0, WIDTH, 0 );
@@ -129,19 +129,26 @@ public class WndHero extends WndTabbed {
 
 			pos = title.bottom() + 2*GAP;
 
-			statSlot( Messages.get(this, "str"), hero.STR() );
 			if (!Dungeon.isChallenged(Challenges.ANALGESIA)) {
+				statSlot( Messages.get(this, "str"), hero.STR() );
 				if (hero.SHLD > 0) statSlot(Messages.get(this, "health"), hero.HP + "+" + hero.SHLD + "/" + hero.HT);
 				else statSlot(Messages.get(this, "health"), (hero.HP) + "/" + hero.HT);
+				statSlot(Messages.get(this, "exp"), hero.exp + "/" + hero.maxExp());
 			} else {
+				statSlot( Messages.get(this, "str"), "??" );
 				statSlot(Messages.get(this, "health"),"??/??");
+				statSlot(Messages.get(this, "exp"), "??/??");
 			}
-			statSlot( Messages.get(this, "exp"), hero.exp + "/" + hero.maxExp() );
 
 			pos += GAP;
 
-			statSlot( Messages.get(this, "gold"), Statistics.goldCollected );
-			statSlot( Messages.get(this, "depth"), Statistics.deepestFloor );
+			if (!Dungeon.isChallenged(Challenges.AMNESIA)) {
+				statSlot(Messages.get(this, "gold"), Statistics.goldCollected);
+				statSlot(Messages.get(this, "depth"), Statistics.deepestFloor);
+			} else {
+				statSlot(Messages.get(this, "gold"), "??");
+				statSlot(Messages.get(this, "depth"), "??");
+			}
 
 			pos += GAP;
 		}

@@ -238,7 +238,7 @@ public class Tengu extends Mob {
 		}
 	}
 	
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();
+	private static final HashSet<Class> RESISTANCES = new HashSet<>();
 	static {
 		RESISTANCES.add( ToxicGas.class );
 		RESISTANCES.add( Poison.class );
@@ -247,7 +247,7 @@ public class Tengu extends Mob {
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return RESISTANCES;
 	}
 

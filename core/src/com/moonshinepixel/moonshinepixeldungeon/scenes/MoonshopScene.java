@@ -39,8 +39,6 @@ public class MoonshopScene extends PixelScene {
 	NinePatch pn1;
 	@Override
 	public void create() {
-//		MoonshinePixelDungeon.unlocks(0);
-//		MoonshinePixelDungeon.moonstones(310);
 		super.create();
 
 		int w = Camera.main.width;
@@ -214,6 +212,7 @@ public class MoonshopScene extends PixelScene {
 				WndTitledMessage wtm = new WndTitledMessage(Icons.get(Icons.INFO),"Item renaming","Press and hold on item to rename it");
 				MoonshopScene.this.add(wtm);
 			}
+			MoonshinePixelDungeon.switchNoFade(MoonshopScene.class);
 		}
 
 		@Override

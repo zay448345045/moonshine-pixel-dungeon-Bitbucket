@@ -180,14 +180,14 @@ public class Ghost extends NPC {
 		return false;
 	}
 
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		IMMUNITIES.add( Paralysis.class );
 		IMMUNITIES.add( Roots.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 

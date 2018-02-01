@@ -133,6 +133,7 @@ public class RedButton extends Button<GameAction> {
 	public void enable( boolean value ) {
 		active = value;
 		text.alpha( value ? 1.0f : 0.3f );
+		bg.alpha( value ? 1.0f : 0.5f );
 	}
 	
 	public void text( String value ) {

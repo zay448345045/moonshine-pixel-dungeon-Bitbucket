@@ -201,8 +201,8 @@ public class Thief extends Mob {
 						if (Dungeon.visible[pos]) CellEmitter.get(pos).burst(Speck.factory(Speck.WOOL), 6);
 
 					}
-					if (!item.unique) {
-						if (item != null) GLog.n(Messages.get(Thief.class, "escapes", item.name()));
+					if (item!=null&&!item.unique) {
+						GLog.n(Messages.get(Thief.class, "escapes", item.name()));
 						item = null;
                         state = WANDERING;
 					}

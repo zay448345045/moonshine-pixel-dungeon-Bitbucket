@@ -150,15 +150,17 @@ public class Item implements Bundlable {
 
 		Combo combo = hero.buff(Combo.class);
 		if (combo != null) combo.detach();
-		
-		if (action.equals( AC_DROP )) {
-			
-			doDrop( hero );
-			
-		} else if (action.equals( AC_THROW )) {
-			
-			doThrow( hero );
-			
+
+		if(action!=null) {
+			if (action.equals(AC_DROP)) {
+
+				doDrop(hero);
+
+			} else if (action.equals(AC_THROW)) {
+
+				doThrow(hero);
+
+			}
 		}
 	}
 	
@@ -639,6 +641,11 @@ public class Item implements Bundlable {
 		if (!cursed&&level<0){
 			level(-level);
 		}
+	}
+
+	public Item setTier(int tier){
+		this.tier=tier;
+		return this;
 	}
 
 	public Item damage(float durability){

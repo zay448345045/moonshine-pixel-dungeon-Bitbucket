@@ -167,25 +167,25 @@ public class DM300 extends Mob {
 		yell( Messages.get(this, "notice") );
 	}
 	
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();
+	private static final HashSet<Class> RESISTANCES = new HashSet<>();
 	static {
 		RESISTANCES.add( Grim.class );
 		RESISTANCES.add( ScrollOfPsionicBlast.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return RESISTANCES;
 	}
 	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		IMMUNITIES.add( ToxicGas.class );
 		IMMUNITIES.add( Terror.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 

@@ -38,7 +38,19 @@ import com.watabou.noosa.ui.Component;
 public class ChangesScene extends PixelScene {
 
 	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
-			"_NOTE:_ LibGDX version does not currently support translations.\nSupport will _NOT_ be added in the future.\n" +
+			"_NOTE:_ Moonshine PD does not currently support translations.\n" +
+					"\n" +
+					"_v0.1.31 - alpha:_\n" +
+					"_-_ Fixed lot of crushes (again)\nFixed some bugs\nSightly buffed _Amnesia_ and _Analgesia_ challenges\nFixed challenges window\n" +
+					"\n" +
+					"\n" +
+					"_v0.1.30 - alpha:_\n" +
+					"_-_ Fixed lot of crushes\nFixed badge validating\nFixed Wand of Corruption (again...)\nUpdated about menu\nReplaced ash bomb with Stun bomb"+
+					"\n" +
+					"\n" +
+					"_v0.1.29 - alpha:_\n" +
+					"_-_ Lots of bugfixes\nscroll of magic mapping can no longer be used in garden boss level"+
+					"\n" +
 					"\n" +
 					"_v0.1.28 - alpha:_\n" +
 					"_-_ Bugfixes"+

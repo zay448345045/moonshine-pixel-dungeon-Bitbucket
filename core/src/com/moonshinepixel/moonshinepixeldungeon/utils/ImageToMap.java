@@ -37,7 +37,9 @@ public class ImageToMap {
     public static final HashMap<Integer,Integer> colors = new HashMap<>();
     static {
         colors.put(0x000000, Terrain.WALL);
+        colors.put(0x0000ff, Terrain.CHASM);
         colors.put(0xffffff, Terrain.EMPTY);
+        colors.put(0x999999, Terrain.EMPTY_SP);
         colors.put(0x501e00, Terrain.DOOR);
         colors.put(0x646464, Terrain.WALL_DECO);
         colors.put(0xff0000, Terrain.INACTIVE_TRAP);

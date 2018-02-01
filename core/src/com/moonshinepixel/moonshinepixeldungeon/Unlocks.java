@@ -16,7 +16,7 @@ public enum Unlocks {
 	DYNASTY(10,8){
 		@Override
 		public String dispName() {
-			return Messages.get(this,this.codeName+".codeName", getDynSize()+1);
+			return Messages.get(this,this.codeName+".name", Math.min(getDynSize()+1,6));
 		}
 	},
 	DYNASTY2(0),
@@ -26,7 +26,7 @@ public enum Unlocks {
 
 	private int size;
 	private int price;
-	private String codeName;
+	String codeName;
 
 	Unlocks(int price){
 		this(price,9,"");
@@ -41,7 +41,7 @@ public enum Unlocks {
 		if (basename.equals("")){
 			basename=toString().toLowerCase();
 		}
-		codeName =basename;
+		codeName=basename;
 		this.price=price;
 	}
 
@@ -54,7 +54,7 @@ public enum Unlocks {
 	}
 
 	public String dispName(){
-		return Messages.get(this, codeName +".codeName");
+		return Messages.get(this, codeName +".name");
 	}
 
 	public static final int MAX_VALUE           = 8191;
@@ -84,7 +84,7 @@ public enum Unlocks {
 				CHALLENGES,
 				TOMSTART,
 				INVULNERABILITY,
-				DYNASTY
+//				DYNASTY
 		};
 	}
 

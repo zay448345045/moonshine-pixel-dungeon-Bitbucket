@@ -420,7 +420,7 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 	}
 
 	public static int storyline() {
-		return Preferences.INSTANCE.getInt( Preferences.KEY_STORYLINE, 0,0, 1 );
+		return Preferences.INSTANCE.getInt( Preferences.KEY_STORYLINE, 0,0, previewmode?2:1 );
 	}
 
 	public static int devlevel(){
@@ -521,6 +521,14 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 
 	public static boolean customSeed() {
 		return Preferences.INSTANCE.getBoolean( Preferences.KEY_CUSTOMSEED, false );
+	}
+
+	public static void dynasty( String value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_DYNASTY, value );
+	}
+
+	public static String dynasty() {
+		return Preferences.INSTANCE.getString( Preferences.KEY_DYNASTY, "" );
 	}
 
 	/*

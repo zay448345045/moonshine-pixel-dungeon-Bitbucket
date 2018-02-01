@@ -86,7 +86,7 @@ public class Drunk extends Buff {
 			case 4:
 				HashSet<Mob> mobs = new HashSet<>();
 				for (Mob mob : Dungeon.level.mobs){
-					if (Dungeon.level.adjacent(mob.pos,target.pos) && mob.hostile){
+					if (Dungeon.level.adjacent(mob.pos,target.pos) && !mob.ally){
 						mobs.add(mob);
 					}
 				}

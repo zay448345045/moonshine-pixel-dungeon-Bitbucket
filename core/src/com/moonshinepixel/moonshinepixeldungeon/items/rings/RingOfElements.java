@@ -20,11 +20,13 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.items.rings;
 
+import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ToxicGas;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Burning;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Poison;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Venom;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Eye;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Shaman;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Warlock;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Yog;
 import com.moonshinepixel.moonshinepixeldungeon.levels.traps.LightningTrap;
@@ -33,36 +35,40 @@ import com.watabou.utils.Random;
 import java.util.HashSet;
 
 public class RingOfElements extends Ring {
-	
+
 	@Override
-    public RingBuff buff() {
+	protected RingBuff buff( ) {
 		return new Resistance();
 	}
 
-	private static final HashSet<Class<?>> EMPTY = new HashSet<Class<?>>();
-	public static final HashSet<Class<?>> FULL;
+	private static final HashSet<Class> EMPTY = new HashSet<>();
+	public static final HashSet<Class> FULL = new HashSet<>();
 	static {
-		FULL = new HashSet<Class<?>>();
 		FULL.add( Burning.class );
 		FULL.add( ToxicGas.class );
 		FULL.add( Poison.class );
 		FULL.add( Venom.class );
-		FULL.add( LightningTrap.Electricity.class );
+		FULL.add( Shaman.class );
 		FULL.add( Warlock.class );
 		FULL.add( Eye.class );
 		FULL.add( Yog.BurningFist.class );
 	}
-	
-	public class Resistance extends RingBuff {
-		
-		public HashSet<Class<?>> resistances() {
-			if (Random.Int( level() + 2 ) >= 2) {
-				return FULL;
-			} else {
-				return EMPTY;
-			}
+
+	public static HashSet<Class> resistances( Char target ){
+		if (Random.Int( getBonus(target, Resistance.class) + 2 ) >= 2) {
+			return FULL;
+		} else {
+			return EMPTY;
 		}
-		
+	}
+
+	public static float durationFactor( Char target ){
+		int level = getBonus( target, Resistance.class);
+		return level <= 0 ? 1 : (1 + 0.5f * level) / (1 + level);
+	}
+
+	public class Resistance extends RingBuff {
+
 		public float durationFactor() {
 			return level() < 0 ? 1 : (1 + 0.5f * level()) / (1 + level());
 		}

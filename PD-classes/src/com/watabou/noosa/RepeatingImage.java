@@ -32,14 +32,4 @@ public class RepeatingImage extends Image {
         } while (top<h);
         texture(map);
     }
-//    public void size(int w, int h){
-//        //System.out.println(w+"|"+h);
-//        Pixmap pm = new Pixmap(w,h,repeatingImage.texture.bitmap.getFormat());
-//        //System.out.println(pm.getFormat());
-//        pm.drawPixmap(repeatingImage.texture.bitmap,0,0,Math.round(repeatingImage.frame.left*repeatingImage.texture.width),Math.round(repeatingImage.frame.top*repeatingImage.texture.height),w,h);
-//        //System.out.println(Math.round(repeatingImage.frame.left*repeatingImage.texture.width)+"|"+Math.round(repeatingImage.frame.top*repeatingImage.texture.height));
-//        SmartTexture st = new SmartTexture(pm, Texture.NEAREST, Texture.REPEAT);
-//        texture(st);
-//        frame(0,0,w/pm.getWidth(),h/pm.getHeight());
-//    }
 }

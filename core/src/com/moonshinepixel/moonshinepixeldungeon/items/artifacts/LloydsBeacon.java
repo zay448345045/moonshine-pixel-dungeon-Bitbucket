@@ -159,7 +159,7 @@ public class LloydsBeacon extends Artifact {
 		} else if (action == AC_RETURN) {
 			
 			if (returnDepth == Dungeon.depth) {
-				if (Blob.volumeAt(curUser.pos, ShopBlob.class)<=0) {
+				if (Blob.volumeAt(curUser.pos, ShopBlob.class)<=0&&Dungeon.level.teleportable()) {
 					ScrollOfTeleportation.appear(hero, returnPos);
 					Dungeon.level.press(returnPos, hero);
 					Dungeon.observe();

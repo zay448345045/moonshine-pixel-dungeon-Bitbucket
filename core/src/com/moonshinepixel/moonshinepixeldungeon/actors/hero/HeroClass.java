@@ -22,6 +22,8 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.hero;
 
 import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.*;
+import com.moonshinepixel.moonshinepixeldungeon.items.armor.MailArmor;
+import com.moonshinepixel.moonshinepixeldungeon.items.armor.PlateArmor;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.GunslingerSubbag;
 import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.MasterThievesArmband;
 import com.moonshinepixel.moonshinepixeldungeon.items.bombs.Bomb;
@@ -109,22 +111,31 @@ public enum HeroClass {
 	private static void initDev( Hero hero ){
 //		hero.earnExp(150);
 //		hero.STR=26;
-//		hero.earnExp(1024);
+		hero.earnExp(2048);
+
 
 		Item[] collectables = new Item[]{
+				new DevBeacon(),
 				new GiantShuriken(),
-				new Mace().random(),
-				new HandAxe().random(),
-				new ScrollOfRecharging().quantity(10),
-				new WandOfBlastWave().upgrade(0),
-				new StunBomb().quantity(10),
-				new ShrapnelBomb().quantity(50),
-				new ClusterBomb().quantity(50),
-				new RingOfWealth().upgrade(150),
-				new ScrollOfRage().quantity(10),
-				new ScrollOfUpgrade().quantity(10),
-				new PotionOfInvisibility().quantity(10),
-				new PotionOfStrength().quantity(10),
+//				new Mace().random(),
+//				new HandAxe().random(),
+//				new ScrollOfRecharging().quantity(10),
+//				new WandOfBlastWave().upgrade(0),
+//				new StunBomb().quantity(10),
+//				new ShrapnelBomb().quantity(50),
+//				new ClusterBomb().quantity(50),
+//				new RingOfWealth().upgrade(150),
+//				new ScrollOfRage().quantity(10),
+//				new ScrollOfUpgrade().quantity(10),
+//				new PotionOfInvisibility().quantity(10),
+//				new PotionOfStrength().quantity(10),
+//				new Amulet(),
+				new PlateArmor().upgrade(10),
+				new ArmorKit(),
+				new PotionOfHealing().quantity(12),
+				((Weapon)new SwitchHook().setTier(6).upgrade(10)).enchant(new Greedy()),
+				new Bomb().quantity(6),
+				new Honeypot().quantity(2)
 		};
 		for(Item itm:collectables){
 			itm.identify().collect();

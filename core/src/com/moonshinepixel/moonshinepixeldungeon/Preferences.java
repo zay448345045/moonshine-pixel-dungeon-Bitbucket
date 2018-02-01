@@ -63,6 +63,7 @@ public enum Preferences {
 	public static final String KEY_MOONSTONES	= "moonstones";
 	public static final String KEY_SEED			= "seed";
 	public static final String KEY_CUSTOMSEED	= "custseed";
+	public static final String KEY_DYNASTY		= "dynasty";
 
 	public static final String KEY_WINDOW_FULLSCREEN	= "windowFullscreen";
 	public static final String KEY_WINDOW_WIDTH			= "windowWidth";

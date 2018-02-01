@@ -52,7 +52,7 @@ public abstract class TextField extends RedButton {
 	protected void createChildren() {
 		super.createChildren();
 
-		white = Chrome.get( Chrome.Type.WHITEBG );
+		white = Chrome.get(Chrome.Type.WHITEBG);
 		add( white );
 	}
 
@@ -107,20 +107,20 @@ public abstract class TextField extends RedButton {
 	protected void layout() {
 		super.layout();
 
-		float right = 0;
+		float right = x;
 
 		bg.x = x;
 		bg.y = y;
 		bg.size( width, height );
 
-		text.x = x + 2;
+		text.x = right + 2;
 		text.y = y + (height - text.baseLine()) / 2;
 		PixelScene.align(text);
 
 		right=text.x+text.width()+2;
 
 		if (icon != null) {
-			icon.x = x + text.x - icon.width() - 2;
+			icon.x = right;
 			icon.y = y + (height - icon.height()) / 2;
 			PixelScene.align(icon);
 			right=icon.x+icon.width()+2;
@@ -128,7 +128,9 @@ public abstract class TextField extends RedButton {
 
 		white.x=right;
 		white.y=y+height()/8;
-		white.size(width()-4-right,height-height/4);
+		float mod = parent instanceof PixelScene?-1:1;
+		white.size((width-4-right)*mod,height-height/4);
+//		white.hardlight(0xFF0000);
 		right+=2;
 
 		inputText.x=right+1;

@@ -44,6 +44,11 @@ public class Countdown extends FlavourBuff implements Hero.Doom {
     }
 
     @Override
+    public void detach() {
+        //This buff can't be detached
+    }
+
+    @Override
     public void onDeath() {
         Dungeon.fail( getClass() );
         GLog.n( Messages.get(this, "ondeath") );

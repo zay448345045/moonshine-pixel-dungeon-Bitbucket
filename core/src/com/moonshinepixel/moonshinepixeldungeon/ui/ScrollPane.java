@@ -53,7 +53,8 @@ public class ScrollPane extends Component {
 		width = content.width();
 		height = content.height();
 
-		content.camera = new Camera( 0, 0, 1, 1, PixelScene.defaultZoom );
+
+		content.camera = new Camera(0, 0, 1, 1, PixelScene.defaultZoom);
 		Camera.add( content.camera );
 	}
 
@@ -89,8 +90,10 @@ public class ScrollPane extends Component {
 		controller.y = y;
 		controller.width = width;
 		controller.height = height;
+
 		Point p;
 		try {
+			if (parent!=null)camera=parent.camera;
 			p = camera().cameraToScreen( x, y );
 		} catch (Exception e){
 		    camera();

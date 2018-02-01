@@ -23,15 +23,11 @@ package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.*;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.triggers.DummyTrigger;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.triggers.VineTrigger;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Burning;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Cripple;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Roots;
-import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.RotLasherSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.TentacleGreenSprite;
 import com.watabou.utils.Random;
 
@@ -110,14 +106,14 @@ public class Vine extends Mob {
 		return Random.NormalIntRange(0, 2);
 	}
 
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		IMMUNITIES.add( ToxicGas.class );
 		IMMUNITIES.add( ParalyticGas.class );
 	}
 
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 

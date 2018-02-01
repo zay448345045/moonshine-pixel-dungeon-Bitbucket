@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.ui;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
 import com.moonshinepixel.moonshinepixeldungeon.items.armor.Armor;
@@ -46,7 +47,7 @@ public class ItemSlot extends Button<GameAction> {
 	public static final int UPGRADED	= 0x44FF44;
 	public static final int FADED       = 0x999999;
 	public static final int WARNING		= 0xFF8800;
-	
+
 	private static final float ENABLED	= 1.0f;
 	private static final float DISABLED	= 0.3f;
 	
@@ -217,6 +218,9 @@ public class ItemSlot extends Button<GameAction> {
 					topRight.hardlight( DEGRADED );
 				} else {
 					topRight.resetColor();
+				}
+				if (Dungeon.isChallenged(Challenges.ANALGESIA)){
+					topRight.hardlight( FADED );
 				}
 
 			} else {

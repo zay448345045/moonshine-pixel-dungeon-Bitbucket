@@ -103,6 +103,7 @@ public class Assets {
 	public static final String ROTTING	= "rotting_fist.png";
 	public static final String BURNING	= "burning_fist.png";
 	public static final String YOG		= "yog.png";
+	public static final String YOGBIG	= "yog_big.png";
 	public static final String LARVA	= "larva.png";
 	public static final String GHOST	= "ghost.png";
 	public static final String MAKER	= "wandmaker.png";
@@ -211,4 +212,6 @@ public class Assets {
 	public static final String MAP_GARDENBOSS_1	 = "levels/garden_boss1.png";
 	public static final String MAP_GARDENBOSS_2	 = "levels/garden_boss2.png";
 	public static final String MAP_GARDENBOSS_3	 = "levels/garden_boss3.png";
+	public static final String MAP_YOG			 = "levels/yog.png";
+	public static final String MAP_YOG2			 = "levels/yog2.png";
 }

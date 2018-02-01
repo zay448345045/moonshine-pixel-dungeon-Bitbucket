@@ -20,41 +20,19 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.actors.mobs;
 
-import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.Badges;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Char;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
-import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.ToxicGas;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.LockedFloor;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Paralysis;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Terror;
-import com.moonshinepixel.moonshinepixeldungeon.effects.CellEmitter;
-import com.moonshinepixel.moonshinepixeldungeon.effects.Speck;
-import com.moonshinepixel.moonshinepixeldungeon.effects.particles.ElmoParticle;
-import com.moonshinepixel.moonshinepixeldungeon.items.WeaponKit;
-import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.CapeOfThorns;
-import com.moonshinepixel.moonshinepixeldungeon.items.artifacts.LloydsBeacon;
-import com.moonshinepixel.moonshinepixeldungeon.items.keys.SkeletonKey;
 import com.moonshinepixel.moonshinepixeldungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.moonshinepixel.moonshinepixeldungeon.items.wands.WandOfBlastWave;
 import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Grim;
 import com.moonshinepixel.moonshinepixeldungeon.levels.GardenBossLevel;
-import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
-import com.moonshinepixel.moonshinepixeldungeon.levels.Terrain;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.bossRooms.GardenBossRoom;
 import com.moonshinepixel.moonshinepixeldungeon.mechanics.Ballistica;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.DM300Sprite;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.DummyMobSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ForestSpiritSprite;
 import com.moonshinepixel.moonshinepixeldungeon.ui.BossHealthBar;
-import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
@@ -146,18 +124,18 @@ public class ForestSpirit extends Mob {
 		yell( Messages.get(this, Random.oneOf("say1","say2","say3")) );
 	}
 	
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();
+	private static final HashSet<Class> RESISTANCES = new HashSet<>();
 	static {
 		RESISTANCES.add( Grim.class );
 		RESISTANCES.add( ScrollOfPsionicBlast.class );
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return RESISTANCES;
 	}
 	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 	}
 
@@ -183,7 +161,7 @@ public class ForestSpirit extends Mob {
 	}
 
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 

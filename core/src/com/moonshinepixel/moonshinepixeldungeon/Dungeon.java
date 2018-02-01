@@ -31,11 +31,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.MindVision;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroClass;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Yog;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Blacksmith;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Ghost;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Imp;
-import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.Wandmaker;
+import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.npcs.*;
 import com.moonshinepixel.moonshinepixeldungeon.items.Ankh;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
 import com.moonshinepixel.moonshinepixeldungeon.items.Item;
@@ -179,10 +175,12 @@ public class Dungeon {
 
 	public static boolean customseed;
 
-	public static Hero.Gender gender = Hero.Gender.MALE; //Yep, this is sexism)
+	public static Hero.Gender gender = Hero.Gender.MALE;
 	
 	public static void init() {
 
+
+		Rankings.INSTANCE.load();
 		version = Game.versionCode;
 		challenges = MoonshinePixelDungeon.challenges();
 		devoptions = MoonshinePixelDungeon.devOptions();
@@ -190,6 +188,13 @@ public class Dungeon {
         Arrays.fill(returnedDepth, false);
 		seed = DungeonSeed.seed();
 		customseed=MoonshinePixelDungeon.customSeed();
+
+		if(!MoonshinePixelDungeon.dynasty().equals("")){
+			dynastyID=MoonshinePixelDungeon.dynasty();
+			Rankings.dynasties.get(dynastyID).playing=true;
+			MoonshinePixelDungeon.dynasty("");
+			Rankings.INSTANCE.save();
+		}
 
 		rune = Runes.random();
 
@@ -213,7 +218,7 @@ public class Dungeon {
 		QuickSlotButton.reset();
 
 		storyline=MoonshinePixelDungeon.storyline();
-		depth = storyline==0?0:MoonshinePixelDungeon.previewmode?34:30;
+		depth = storyline==0?0:storyline==1?30:26;
 		gold = 0;
 
 		droppedItems = new SparseArray<ArrayList<Item>>();
@@ -313,7 +318,7 @@ public class Dungeon {
 			level = new LastLevel();
 			break;
 		case 27:
-			level = new TestLevel();
+			level = new GreatYogBossLevel();
 			break;
 		case 31:
 		case 32:
@@ -366,7 +371,7 @@ public class Dungeon {
 	}
 	
 	public static boolean bossLevel( int depth ) {
-		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25;
+		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25 || depth == 35;
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -374,6 +379,9 @@ public class Dungeon {
 		
 		Dungeon.level = level;
 		Actor.init();
+		Dog d = new Dog();
+
+
 
 		PathFinder.setMapSize(level.width(), level.height());
 		visible = new boolean[level.length()];
@@ -384,7 +392,19 @@ public class Dungeon {
 		}
 
 		hero.pos = pos != -1 ? pos : level.exit;
-		
+
+		if (hero.heroClass.equals(HeroClass.GUNSLINGER)&&MoonshinePixelDungeon.previewmode){
+
+			level.mobs.add(d);
+			a: for (int c : PathFinder.NEIGHBOURS8){
+				int cell = Dungeon.hero.pos+c;
+				if (Level.getPassable(cell)||Level.getAvoid(cell)){
+					d.pos=cell;
+					break a;
+				}
+			}
+		}
+
 		Light light = hero.buff( Light.class );
 		hero.viewDistance = light == null || !level.lightaffected ? level.viewDistance : Math.max( Light.DISTANCE, level.viewDistance );
 		

@@ -30,22 +30,16 @@ import com.moonshinepixel.moonshinepixeldungeon.items.weapon.enchantments.Grim;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.GooSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.StoneSnakeHeadSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.StoneSnakeTailSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.YogSprite;
 import com.moonshinepixel.moonshinepixeldungeon.ui.BossHealthBar;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
 import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
-import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.*;
-import com.watabou.gltextures.TextureCache;
-import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Scene;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
-import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 import java.util.HashSet;
@@ -157,7 +151,7 @@ public class StoneSnake extends Mob {
 		yell( Messages.get(this, "notice") );
 	}
 	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		
 		IMMUNITIES.add( Grim.class );
@@ -172,7 +166,7 @@ public class StoneSnake extends Mob {
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 

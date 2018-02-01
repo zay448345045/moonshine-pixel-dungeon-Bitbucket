@@ -148,11 +148,11 @@ public class GunslingerSubbag extends Artifact {
             item2.detach(Dungeon.hero.belongings.backpack);
             result = new StunBomb();
             succes=Messages.get(this, "successtun", item1.name(), item2.name(), result.name());
-        } else if (item2.getClass()== Scrap.class){
+        }/* else if (item2.getClass()== Scrap.class){
                 item2.detach(Dungeon.hero.belongings.backpack);
                 result = new AshBomb();
                 succes=Messages.get(this, "succesash", item1.name(), item2.name(), result.name());
-        }
+        }*/
         if (result!=null){
             item1.detach(Dungeon.hero.belongings.backpack);
             GLog.h(succes);

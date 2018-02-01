@@ -254,9 +254,10 @@ public class Generator {
 				AshBomb.class,
 				IncendiaryBomb.class,
                 ShrapnelBomb.class,
-				ClusterBomb.class
+				ClusterBomb.class,
+				StunBomb.class
         };
-        Category.BOMB.probs = new float[]{ 12, 1, 1, 1, 2 };
+        Category.BOMB.probs = new float[]{ 12, 0, 1, 2, 2, 2 };
 
         Category.TRAP.classes = new Class<?>[]{
                 TrapPlacer.class

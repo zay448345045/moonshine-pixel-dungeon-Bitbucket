@@ -21,31 +21,40 @@
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
 import com.moonshinepixel.moonshinepixeldungeon.Challenges;
+import com.moonshinepixel.moonshinepixeldungeon.Chrome;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.ui.CheckBox;
+import com.moonshinepixel.moonshinepixeldungeon.ui.ScrollPane;
 import com.moonshinepixel.moonshinepixeldungeon.ui.Window;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
+import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.RenderedText;
+import com.watabou.noosa.ui.Component;
 
 import java.util.ArrayList;
 
 public class WndChallenges extends Window {
 
-	private final int WIDTH		= MoonshinePixelDungeon.landscape()?216:108;	//108
-	private final int TTL_HEIGHT    = MoonshinePixelDungeon.landscape()?18:10;
-	private final int BTN_HEIGHT    = MoonshinePixelDungeon.landscape()?18:12;
+//	private final int WIDTH		= MoonshinePixelDungeon.landscape()?216:108;	//108
+	private final int WIDTH		= 128;	//108
+	private final int HEIGHT		= 216;	//108
+//	private final int TTL_HEIGHT    = MoonshinePixelDungeon.landscape()?18:10;
+//	private final int BTN_HEIGHT    = MoonshinePixelDungeon.landscape()?18:12;
+	private final int TTL_HEIGHT    = 18;
+	private final int BTN_HEIGHT    = 18;
 	private final int GAP        = 1;
 
 	private boolean editable;
 	private ArrayList<CheckBox> boxes;
 
 	public WndChallenges( int checked, boolean editable ) {
-
 		super();
 
 		this.editable = editable;
+
+		resize(WIDTH,HEIGHT);
 
 		RenderedText title = PixelScene.renderText( Messages.get(this, "title"), MoonshinePixelDungeon.landscape()?9:7 );
 		title.hardlight( TITLE_COLOR );
@@ -56,51 +65,36 @@ public class WndChallenges extends Window {
 
 		boxes = new ArrayList<>();
 
-		float pos = TTL_HEIGHT;
-		if (!MoonshinePixelDungeon.landscape()) {
-			for (int i = 0; i < Challenges.NAME_IDS.length; i++) {
+		Component cp = new Component();
 
-				CheckBox cb = new CheckBox(Messages.get(Challenges.class, Challenges.NAME_IDS[i]), MoonshinePixelDungeon.landscape()?9:7);
-				cb.checked((checked & Challenges.MASKS[i]) != 0);
-				cb.active = editable;
+		NinePatch panel = Chrome.get(Chrome.Type.TOAST);
+		panel.x=0;
+		panel.y=TTL_HEIGHT;
+		panel.size(WIDTH,HEIGHT-TTL_HEIGHT);
+		add(panel);
 
-				if (i > 0) {
-					pos += GAP;
-				}
-				cb.setRect(0, pos, WIDTH, BTN_HEIGHT);
-				pos = cb.bottom();
+		float pos = 0;
+		cp.setSize(WIDTH,pos);
 
-				add(cb);
-				boxes.add(cb);
+		for (int i = 0; i < Challenges.NAME_IDS.length; i++) {
+
+			CheckBox cb = new CheckBox(Messages.get(Challenges.class, Challenges.NAME_IDS[i]),7);
+			cb.checked((checked & Challenges.MASKS[i]) != 0);
+			cb.active = editable;
+
+			if (i > 0) {
+				pos += GAP;
 			}
-		} else {
-			float pos2 = TTL_HEIGHT;
-			for (int i = 0; i < Challenges.NAME_IDS.length; i++) {
-				int row = i-1<Challenges.NAME_IDS.length/2?0:1;
-				CheckBox cb = new CheckBox( Messages.get(Challenges.class, Challenges.NAME_IDS[i]) );
-				cb.checked( (checked & Challenges.MASKS[i]) != 0 );
-				cb.active = editable;
+			cb.setRect(0, pos, panel.innerWidth()*5/6, BTN_HEIGHT);
+			pos += cb.height();
 
-				if (i > 0 && i-1!=Challenges.NAME_IDS.length/2) {
-					if (row==0) {
-						pos += GAP;
-					} else{
-						pos2 += GAP;
-					}
-				}
-				cb.setRect( WIDTH/2*row, row==0?pos:pos2, WIDTH/2, BTN_HEIGHT );
-
-				if (row==0) {
-					pos = cb.bottom();
-				} else {
-					pos2 = cb.bottom();
-				}
-
-				add( cb );
-				boxes.add( cb );
-			}
+			cp.add(cb);
+			boxes.add(cb);
 		}
-		resize( WIDTH, (int)pos );
+		cp.setSize(panel.innerWidth(),pos);
+		ScrollPane sp = new ScrollPane(cp);
+		add(sp);
+		sp.setRect(panel.marginLeft(),TTL_HEIGHT+panel.marginTop(),panel.innerWidth(),panel.innerHeight());
 	}
 
 	@Override

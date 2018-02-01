@@ -23,11 +23,10 @@ package com.moonshinepixel.moonshinepixeldungeon.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.IntMap;
+import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.levels.rooms.Room;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.windows.*;
-import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
-import com.moonshinepixel.moonshinepixeldungeon.Statistics;
 import com.moonshinepixel.moonshinepixeldungeon.actors.Actor;
 import com.moonshinepixel.moonshinepixeldungeon.items.Heap;
 import com.moonshinepixel.moonshinepixeldungeon.items.Honeypot;
@@ -44,9 +43,6 @@ import com.moonshinepixel.moonshinepixeldungeon.sprites.CharSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.DiscardedItemSprite;
 import com.moonshinepixel.moonshinepixeldungeon.sprites.ItemSprite;
 import com.moonshinepixel.moonshinepixeldungeon.utils.GLog;
-import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.moonshinepixel.moonshinepixeldungeon.Badges;
-import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.actors.blobs.Blob;
 import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Mob;
 import com.moonshinepixel.moonshinepixeldungeon.effects.BannerSprites;
@@ -376,9 +372,9 @@ public class GameScene extends PixelScene {
 
 		if (InterlevelScene.mode != InterlevelScene.Mode.NONE) {
 			if (Dungeon.fakedepth[Dungeon.depth] < Statistics.deepestFloor) {
-				GLog.h(Messages.get(this, "welcome_back"), Dungeon.showDepth[Dungeon.depth]);
+				GLog.h(Messages.get(this, "welcome_back"), Dungeon.isChallenged(Challenges.AMNESIA)?"??":Dungeon.showDepth[Dungeon.depth]);
 			} else {
-				GLog.h(Messages.get(this, "welcome"), Dungeon.showDepth[Dungeon.depth]);
+				GLog.h(Messages.get(this, "welcome"), Dungeon.isChallenged(Challenges.AMNESIA)?"??":Dungeon.showDepth[Dungeon.depth]);
 				Sample.INSTANCE.play(Assets.SND_DESCEND);
 			}
 

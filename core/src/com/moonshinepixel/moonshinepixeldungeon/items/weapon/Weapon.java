@@ -276,6 +276,8 @@ abstract public class Weapon extends KindOfWeapon {
 		return enchantment != null && (cursedKnown || !enchantment.curse()) ? enchantment.glowing() : null;
 	}
 
+
+
 	public static abstract class Enchantment implements Bundlable {
 
 		private static final Class<?>[] enchants = new Class<?>[]{

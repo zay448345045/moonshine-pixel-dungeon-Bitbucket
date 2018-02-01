@@ -20,26 +20,22 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.windows;
 
-import com.moonshinepixel.moonshinepixeldungeon.Badges;
-import com.moonshinepixel.moonshinepixeldungeon.Challenges;
-import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
-import com.moonshinepixel.moonshinepixeldungeon.Unlocks;
+import com.moonshinepixel.moonshinepixeldungeon.*;
 import com.moonshinepixel.moonshinepixeldungeon.actors.hero.Hero;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.MoonshopScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.ui.*;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.StartScene;
-import com.moonshinepixel.moonshinepixeldungeon.utils.DungeonSeed;
+import com.moonshinepixel.moonshinepixeldungeon.utils.BArray;
 import com.moonshinepixel.moonshinepixeldungeon.utils.HeroNames;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
-import com.watabou.noosa.RenderedText;
 import com.watabou.noosa.ui.Component;
-import com.watabou.utils.Callback;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class WndRunSettings extends WndTabbed {
 
@@ -172,7 +168,7 @@ public class WndRunSettings extends WndTabbed {
 			top+=genderSlider.height()+9;
 
 			OptionSlider storylineSlider = new OptionSlider(Messages.get(this, "storyline"),
-					Messages.get(this, "classic"), Messages.get(this, "moonshine"), 0, 1) {
+					Messages.get(this, "classic"), Messages.get(this, "moonshine"), 0, MoonshinePixelDungeon.previewmode?2:1) {
 				@Override
 				protected void onChange() {
 					MoonshinePixelDungeon.storyline(getSelectedValue());
@@ -208,6 +204,11 @@ public class WndRunSettings extends WndTabbed {
 					}
 					if (!HeroNames.hasTitle(text()))
 						caller.call();
+				}
+
+				@Override
+				public void onTextCancel() {
+
 				}
 			};
 			name.setRect(0,top, WIDTH-GAP_TINY-SLIDER_HEIGHT/2, SLIDER_HEIGHT);
@@ -253,8 +254,57 @@ public class WndRunSettings extends WndTabbed {
 
 			shop.setRect(0,top,WIDTH,BTN_HEIGHT);
 			add(shop);
+			top=shop.bottom()+GAP_SML;
 
-//			rndTitle.enable(false);
+			Rankings.INSTANCE.load();
+
+			Rankings.Dynasty curdin = Rankings.dynasties.get(MoonshinePixelDungeon.dynasty());
+			String dname;
+			if (curdin!=null) {
+				dname = curdin.name();
+			} else dname="None";
+
+			final RedButton dynasties = new RedButton(Messages.get(this,"dynasties",dname)){
+				@Override
+				protected void onClick() {
+					super.onClick();
+
+					final String[] ids = new String[7];
+					String[] options = new String[7];
+					boolean[] available = new boolean[7];
+
+					options[0]="None";
+					ids[0]="";
+					available[0]=true;
+
+					for (int i = 1; i<7;i++){
+						try{
+							Rankings.Dynasty d = Rankings.dynasties.get(Rankings.activeDynastiesIDS().get(i-1));
+							ids[i]=d.id();
+							options[i]=d.name();
+							available[i]=!d.playing;
+						} catch (IndexOutOfBoundsException e){
+							ids[i]="";
+							options[i]="None";
+							available[i]=false;
+						}
+
+					}
+
+					WndOptions wo = new WndOptions(Messages.get(MainTab.class,"choosedyn"),"", options){
+						@Override
+						protected void onSelect(int index) {
+							super.onSelect(index);
+							MoonshinePixelDungeon.dynasty(ids[index]);
+						}
+					};
+					wo.setEnabled(available);
+					wo.setLocked(true,true,Unlocks.isUnlocked(Unlocks.DYNASTY),Unlocks.isUnlocked(Unlocks.DYNASTY2),Unlocks.isUnlocked(Unlocks.DYNASTY3),Unlocks.isUnlocked(Unlocks.DYNASTY4),Unlocks.isUnlocked(Unlocks.DYNASTY5));
+					WndRunSettings.this.add(wo);
+				}
+			};
+			dynasties.setRect(0,top,WIDTH,BTN_HEIGHT);
+//			add(dynasties);
 		}
 	}
 

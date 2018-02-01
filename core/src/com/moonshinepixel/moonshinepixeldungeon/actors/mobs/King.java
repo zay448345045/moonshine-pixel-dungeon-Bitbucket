@@ -231,7 +231,7 @@ public class King extends Mob {
 		yell( Messages.get(this, "notice") );
 	}
 	
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();
+	private static final HashSet<Class> RESISTANCES = new HashSet<>();
 	static {
 		RESISTANCES.add( ToxicGas.class );
 		RESISTANCES.add( Grim.class );
@@ -240,11 +240,11 @@ public class King extends Mob {
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return RESISTANCES;
 	}
 	
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		IMMUNITIES.add( Paralysis.class );
 		IMMUNITIES.add( Vertigo.class );
@@ -252,7 +252,7 @@ public class King extends Mob {
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 	
@@ -326,14 +326,14 @@ public class King extends Mob {
 			return Random.NormalIntRange(0, 5);
 		}
 
-		private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+		private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 		static {
 			IMMUNITIES.add( Grim.class );
 			IMMUNITIES.add( Paralysis.class );
 		}
 		
 		@Override
-		public HashSet<Class<?>> immunities() {
+		public HashSet<Class> immunities() {
 			return IMMUNITIES;
 		}
 	}

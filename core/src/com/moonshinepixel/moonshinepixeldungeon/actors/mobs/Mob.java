@@ -186,7 +186,7 @@ public abstract class Mob extends Char {
 		
 		boolean justAlerted = alerted;
 		alerted = false;
-		
+		if (sprite!=null)
 		sprite.hideAlert();
 		
 		if (paralysed > 0) {
@@ -227,7 +227,7 @@ public abstract class Mob extends Char {
             //We are amoked and current enemy is the hero
             if (buff(Amok.class) != null && enemy == Dungeon.hero)
                 newEnemy = true;
-            if (ally && (enemy == Dungeon.hero || enemy.buff(Corruption.class) != null || ((Mob) enemy).ally || ((Mob) enemy).hostile))
+            if (ally && (enemy == Dungeon.hero || enemy.buff(Corruption.class) != null || ((Mob) enemy).ally))
                 newEnemy = true;
 
             boolean allyFound = true;
@@ -248,7 +248,7 @@ public abstract class Mob extends Char {
 
 				//look for enemy mobs to attack, which are also not corrupted
 				for (Mob mob : Dungeon.level.mobs)
-					if (mob != this && Level.fieldOfView[mob.pos] && mob.hostile && mob.buff(Corruption.class) == null && !mob.ally)
+					if (mob != this && Level.fieldOfView[mob.pos] && mob.buff(Corruption.class) == null && !mob.ally)
 						enemies.add(mob);
 				if (enemies.size() > 0) return Random.element(enemies);
 
@@ -257,7 +257,7 @@ public abstract class Mob extends Char {
 
 			} else if (ally){
                     for (Mob mob : Dungeon.level.mobs) {
-                        if (mob.hostile && Level.fieldOfView[mob.pos] && mob.state != mob.PASSIVE && !mob.ally) {
+                        if (Level.fieldOfView[mob.pos] && mob.state != mob.PASSIVE && !mob.ally) {
                             enemies.add(mob);
                         }
                     }
@@ -268,7 +268,7 @@ public abstract class Mob extends Char {
 
 				//try to find an enemy mob to attack first.
 				for (Mob mob : Dungeon.level.mobs)
-					if (mob != this && Level.fieldOfView[mob.pos] && mob.hostile)
+					if (mob != this && Level.fieldOfView[mob.pos])
 							enemies.add(mob);
 				if (enemies.size() > 0) return Random.element(enemies);
 
@@ -529,6 +529,15 @@ public abstract class Mob extends Char {
 	public void onAttackComplete() {
 		attack( enemy );
 		super.onAttackComplete();
+	}
+
+	@Override
+	public int attackProc(Char enemy, int damage) {
+		damage = super.attackProc(enemy, damage);
+		if (buff(Weakness.class) != null){
+			damage *= 0.67f;
+		}
+		return damage;
 	}
 	
 	@Override

@@ -20,6 +20,8 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon.scenes;
 
+import com.moonshinepixel.moonshinepixeldungeon.Challenges;
+import com.moonshinepixel.moonshinepixeldungeon.Dungeon;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
 import com.moonshinepixel.moonshinepixeldungeon.windows.WndStory;
 import com.watabou.noosa.Game;
@@ -29,15 +31,12 @@ public class IntroScene extends PixelScene {
 	@Override
 	public void create() {
 		super.create();
-
-		add( new WndStory( Messages.get(this, "text") ) {
+		add(new WndStory(Messages.get(this, "text")) {
 			@Override
 			public void hide() {
 				super.hide();
-				Game.switchScene( InterlevelScene.class );
+				Game.switchScene(InterlevelScene.class);
 			}
-		} );
-
-		fadeIn();
+		});
 	}
 }

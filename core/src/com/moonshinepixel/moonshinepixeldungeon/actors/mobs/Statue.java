@@ -162,8 +162,8 @@ public class Statue extends Mob {
 		return Messages.get(this, "desc", weapon.tier, weapon.name());
 	}
 	
-	private static final HashSet<Class<?>> RESISTANCES = new HashSet<>();
-	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<>();
+	private static final HashSet<Class> RESISTANCES = new HashSet<>();
+	private static final HashSet<Class> IMMUNITIES = new HashSet<>();
 	static {
 		RESISTANCES.add( ToxicGas.class );
 		RESISTANCES.add( Poison.class );
@@ -172,12 +172,12 @@ public class Statue extends Mob {
 	}
 	
 	@Override
-	public HashSet<Class<?>> resistances() {
+	public HashSet<Class> resistances() {
 		return RESISTANCES;
 	}
 	
 	@Override
-	public HashSet<Class<?>> immunities() {
+	public HashSet<Class> immunities() {
 		return IMMUNITIES;
 	}
 }

@@ -28,6 +28,7 @@ import com.moonshinepixel.moonshinepixeldungeon.ui.BuffIndicator;
 
 public class Weakness extends FlavourBuff {
 
+
 	private static final float DURATION = 40f;
 
 	{
@@ -38,33 +39,14 @@ public class Weakness extends FlavourBuff {
 	public int icon() {
 		return BuffIndicator.WEAKNESS;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");
 	}
-	
-	@Override
-	public boolean attachTo( Char target ) {
-		if (super.attachTo( target )) {
-			Hero hero = (Hero)target;
-			hero.weakened = true;
-			
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	@Override
-	public void detach() {
-		super.detach();
-		((Hero)target).weakened = false;
-	}
-	
+
 	public static float duration( Char ch ) {
-		RingOfElements.Resistance r = ch.buff( RingOfElements.Resistance.class );
-		return r != null ? r.durationFactor() * DURATION : DURATION;
+		return DURATION * RingOfElements.durationFactor( ch );
 	}
 
 	@Override

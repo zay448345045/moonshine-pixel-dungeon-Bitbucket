@@ -38,8 +38,6 @@ public class Dog extends NPC {
 
     public Dog() {
         super();
-        HT=HP=10+level()*8;
-        defenseSkill=level()*3;
     }
 
     public int level(){
@@ -103,6 +101,11 @@ public class Dog extends NPC {
     @Override
     public int attackSkill(Char target) {
         return level()*4;
+    }
+
+    public void levelup(){
+        HT=HP=10+level()*8;
+        defenseSkill=level()*3;
     }
 
     @Override

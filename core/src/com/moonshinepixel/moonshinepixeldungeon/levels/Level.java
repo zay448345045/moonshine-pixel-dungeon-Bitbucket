@@ -741,18 +741,25 @@ public abstract class Level implements Bundlable {
 		return null;
 	}
 
+	public void buildFlagMaps(int cell){
+		int flags = Terrain.flags[map[cell]];
+		passable[cell]		= (flags & Terrain.PASSABLE) != 0;
+		losBlocking[cell]	= (flags & Terrain.LOS_BLOCKING) != 0;
+		flamable[cell]		= (flags & Terrain.FLAMABLE) != 0;
+		secret[cell]		= (flags & Terrain.SECRET) != 0;
+		solid[cell]		= (flags & Terrain.SOLID) != 0;
+		avoid[cell]		= (flags & Terrain.AVOID) != 0;
+		water[cell]		= (flags & Terrain.LIQUID) != 0;
+		pit[cell]			= (flags & Terrain.PIT) != 0;
+		if (!insideMap(cell)){
+			passable[cell] = avoid[cell] = false;
+		}
+	}
+
 	public void buildFlagMaps() {
 		
 		for (int i=0; i < length(); i++) {
-			int flags = Terrain.flags[map[i]];
-			passable[i]		= (flags & Terrain.PASSABLE) != 0;
-			losBlocking[i]	= (flags & Terrain.LOS_BLOCKING) != 0;
-			flamable[i]		= (flags & Terrain.FLAMABLE) != 0;
-			secret[i]		= (flags & Terrain.SECRET) != 0;
-			solid[i]		= (flags & Terrain.SOLID) != 0;
-			avoid[i]		= (flags & Terrain.AVOID) != 0;
-			water[i]		= (flags & Terrain.LIQUID) != 0;
-			pit[i]			= (flags & Terrain.PIT) != 0;
+			buildFlagMaps(i);
 		}
 		
 		int lastRow = length() - width();
@@ -1152,8 +1159,9 @@ public abstract class Level implements Bundlable {
 							fieldOfView[p + i] = true;
 					}
 				}
-			} catch (Exception e){
+			} catch (Throwable e){
 				MoonshinePixelDungeon.reportException(e);
+
 			}
 		}
 
@@ -1316,5 +1324,13 @@ public abstract class Level implements Bundlable {
 
 	public boolean amnesia(){
 		return Dungeon.isChallenged(Challenges.AMNESIA);
+	}
+
+	public boolean mapable(){
+		return true;
+	}
+
+	public boolean teleportable(){
+		return true;
 	}
 }

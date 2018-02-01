@@ -160,7 +160,7 @@ public class StatusPane extends Component {
 		level.hardlight( Dungeon.cheated()?0xFF0000:0xFFEBA4 );
 		add( level );
 
-		depth = new BitmapText( Dungeon.showDepth[Dungeon.depth], PixelScene.pixelFont);
+		depth = new BitmapText( Dungeon.isChallenged(Challenges.AMNESIA)?"??":Dungeon.showDepth[Dungeon.depth], PixelScene.pixelFont);
 		depth.hardlight( 0xCACFC2 );
 		depth.measure();
 		add( depth );
@@ -233,7 +233,11 @@ public class StatusPane extends Component {
 		shieldedHP.scale.x = health/max;
 		rawShielding.scale.x = shield/max;
 
-		exp.scale.x = (width / exp.width) * Dungeon.hero.exp / Dungeon.hero.maxExp();
+		if (Dungeon.isChallenged(Challenges.ANALGESIA)){
+			exp.scale.x = (width / exp.width);
+			exp.tint(0x000000, 1);
+		} else
+			exp.scale.x = (width / exp.width) * Dungeon.hero.exp / Dungeon.hero.maxExp();
 
 		if (Dungeon.hero.lvl != lastLvl) {
 
@@ -245,7 +249,7 @@ public class StatusPane extends Component {
 			}
 
 			lastLvl = Dungeon.hero.lvl;
-			level.text( Integer.toString( lastLvl ) );
+			level.text( Dungeon.isChallenged(Challenges.AMNESIA)||Dungeon.isChallenged(Challenges.ANALGESIA)?"??":Integer.toString( lastLvl ) );
 			level.measure();
 			level.x = 27.5f - level.width() / 2f;
 			level.y = 28.0f - level.baseLine() / 2f;

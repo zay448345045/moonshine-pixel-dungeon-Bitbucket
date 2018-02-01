@@ -21,6 +21,7 @@
 
 package com.watabou.noosa;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
@@ -33,6 +34,7 @@ import com.watabou.glwrap.Vertexbuffer;
 import com.watabou.utils.GameArrays;
 import com.watabou.utils.RectF;
 
+import java.nio.BufferOverflowException;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -75,14 +77,28 @@ public class BitmapText extends Visual {
 		Matrix.scale( matrix, scale.x, scale.y );
 		Matrix.rotate( matrix, angle );
 	}
-	
+
+	private int iterations = 0;
+
 	@Override
 	public void draw() {
 		
 		super.draw();
 
 		if (dirty) {
-			updateVertices();
+			try {
+				updateVertices();
+			} catch (BufferOverflowException e){
+				if (iterations<50) {
+					iterations++;
+					draw();
+				} else {
+					iterations=0;
+					Game.instance.pause();
+					Game.resetScene();
+				}
+			}
+			iterations=0;
 			quads.limit(quads.position());
 			if (buffer == null)
 				buffer = new Vertexbuffer(quads);
@@ -226,7 +242,7 @@ public class BitmapText extends Visual {
 
 
 		public static final String LATIN_FULL =
-			" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007FöЁЄІЇАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяёіїє";
+			" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007FöЁЄІЇАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяёіїє\u2588";
 		public static final String ALL =
 			" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u007F¡¨¯°´¸¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĜĝĤĥıĴĵŁłŃńŐőŒœŚśŜŝŞşŬŭŰűŴŵŶŷŸŹźŻżȷəʼˆˇˉ˘˙˚˛˝˳̣̀̀́̃̉̏ΓΠЀЁАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяѐё–—―‗‘’‚‛“”„†‡•‥…∂∏∑−√∞∫≈≠≤≥◊\uEE01\uEE02\uF6C3·ĞğİȘș";
 		
