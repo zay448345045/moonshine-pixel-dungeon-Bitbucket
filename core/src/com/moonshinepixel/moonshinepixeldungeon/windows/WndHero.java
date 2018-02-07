@@ -91,10 +91,14 @@ public class WndHero extends WndTabbed {
 
 	@Override
 	protected void onKeyUp( NoosaInputProcessor.Key key ) {
+		try{
 		if (key.action == GameAction.HERO_INFO) {
 			hide();
 		} else {
 			super.onKeyUp( key );
+		}
+		}catch (Throwable ignored){
+
 		}
 	}
 

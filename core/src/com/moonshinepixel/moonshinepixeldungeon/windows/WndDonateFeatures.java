@@ -58,7 +58,7 @@ public class WndDonateFeatures extends Window {
         goldUiCheckbox.enable(Unlocks.isUnlocked(Unlocks.GOLDHUD));
 //        goldUiCheckbox.enable(false);
 
-        final String[] names = new String[]{"Default","Empty","Steel","Dark","Crystal"};
+        final String[] names = new String[]{"Default","Empty","Steel","Mosaic","Crystal"};
 
         rb = new RedButton("Menu button style: ", 8){
             @Override

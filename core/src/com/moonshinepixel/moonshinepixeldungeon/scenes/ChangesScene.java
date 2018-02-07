@@ -40,8 +40,12 @@ public class ChangesScene extends PixelScene {
 	private static final String TXT_Update = (Holidays.getHoliday()==Holidays.HWEEN?"_Happy Halloween!_\n\n":"")+
 			"_NOTE:_ Moonshine PD does not currently support translations.\n" +
 					"\n" +
+					"_v0.1.32(33) - alpha:_\n" +
+					"_-_ Fixed some crashes\nImplemented new save system" +
+					"\n" +
+					"\n" +
 					"_v0.1.31 - alpha:_\n" +
-					"_-_ Fixed lot of crushes (again)\nFixed some bugs\nSightly buffed _Amnesia_ and _Analgesia_ challenges\nFixed challenges window\n" +
+					"_-_ Fixed lot of crashes (again)\nFixed some bugs\nSlightly buffed _Amnesia_ and _Analgesia_ challenges\nFixed challenges window" +
 					"\n" +
 					"\n" +
 					"_v0.1.30 - alpha:_\n" +

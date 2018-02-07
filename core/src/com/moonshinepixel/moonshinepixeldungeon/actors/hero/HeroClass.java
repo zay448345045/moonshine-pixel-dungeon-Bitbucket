@@ -298,7 +298,8 @@ public enum HeroClass {
 	
 	public String title() {
 		return title(MoonshinePixelDungeon.lastGender());
-	}public String title(int gender) {
+	}
+	public String title(int gender) {
 		return Messages.get(HeroClass.class, gender==0?title:title+"_fem");
 	}
 	

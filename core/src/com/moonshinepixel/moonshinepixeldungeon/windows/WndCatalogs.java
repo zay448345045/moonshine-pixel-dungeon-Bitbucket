@@ -153,10 +153,14 @@ public class WndCatalogs extends WndTabbed {
 
 	@Override
 	protected void onKeyUp( NoosaInputProcessor.Key<GameAction> key ) {
-		if (key.action == GameAction.CATALOGUS) {
-			hide();
-		} else {
-			super.onKeyUp( key );
+		try {
+			if (key.action == GameAction.CATALOGUS) {
+				hide();
+			} else {
+				super.onKeyUp(key);
+			}
+		} catch (Throwable ignored){
+
 		}
 	}
 	

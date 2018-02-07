@@ -37,6 +37,7 @@ public enum Preferences {
 	public static final String KEY_SFX_VOL      = "sfx_vol";
 	public static final String KEY_ZOOM			= "zoom";
 	public static final String KEY_LAST_CLASS	= "last_class";
+	public static final String KEY_LAST_SLOT	= "last_slot";
 	public static final String KEY_CHALLENGES	= "challenges";
 	public static final String KEY_QUICKSLOTS	= "quickslots";
 	public static final String KEY_FLIPTOOLBAR	= "flipped_ui";
@@ -85,6 +86,10 @@ public enum Preferences {
 
 	boolean contains( String key ){
 		return get().contains( key );
+	}
+
+	public void remove( String key ){
+		get().remove(key);
 	}
 
 	public int getInt( String key, int defValue ) {

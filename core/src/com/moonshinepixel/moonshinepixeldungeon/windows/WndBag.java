@@ -164,10 +164,14 @@ public class WndBag extends WndTabbed {
 
 	@Override
 	protected void onKeyUp( NoosaInputProcessor.Key<GameAction> key ) {
-		if (key.action == GameAction.BACKPACK) {
-			hide();
-		} else {
-			super.onKeyUp( key );
+		try {
+			if (key.action == GameAction.BACKPACK) {
+				hide();
+			} else {
+				super.onKeyUp(key);
+			}
+		} catch (Throwable ignored){
+
 		}
 	}
 	

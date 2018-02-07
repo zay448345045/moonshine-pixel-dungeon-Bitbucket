@@ -158,14 +158,18 @@ public class CellSelector extends TouchArea<GameAction> {
 
 	@Override
 	public boolean onKeyUp( PDInputProcessor.Key<GameAction> key ) {
-		if (pressedKey != null && key.action == pressedKey.action) {
-			resetKeyHold();
-		}
-		switch (key.code) {
-		case PDInputProcessor.MODIFIER_KEY:
-			mouseZoom = zoom( Math.round( mouseZoom ) );
-			return true;
-		default:
+		try {
+			if (pressedKey != null && key.action == pressedKey.action) {
+				resetKeyHold();
+			}
+			switch (key.code) {
+				case PDInputProcessor.MODIFIER_KEY:
+					mouseZoom = zoom(Math.round(mouseZoom));
+					return true;
+				default:
+					return false;
+			}
+		} catch (Throwable e){
 			return false;
 		}
 	}

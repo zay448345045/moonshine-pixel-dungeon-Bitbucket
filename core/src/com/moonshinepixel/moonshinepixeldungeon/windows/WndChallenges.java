@@ -85,7 +85,7 @@ public class WndChallenges extends Window {
 			if (i > 0) {
 				pos += GAP;
 			}
-			cb.setRect(0, pos, panel.innerWidth()*5/6, BTN_HEIGHT);
+			cb.setRect(0, pos, panel.innerWidth(), BTN_HEIGHT);
 			pos += cb.height();
 
 			cp.add(cb);

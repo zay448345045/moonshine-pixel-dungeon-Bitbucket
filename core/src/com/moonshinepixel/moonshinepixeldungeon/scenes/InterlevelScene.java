@@ -217,7 +217,7 @@ public class InterlevelScene extends PixelScene {
 					Buff.affect(Dungeon.hero,Countdown.class,Challenges.countdownTurns());
 		} else {
 			Dungeon.depth++;
-			level = Dungeon.loadLevel( Dungeon.hero.heroClass );
+			level = Dungeon.loadLevel( Dungeon.gameSlot );
 		}
 		Dungeon.switchLevel( level, level.entrance );
 	}
@@ -235,7 +235,7 @@ public class InterlevelScene extends PixelScene {
 					Buff.affect(Dungeon.hero,Countdown.class,Challenges.countdownTurns());
 		} else {
 			Dungeon.depth++;
-			level = Dungeon.loadLevel( Dungeon.hero.heroClass );
+			level = Dungeon.loadLevel( Dungeon.gameSlot );
 		}
 		Dungeon.switchLevel( level, level.fallCell( fallIntoPit ));
 	}
@@ -249,7 +249,7 @@ public class InterlevelScene extends PixelScene {
             level = Dungeon.newLevel();
         } else {
             Dungeon.depth--;
-            level = Dungeon.loadLevel(Dungeon.hero.heroClass);
+            level = Dungeon.loadLevel(Dungeon.gameSlot);
         }
 
 		Dungeon.switchLevel( level, level.exit );
@@ -276,7 +276,7 @@ public class InterlevelScene extends PixelScene {
             newLvl=true;
             level = Dungeon.newLevel();
         } else {
-            level = Dungeon.loadLevel(Dungeon.hero.heroClass);
+            level = Dungeon.loadLevel(Dungeon.gameSlot);
         }
 		Dungeon.switchLevel( level, returnPos!=-1&&!newLvl?returnPos:level.entrance );
 	}
@@ -287,12 +287,12 @@ public class InterlevelScene extends PixelScene {
 
 		GameLog.wipe();
 
-		Dungeon.loadGame( StartScene.curClass );
+		Dungeon.loadGame( StartScene.curSlot );
 		if (Dungeon.depth == -1) {
 			Dungeon.depth = Statistics.deepestFloor;
-			Dungeon.switchLevel( Dungeon.loadLevel( StartScene.curClass ), -1 );
+			Dungeon.switchLevel( Dungeon.loadLevel( StartScene.curSlot ), -1 );
 		} else {
-			Level level = Dungeon.loadLevel( StartScene.curClass );
+			Level level = Dungeon.loadLevel( StartScene.curSlot );
 			Dungeon.switchLevel( level, Dungeon.hero.pos );
 		}
 	}

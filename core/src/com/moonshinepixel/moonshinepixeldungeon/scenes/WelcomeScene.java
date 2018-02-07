@@ -22,13 +22,12 @@ package com.moonshinepixel.moonshinepixeldungeon.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.moonshinepixel.moonshinepixeldungeon.GamesInProgress;
-import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.*;
+import com.moonshinepixel.moonshinepixeldungeon.actors.hero.HeroClass;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Fireball;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Flare;
 import com.moonshinepixel.moonshinepixeldungeon.items.food.Moonshine;
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
-import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.effects.BannerSprites;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RedButton;
 import com.moonshinepixel.moonshinepixeldungeon.ui.RenderedTextMultiline;
@@ -39,6 +38,8 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
+
+import java.io.IOException;
 
 public class WelcomeScene extends PixelScene {
 
@@ -52,13 +53,35 @@ public class WelcomeScene extends PixelScene {
 //		final int previousVersion = -1;
 
 		if (MoonshinePixelDungeon.versionCode == previousVersion) {
-			if (MoonshinePixelDungeon.startInGame()&&GamesInProgress.check( StartScene.curClass )!=null) {
+			if (MoonshinePixelDungeon.startInGame()&&GamesInProgress.check( StartScene.curSlot )!=null) {
 				InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
 				Game.switchScene(InterlevelScene.class);
 			} else {
 				MoonshinePixelDungeon.switchScene(TitleScene.class);
 			}
 			return;
+		}
+
+		if (previousVersion<MoonshinePixelDungeon.v0_1_32){
+			for(HeroClass hc : HeroClass.values()){
+				if (GamesInProgress.check_OLD(hc)!=null){
+					Dungeon.moveGame(hc);
+				}
+			}
+		}
+		if (previousVersion<MoonshinePixelDungeon.v0_1_33){
+			MoonshinePixelDungeon.moonstones(MoonshinePixelDungeon.moonstones_OLD());
+			MoonshinePixelDungeon.unlocks(MoonshinePixelDungeon.unlocks_OLD());
+			MoonshinePixelDungeon.devOptions(MoonshinePixelDungeon.devOptions_OLD());
+			MoonshinePixelDungeon.challenges(MoonshinePixelDungeon.challenges_OLD());
+			MoonshinePixelDungeon.buttonType(MoonshinePixelDungeon.buttonType_OLD());
+			MoonshinePixelDungeon.hudType(MoonshinePixelDungeon.hudType_OLD());
+			Preferences.INSTANCE.remove(Preferences.KEY_MOONSTONES);
+			Preferences.INSTANCE.remove(Preferences.KEY_BUTTONTYPE);
+			Preferences.INSTANCE.remove(Preferences.KEY_HUDTYPE);
+			Preferences.INSTANCE.remove(Preferences.KEY_CHALLENGES);
+			Preferences.INSTANCE.remove(Preferences.KEY_UNLOCKS);
+			Preferences.INSTANCE.remove(Preferences.KEY_DEVOPTIONS);
 		}
 
 		uiCamera.visible = false;
@@ -137,7 +160,7 @@ public class WelcomeScene extends PixelScene {
 				super.onClick();
 				updateVersion(previousVersion);
 				if (MoonshinePixelDungeon.startInGame()){
-					if (GamesInProgress.check( StartScene.curClass )!=null) {
+					if (GamesInProgress.check( StartScene.curSlot )!=null) {
 						InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
 						Game.switchScene(InterlevelScene.class);
 					} else {

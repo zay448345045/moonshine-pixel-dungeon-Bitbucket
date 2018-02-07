@@ -63,7 +63,9 @@ public enum Icons {
 	CLOSELEFT,
 	MOON,
 	LOCK,
-	CHAIN;
+	CHAIN,
+	SETTING_UC,
+	SETTING_C;
 
 	public Image get() {
 		return get( this );
@@ -115,7 +117,7 @@ public enum Icons {
 			icon.frame( icon.texture.uvRect( 48, 29, 64, 45 ) );
 			break;
 		case GUNSLINGER:
-			icon.frame( icon.texture.uvRect( 65, 29, 77, 44 ) );
+			icon.frame( icon.texture.uvRect( 65, 29, 77, 45 ) );
 			break;
 		case CLOSE:
 			icon.frame( icon.texture.uvRect( 0, 45, 13, 58 ) );
@@ -157,7 +159,7 @@ public enum Icons {
 			icon.frame( icon.texture.uvRect( 108, 0, 124, 16 ) );
 			break;
 		case NOTES:
-			icon.frame( icon.texture.uvRect( 79, 40, 94, 56 ) );
+			icon.frame( icon.texture.uvRect( 79, 40, 94, 55 ) );
 			break;
 		case LANGS:
 			icon.frame( icon.texture.uvRect( 94, 40, 110, 56 ) );
@@ -185,6 +187,12 @@ public enum Icons {
 			break;
 		case CHAIN:
 			icon.frame( icon.texture.uvRect( 38, 64, 44, 67 ) );
+			break;
+		case SETTING_UC:
+			icon.frame( icon.texture.uvRect( 78, 54, 92, 68 ) );
+			break;
+		case SETTING_C:
+			icon.frame( icon.texture.uvRect( 91, 54, 105, 68 ) );
 			break;
 		}
 		return icon;

@@ -22,6 +22,7 @@ package com.moonshinepixel.moonshinepixeldungeon.ui;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
+import com.moonshinepixel.moonshinepixeldungeon.scenes.PixelScene;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.TitleScene;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
@@ -31,12 +32,19 @@ import com.watabou.noosa.ui.Button;
 public class ExitButton extends Button {
 
 	protected Image image;
+	protected Class<? extends PixelScene> target;
 
 	public ExitButton() {
+		this(TitleScene.class);
+	}
+
+	public ExitButton(Class<? extends PixelScene> target) {
 		super();
 
 		width = image.width;
 		height = image.height;
+
+		this.target=target;
 	}
 
 	@Override
@@ -71,7 +79,7 @@ public class ExitButton extends Button {
 		if (Game.scene() instanceof TitleScene) {
 			Game.instance.finish();
 		} else {
-			MoonshinePixelDungeon.switchNoFade( TitleScene.class );
+			MoonshinePixelDungeon.switchNoFade( target );
 		}
 	}
 }

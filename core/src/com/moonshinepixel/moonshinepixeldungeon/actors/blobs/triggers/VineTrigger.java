@@ -10,7 +10,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.mobs.Vine;
 import com.moonshinepixel.moonshinepixeldungeon.effects.Pushing;
 import com.moonshinepixel.moonshinepixeldungeon.levels.Level;
 import com.moonshinepixel.moonshinepixeldungeon.scenes.GameScene;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.TentacleGreenSprite;
+import com.moonshinepixel.moonshinepixeldungeon.sprites.GardenLasherSprite;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
@@ -51,7 +51,7 @@ public class VineTrigger extends Trigger {
         GameScene.add( m, 1 );
 
         m.sprite.turnTo( pos, Dungeon.hero.pos );
-        ((TentacleGreenSprite)m.sprite).playApear();
+        ((GardenLasherSprite)m.sprite).playApear();
         Buff.prolong(targ, Roots.class,2);
 
         return true;

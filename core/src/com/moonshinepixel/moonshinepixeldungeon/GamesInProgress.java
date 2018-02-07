@@ -28,20 +28,21 @@ import java.util.HashMap;
 
 public class GamesInProgress {
 
-	private static HashMap<HeroClass, Info> state = new HashMap<HeroClass, Info>();
-	
-	public static Info check( HeroClass cl ) {
-		
-		if (state.containsKey( cl )) {
-			
-			return state.get( cl );
-			
+	private static HashMap<Integer, Info> state = new HashMap<>();
+	private static HashMap<HeroClass, Info> state_OLD = new HashMap<>();
+
+	public static Info check( int gameslot ) {
+
+		if (state.containsKey( gameslot )) {
+
+			return state.get( gameslot );
+
 		} else {
-			
+
 			Info info;
 			try {
-				
-				Bundle bundle = Dungeon.gameBundle( Dungeon.gameFile( cl ) );
+
+				Bundle bundle = Dungeon.gameBundle( Dungeon.gameFile( gameslot ) );
 				info = new Info();
 				Dungeon.preview( info, bundle );
 
@@ -52,27 +53,67 @@ public class GamesInProgress {
 			} catch (IOException e) {
 				info = null;
 			}
-			
-			state.put( cl, info );
+
+			state.put( gameslot, info );
 			return info;
-			
+
+		}
+	}
+	public static Info check_OLD( HeroClass cl ) {
+
+		if (state_OLD.containsKey( cl )) {
+
+			return state_OLD.get( cl );
+
+		} else {
+
+			Info info;
+			try {
+
+				Bundle bundle = Dungeon.gameBundle( Dungeon.gameFile_OLD( cl ) );
+				info = new Info();
+				Dungeon.preview( info, bundle );
+
+				if (info.version < MoonshinePixelDungeon.v0_0_0){
+					info = null;
+				}
+
+			} catch (IOException e) {
+				info = null;
+			}
+
+			state_OLD.put( cl, info );
+			return info;
+
 		}
 	}
 
-	public static void set( HeroClass cl, int depth, int level, boolean challenges ) {
+	public static void set( int gameSlot, HeroClass hc, int depth, int level, boolean challenges ) {
 		Info info = new Info();
 		info.depth = depth;
 		info.level = level;
 		info.challenges = challenges;
-		state.put( cl, info );
+		info.heroClass = hc;
+		state.put( gameSlot, info );
+	}
+
+	public static void set_OLD( HeroClass cl, int depth, int level, boolean challenges ) {
+		Info info = new Info();
+		info.depth = depth;
+		info.level = level;
+		info.challenges = challenges;
+		state_OLD.put( cl, info );
 	}
 	
 	public static void setUnknown( HeroClass cl ) {
-		state.remove( cl );
+		state_OLD.remove( cl );
 	}
 	
-	public static void delete( HeroClass cl ) {
-		state.put( cl, null );
+	public static void delete( int saveSlot ) {
+		state.put( saveSlot, null );
+	}
+	public static void delete_OLD( HeroClass cl ) {
+		state_OLD.put( cl, null );
 	}
 	
 	public static class Info {
@@ -80,5 +121,6 @@ public class GamesInProgress {
 		public int level;
 		public int version;
 		public boolean challenges;
+		public HeroClass heroClass;
 	}
 }

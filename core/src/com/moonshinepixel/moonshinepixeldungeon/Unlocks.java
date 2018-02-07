@@ -1,6 +1,13 @@
 package com.moonshinepixel.moonshinepixeldungeon;
 
 import com.moonshinepixel.moonshinepixeldungeon.messages.Messages;
+import com.watabou.noosa.Game;
+import com.watabou.utils.Bundle;
+import com.watabou.utils.GameMath;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public enum Unlocks {
 
@@ -28,6 +35,8 @@ public enum Unlocks {
 	private int price;
 	String codeName;
 
+
+	private static Bundle bundle;
 	Unlocks(int price){
 		this(price,9,"");
 	}
@@ -108,9 +117,107 @@ public enum Unlocks {
 		}
 		MoonshinePixelDungeon.unlocks(MoonshinePixelDungeon.unlocks()|id.id());
 	}
+
 	public static void lock(Unlocks id){
 		if (isUnlocked(id)){
 			MoonshinePixelDungeon.unlocks(MoonshinePixelDungeon.unlocks()^id.id());
 		}
+	}
+
+	public static Bundle get(){
+		try {
+			InputStream input = Game.instance.openFileInput("Unlocks.dat");
+			bundle = Bundle.read(input);
+			input.close();
+			return bundle;
+		} catch (IOException e){
+			bundle=new Bundle();
+			return bundle;
+		}
+	}
+	public static void save(){
+		try {
+			OutputStream output = Game.instance.openFileOutput("Unlocks.dat");
+			Bundle.write(bundle, output);
+			output.close();
+		} catch (IOException ignored){
+		}
+	}
+
+	public static int getInt( String key, int defValue ) {
+		return getInt(key, defValue, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+
+	public static int getInt( String key, int defValue, int min, int max ) {
+		try {
+			int i;
+			if (get().contains(key))
+				i = get().getInt(key);
+			else
+				i=defValue;
+			if (i < min || i > max){
+				int val = (int) GameMath.gate(min, i, max);
+				put(key, val);
+				return val;
+			} else {
+				return i;
+			}
+		} catch (ClassCastException | NumberFormatException e) {
+			MoonshinePixelDungeon.reportException(e);
+			put(key, defValue);
+			return defValue;
+		}
+	}
+
+	public static boolean getBoolean( String key, boolean defValue ) {
+		try {
+			if (get().contains(key))
+				return get().getBoolean(key);
+			else
+				return defValue;
+		} catch (ClassCastException | NumberFormatException e) {
+			MoonshinePixelDungeon.reportException(e);
+			put(key, defValue);
+			return defValue;
+		}
+	}
+
+	public static String getString( String key, String defValue ) {
+		return getString(key, defValue, Integer.MAX_VALUE);
+	}
+
+	public static String getString( String key, String defValue, int maxLength ) {
+		try {
+			String s;
+			if (bundle.contains(key))
+				s = get().getString( key );
+			else
+				s=defValue;
+			if (s != null && s.length() > maxLength) {
+				put(key, defValue);
+				return defValue;
+			} else {
+				return s;
+			}
+		} catch (ClassCastException | NumberFormatException e) {
+			MoonshinePixelDungeon.reportException(e);
+			put(key, defValue);
+			return defValue;
+		}
+	}
+
+	public static void put( String key, int value ) {
+		get().put(key, value);
+		save();
+	}
+
+	public static void put( String key, boolean value ) {
+		get().put( key, value );
+		save();
+	}
+
+	public static void put( String key, String value ) {
+		get().put(key, value);
+		save();
 	}
 }

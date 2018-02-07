@@ -21,19 +21,17 @@
 package com.moonshinepixel.moonshinepixeldungeon.sprites;
 
 import com.moonshinepixel.moonshinepixeldungeon.Assets;
-import com.watabou.noosa.MovieClip;
 import com.watabou.noosa.TextureFilm;
-import com.watabou.noosa.tweeners.AlphaTweener;
 
-public class TentacleGreenSprite extends MobSprite {
+public class GardenLasherSprite extends MobSprite {
 
 	private Animation apear;
 	private Animation disapear;
 
-	public TentacleGreenSprite() {
+	public GardenLasherSprite() {
 		super();
 
-		texture( Assets.TENTACLE );
+		texture( Assets.GARDEN_LASHER);
 
 		TextureFilm frames = new TextureFilm( texture, 12, 13 );
 

@@ -147,7 +147,7 @@ public class TitleScene extends PixelScene {
 		DashboardItem btnPlay = new DashboardItem( Messages.get(this, "play"), 0 ) {
 			@Override
 			protected void onClick() {
-				MoonshinePixelDungeon.switchNoFade( StartScene.class );
+				MoonshinePixelDungeon.switchNoFade( SlotSelectScene.class );
 			}
 		};
 		add( btnPlay );

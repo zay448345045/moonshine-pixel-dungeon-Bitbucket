@@ -135,10 +135,14 @@ public class WndJournal extends Window {
 
 	@Override
 	protected void onKeyUp( NoosaInputProcessor.Key<GameAction> key ) {
-		if (key.action == GameAction.JOURNAL) {
-			hide();
-		} else {
-			super.onKeyUp( key );
+		try {
+			if (key.action == GameAction.JOURNAL) {
+				hide();
+			} else {
+				super.onKeyUp(key);
+			}
+		} catch (Throwable ignored){
+
 		}
 	}
 	

@@ -347,8 +347,12 @@ public abstract class Wand extends Item {
 
 				if (curUser.buff(Vertigo.class)!=null)
 					target+= PathFinder.NEIGHBOURS8[Random.Int(8)];
-
-				final Wand curWand = (Wand)Wand.curItem;
+				final Wand curWand;
+				if (curItem instanceof Wand) {
+					curWand = (Wand) Wand.curItem;
+				} else {
+					return;
+				}
 
 				final Ballistica shot = new Ballistica( curUser.pos, target, curWand.collisionProperties);
 				int cell = shot.collisionPos;

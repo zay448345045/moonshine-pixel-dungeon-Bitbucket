@@ -108,6 +108,8 @@ public class Dungeon {
 	public static int challenges;
 	public static int devoptions;
 
+	public static int gameSlot;
+
 	public static String dynastyID="";
 
 	public static Hero hero;
@@ -116,8 +118,6 @@ public class Dungeon {
 	public static QuickSlot quickslot = new QuickSlot();
 
 	public static int depth;
-
-
 
 	public static int storyline = 0; //0 = shattered, 1 = moonshine
 
@@ -244,6 +244,9 @@ public class Dungeon {
 	}
 
 	public static boolean isChallenged( int mask ) {
+		return isChallenged(mask,challenges);
+	}
+	public static boolean isChallenged( int mask, int challenges ) {
 		return (challenges & mask) != 0;
 	}
 	
@@ -482,7 +485,7 @@ public class Dungeon {
 	
 	private static final String VERSION		= "version";
 	private static final String SEED		= "seed";
-	private static final String CHALLENGES	= "challenges";
+	public  static final String CHALLENGES	= "challenges";
 	private static final String DEVOPTIONS	= "devoptions";
 	private static final String HERO		= "hero";
 	private static final String GOLD		= "gold";
@@ -501,8 +504,12 @@ public class Dungeon {
 	private static final String ISSEED		= "customseed";
 	private static final String RUNE		= "rune";
 	private static final String DYNASTY		= "dynasty";
+	private static final String SLOT		= "slot";
 
-	public static String gameFile( HeroClass cl ) {
+	public static String gameFile( int saveSlot ) {
+		return "slot"+saveSlot+"/game.dat";
+	}
+	public static String gameFile_OLD( HeroClass cl ) {
 		switch (cl) {
 		case WARRIOR:
 			return WR_GAME_FILE;
@@ -516,19 +523,22 @@ public class Dungeon {
 			return RG_GAME_FILE;
 		}
 	}
-	
-	private static String depthFile( HeroClass cl ) {
+
+	private static String depthFile( int saveSlot ) {
+		return "slot"+saveSlot+"/depth%d.dat";
+	}
+	private static String depthFile_OLD( HeroClass cl ) {
 		switch (cl) {
-		case WARRIOR:
-			return WR_DEPTH_FILE;
-		case MAGE:
-			return MG_DEPTH_FILE;
-		case HUNTRESS:
-			return RN_DEPTH_FILE;
-        case GUNSLINGER:
-			return GS_DEPTH_FILE;
-		default:
-			return RG_DEPTH_FILE;
+			case WARRIOR:
+				return WR_DEPTH_FILE;
+			case MAGE:
+				return MG_DEPTH_FILE;
+			case HUNTRESS:
+				return RN_DEPTH_FILE;
+			case GUNSLINGER:
+				return GS_DEPTH_FILE;
+			default:
+				return RG_DEPTH_FILE;
 		}
 	}
 	
@@ -550,6 +560,7 @@ public class Dungeon {
 			bundle.put( ISSEED, customseed );
 			bundle.put( RUNE, rune );
 			bundle.put( DYNASTY, dynastyID );
+			bundle.put( SLOT, gameSlot );
 
 			for (int d : droppedItems.keyArray()) {
 				bundle.put(Messages.format(DROPPED, d), droppedItems.get(d));
@@ -606,7 +617,7 @@ public class Dungeon {
 		Bundle bundle = new Bundle();
 		bundle.put( LEVEL, level );
 		
-		OutputStream output = Game.instance.openFileOutput( Messages.format( depthFile( hero.heroClass ), depth ) );
+		OutputStream output = Game.instance.openFileOutput( Messages.format( depthFile( gameSlot ), depth ) );
 		Bundle.write( bundle, output );
 		output.close();
 	}
@@ -615,10 +626,10 @@ public class Dungeon {
 		if (hero.isAlive()) {
 			
 			Actor.fixTime();
-			saveGame( gameFile( hero.heroClass ) );
+			saveGame( gameFile( gameSlot ) );
 			saveLevel();
 
-			GamesInProgress.set( hero.heroClass, depth, hero.lvl, challenges != 0 );
+			GamesInProgress.set( gameSlot, hero.heroClass, depth, hero.lvl, challenges != 0 );
 
 		} else if (WndResurrect.instance != null) {
 			
@@ -628,8 +639,13 @@ public class Dungeon {
 		}
 	}
 	
-	public static void loadGame( HeroClass cl ) throws IOException {
-		loadGame( gameFile( cl ), true );
+	public static void loadGame(int gameSlot ) throws IOException {
+		loadGame( gameFile( gameSlot ), true );
+	}
+
+	@Deprecated
+	public static void loadGame(HeroClass hc ) throws IOException {
+		loadGame( gameFile_OLD( hc ), true );
 	}
 
 	public static void loadGame( String fileName ) throws IOException {
@@ -715,6 +731,18 @@ public class Dungeon {
 		returnedDepth = bundle.getBooleanArray(RETURNEDDEPTH);
 		customseed = MoonshinePixelDungeon.customSeed() || bundle.getBoolean(ISSEED);
 
+		if (bundle.contains(SLOT)){
+			gameSlot=bundle.getInt(SLOT);
+		} else {
+			switch (hero.heroClass){
+				case WARRIOR: gameSlot=0; break;
+				case MAGE: gameSlot=1; break;
+				case ROGUE: gameSlot=2; break;
+				case HUNTRESS: gameSlot=3; break;
+				case GUNSLINGER: gameSlot=4; break;
+			}
+		}
+
 		Statistics.restoreFromBundle( bundle );
 		Journal.restoreFromBundle( bundle );
 		Generator.restoreFromBundle( bundle );
@@ -732,30 +760,75 @@ public class Dungeon {
 		}
 	}
 	
-	public static Level loadLevel( HeroClass cl ) throws IOException {
+	public static Level loadLevel( int saveSlot ) throws IOException {
 		
 		Dungeon.level = null;
 		Actor.clear();
 		
-		InputStream input = Game.instance.openFileInput( Messages.format( depthFile( cl ), depth ) ) ;
+		InputStream input = Game.instance.openFileInput( Messages.format( depthFile( saveSlot ), depth ) ) ;
 		Bundle bundle = Bundle.read( input );
 		input.close();
 		
 		return (Level)bundle.get( "level" );
 	}
+	public static Level loadLevel_OLD( HeroClass hc ) throws IOException {
+
+		Dungeon.level = null;
+		Actor.clear();
+
+		InputStream input = Game.instance.openFileInput( Messages.format( depthFile_OLD( hc ), depth ) ) ;
+		Bundle bundle = Bundle.read( input );
+		input.close();
+
+		return (Level)bundle.get( "level" );
+	}
 	
-	public static void deleteGame( HeroClass cl, boolean deleteLevels ) {
+	public static void deleteGame( int saveSlot, boolean deleteLevels ) {
 		
-		Game.instance.deleteFile( gameFile( cl ) );
+		Game.instance.deleteFile( gameFile( saveSlot ) );
 		
 		if (deleteLevels) {
 			int depth = 1;
-			while (Game.instance.deleteFile( Messages.format( depthFile( cl ), depth ) )) {
-				depth++;
+			for (depth = 0; depth<visitedDepth.length;depth++){
+				Game.instance.deleteFile( Messages.format( depthFile( saveSlot ), depth ) );
 			}
 		}
 		
-		GamesInProgress.delete( cl );
+		GamesInProgress.delete( saveSlot );
+	}
+
+	@Deprecated
+	public static void deleteGame_OLD( HeroClass hc, boolean deleteLevels ) {
+
+		Game.instance.deleteFile( gameFile_OLD( hc ) );
+
+		if (deleteLevels) {
+			int depth = 1;
+			for (depth = 0; depth<35;depth++){
+				Game.instance.deleteFile( Messages.format( depthFile_OLD( hc ), depth ) );
+			}
+		}
+
+		GamesInProgress.delete_OLD( hc );
+	}
+
+	public static void moveGame(HeroClass hc){
+
+		try {
+			loadGame(hc);
+			saveAll();
+
+			for (depth = 1; depth<36; depth++ ){
+				try {
+					level=loadLevel_OLD(hc);
+					saveLevel();
+				} catch (IOException ignored){
+				}
+			}
+			Dungeon.deleteGame_OLD(hc, true);
+		} catch (IOException ignored){
+
+		}
 	}
 	
 	public static Bundle gameBundle( String fileName ) throws IOException {

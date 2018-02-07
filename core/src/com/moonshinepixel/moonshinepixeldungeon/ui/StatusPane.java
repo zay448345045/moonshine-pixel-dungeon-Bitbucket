@@ -96,22 +96,26 @@ public class StatusPane extends Component {
 
 			@Override
 			public boolean onKeyUp(NoosaInputProcessor.Key<GameAction> key) {
-				boolean handled = true;
-				switch (key.action) {
-				case HERO_INFO:
-					onClick( null );
-					break;
-				case CATALOGUS:
-					GameScene.show( new WndCatalogs() );
-					break;
-				case JOURNAL:
-					GameScene.show( new WndJournal() );
-					break;
-				default:
-					handled = false;
-					break;
+				try {
+					boolean handled = true;
+					switch (key.action) {
+						case HERO_INFO:
+							onClick(null);
+							break;
+						case CATALOGUS:
+							GameScene.show(new WndCatalogs());
+							break;
+						case JOURNAL:
+							GameScene.show(new WndJournal());
+							break;
+						default:
+							handled = false;
+							break;
+					}
+					return handled;
+				} catch (Throwable e){
+					return false;
 				}
-				return handled;
 			}
 		} );
 
@@ -436,7 +440,7 @@ public class StatusPane extends Component {
 					break;
 				case 3:
 					image = new Image( Assets.MENU, 17, 34, 12, 11 );
-					rune.color(0x666666);
+					rune.color(0xffffff);
 					break;
 				case 4:
 					image = new Image( Assets.MENU, 17, 50, 12, 11 );
@@ -459,7 +463,7 @@ public class StatusPane extends Component {
 					rune.color(0x000000);
 					break;
 				case 3:
-					rune.color(0x666666);
+					rune.color(0xffffff);
 					break;
 				case 4:
 					rune.color(0x000000);

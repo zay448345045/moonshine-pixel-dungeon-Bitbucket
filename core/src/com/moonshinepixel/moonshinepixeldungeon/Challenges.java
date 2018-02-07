@@ -20,6 +20,8 @@
  */
 package com.moonshinepixel.moonshinepixeldungeon;
 
+import java.io.IOException;
+
 public class Challenges {
 
 	public static final int NO_FOOD				= 1;
@@ -149,6 +151,16 @@ public class Challenges {
 
 	public static float countdownTurns(){
 		return (Statistics.amuletObtained?300f:400f)*(Dungeon.isChallenged(SPROUT)?4:1);
+	}
+
+	public static int challengesFromSlot(int slot){
+		if (GamesInProgress.check(slot)!=null) {
+			try {
+				return Dungeon.gameBundle(Dungeon.gameFile(slot)).getInt(Dungeon.CHALLENGES);
+			} catch (IOException ignored) {
+			}
+		}
+		return 0;
 	}
 
 }

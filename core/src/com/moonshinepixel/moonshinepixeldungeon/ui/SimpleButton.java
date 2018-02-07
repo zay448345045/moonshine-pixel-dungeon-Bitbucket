@@ -24,6 +24,7 @@ import com.watabou.input.NoosaInputProcessor;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.TouchArea;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.PointF;
 
 public class SimpleButton extends Component {
 			
@@ -57,11 +58,35 @@ public class SimpleButton extends Component {
 			};
 		} );
 	}
-	
+
 	@Override
 	protected void layout() {
 		image.x = x;
 		image.y = y;
+	}
+
+	public void scale(float scale){
+		image.scale=new PointF(scale,scale);
+	}
+
+	@Override
+	public float width() {
+		return image.width();
+	}
+
+	@Override
+	public float height() {
+		return image.height();
+	}
+
+	@Override
+	public float bottom() {
+		return y+height();
+	}
+
+	@Override
+	public float right() {
+		return x+width();
 	}
 
 	public void alpha(float value){

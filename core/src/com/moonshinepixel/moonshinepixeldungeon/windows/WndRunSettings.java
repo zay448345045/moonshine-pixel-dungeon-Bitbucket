@@ -142,10 +142,14 @@ public class WndRunSettings extends WndTabbed {
 		MoonshinePixelDungeon.devOptions(unknown.devModeNum);
 
 		super.onBackPressed();
-		if (!fade)
-			MoonshinePixelDungeon.switchNoFade( StartScene.class );
-		else
-			MoonshinePixelDungeon.switchScene( StartScene.class );
+		if (MoonshinePixelDungeon.scene() instanceof StartScene) {
+			if (!fade)
+				MoonshinePixelDungeon.switchNoFade(StartScene.class);
+			else
+				MoonshinePixelDungeon.switchScene(StartScene.class);
+		} else {
+			MoonshinePixelDungeon.resetScene();
+		}
 	}
 
 	private class MainTab extends Group {
@@ -248,7 +252,8 @@ public class WndRunSettings extends WndTabbed {
 				@Override
 				protected void onClick() {
 //					WndRunSettings.this.add(new WndMoonShop());
-					MoonshinePixelDungeon.switchScene(MoonshopScene.class);
+					MoonshopScene.lastScene=(Class<? extends PixelScene>) MoonshinePixelDungeon.sceneClass();
+					MoonshinePixelDungeon.switchNoFade(MoonshopScene.class);
 				}
 			};
 

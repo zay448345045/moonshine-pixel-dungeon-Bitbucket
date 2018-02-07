@@ -207,6 +207,9 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	public static Scene scene() {
 		return instance.scene;
 	}
+	public static Class<? extends Scene> sceneClass() {
+		return instance.sceneClass;
+	}
 	
 	protected void step() {
 		

@@ -15,7 +15,7 @@ public class Info {
         LinkedHashSet<WndHardNotification> windows = new LinkedHashSet();
 
         if (lastInfo<57){
-            windows.add(new WndHardNotification(Icons.get(Icons.INFO),"Update checker","Auto update checker is now aviliable on android!\nDisabled by default, you can enable it in settings.\nEven with update checker disabled you can manually check for updates","Ok",3));
+            windows.add(new WndHardNotification(Icons.get(Icons.INFO),"Update checker","Auto update checker is now aviliable on android!\nDisabled by default, you can enable it in settings.\nEven with update checker disabled you can manually check for updates","Ok",lastInfo==0?0:3));
         }
 
 

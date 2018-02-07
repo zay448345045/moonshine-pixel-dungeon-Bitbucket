@@ -52,6 +52,8 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 	//old moonsh
 	public static final int v0_0_0  = 41;
 	public static final int v0_1_25  = 65;
+	public static final int v0_1_32  = 72;
+	public static final int v0_1_33  = 73;
 
 	public MoonshinePixelDungeon(final PDPlatformSupport<GameAction> platformSupport) {
 		super(WelcomeScene.class, platformSupport);
@@ -327,12 +329,23 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 	public static int lastClass() {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_LAST_CLASS, 0, 0, 4 );
 	}
+	public static void lastSlot( int value ) {
+		Preferences.INSTANCE.put( Preferences.KEY_LAST_SLOT, value );
+	}
+
+	public static int lastSlot() {
+		return Preferences.INSTANCE.getInt( Preferences.KEY_LAST_SLOT, 0, 0, Integer.MAX_VALUE );
+	}
 
 	public static void challenges( int value ) {
-		Preferences.INSTANCE.put( Preferences.KEY_CHALLENGES, value );
+		Unlocks.put( Preferences.KEY_CHALLENGES, value );
 	}
 
 	public static int challenges() {
+		return Unlocks.getInt( Preferences.KEY_CHALLENGES, 0, 0, Challenges.MAX_VALUE );
+	}
+
+	public static int challenges_OLD() {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_CHALLENGES, 0, 0, Challenges.MAX_VALUE );
 	}
 
@@ -408,10 +421,14 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 
 
 	public static void devOptions( int value ) {
-		Preferences.INSTANCE.put( Preferences.KEY_DEVOPTIONS, value );
+		Unlocks.put( Preferences.KEY_DEVOPTIONS, value );
 	}
 
 	public static int devOptions() {
+		return Unlocks.getInt( Preferences.KEY_DEVOPTIONS, 0, Integer.MIN_VALUE, Integer.MAX_VALUE );
+	}
+
+	public static int devOptions_OLD() {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_DEVOPTIONS, 0, Integer.MIN_VALUE, Integer.MAX_VALUE );
 	}
 
@@ -483,27 +500,43 @@ public class MoonshinePixelDungeon extends Game<GameAction> {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_HUDTYPE, 0, 0, Integer.MAX_VALUE );
 	}
 
+	public static int hudType_OLD() {
+		return Preferences.INSTANCE.getInt( Preferences.KEY_HUDTYPE, 0, 0, Integer.MAX_VALUE );
+	}
+
 	public static void buttonType( int value ) {
-		Preferences.INSTANCE.put( Preferences.KEY_BUTTONTYPE, value );
+		Unlocks.put( Preferences.KEY_BUTTONTYPE, value );
 	}
 
 	public static int buttonType() {
+		return Unlocks.getInt( Preferences.KEY_BUTTONTYPE, 0, 0, Integer.MAX_VALUE );
+	}
+
+	public static int buttonType_OLD() {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_BUTTONTYPE, 0, 0, Integer.MAX_VALUE );
 	}
 
 	public static void unlocks( int value ) {
-		Preferences.INSTANCE.put( Preferences.KEY_UNLOCKS, value );
+		Unlocks.put( Preferences.KEY_UNLOCKS, value );
 	}
 
 	public static int unlocks() {
+		return Unlocks.getInt( Preferences.KEY_UNLOCKS, 0, 0, Integer.MAX_VALUE );
+	}
+
+	public static int unlocks_OLD() {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_UNLOCKS, 0, 0, Integer.MAX_VALUE );
 	}
 
 	public static void moonstones( int value ) {
-		Preferences.INSTANCE.put( Preferences.KEY_MOONSTONES, value );
+		Unlocks.put( Preferences.KEY_MOONSTONES, value );
 	}
 
 	public static int moonstones() {
+		return Unlocks.getInt( Preferences.KEY_MOONSTONES, 0, 0, Integer.MAX_VALUE );
+	}
+
+	public static int moonstones_OLD() {
 		return Preferences.INSTANCE.getInt( Preferences.KEY_MOONSTONES, 0, 0, Integer.MAX_VALUE );
 	}
 

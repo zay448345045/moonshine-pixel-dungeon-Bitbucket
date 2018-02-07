@@ -121,7 +121,7 @@ public class Assets {
 	public static final String MOBEMPTY = "nomob.png";
 	public static final String STONESNAKEHEAD = "StoneSnakeHead.png";
 	public static final String STONESNAKETAIL = "StoneSnakeBody.png";
-	public static final String TENTACLE = "tentacle.png";
+	public static final String GARDEN_LASHER = "garden_lasher.png";
 
 	public static final String ITEMS	        = "items.png";
 	public static final String TERRAIN_FEATURES	= "terrain_features.png";

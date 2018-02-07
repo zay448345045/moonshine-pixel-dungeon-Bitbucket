@@ -28,7 +28,7 @@ import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Buff;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Burning;
 import com.moonshinepixel.moonshinepixeldungeon.actors.buffs.Roots;
 import com.moonshinepixel.moonshinepixeldungeon.items.Generator;
-import com.moonshinepixel.moonshinepixeldungeon.sprites.TentacleGreenSprite;
+import com.moonshinepixel.moonshinepixeldungeon.sprites.GardenLasherSprite;
 import com.watabou.utils.Random;
 
 import java.util.HashSet;
@@ -36,7 +36,7 @@ import java.util.HashSet;
 public class Vine extends Mob {
 
 	{
-		spriteClass = TentacleGreenSprite.class;
+		spriteClass = GardenLasherSprite.class;
 
 		HP = HT = 8;
 		defenseSkill = 2;
@@ -57,7 +57,7 @@ public class Vine extends Mob {
 		chooseEnemy();
 		if (!Dungeon.level.adjacent(pos, Dungeon.hero.pos)) {
 			EXP=0;
-			((TentacleGreenSprite)sprite).playDisapear();
+			((GardenLasherSprite)sprite).playDisapear();
 			destroy();
 			TriggerBlob.place(pos,Dungeon.level, VineTrigger.class);
 		}

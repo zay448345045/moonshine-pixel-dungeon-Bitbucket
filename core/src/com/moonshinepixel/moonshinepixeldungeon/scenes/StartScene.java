@@ -73,6 +73,7 @@ public class StartScene extends PixelScene {
 	private Group unlock;
 
 	public static HeroClass curClass = HeroClass.values()[MoonshinePixelDungeon.lastClass()];
+	public static int curSlot = MoonshinePixelDungeon.lastSlot();
 
 	@Override
 	public void create() {
@@ -118,7 +119,7 @@ public class StartScene extends PixelScene {
 		btnNewGame = new GameButton( Messages.get(this, "new") ) {
 			@Override
 			protected void onClick() {
-				if (GamesInProgress.check( curClass ) != null) {
+				if (GamesInProgress.check( curSlot ) != null) {
 					StartScene.this.add( new WndOptions(
 							Messages.get(StartScene.class, "really"),
 							Messages.get(StartScene.class, "warning"),
@@ -217,7 +218,9 @@ public class StartScene extends PixelScene {
 
 		}
 
-		ExitButton btnExit = new ExitButton();
+		ExitButton btnExit = new ExitButton(SlotSelectScene.class){
+
+		};
 		btnExit.setPos( Camera.main.width - btnExit.width(), 0 );
 		add( btnExit );
 
@@ -262,7 +265,7 @@ public class StartScene extends PixelScene {
 
 			unlock.visible = false;
 
-			GamesInProgress.Info info = GamesInProgress.check( curClass );
+			GamesInProgress.Info info = GamesInProgress.check( curSlot );
 			if (info != null) {
 
 				btnLoad.visible = true;
@@ -325,6 +328,7 @@ public class StartScene extends PixelScene {
         Dungeon.hero = null;
         InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
         Dungeon.storyline=0;
+        Dungeon.gameSlot=curSlot;
         if (MoonshinePixelDungeon.intro()) {
             MoonshinePixelDungeon.intro( false );
             Game.switchScene( IntroScene.class );
@@ -335,7 +339,7 @@ public class StartScene extends PixelScene {
 
 	@Override
 	protected void onBackPressed() {
-		MoonshinePixelDungeon.switchNoFade( TitleScene.class );
+		MoonshinePixelDungeon.switchNoFade( SlotSelectScene.class );
 	}
 
 	private static class GameButton extends RedButton {

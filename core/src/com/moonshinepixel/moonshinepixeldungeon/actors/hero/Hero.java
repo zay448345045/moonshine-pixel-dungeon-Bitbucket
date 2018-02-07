@@ -270,6 +270,7 @@ public class Hero extends Char {
 	
 	public static void preview(GamesInProgress.Info info, Bundle bundle ) {
 		info.level = bundle.getInt( LEVEL );
+		info.heroClass = HeroClass.restoreInBundle( bundle );
 	}
 	
 	public String className() {
@@ -942,7 +943,7 @@ public class Hero extends Char {
 					ready();
 				} else {
 					Dungeon.win( Amulet.class, true );
-					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
+					Dungeon.deleteGame( Dungeon.gameSlot, true );
 					DynastyScene.surface=true;
 					Game.switchScene( cheated?TitleScene.class:DynastyScene.class );
 				}
@@ -954,7 +955,7 @@ public class Hero extends Char {
 					ready();
 				} else {
 					Dungeon.win( Amulet.class, true );
-					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
+					Dungeon.deleteGame( Dungeon.gameSlot, true );
 					DynastyScene.surface=true;
 					Game.switchScene( cheated?TitleScene.class:DynastyScene.class );
 				}
@@ -1549,7 +1550,7 @@ public class Hero extends Char {
 			
 		} else {
 			
-			Dungeon.deleteGame( Dungeon.hero.heroClass, false );
+			Dungeon.deleteGame( Dungeon.gameSlot, false );
 			GameScene.show( new WndResurrect( ankh, cause ) );
 			
 		}
@@ -1614,7 +1615,7 @@ public class Hero extends Char {
 			((Hero.Doom)cause).onDeath();
 		}
 		
-		Dungeon.deleteGame( Dungeon.hero.heroClass, true );
+		Dungeon.deleteGame( Dungeon.gameSlot, true );
 	}
 
 	//effectively cache this buff to prevent having to call buff(Berserk.class) a bunch.

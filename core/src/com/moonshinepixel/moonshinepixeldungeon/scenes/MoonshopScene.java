@@ -37,6 +37,7 @@ public class MoonshopScene extends PixelScene {
 	RenderedTextMultiline stones;
 	Image moon;
 	NinePatch pn1;
+	public static Class<? extends PixelScene> lastScene;
 	@Override
 	public void create() {
 		super.create();
@@ -55,7 +56,7 @@ public class MoonshopScene extends PixelScene {
 		pn1 = Chrome.get(Chrome.Type.TOAST);
 		add(pn1);
 
-		ExitButton btnExit = new ExitButton();
+		ExitButton btnExit = new ExitButton(lastScene);
 		btnExit.setPos( Camera.main.width - btnExit.width(), 0 );
 		add( btnExit );
 
@@ -142,7 +143,7 @@ public class MoonshopScene extends PixelScene {
 
 	@Override
 	protected void onBackPressed() {
-		MoonshinePixelDungeon.switchNoFade( StartScene.class );
+		MoonshinePixelDungeon.switchNoFade( lastScene );
 	}
 
 	public class ShopButton extends RedButton{

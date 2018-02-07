@@ -302,11 +302,15 @@ public abstract class Mob extends Char {
 
 	public boolean moveSprite( int from, int to ) {
 
-		if (sprite.isVisible() && (Dungeon.visible[from] || Dungeon.visible[to])) {
-			sprite.move( from, to );
-			return true;
-		} else {
-			sprite.place( to );
+		try {
+			if (sprite.isVisible() && (Dungeon.visible[from] || Dungeon.visible[to])) {
+				sprite.move(from, to);
+				return true;
+			} else {
+				sprite.place(to);
+				return true;
+			}
+		} catch (NullPointerException e){
 			return true;
 		}
 	}
@@ -514,7 +518,7 @@ public abstract class Mob extends Char {
 		
 		boolean visible = Dungeon.visible[pos];
 		
-		if (visible) {
+		if (sprite!=null&&visible) {
 			sprite.attack( enemy.pos );
 		} else {
 			attack( enemy );

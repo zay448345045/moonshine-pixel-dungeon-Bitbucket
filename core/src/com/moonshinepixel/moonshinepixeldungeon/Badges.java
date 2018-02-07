@@ -214,11 +214,13 @@ public class Badges {
 		int count = 0;
 		String names[] = new String[badges.size()];
 
-		for (Badge badge:badges) {
+		for (Badge badge : badges) {
 			try {
 				names[count++] = badge.toString();
-			} catch (NullPointerException e){
+			} catch (NullPointerException e) {
 				names[count++] = "";
+			} catch (ArrayIndexOutOfBoundsException e) {
+				break;
 			}
 		}
 		bundle.put( BADGES, names );

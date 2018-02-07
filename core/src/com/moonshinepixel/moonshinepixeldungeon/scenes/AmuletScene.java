@@ -63,7 +63,7 @@ public class AmuletScene extends PixelScene {
 			protected void onClick() {
 				boolean cheated = Dungeon.cheated();
 				Dungeon.win( Amulet.class, false );
-				Dungeon.deleteGame( Dungeon.hero.heroClass, true );
+				Dungeon.deleteGame( Dungeon.gameSlot, true );
 				DynastyScene.surface=false;
 				Game.switchScene( cheated?TitleScene.class:DynastyScene.class );
 			}

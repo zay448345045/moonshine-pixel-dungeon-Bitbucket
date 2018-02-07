@@ -433,7 +433,7 @@ public abstract class Char extends Actor {
 
 	@SuppressWarnings("unchecked")
 	public synchronized  <T extends Buff> T buff( Class<T> c ) {
-		for (Buff b : buffs) {
+		for (Buff b : (HashSet<Buff>)buffs.clone()) {
 			if (ClassReflection.isInstance( c, b )) {
 				return (T)b;
 			}
