@@ -231,8 +231,10 @@ public abstract class Char extends Actor {
 			if (buff(EarthImbue.class) != null)
 				buff(EarthImbue.class).proc(enemy);
 
-			enemy.sprite.bloodBurstA( sprite.center(), effectiveDamage );
-			enemy.sprite.flash();
+			if (enemy.sprite!=null) {
+				enemy.sprite.bloodBurstA(sprite.center(), effectiveDamage);
+				enemy.sprite.flash();
+			}
 
 			if (!enemy.isAlive()) {
 				onKill(enemy);

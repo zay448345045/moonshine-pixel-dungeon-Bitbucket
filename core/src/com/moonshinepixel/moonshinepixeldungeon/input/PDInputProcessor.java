@@ -21,6 +21,7 @@
 package com.moonshinepixel.moonshinepixeldungeon.input;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.watabou.input.NoosaInputProcessor;
 
 import java.util.Map;
@@ -62,6 +63,10 @@ public abstract class PDInputProcessor extends NoosaInputProcessor<GameAction> {
 		return null;
 	}
 	public void rotate(boolean landscape){
+
+	}
+
+	public void saveImage(Pixmap pm){
 
 	}
 }

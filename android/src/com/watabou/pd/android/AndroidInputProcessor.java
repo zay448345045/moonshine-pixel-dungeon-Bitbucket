@@ -20,8 +20,22 @@
  */
 package com.watabou.pd.android;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.widget.Toast;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.moonshinepixel.moonshinepixeldungeon.input.PDInputProcessor;
+import com.watabou.noosa.Game;
+
+import java.io.File;
+
+import static java.security.AccessController.getContext;
 
 public class AndroidInputProcessor extends PDInputProcessor {
 	@Override
@@ -48,5 +62,10 @@ public class AndroidInputProcessor extends PDInputProcessor {
 	@Override
 	public void rotate(boolean landscape) {
 		AndroidLauncher.rotate(landscape);
+	}
+
+	@Override
+	public void saveImage(Pixmap pm) {
+		AndroidLauncher.instance.shareImage(pm);
 	}
 }

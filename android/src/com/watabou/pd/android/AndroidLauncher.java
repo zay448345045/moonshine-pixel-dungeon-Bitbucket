@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.moonshinepixel.moonshinepixeldungeon.MoonshinePixelDungeon;
 import com.moonshinepixel.moonshinepixeldungeon.input.GameAction;
 import com.watabou.utils.PDPlatformSupport;
@@ -54,5 +55,9 @@ public class AndroidLauncher extends AndroidApplication {
 
 	public static void rotate(boolean landscape){
 		instance.setRequestedOrientation (landscape?ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	public void shareImage(Pixmap pm){
+
 	}
 }
